@@ -1,0 +1,542 @@
+{
+  "type": "object",
+  "properties": {
+    "log": {
+      "x-containerAttributes": {
+        "id": "section-log",
+        "class": "config-section"
+      },
+      "type": "object",
+      "title": "Log",
+      "description": "Logging configuration",
+      "properties": {
+        "disabled": {
+          "x-format": "checkbox",
+          "type": "boolean",
+          "title": "Disable logging",
+          "description": "Disable logging output completely",
+          "default": false
+        },
+        "level": {
+          "type": "string",
+          "title": "Log level",
+          "description": "Logging level",
+          "enum": [
+            "trace",
+            "debug",
+            "info",
+            "warn",
+            "error",
+            "fatal",
+            "panic"
+          ],
+          "default": "info"
+        },
+        "output": {
+          "type": "string",
+          "title": "Output file",
+          "description": "Path to log file (if empty, logs go to console)",
+          "default": "box.log"
+        },
+        "timestamp": {
+          "x-format": "checkbox",
+          "type": "boolean",
+          "title": "Include timestamp",
+          "description": "Add timestamp to each log line",
+          "default": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "dns": {
+      "x-containerAttributes": {
+        "id": "section-dns",
+        "class": "config-section"
+      },
+      "type": "object",
+      "title": "DNS Settings",
+      "properties": {
+        "Servers": {
+          "x-format": "nav-vertical",
+          "x-arrayAddContent": "Add DNS server",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "x-arrayDragContent": "Drag",
+          "x-sortable": true,
+          "x-arrayDeleteContent": "Delete server",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all servers",
+          "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "title": "{{ value.tag }}",
+            "headerTemplate": "{{ self.tag }}",
+            "x-format": "grid",
+            "properties": {
+              "type": {
+                "x-grid": {
+                  "columns": 6
+                },
+                "type": "string",
+                "title": "Protocol Type",
+                "enum": [
+                  "https",
+                  "tls",
+                  "udp",
+                  "hosts",
+                  "FakeIP"
+                ],
+                "default": "https"
+              },
+              "tag": {
+                "x-grid": {
+                  "columns": 6
+                },
+                "type": "string",
+                "title": "Tag",
+                "default": "dns-server"
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "https"
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "x-format": "grid",
+                  "properties": {
+                    "server": {
+                      "type": "string",
+                      "title": "Server",
+                      "x-grid": {
+                        "columns": 6
+                      }
+                    },
+                    "server_port": {
+                      "type": "integer",
+                      "title": "Port",
+                      "default": 853,
+                      "x-grid": {
+                        "columns": 6
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "tls"
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "x-format": "grid",
+                  "properties": {
+                    "server": {
+                      "type": "string",
+                      "title": "Server",
+                      "x-grid": {
+                        "columns": 6
+                      }
+                    },
+                    "server_port": {
+                      "type": "integer",
+                      "title": "Port",
+                      "default": 53,
+                      "x-grid": {
+                        "columns": 6
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "udp"
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "x-format": "grid",
+                  "properties": {
+                    "server": {
+                      "type": "string",
+                      "title": "UDP Address",
+                      "default": "8.8.8.8",
+                      "x-grid": {
+                        "columns": 6
+                      }
+                    },
+                    "server_port": {
+                      "type": "integer",
+                      "title": "Port",
+                      "default": 53,
+                      "x-grid": {
+                        "columns": 6
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "hosts"
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "array",
+                      "title": "Hosts Paths",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "FakeIP"
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "title": "inet4_range",
+                      "default": "198.18.0.0/15"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "rules": {
+          "x-format": "nav-vertical",
+          "x-arrayAddContent": "Add rule",
+          "x-arrayDeleteContent": "Delete rule",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all rules",
+          "x-arrayMove": false,
+          "x-arrayDragContent": "Move",
+          "x-sortable": true,
+          "x-titleTemplate": "Rule #{{ i1 }}",
+          "type": "array",
+          "title": "Rules",
+          "items": {
+            "type": "object",
+            "title": "Rule #{{ i1 }}",
+            "x-deactivateNonRequired": true,
+            "x-enablePropertiesToggle": true,
+            "properties": {
+              "inbound": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "ip_version": {
+                "type": "integer",
+                "enum": [
+                  4,
+                  6
+                ]
+              },
+              "network": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "tcp",
+                    "udp"
+                  ]
+                }
+              },
+              "protocol": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "domain": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "domain_suffix": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "domain_keyword": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "domain_regex": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rule_set": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "invert": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          }
+        },
+        "final": {
+          "type": "string",
+          "title": "Final Server",
+          "description": "The tag of the server to use as a fallback"
+        },
+        "strategy": {
+          "type": "string",
+          "enum": [
+            "prefer_ipv4",
+            "prefer_ipv6",
+            "ipv4_only",
+            "ipv6_only"
+          ]
+        },
+        "independent_cache": {
+          "x-format": "checkbox",
+          "type": "boolean",
+          "default": false
+        },
+        "reverse_maping": {
+          "x-format": "checkbox",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "endpoints": {
+      "x-containerAttributes": {
+        "id": "section-endpoints",
+        "class": "config-section"
+      },
+      "x-format": "nav-horizontal",
+      "x-arrayAddContent": "Add endpoint",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "Delete endpoint",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all endpoints",
+      "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
+      "title": "Endpoints",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "title": "{{ value.tag }}",
+        "x-format": "grid",
+        "x-enablePropertiesToggle": true,
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "type",
+            "enum": [
+              "wireguard",
+              "tailscale"
+            ],
+            "default": "wireguard",
+            "x-grid": {
+              "columns": 6
+            }
+          },
+          "tag": {
+            "type": "string",
+            "title": "Tag",
+            "x-inputAttributes": {
+              "placeholder": "wg-in, wg-out, warp etc."
+            },
+            "x-grid": {
+              "columns": 6
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "wireguard"
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "x-deactivateNonRequired": true,
+              "properties": {
+                "system": {
+                  "type": "boolean",
+                  "x-format": "checkbox",
+                  "title": "System Mode"
+                },
+                "mtu": {
+                  "type": "integer",
+                  "default": 1408,
+                  "title": "MTU"
+                },
+                "address": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Local Addresses"
+                },
+                "private_key": {
+                  "type": "string",
+                  "title": "Private Key"
+                },
+                "peers": {
+                  "type": "array",
+                  "x-format": "nav-vertical",
+                  "x-arrayAddContent": "Add peer",
+                  "x-arrayMove": false,
+                  "x-arrayDeleteContent": "",
+                  "x-arrayDeleteAll": true,
+                  "x-arrayDeleteAllContent": "Delete all peers",
+                  "x-enableCollapseToggle": true,
+                  "x-collapseToggleContent": "",
+                  "minItems": 1,
+                  "title": "Peers List",
+                  "x-titleTemplate": "{{ i1 }}) {{ value.peerTag }}",
+                  "items": {
+                    "type": "object",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "x-enablePropertiesToggle": true,
+                    "x-format": "grid",
+                    "title": "{{value.peerTag}}",
+                    "properties": {
+                      "peerTag": {
+                        "title": "Tag",
+                        "type": "string",
+                        "description": "Purely cosmetic value to use through UI, will NOT be used in final config"
+                      },
+                      "address": {
+                        "type": "string",
+                        "x-grid": {
+                          "columns": 6
+                        }
+                      },
+                      "port": {
+                        "type": "integer",
+                        "x-grid": {
+                          "columns": 6
+                        }
+                      },
+                      "public_key": {
+                        "type": "string"
+                      },
+                      "allowed_ips": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "public_key",
+                      "allowed_ips"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "type",
+                "tag",
+                "address",
+                "private_key",
+                "peers"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "tailscale"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "inbounds": {
+      "x-containerAttributes": {
+        "id": "section-inbounds",
+        "class": "config-section"
+      },
+      "type": "array",
+      "title": "Inbounds",
+      "items": {
+        "type": "object"
+      }
+    },
+    "outbounds": {
+      "x-containerAttributes": {
+        "id": "section-outbounds",
+        "class": "config-section"
+      },
+      "type": "array",
+      "title": "Outbounds",
+      "items": {
+        "type": "object"
+      }
+    },
+    "route": {
+      "x-containerAttributes": {
+        "id": "section-route",
+        "class": "config-section"
+      },
+      "type": "object",
+      "title": "Route"
+    },
+    "experimental": {
+      "x-containerAttributes": {
+        "id": "section-experimental",
+        "class": "config-section"
+      },
+      "type": "object",
+      "title": "Experimental"
+    }
+  },
+  "additionalProperties": false
+}

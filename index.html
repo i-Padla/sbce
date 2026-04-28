@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Sing-box Multi-Editor (Stable)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #f4f7f9;
+            font-family: sans-serif;
+        }
+
+        .editor-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr 400px;
+            height: 100vh;
+        }
+
+        .panel {
+            height: 100vh;
+            overflow-y: auto;
+            background: white;
+            border-right: 1px solid #dee2e6;
+        }
+
+        /* Меню слева */
+        .menu-panel {
+            background: #f8f9fa;
+            padding: 20px;
+        }
+
+        .section-link {
+            cursor: pointer;
+            color: #333;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 6px;
+            transition: 0.2s;
+            border: 1px solid transparent;
+            text-decoration: none;
+        }
+
+        .section-link:hover {
+            background: #e9ecef;
+        }
+
+        .section-link.active {
+            background: #0d6efd !important;
+            color: white !important;
+        }
+
+        .section-checkbox {
+            margin-right: 12px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        /* Форма по центру */
+        .form-panel {
+            padding: 30px;
+            position: relative;
+        }
+
+        .config-layer {
+            display: none;
+        }
+
+        /* Скрыто, пока не выберем в меню */
+        /* 1. Резервируем место под скроллбар в центральной панели */
+        .form-panel {
+            padding: 30px;
+            position: relative;
+            /* Это заставит панель всегда держать место под полосу прокрутки */
+            scrollbar-gutter: stable;
+        }
+
+        /* 2. Для старых браузеров (если gutter не сработает) 
+      или если хочешь идеальной симметрии во всех колонках */
+        .panel {
+            scrollbar-gutter: stable;
+        }
+
+        /* Превью справа */
+        .preview-panel {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border: none;
+        }
+
+        pre {
+            font-size: 12px;
+            margin: 0;
+            color: #9cdcfe;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .preview-header {
+            color: #888;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        /* Фикс для Jedison внутри Bootstrap 5 */
+        .jedi-ready h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #0d6efd;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .well {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="/assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/fontawesome6/all.min.css">
+    <script src="/assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="/assets/jedison/jedison.umd.js"></script>
+</head>
+<script src="assets/sortable/sortable.min.js"></script>
+
+<body>
+
+    <div class="editor-wrapper">
+        <aside class="panel menu-panel">
+            <h5 class="mb-4">Sing-box Editor</h5>
+            <div id="main-menu"></div>
+        </aside>
+
+        <main class="panel form-panel">
+            <div id="editor-layers"></div>
+        </main>
+
+        <aside class="panel preview-panel">
+            <div class="preview-header">FINAL CONFIG PREVIEW</div>
+            <pre id="json-preview"><code>{}</code></pre>
+        </aside>
+    </div>
+
+    <script>
+        let instances = {};
+        let fullSchema = null;
+        let globalRefParser = null;
+        let debounceTimer;
+
+        const init = async () => {
+            try {
+                const response = await fetch('./schema_ready.json');
+                if (!response.ok) throw new Error('Schema file not found');
+                fullSchema = await response.json();
+
+                globalRefParser = new Jedison.RefParser();
+                await globalRefParser.dereference(fullSchema);
+
+                const layersContainer = document.getElementById('editor-layers');
+                const props = fullSchema.properties;
+
+                // 1. Готовим слои для каждой секции
+                Object.keys(props).forEach(key => {
+                    const layer = document.createElement('div');
+                    layer.id = `layer-${key}`;
+                    layer.className = 'config-layer';
+                    layersContainer.appendChild(layer);
+                });
+
+                buildMenu();
+
+                const firstKey = Object.keys(props)[0];
+                if (firstKey) switchLayer(firstKey);
+
+            } catch (e) {
+                console.error("Init Error:", e);
+                document.getElementById('editor-layers').innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
+            }
+        };
+
+        function buildMenu() {
+            const menu = document.getElementById('main-menu');
+            Object.keys(fullSchema.properties).forEach(key => {
+                const title = fullSchema.properties[key].title || key;
+                const item = document.createElement('div');
+                item.className = 'section-link';
+                item.setAttribute('data-section', key);
+
+                item.innerHTML = `
+                <input type="checkbox" checked class="section-checkbox" id="check-${key}">
+                <span class="flex-grow-1 text-truncate">${title}</span>
+            `;
+
+                // Чекбокс просто обновляет превью
+                item.querySelector('input').onclick = (e) => {
+                    e.stopPropagation();
+                    refreshPreview();
+                };
+
+                // Клик по тексту переключает слой
+                item.onclick = () => switchLayer(key);
+                menu.appendChild(item);
+            });
+        }
+
+        function switchLayer(key) {
+            // Подсветка в меню
+            document.querySelectorAll('.section-link').forEach(el => el.classList.remove('active'));
+            const activeLink = document.querySelector(`[data-section="${key}"]`);
+            if (activeLink) activeLink.classList.add('active');
+
+            // Скрываем все слои, показываем текущий
+            document.querySelectorAll('.config-layer').forEach(el => el.style.display = 'none');
+            const targetLayer = document.getElementById(`layer-${key}`);
+            targetLayer.style.display = 'block';
+
+            // Инициализируем Jedison только при первом обращении (Lazy load)
+            // ВАЖНО: не передаем data: {}, чтобы Jedison рисовал дефолтные поля
+            if (!instances[key]) {
+                console.log(`Инициализация секции: ${key}`);
+                instances[key] = new Jedison.Create({
+                    container: targetLayer,
+                    refParser: globalRefParser,
+                    theme: new Jedison.ThemeBootstrap5(),
+                    iconLib: 'fontawesome6',
+                    schema: fullSchema.properties[key],
+                    enablePropertiesToggle: false,
+                    objectAdd: false,
+                    btnContents: true,
+                    show_errors: 'always'
+                });
+
+                // Вешаем обработчик изменений
+                instances[key].on('change', () => {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(() => {
+                        refreshPreview();
+                    }, 250); // Задержка 250мс: пользователь не заметит, а процессору станет легче
+                });
+            }
+
+            refreshPreview();
+        }
+
+        // Оставляем cleanConfig, но теперь она будет работать только с конкретным куском данных
+        function cleanData(data) {
+            if (Array.isArray(data)) {
+                return data.map(item => cleanData(item));
+            } else if (data !== null && typeof data === 'object') {
+                const newObj = {};
+                for (const key in data) {
+                    // Если ключ технический — просто пропускаем его
+                    if (key !== 'peerTag' && !key.startsWith('_')) {
+                        newObj[key] = cleanData(data[key]);
+                    }
+                }
+                return newObj;
+            }
+            return data;
+        }
+
+        function refreshPreview() {
+            const finalConfig = {};
+
+            Object.keys(fullSchema.properties).forEach(key => {
+                const checkbox = document.getElementById(`check-${key}`);
+
+                // Если чекбокс активен и инстанс существует
+                if (checkbox?.checked && instances[key]) {
+                    const rawData = instances[key].getValue();
+
+                    if (rawData && Object.keys(rawData).length > 0) {
+                        // ЧИСТИМ СРАЗУ ПРИ ПОЛУЧЕНИИ
+                        finalConfig[key] = cleanData(rawData);
+                    }
+                }
+            });
+
+            const previewBox = document.querySelector('#json-preview code');
+            if (previewBox) {
+                previewBox.textContent = JSON.stringify(finalConfig, null, 2);
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+
+</html>
