@@ -54,7 +54,7 @@
         "class": "config-section"
       },
       "type": "object",
-      "title": "DNS Settings",
+      "title": "DNS",
       "properties": {
         "Servers": {
           "type": "array",
@@ -203,6 +203,12 @@
                   "properties": {
                     "path": {
                       "type": "array",
+                      "x-format": "table",
+                      "x-arrayAddContent": "Add",
+                      "x-arrayMove": false,
+                      "x-arrayDeleteContent": "",
+                      "x-arrayDeleteAll": true,
+                      "x-arrayDeleteAllContent": "Delete all",
                       "title": "Hosts Paths",
                       "items": {
                         "type": "string"
@@ -350,15 +356,15 @@
         "id": "section-endpoints",
         "class": "config-section"
       },
+      "type": "array",
+      "title": "Endpoints",
       "x-format": "nav-horizontal",
       "x-arrayAddContent": "Add endpoint",
       "x-arrayMove": false,
-      "x-arrayDeleteContent": "Delete endpoint",
+      "x-arrayDeleteContent": "",
       "x-arrayDeleteAll": true,
       "x-arrayDeleteAllContent": "Delete all endpoints",
       "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
-      "title": "Endpoints",
-      "type": "array",
       "items": {
         "type": "object",
         "title": "{{ value.tag }}",
@@ -379,9 +385,7 @@
           "tag": {
             "type": "string",
             "title": "Tag",
-            "x-inputAttributes": {
-              "placeholder": "wg-in, wg-out, warp etc."
-            },
+            "default": "wg-in",
             "x-grid": {
               "columns": 6
             }
@@ -724,7 +728,7 @@
       },
       "type": "array",
       "title": "Outbounds",
-      "x-format": "nav-horizontal",
+      "x-format": "nav-vertical",
       "x-arrayAddContent": "Add outound",
       "x-arrayMove": false,
       "x-arrayDeleteContent": "",
@@ -737,10 +741,12 @@
         "properties": {
           "type": {
             "type": "string",
-            "title": "Inbound type",
+            "title": "Outbound type",
             "enum": [
               "direct",
-              "VLESS"
+              "VLESS",
+              "Hysteria2",
+              "Selector"
             ]
           }
         },
@@ -801,7 +807,48 @@
                   "type": "string",
                   "default": "tcp"
                 },
-                "tls": {},
+                "tls": {
+                  "type": "object",
+                  "properties": {
+                    "server_name": {
+                      "type": "string"
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                      "x-format": "checkbox",
+                      "default": true
+                    },
+                    "utls": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "x-format": "checkbox",
+                          "default": true
+                        },
+                        "fingerprint": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "reality": {
+                      "type": "object",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "x-format": "checkbox",
+                          "default": true
+                        },
+                        "public_key": {
+                          "type": "string"
+                        },
+                        "short_id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                },
                 "packet_encoding": {
                   "type": "string",
                   "default": "tcp"

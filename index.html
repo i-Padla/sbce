@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <title>Sing-box Multi-Editor (Stable)</title>
     <style>
+        
         body {
             margin: 0;
             padding: 0;
@@ -231,6 +232,7 @@
                 console.log(`Инициализация секции: ${key}`);
                 instances[key] = new Jedison.Create({
                     container: targetLayer,
+                    id: key, // <--- Добавляем уникальный id для экземпляра
                     refParser: globalRefParser,
                     theme: new Jedison.ThemeBootstrap5(),
                     iconLib: 'fontawesome6',
