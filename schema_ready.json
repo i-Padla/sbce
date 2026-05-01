@@ -57,6 +57,7 @@
       "title": "DNS Settings",
       "properties": {
         "Servers": {
+          "type": "array",
           "x-format": "nav-vertical",
           "x-arrayAddContent": "Add DNS server",
           "x-enableCollapseToggle": true,
@@ -64,15 +65,13 @@
           "x-arrayMove": true,
           "x-arrayMoveDownContent": "",
           "x-arrayMoveUpContent": "",
-          "x-arrayDeleteContent": "Delete server",
+          "x-arrayDeleteContent": "Delete",
           "x-arrayDeleteAll": true,
           "x-arrayDeleteAllContent": "Delete all servers",
           "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
-          "type": "array",
           "items": {
             "type": "object",
             "title": "{{ value.tag }}",
-            "headerTemplate": "{{ self.tag }}",
             "x-format": "grid",
             "properties": {
               "type": {
@@ -364,7 +363,6 @@
         "type": "object",
         "title": "{{ value.tag }}",
         "x-format": "grid",
-        "x-enablePropertiesToggle": true,
         "properties": {
           "type": {
             "type": "string",
@@ -401,6 +399,8 @@
             "then": {
               "type": "object",
               "x-deactivateNonRequired": true,
+              "x-enablePropertiesToggle": true,
+              "x-propertiesToggleContent": "Toggle properties",
               "properties": {
                 "system": {
                   "type": "boolean",
@@ -412,12 +412,19 @@
                   "default": 1408,
                   "title": "MTU"
                 },
-                "address": {
+                "server": {
                   "type": "array",
+                  "title": "Server",
+                  "x-format": "table",
+                  "x-arrayDeleteContent": "",
+                  "x-arrayAddContent": "Add adress",
+                  "x-arrayMove": false,
                   "items": {
-                    "type": "string"
-                  },
-                  "title": "Local Addresses"
+                    "type": "string",
+                    "x-inputAttributes": {
+                      "placeholder": "IP adress or domain name"
+                    }
+                  }
                 },
                 "private_key": {
                   "type": "string",
@@ -441,6 +448,7 @@
                     "x-enableCollapseToggle": true,
                     "x-collapseToggleContent": "",
                     "x-enablePropertiesToggle": true,
+                    "x-propertiesToggleContent": "Toggle properties",
                     "x-format": "grid",
                     "title": "{{value.peerTag}}",
                     "properties": {
@@ -466,6 +474,10 @@
                       },
                       "allowed_ips": {
                         "type": "array",
+                        "x-format": "table",
+                        "x-arrayDeleteContent": "",
+                        "x-arrayAddContent": "Add adress",
+                        "x-arrayMove": false,
                         "items": {
                           "type": "string"
                         }
@@ -481,7 +493,7 @@
               "required": [
                 "type",
                 "tag",
-                "address",
+                "server",
                 "private_key",
                 "peers"
               ]
@@ -506,8 +518,203 @@
       },
       "type": "array",
       "title": "Inbounds",
+      "x-format": "nav-horizontal",
+      "x-arrayAddContent": "Add inbound",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all inbounds",
+      "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
       "items": {
-        "type": "object"
+        "type": "object",
+        "title": "{{ value.tag}} ({{ value.type }})",
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Inbound type",
+            "enum": [
+              "tproxy",
+              "mixed",
+              "direct",
+              "VLESS"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "direct"
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "properties": {
+                "tag": {
+                  "type": "string",
+                  "default": "direct"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "VLESS"
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "x-deactivateNonRequired": true,
+              "x-enablePropertiesToggle": true,
+              "x-propertiesToggleContent": "Toggle properties",
+              "properties": {
+                "tag": {
+                  "type": "string",
+                  "default": "VLESS_in"
+                },
+                "server": {
+                  "type": "string"
+                },
+                "server_port": {
+                  "type": "integer"
+                },
+                "uuid": {
+                  "type": "string",
+                  "x-inputAttributes": {
+                    "placeholder": "bf000d23-0752-40b4-affe-68f7707a9661"
+                  }
+                },
+                "flow": {
+                  "type": "string",
+                  "default": "xtls-rprx-vision"
+                },
+                "network": {
+                  "type": "string",
+                  "default": "tcp"
+                },
+                "tls": {},
+                "packet_encoding": {
+                  "type": "string",
+                  "default": "tcp"
+                },
+                "multiplex": {},
+                "transport": {}
+              },
+              "required": [
+                "tag",
+                "type",
+                "server",
+                "server_port",
+                "uuid"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "tproxy"
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "x-deactivateNonRequired": true,
+              "x-enablePropertiesToggle": true,
+              "x-propertiesToggleContent": "Toggle properties",
+              "properties": {
+                "tag": {
+                  "type": "string",
+                  "default": "trpoxy-out"
+                },
+                "listen": {
+                  "type": "string"
+                },
+                "listen_port": {
+                  "type": "integer"
+                },
+                "tcp_fast_open": {
+                  "type": "boolean",
+                  "x-format": "checkbox",
+                  "default": false
+                },
+                "udp_fragment": {
+                  "type": "boolean",
+                  "x-format": "checkbox",
+                  "default": false
+                }
+              },
+              "required": [
+                "tag",
+                "type"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "mixed"
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "x-deactivateNonRequired": true,
+              "x-enablePropertiesToggle": true,
+              "x-propertiesToggleContent": "Toggle properties",
+              "properties": {
+                "tag": {
+                  "type": "string",
+                  "default": "mixed-in"
+                },
+                "users": {
+                  "type": "array",
+                  "title": "Users",
+                  "x-format": "nav-vertical",
+                  "x-arrayAddContent": "Add user",
+                  "x-enableCollapseToggle": true,
+                  "x-collapseToggleContent": "",
+                  "x-arrayMove": false,
+                  "x-arrayDeleteContent": "",
+                  "x-arrayDeleteAll": true,
+                  "x-arrayDeleteAllContent": "Delete all",
+                  "x-titleTemplate": "{{ i1 }}) {{ value.username }}",
+                  "items": {
+                    "type": "object",
+                    "title": "{{ value.username }}",
+                    "properties": {
+                      "username": {
+                        "type": "string",
+                        "title": "username",
+                        "default": "Alice"
+                      },
+                      "password": {
+                        "type": "string",
+                        "title": "password"
+                      }
+                    }
+                  }
+                },
+                "set_system_proxy": {
+                  "type": "boolean",
+                  "x-format": "checkbox",
+                  "title": "set_system_proxy",
+                  "default": false
+                }
+              },
+              "required": [
+                "type",
+                "tag"
+              ]
+            }
+          }
+        ]
       }
     },
     "outbounds": {
@@ -517,8 +724,101 @@
       },
       "type": "array",
       "title": "Outbounds",
+      "x-format": "nav-horizontal",
+      "x-arrayAddContent": "Add outound",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all outbounds",
+      "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
       "items": {
-        "type": "object"
+        "type": "object",
+        "title": "{{ value.tag}} ({{ value.type }})",
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Inbound type",
+            "enum": [
+              "direct",
+              "VLESS"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "direct"
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "properties": {
+                "tag": {
+                  "type": "string",
+                  "default": "direct"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "VLESS"
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "x-deactivateNonRequired": true,
+              "x-enablePropertiesToggle": true,
+              "x-propertiesToggleContent": "Toggle properies",
+              "properties": {
+                "tag": {
+                  "type": "string",
+                  "default": "VLESS-out"
+                },
+                "server": {
+                  "type": "string"
+                },
+                "server_port": {
+                  "type": "integer"
+                },
+                "uuid": {
+                  "type": "string",
+                  "x-inputAttributes": {
+                    "placeholder": "bf000d23-0752-40b4-affe-68f7707a9661"
+                  }
+                },
+                "flow": {
+                  "type": "string",
+                  "default": "xtls-rprx-vision"
+                },
+                "network": {
+                  "type": "string",
+                  "default": "tcp"
+                },
+                "tls": {},
+                "packet_encoding": {
+                  "type": "string",
+                  "default": "tcp"
+                },
+                "multiplex": {},
+                "transport": {}
+              },
+              "required": [
+                "tag",
+                "type",
+                "server",
+                "server_port",
+                "uuid"
+              ]
+            }
+          }
+        ]
       }
     },
     "route": {
