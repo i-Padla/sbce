@@ -56,8 +56,9 @@
       "type": "object",
       "title": "DNS",
       "properties": {
-        "Servers": {
+        "servers": {
           "type": "array",
+          "title": "Servers",
           "x-format": "nav-vertical",
           "x-arrayAddContent": "Add DNS server",
           "x-enableCollapseToggle": true,
@@ -85,7 +86,7 @@
                   "tls",
                   "udp",
                   "hosts",
-                  "FakeIP"
+                  "fakeip"
                 ],
                 "default": "https"
               },
@@ -139,6 +140,9 @@
                 },
                 "then": {
                   "type": "object",
+                  "x-deactivateNonRequired": true,
+                  "x-enablePropertiesToggle": true,
+                  "x-propertiesToggleContent": "Toggle properties",
                   "x-format": "grid",
                   "properties": {
                     "server": {
@@ -155,8 +159,62 @@
                       "x-grid": {
                         "columns": 6
                       }
+                    },
+                    "tls": {
+                      "type": "object",
+                      "x-deactivateNonRequired": true,
+                      "x-enablePropertiesToggle": true,
+                      "x-propertiesToggleContent": "Toggle properies",
+                      "properties": {
+                        "enabled": {
+                          "type": "boolean",
+                          "x-format": "checkbox",
+                          "default": true
+                        },
+                        "server_name": {
+                          "type": "string"
+                        },
+                        "alpn": {
+                          "type": "string"
+                        },
+                        "utls": {
+                          "type": "object",
+                          "properties": {
+                            "enabled": {
+                              "type": "boolean",
+                              "x-format": "checkbox",
+                              "default": true
+                            },
+                            "fingerprint": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "reality": {
+                          "type": "object",
+                          "properties": {
+                            "enabled": {
+                              "type": "boolean",
+                              "x-format": "checkbox",
+                              "default": true
+                            },
+                            "public_key": {
+                              "type": "string"
+                            },
+                            "short_id": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
                     }
-                  }
+                  },
+                  "required": [
+                    "type",
+                    "tag",
+                    "server",
+                    "server_port"
+                  ]
                 }
               },
               {
@@ -182,7 +240,6 @@
                     "server_port": {
                       "type": "integer",
                       "title": "Port",
-                      "default": 53,
                       "x-grid": {
                         "columns": 6
                       }
@@ -221,7 +278,7 @@
                 "if": {
                   "properties": {
                     "type": {
-                      "const": "FakeIP"
+                      "const": "fakeip"
                     }
                   }
                 },
@@ -259,68 +316,60 @@
             "x-deactivateNonRequired": true,
             "x-enablePropertiesToggle": true,
             "properties": {
-              "inbound": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "ip_version": {
-                "type": "integer",
+              "action": {
+                "type": "string",
                 "enum": [
-                  4,
-                  6
+                  "route",
+                  "reject"
                 ]
               },
-              "network": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "tcp",
-                    "udp"
-                  ]
-                }
-              },
-              "protocol": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "domain": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
+              "querry_type": {
+                "type": "string"
               },
               "domain_suffix": {
                 "type": "array",
+                "title": "Domain suffix",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
                 "items": {
                   "type": "string"
                 }
               },
-              "domain_keyword": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
+              "server": {
+                "type": "string"
               },
-              "domain_regex": {
+              "rewrite_ttl": {
+                "type": "integer"
+              },
+              "domain": {
                 "type": "array",
+                "title": "Domain",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
                 "items": {
                   "type": "string"
                 }
               },
               "rule_set": {
                 "type": "array",
+                "title": "Rule set",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
                 "items": {
                   "type": "string"
                 }
-              },
-              "invert": {
-                "type": "boolean",
-                "default": false
               }
             }
           }
@@ -540,7 +589,8 @@
               "tproxy",
               "mixed",
               "direct",
-              "VLESS"
+              "vless",
+              "tun"
             ]
           }
         },
@@ -567,7 +617,7 @@
             "if": {
               "properties": {
                 "type": {
-                  "const": "VLESS"
+                  "const": "vless"
                 }
               }
             },
@@ -717,6 +767,52 @@
                 "tag"
               ]
             }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "tun"
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "properties": {
+                "tag": {
+                  "type": "string"
+                },
+                "interface_name": {
+                  "type": "string"
+                },
+                "address": {
+                  "type": "array",
+                  "title": "Address",
+                  "x-format": "table",
+                  "x-arrayDeleteContent": "",
+                  "x-arrayAddContent": "Add",
+                  "x-arrayMove": false,
+                  "x-enableCollapseToggle": true,
+                  "x-collapseToggleContent": "",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "stack": {
+                  "type": "string"
+                },
+                "auto_route": {
+                  "type": "boolean",
+                  "x-format": "checkbox",
+                  "default": true
+                },
+                "strict_route": {
+                  "type": "boolean",
+                  "x-format": "checkbox",
+                  "default": true
+                }
+              }
+            }
           }
         ]
       }
@@ -744,9 +840,9 @@
             "title": "Outbound type",
             "enum": [
               "direct",
-              "VLESS",
-              "Hysteria2",
-              "Selector"
+              "vless",
+              "hysteria2",
+              "selector"
             ]
           }
         },
@@ -773,7 +869,7 @@
             "if": {
               "properties": {
                 "type": {
-                  "const": "VLESS"
+                  "const": "vless"
                 }
               }
             },
@@ -809,14 +905,20 @@
                 },
                 "tls": {
                   "type": "object",
+                  "x-deactivateNonRequired": true,
+                  "x-enablePropertiesToggle": true,
+                  "x-propertiesToggleContent": "Toggle properies",
                   "properties": {
-                    "server_name": {
-                      "type": "string"
-                    },
                     "enabled": {
                       "type": "boolean",
                       "x-format": "checkbox",
                       "default": true
+                    },
+                    "server_name": {
+                      "type": "string"
+                    },
+                    "alpn": {
+                      "type": "string"
                     },
                     "utls": {
                       "type": "object",
@@ -864,6 +966,47 @@
                 "uuid"
               ]
             }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "selector"
+                }
+              }
+            },
+            "then": {
+              "type": "object",
+              "properties": {
+                "tag": {
+                  "type": "string",
+                  "default": "direct"
+                },
+                "outbounds": {
+                  "type": "array",
+                  "title": "Outbounds",
+                  "x-format": "table",
+                  "x-arrayDeleteContent": "",
+                  "x-arrayAddContent": "Add",
+                  "x-arrayMove": true,
+                  "x-arrayMoveUpContent": "",
+                  "x-arrayMoveDownContent": "",
+                  "x-enableCollapseToggle": true,
+                  "x-collapseToggleContent": "",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "default": {
+                  "type": "string"
+                },
+                "interrupt_exist_connections": {
+                  "x-format": "checkbox",
+                  "type": "boolean",
+                  "default": false
+                }
+              }
+            }
           }
         ]
       }
@@ -874,7 +1017,210 @@
         "class": "config-section"
       },
       "type": "object",
-      "title": "Route"
+      "title": "Route",
+      "x-deactivateNonRequired": true,
+      "x-enablePropertiesToggle": true,
+      "x-propertiesToggleContent": "Toggle properties",
+      "properties": {
+        "rules": {
+          "type": "array",
+          "title": "Rules",
+          "x-format": "nav-vertical",
+          "x-arrayAddContent": "Add rule",
+          "x-arrayDeleteContent": "Delete rule",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all rules",
+          "x-arrayMove": true,
+          "x-arrayMoveDownContent": "",
+          "x-arrayMoveUpContent": "",
+          "x-titleTemplate": "Rule #{{ i1 }}",
+          "items": {
+            "type": "object",
+            "title": "Rule #{{ i1 }}",
+            "x-deactivateNonRequired": true,
+            "x-enablePropertiesToggle": true,
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "route",
+                  "reject",
+                  "sniff",
+                  "hijack-dns"
+                ]
+              },
+              "querry_type": {
+                "type": "string"
+              },
+              "protocol": {
+                "type": "string"
+              },
+              "outbound": {
+                "type": "string"
+              },
+              "ip_version": {
+                "type": "integer"
+              },
+              "domain_suffix": {
+                "type": "array",
+                "title": "Domain suffix",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "server": {
+                "type": "string"
+              },
+              "rewrite_ttl": {
+                "type": "integer"
+              },
+              "domain": {
+                "type": "array",
+                "title": "Domain",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rule_set": {
+                "type": "array",
+                "title": "Rule set",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "rule_set": {
+          "type": "array",
+          "title": "Rule sets",
+          "x-format": "nav-vertical",
+          "x-arrayAddContent": "Add rule set",
+          "x-arrayDeleteContent": "",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-arrayMove": true,
+          "x-arrayMoveDownContent": "",
+          "x-arrayMoveUpContent": "",
+          "items": {
+            "type": "object",
+            "x-format": "grid",
+            "properties": {
+              "type": {
+                "type": "string",
+                "title": "type",
+                "enum": [
+                  "local",
+                  "remote",
+                  "inline"
+                ],
+                "x-grid": {
+                  "columns": 6
+                }
+              },
+              "tag": {
+                "type": "string",
+                "title": "Tag",
+                "x-grid": {
+                  "columns": 6
+                }
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "local"
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "properties": {
+                    "format": {
+                      "type": "string",
+                      "enum": [
+                        "source",
+                        "binary"
+                      ]
+                    },
+                    "path": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "type": {
+                      "const": "remote"
+                    }
+                  }
+                },
+                "then": {
+                  "type": "object",
+                  "properties": {
+                    "format": {
+                      "type": "string",
+                      "enum": [
+                        "source",
+                        "binary"
+                      ]
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "http_client": {
+                      "type": "string"
+                    },
+                    "update_interval": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "final": {
+          "type": "string"
+        },
+        "auto_detect_interface": {
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "override_android_vpn": {
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "default_domain_resolver": {
+          "type": "string"
+        }
+      }
     },
     "experimental": {
       "x-containerAttributes": {

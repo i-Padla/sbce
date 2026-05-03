@@ -5,7 +5,6 @@
     <meta charset="utf-8" />
     <title>Sing-box Multi-Editor (Stable)</title>
     <style>
-        
         body {
             margin: 0;
             padding: 0;
@@ -179,6 +178,18 @@
                     layersContainer.appendChild(layer);
                 });
 
+                // Добавляем слой для загрузки
+                const loadLayer = document.createElement('div');
+                loadLayer.id = 'layer-load';
+                loadLayer.className = 'config-layer';
+                loadLayer.innerHTML = `
+                    <h3>Upload config</h3>
+                    <div class="well">
+                        <textarea id="import-area" class="form-control font-monospace mb-3" rows="12" placeholder='{"inbounds": [...], "outbounds": [...]}'></textarea>
+                        <button class="btn btn-primary" onclick="loadConfig()">Apply config</button>
+                    </div>
+                `;
+                layersContainer.appendChild(loadLayer);
                 buildMenu();
 
                 const firstKey = Object.keys(props)[0];
@@ -192,6 +203,8 @@
 
         function buildMenu() {
             const menu = document.getElementById('main-menu');
+            menu.innerHTML = ''; // Очистка перед добавлением
+
             Object.keys(fullSchema.properties).forEach(key => {
                 const title = fullSchema.properties[key].title || key;
                 const item = document.createElement('div');
@@ -199,9 +212,9 @@
                 item.setAttribute('data-section', key);
 
                 item.innerHTML = `
-                <input type="checkbox" checked class="section-checkbox" id="check-${key}">
-                <span class="flex-grow-1 text-truncate">${title}</span>
-            `;
+                    <input type="checkbox" checked class="section-checkbox" id="check-${key}">
+                    <span class="flex-grow-1 text-truncate">${title}</span>
+                `;
 
                 // Чекбокс просто обновляет превью
                 item.querySelector('input').onclick = (e) => {
@@ -213,26 +226,34 @@
                 item.onclick = () => switchLayer(key);
                 menu.appendChild(item);
             });
+
+            // Добавляем пункт для загрузки конфига в меню только один раз
+            const loadItem = document.createElement('div');
+            loadItem.className = 'section-link';
+            loadItem.setAttribute('data-section', 'load');
+            loadItem.innerHTML = `
+                <i class="fa-solid fa-file-import me-2 text-secondary" style="width: 20px;"></i>
+                <span class="flex-grow-1 text-truncate">Upload config</span>
+            `;
+            loadItem.onclick = () => switchLayer('load');
+            menu.appendChild(loadItem);
         }
 
         function switchLayer(key) {
-            // Подсветка в меню
             document.querySelectorAll('.section-link').forEach(el => el.classList.remove('active'));
             const activeLink = document.querySelector(`[data-section="${key}"]`);
             if (activeLink) activeLink.classList.add('active');
 
-            // Скрываем все слои, показываем текущий
             document.querySelectorAll('.config-layer').forEach(el => el.style.display = 'none');
             const targetLayer = document.getElementById(`layer-${key}`);
             targetLayer.style.display = 'block';
 
-            // Инициализируем Jedison только при первом обращении (Lazy load)
-            // ВАЖНО: не передаем data: {}, чтобы Jedison рисовал дефолтные поля
-            if (!instances[key]) {
+            // Инициализируем Jedison только для секций со схемой
+            if (key !== 'load' && !instances[key]) {
                 console.log(`Инициализация секции: ${key}`);
                 instances[key] = new Jedison.Create({
                     container: targetLayer,
-                    id: key, // <--- Добавляем уникальный id для экземпляра
+                    id: key,
                     refParser: globalRefParser,
                     theme: new Jedison.ThemeBootstrap5(),
                     iconLib: 'fontawesome6',
@@ -243,15 +264,85 @@
                     show_errors: 'always'
                 });
 
-                // Вешаем обработчик изменений
                 instances[key].on('change', () => {
                     clearTimeout(debounceTimer);
                     debounceTimer = setTimeout(() => {
                         refreshPreview();
-                    }, 250); // Задержка 250мс: пользователь не заметит, а процессору станет легче
+                    }, 250);
                 });
             }
 
+            refreshPreview();
+        }
+
+        // Функции для загрузки/применения конфига
+        function loadConfig() {
+            const fileInput = document.getElementById('config-file');
+
+            if (fileInput && fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    try {
+                        const config = JSON.parse(e.target.result);
+                        applyConfig(config);
+                    } catch (err) {
+                        alert('Ошибка чтения JSON из файла: ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                const rawValue = document.getElementById('import-area')?.value;
+                try {
+                    const config = JSON.parse(rawValue);
+                    applyConfig(config);
+                } catch (err) {
+                    alert('Ошибка разбора JSON: ' + err.message);
+                }
+            }
+        }
+
+function applyConfig(config) {
+            // Функция для рекурсивной обработки всех уровней конфига
+            function normalizeArrayFields(data) {
+                const arrayFields = ['domain', 'domain_suffix', 'rule_set','address'];
+
+                if (Array.isArray(data)) {
+                    return data.map(item => normalizeArrayFields(item));
+                } else if (data !== null && typeof data === 'object') {
+                    const result = {};
+                    for (const key in data) {
+                        if (arrayFields.includes(key) && data[key] !== undefined && !Array.isArray(data[key])) {
+                            result[key] = [data[key]];
+                        } else {
+                            result[key] = normalizeArrayFields(data[key]);
+                        }
+                    }
+                    return result;
+                }
+                return data;
+            }
+
+            // Нормализуем данные перед загрузкой
+            const normalizedConfig = normalizeArrayFields(config);
+
+            Object.keys(fullSchema.properties).forEach(key => {
+                // Используем normalizedConfig вместо config
+                if (normalizedConfig[key]) {
+                    if (!instances[key]) {
+                        switchLayer(key);
+                    }
+                    if (instances[key]) {
+                        // Используем normalizedConfig вместо config
+                        instances[key].setValue(normalizedConfig[key]);
+                    }
+                    const checkbox = document.getElementById(`check-${key}`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                }
+            });
             refreshPreview();
         }
 
