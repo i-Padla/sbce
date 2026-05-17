@@ -225,6 +225,17 @@ function applyConfig(config) {
         item.type = "inline";
       }
     }
+    // Проверяем, что секция dns и массив rules вообще существуют
+    for (const rule of config.dns?.rules ?? []) {
+
+      if (rule.rewrite_ttl === null) {
+        delete rule.rewrite_ttl;
+      }
+
+      if (rule.client_subnet === null) {
+        delete rule.client_subnet;
+      }
+    }
     // 2. Валидируем. Ajv автоматически превратит строки в массивы там, где требует схема
     const isValid = validate(config);
 

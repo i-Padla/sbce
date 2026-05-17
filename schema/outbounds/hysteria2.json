@@ -1,7 +1,11 @@
 {
     "type": "object",
-    "title": "{{ value.tag}} ({{ value.type }})",
+    "title": "Hysteria2",
     "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
     "properties": {
         "type": {
             "type": "string",
@@ -19,9 +23,5 @@
                 "columns": 6
             }
         }
-    },
-    "required": [
-        "type",
-        "tag"
-    ]
+    }
 }

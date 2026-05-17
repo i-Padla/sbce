@@ -1,7 +1,7 @@
 {
     "type": "array",
     "title": "DNS rules",
-    "x-format": "nav-vertical",
+    "x-format": "table",
     "x-arrayAddContent": "Add",
     "x-arrayDeleteContent": "",
     "x-enableCollapseToggle": true,
@@ -11,18 +11,16 @@
     "x-arrayMove": true,
     "x-arrayMoveDownContent": "",
     "x-arrayMoveUpContent": "",
+    "x-arrayButtonsPosition": "right",
     "x-recursive": true,
     "x-titleTemplate": "#{{ i1 }}",
     "items": {
         "x-embedSwitcher": true,
         "oneOf": [
             {
-                "x-switcherTitle": "Default",
                 "$ref": "#/$defs/dns_rule_default"
             },
             {
-                "x-switcherTitle": "Logical",
-                "x-recursive": true,
                 "$ref": "#/$defs/dns_rule_logical"
             }
         ]

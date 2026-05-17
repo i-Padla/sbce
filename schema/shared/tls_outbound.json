@@ -9,11 +9,228 @@
             "type": "boolean",
             "x-format": "checkbox"
         },
+        "engine": {
+            "type": "string",
+            "enum": [
+                "",
+                "go",
+                "windows",
+                "apple"
+            ]
+        },
+        "disable_sni": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
         "server_name": {
             "type": "string"
         },
+        "insecure": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
         "alpn": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "items": {
+                "type": "string"
+            }
+        },
+        "min_version": {
+            "type": "string",
+            "enum": [
+                "",
+                "1.0",
+                "1.1",
+                "1.2",
+                "1.3"
+            ]
+        },
+        "max_version": {
+            "type": "string",
+            "enum": [
+                "",
+                "1.0",
+                "1.1",
+                "1.2",
+                "1.3"
+            ]
+        },
+        "cipher_suites": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "",
+                    "TLS_RSA_WITH_AES_128_CBC_SHA",
+                    "TLS_RSA_WITH_AES_256_CBC_SHA",
+                    "TLS_RSA_WITH_AES_128_GCM_SHA256",
+                    "TLS_RSA_WITH_AES_256_GCM_SHA384",
+                    "TLS_AES_128_GCM_SHA256",
+                    "TLS_AES_256_GCM_SHA384",
+                    "TLS_CHACHA20_POLY1305_SHA256",
+                    "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+                    "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
+                    "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+                    "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+                    "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+                    "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+                    "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+                    "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+                    "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+                    "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
+                ]
+            }
+        },
+        "curve_preferences": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "",
+                    "P256",
+                    "P384",
+                    "P521",
+                    "X25519",
+                    "X25519MLKEM768"
+                ]
+            }
+        },
+        "certificate": {
             "type": "string"
+        },
+        "certificate_path": {
+            "type": "string"
+        },
+        "certificate_public_key_sha256": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "items": {
+                "type": "string"
+            }
+        },
+        "client_certificate": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "items": {
+                "type": "string"
+            }
+        },
+        "client_certificate_path": {
+            "type": "string"
+        },
+        "client_key": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "items": {
+                "type": "string"
+            }
+        },
+        "client_key_path": {
+            "type": "string"
+        },
+        "fragment": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "fragment_fallback_delay": {
+            "type": "string"
+        },
+        "record_fragment": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "spoof": {
+            "type": "string"
+        },
+        "spoof_method": {
+            "type": "string",
+            "enum": [
+                "",
+                "wrong-sequence",
+                "wrong-checksum",
+                "wrong-ack",
+                "wrong-md5",
+                "wrong-timestamp"
+            ]
+        },
+        "kernel_tx": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "kernel_rx": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "handshake_timeout": {
+            "type": "string"
+        },
+        "ech": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "x-format": "checkbox"
+                },
+                "config": {
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "config_path": {
+                    "type": "string"
+                },
+                "query_server_name": {
+                    "type": "string"
+                },
+                "pq_signature_schemes_enabled": {
+                    "type": "boolean",
+                    "x-format": "checkbox"
+                },
+                "dynamic_record_sizing_disabled": {
+                    "type": "boolean",
+                    "x-format": "checkbox"
+                }
+            }
         },
         "utls": {
             "type": "object",
@@ -41,9 +258,6 @@
                     "type": "string"
                 }
             }
-        },
-        "certificate_path": {
-            "type": "string"
         },
         "key_path": {
             "type": "string"

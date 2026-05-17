@@ -4,9 +4,116 @@
         "action": {
             "type": "string",
             "enum": [
+                "",
                 "route",
-                "evaluate"
+                "evaluate",
+                "respond",
+                "route-options",
+                "reject",
+                "predefined"
             ]
+        },
+        "server": {
+            "type": "string"
+        },
+        "strategy": {
+            "type": "string",
+            "enum": [
+                "prefer_ipv4",
+                "prefer_ipv6",
+                "ipv4_only",
+                "ipv6_only"
+            ]
+        },
+        "disable_cache": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "disable_optimistic_cache": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "rewrite_ttl": {
+            "type": "integer"
+        },
+        "timeout": {
+            "type": "string"
+        },
+        "client_subnet": {
+            "type": "string"
+        },
+        "method": {
+            "type": "string",
+            "enum": [
+                "default",
+                "drop"
+            ]
+        },
+        "no_drop": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "rcode": {
+            "type": "string",
+            "enum": [
+                "NOERROR",
+                "FORMERR",
+                "SERVFAIL",
+                "NXDOMAIN",
+                "NOTIMP",
+                "REFUSED"
+            ]
+        },
+        "answer": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": true,
+            "x-arrayButtonsPosition": "right",
+            "x-arrayMoveDownContent": "",
+            "x-arrayMoveUpContent": "",
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "x-enableCollapseToggle": false,
+            "x-collapseToggleContent": "",
+            "items": {
+                "type": "string"
+            }
+        },
+        "ns": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": true,
+            "x-arrayButtonsPosition": "right",
+            "x-arrayMoveDownContent": "",
+            "x-arrayMoveUpContent": "",
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "x-enableCollapseToggle": false,
+            "x-collapseToggleContent": "",
+            "items": {
+                "type": "string"
+            }
+        },
+        "extra": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": true,
+            "x-arrayButtonsPosition": "right",
+            "x-arrayMoveDownContent": "",
+            "x-arrayMoveUpContent": "",
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "x-enableCollapseToggle": false,
+            "x-collapseToggleContent": "",
+            "items": {
+                "type": "string"
+            }
         }
     }
 }

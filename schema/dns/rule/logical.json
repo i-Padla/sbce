@@ -1,27 +1,41 @@
 {
     "type": "object",
+    "x-switcherTitle": "Logical",
+    "x-recursive": true,
     "required": [
         "type",
         "mode",
         "rules"
     ],
-    "properties": {
-        "type": {
-            "type": "string",
-            "const": "logical",
-            "default": "logical",
-            "readOnly": true
+    "x-mergeAllOf": true,
+    "allOf": [
+        {
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "const": "logical",
+                    "default": "logical",
+                    "readOnly": true
+                },
+                "mode": {
+                    "description": "`and` or `or`",
+                    "type": "string",
+                    "enum": [
+                        "and",
+                        "or"
+                    ]
+                },
+                "rules": {
+                    "$ref": "#/$defs/dns_rule"
+                },
+                "invert": {
+                    "type": "boolean",
+                    "x-format": "checkbox"
+                }
+            }
         },
-        "mode": {
-            "description": "`and` or `or`",
-            "type": "string",
-            "enum": [
-                "and",
-                "or"
-            ]
-        },
-        "rules": {
-            "$ref": "#/$defs/dns_rule"
+        {
+            "$ref": "#/$defs/dns_rule_action"
         }
-    }
+    ]
 }

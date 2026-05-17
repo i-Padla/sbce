@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "{{ value.tag}} ({{ value.type }})",
+    "title": "Selector",
     "x-format": "grid",
     "required": [
         "type",

@@ -1,9 +1,29 @@
 {
+    "type": "object",
+    "title": "VLESS",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag",
+        "server",
+        "server_port",
+        "uuid"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "vless",
+            "const": "vless",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    },
     "x-mergeAllOf": true,
     "allOf": [
         {
             "type": "object",
-            "title": "{{ value.tag}} ({{ value.type }})",
             "x-format": "grid",
             "required": [
                 "type",
@@ -68,7 +88,7 @@
                     "enum": [
                         "xudp",
                         "packetaddr",
-                        "(none)"
+                        ""
                     ]
                 },
                 "multiplex": {

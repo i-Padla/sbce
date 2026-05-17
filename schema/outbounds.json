@@ -10,49 +10,41 @@
     "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
     "items": {
         "x-embedSwitcher": true,
+        "discriminator": {
+            "propertyName": "type"
+        },
         "oneOf": [
             {
-                "x-switcherTitle": "Direct",
                 "$ref": "#/$defs/outbounds_direct"
             },
             {
-                "x-switcherTitle": "Block",
                 "$ref": "#/$defs/outbounds_block"
             },
             {
-                "x-switcherTitle": "SOCKS",
                 "$ref": "#/$defs/outbounds_socks"
             },
             {
-                "x-switcherTitle": "URLtest",
                 "$ref": "#/$defs/outbounds_urltest"
             },
             {
-                "x-switcherTitle": "SSH",
                 "$ref": "#/$defs/outbounds_ssh"
             },
             {
-                "x-switcherTitle": "DNS",
                 "$ref": "#/$defs/outbounds_dns"
             },
             {
-                "x-switcherTitle": "Selector",
                 "$ref": "#/$defs/outbounds_selector"
             },
             {
-                "x-switcherTitle": "VLESS",
                 "$ref": "#/$defs/outbounds_vless"
             },
             {
-                "x-switcherTitle": "Hysteria2",
                 "$ref": "#/$defs/outbounds_hysteria2"
             },
             {
-                "x-switcherTitle": "Shadowsocks",
                 "$ref": "#/$defs/outbounds_shadowsocks"
             },
             {
-                "x-switcherTitle": "VMess",
                 "$ref": "#/$defs/outbounds_vmess"
             }
         ]

@@ -1,9 +1,30 @@
 {
+    "type": "object",
+    "title": "Shadowsocks",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag",
+        "server",
+        "server_port",
+        "method",
+        "password"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "shadowsocks",
+            "const": "shadowsocks",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    },
     "x-mergeAllOf": true,
     "allOf": [
         {
             "type": "object",
-            "title": "{{ value.tag}} ({{ value.type }})",
             "x-format": "grid",
             "required": [
                 "type",

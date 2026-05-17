@@ -1,9 +1,26 @@
 {
+    "type": "object",
+    "title": "Direct",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "direct",
+            "const": "direct",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    },
     "x-mergeAllOf": true,
     "allOf": [
         {
             "type": "object",
-            "title": "{{ value.tag}} ({{ value.type }})",
             "x-format": "grid",
             "properties": {
                 "type": {
@@ -34,11 +51,7 @@
                         "columns": 6
                     }
                 }
-            },
-            "required": [
-                "type",
-                "tag"
-            ]
+            }
         },
         {
             "$ref": "#/$defs/shared_dial"
