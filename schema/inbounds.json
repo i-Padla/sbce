@@ -1,0 +1,48 @@
+{
+    "type": "array",
+    "title": "Inbounds",
+    "x-format": "nav-horizontal",
+    "x-arrayAddContent": "Add",
+    "x-arrayMove": false,
+    "x-arrayDeleteContent": "",
+    "x-arrayDeleteAll": true,
+    "x-arrayDeleteAllContent": "Delete all",
+    "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+    "items": {
+        "x-embedSwitcher": true,
+        "oneOf": [
+            {
+                "x-switcherTitle": "Direct",
+                "$ref": "#/$defs/inbounds_direct"
+            },
+            {
+                "x-switcherTitle": "Mixed",
+                "$ref": "#/$defs/inbounds_mixed"
+            },
+            {
+                "x-switcherTitle": "SOCKS",
+                "$ref": "#/$defs/inbounds_socks"
+            },
+            {
+                "x-switcherTitle": "Tproxy",
+                "$ref": "#/$defs/inbounds_tproxy"
+            },
+            {
+                "x-switcherTitle": "TUN",
+                "$ref": "#/$defs/inbounds_tun"
+            },
+            {
+                "x-switcherTitle": "VLESS",
+                "$ref": "#/$defs/inbounds_vless"
+            },
+            {
+                "x-switcherTitle": "Shadowsocks",
+                "$ref": "#/$defs/inbounds_shadowsocks"
+            },
+            {
+                "x-switcherTitle": "VMess",
+                "$ref": "#/$defs/inbounds_vmess"
+            }
+        ]
+    }
+}

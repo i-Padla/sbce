@@ -1,0 +1,27 @@
+{
+    "type": "object",
+    "required": [
+        "type",
+        "mode",
+        "rules"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "const": "logical",
+            "default": "logical",
+            "readOnly": true
+        },
+        "mode": {
+            "description": "`and` or `or`",
+            "type": "string",
+            "enum": [
+                "and",
+                "or"
+            ]
+        },
+        "rules": {
+            "$ref": "#/$defs/dns_rule"
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "type": "object",
+    "title": "{{ value.tag}} ({{ value.type }})",
+    "x-format": "grid",
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "dns",
+            "const": "dns",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "dns-out",
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    },
+    "required": [
+        "type",
+        "tag"
+    ]
+}

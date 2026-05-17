@@ -1,0 +1,32 @@
+{
+    "type": "object",
+    "title": "Local",
+    "x-format": "grid",
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "local",
+            "const": "local",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "title": "Tag",
+            "default": "local-dns",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "prefer_go": {
+            "x-format": "checkbox",
+            "type": "boolean"
+        }
+    },
+    "required": [
+        "type",
+        "tag"
+    ]
+}

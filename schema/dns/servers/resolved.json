@@ -1,0 +1,35 @@
+{
+    "type": "object",
+    "title": "Resolved",
+    "x-format": "grid",
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "resolved",
+            "const": "resolved",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "resolved-dns",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "service": {
+            "type": "string",
+            "default": "resolved"
+        },
+        "accept_default_resolvers": {
+            "x-format": "checkbox",
+            "type": "boolean"
+        }
+    },
+    "required": [
+        "type",
+        "tag"
+    ]
+}

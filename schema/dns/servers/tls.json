@@ -1,0 +1,53 @@
+{
+    "title": "TLS",
+    "x-mergeAllOf": true,
+    "allOf": [
+        {
+            "type": "object",
+            "x-format": "grid",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "default": "tls",
+                    "const": "tls",
+                    "readOnly": true,
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "tag": {
+                    "type": "string",
+                    "default": "tls-dns",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server": {
+                    "type": "string",
+                    "title": "Server",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server_port": {
+                    "type": "integer",
+                    "title": "Port",
+                    "default": 853,
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "tls": {
+                    "$ref": "#/$defs/shared_tls"
+                }
+            },
+            "required": [
+                "type",
+                "tag"
+            ]
+        },
+        {
+            "$ref": "#/$defs/shared_dial"
+        }
+    ]
+}

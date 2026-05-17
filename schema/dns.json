@@ -1,0 +1,34 @@
+{
+    "type": "object",
+    "title": "DNS",
+    "properties": {
+        "servers": {
+            "$ref": "#/$defs/dns_servers"
+        },
+        "rules": {
+            "$ref": "#/$defs/dns_rule"
+        },
+        "final": {
+            "type": "string",
+            "title": "Final Server",
+            "description": "The tag of the server to use as a fallback"
+        },
+        "strategy": {
+            "type": "string",
+            "enum": [
+                "prefer_ipv4",
+                "prefer_ipv6",
+                "ipv4_only",
+                "ipv6_only"
+            ]
+        },
+        "independent_cache": {
+            "x-format": "checkbox",
+            "type": "boolean"
+        },
+        "reverse_mapping": {
+            "x-format": "checkbox",
+            "type": "boolean"
+        }
+    }
+}

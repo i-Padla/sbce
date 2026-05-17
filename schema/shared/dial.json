@@ -1,0 +1,23 @@
+{
+    "type": "object",
+    "properties": {
+        "address_resolver": {
+            "type": "string",
+            "x-propGroup": "Shared dial fields"
+        },
+        "domain_resolver": {
+            "type": "object",
+            "x-propGroup": "Shared dial fields",
+            "x-strigToPropertie": "server",
+            "properties": {
+                "server": {
+                    "type": "string",
+                    "title": "Server DNS Tag"
+                },
+                "strategy": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "type": "object",
+    "title": "{{ value.tag}} ({{ value.type }})",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "selector",
+            "const": "selector",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "selector",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "outbounds": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": true,
+            "x-arrayButtonsPosition": "right",
+            "x-arrayMoveDownContent": "",
+            "x-arrayMoveUpContent": "",
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "x-enableCollapseToggle": false,
+            "x-collapseToggleContent": "",
+            "items": {
+                "type": "string"
+            }
+        },
+        "default": {
+            "description": "The default outbound tag. The first outbound will be used if empty.",
+            "type": "string"
+        },
+        "interrupt_exist_connections": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        }
+    }
+}

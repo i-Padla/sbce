@@ -1,0 +1,18 @@
+{
+    "type": "object",
+    "properties": {
+        "listen": {
+            "type": "string",
+            "x-propGroup": "Shared listen fields"
+        },
+        "listen_port": {
+            "type": "integer",
+            "x-propGroup": "Shared listen fields"
+        },
+        "sniff": {
+            "type": "boolean",
+            "x-format": "checkbox",
+            "x-propGroup": "Shared listen fields"
+        }
+    }
+}

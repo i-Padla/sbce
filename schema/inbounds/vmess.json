@@ -1,0 +1,64 @@
+{
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "type": "object",
+      "title": "{{ value.tag}} ({{ value.type }})",
+      "x-format": "grid",
+      "required": ["tag", "type", "users"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "vmess",
+          "const": "vmess",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "tproxy",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "users": {
+          "type": "array",
+          "x-format": "nav-vertical",
+          "x-arrayDeleteContent": "",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "uuid": {
+                "type": "string"
+              },
+              "alterId": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "tls": {
+          "$ref": "#/$defs/shared_tls_inbound"
+        },
+        "multiplex": {
+          "$ref": "#/$defs/shared_multiplex_inbound"
+        },
+        "transport": {
+          "$ref": "#/$defs/shared_v2ray_transport"
+        }
+      }
+    },
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
+}

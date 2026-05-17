@@ -1,0 +1,46 @@
+{
+    "type": "object",
+    "title": "NTP",
+    "x-format": "grid",
+    "x-mergeAllOf": true,
+    "allOf": [
+        {
+            "required": [
+                "server"
+            ],
+            "properties": {
+                "enabled": {
+                    "x-format": "checkbox",
+                    "type": "boolean",
+                    "description": "Enable NTP service.",
+                    "x-propertyOrder": 1
+                },
+                "server": {
+                    "description": "NTP server address.",
+                    "type": "string",
+                    "title": "Server",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server_port": {
+                    "description": "NTP server port. 123 is used by default.",
+                    "type": "integer",
+                    "title": "Port",
+                    "default": 123,
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "interval": {
+                    "description": "Time synchronization interval. 30 minutes is used by default.",
+                    "type": "string",
+                    "default": "30m"
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_dial"
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "type": "array",
+    "title": "Rule set",
+    "x-format": "nav-vertical",
+    "x-arrayAddContent": "Add rule set",
+    "x-arrayDeleteContent": "",
+    "x-enableCollapseToggle": true,
+    "x-collapseToggleContent": "",
+    "x-arrayDeleteAll": true,
+    "x-arrayDeleteAllContent": "Delete all",
+    "x-arrayMove": true,
+    "x-arrayMoveDownContent": "",
+    "x-arrayMoveUpContent": "",
+    "x-titleTemplate": "#{{ i1 }} {{ value.tag }} ({{value.type}})",
+    "items": {
+        "x-embedSwitcher": true,
+        "oneOf": [
+            {
+                "x-switcherTitle": "Inline",
+                "$ref": "#/$defs/route_inline_rule_set"
+            },
+            {
+                "x-switcherTitle": "Local",
+                "$ref": "#/$defs/route_local_rule_set"
+            },
+            {
+                "x-switcherTitle": "Remote",
+                "$ref": "#/$defs/route_remote_rule_set"
+            }
+        ]
+    }
+}

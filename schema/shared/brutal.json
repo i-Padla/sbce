@@ -1,0 +1,25 @@
+{
+    "type": "object",
+    "x-enablePropertiesToggle": false,
+    "required": [
+        "enabled",
+        "up_mbps",
+        "down_mbps"
+    ],
+    "properties": {
+        "enabled": {
+            "type": "boolean",
+            "x-format": "checkbox",
+            "x-propGroup": "Brutal"
+        },
+        "up_mbps": {
+            "type": "integer",
+            "x-format": "checkbox",
+            "x-propGroup": "Brutal"
+        },
+        "down_mbps": {
+            "type": "integer",
+            "x-propGroup": "Brutal"
+        }
+    }
+}

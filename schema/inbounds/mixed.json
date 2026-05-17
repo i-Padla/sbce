@@ -1,0 +1,68 @@
+{
+    "x-mergeAllOf": true,
+    "allOf": [
+        {
+            "type": "object",
+            "title": "{{ value.tag}} ({{ value.type }})",
+            "x-format": "grid",
+            "required": [
+                "type",
+                "tag"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "default": "mixed",
+                    "const": "mixed",
+                    "readOnly": true,
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "tag": {
+                    "type": "string",
+                    "default": "mixed_in",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "users": {
+                    "type": "array",
+                    "title": "Users",
+                    "x-format": "nav-vertical",
+                    "x-arrayAddContent": "Add user",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-titleTemplate": "{{ i1 }}) {{ value.username }}",
+                    "items": {
+                        "type": "object",
+                        "title": "{{ value.username }}",
+                        "properties": {
+                            "username": {
+                                "type": "string",
+                                "title": "username",
+                                "default": "Alice"
+                            },
+                            "password": {
+                                "type": "string",
+                                "title": "password"
+                            }
+                        }
+                    }
+                },
+                "set_system_proxy": {
+                    "type": "boolean",
+                    "x-format": "checkbox",
+                    "title": "set_system_proxy"
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_listen"
+        }
+    ]
+}

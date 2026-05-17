@@ -1,0 +1,114 @@
+{
+    "x-mergeAllOf": true,
+    "allOf": [
+        {
+            "type": "object",
+            "title": "{{ value.tag}} ({{ value.type }})",
+            "x-format": "grid",
+            "required": [
+                "type",
+                "tag",
+                "server",
+                "server_port",
+                "method",
+                "password"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "default": "shadowsocks",
+                    "const": "shadowsocks",
+                    "readOnly": true,
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "tag": {
+                    "type": "string",
+                    "default": "ss-out",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server": {
+                    "description": "The tag of the inbound.",
+                    "type": "string",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server_port": {
+                    "description": "The tag of the inbound.",
+                    "type": "integer",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "method": {
+                    "description": "Encryption method.",
+                    "type": "string",
+                    "enum": [
+                        "2022-blake3-aes-128-gcm",
+                        "2022-blake3-aes-256-gcm",
+                        "2022-blake3-chacha20-poly1305",
+                        "none",
+                        "aes-128-gcm",
+                        "aes-192-gcm",
+                        "aes-256-gcm",
+                        "chacha20-ietf-poly1305",
+                        "xchacha20-ietf-poly1305"
+                    ]
+                },
+                "password": {
+                    "description": "Password.",
+                    "type": "string"
+                },
+                "udp_over_tcp": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "description": "Enable the UDP over TCP protocol.",
+                            "type": "boolean"
+                        },
+                        "version": {
+                            "description": "The protocol version, `1` or `2`.\n\n2 is used by default.",
+                            "type": "integer",
+                            "enum": [
+                                1,
+                                2
+                            ]
+                        }
+                    }
+                },
+                "plugin": {
+                    "description": "Shadowsocks SIP003 plugin, implemented in internal.Only obfs-local and v2ray-plugin are supported.",
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "obfs-local",
+                        "v2ray-plugin"
+                    ]
+                },
+                "plugin_opts": {
+                    "description": "Shadowsocks SIP003 plugin options.",
+                    "type": "string"
+                },
+                "network": {
+                    "description": "Enabled network.One of tcp udp.Both is enabled by default.",
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "tcp",
+                        "udp"
+                    ]
+                },
+                "multiplex": {
+                    "$ref": "#/$defs/shared_multiplex_inbound"
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_dial"
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+{
+    "type": "object",
+    "title": "{{ value.tag}} ({{ value.type }})",
+    "x-format": "grid",
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "socks",
+            "const": "socks",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "socks-out",
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    },
+    "required": [
+        "type",
+        "tag"
+    ]
+}

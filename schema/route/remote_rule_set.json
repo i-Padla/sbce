@@ -1,0 +1,37 @@
+{
+    "type": "object",
+    "title": "{{ value.tag }} (remote)",
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "remote",
+            "const": "remote",
+            "readOnly": true
+        },
+        "tag": {
+            "type": "string"
+        },
+        "format": {
+            "type": "string",
+            "enum": [
+                "source",
+                "binary"
+            ]
+        },
+        "url": {
+            "type": "string"
+        },
+        "http_client": {
+            "type": "string"
+        },
+        "update_interval": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "type",
+        "tag",
+        "format",
+        "url"
+    ]
+}

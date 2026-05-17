@@ -1,0 +1,39 @@
+{
+    "type": "object",
+    "title": "Log",
+    "properties": {
+        "disabled": {
+            "x-format": "checkbox",
+            "type": "boolean",
+            "title": "Disable logging",
+            "description": "Disable logging output completely"
+        },
+        "level": {
+            "type": "string",
+            "title": "Log level",
+            "description": "Logging level",
+            "enum": [
+                "trace",
+                "debug",
+                "info",
+                "warn",
+                "error",
+                "fatal",
+                "panic"
+            ],
+            "default": "info"
+        },
+        "output": {
+            "type": "string",
+            "title": "Output file",
+            "description": "Path to log file (if empty, logs go to console)",
+            "default": "box.log"
+        },
+        "timestamp": {
+            "x-format": "checkbox",
+            "type": "boolean",
+            "title": "Include timestamp",
+            "description": "Add timestamp to each log line"
+        }
+    }
+}

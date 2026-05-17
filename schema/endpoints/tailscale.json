@@ -1,0 +1,122 @@
+{
+    "type": "object",
+    "title": "Tailscale",
+    "x-deactivateNonRequired": true,
+    "x-enablePropertiesToggle": true,
+    "x-propertiesToggleContent": "Toggle properties",
+    "x-format": "grid",
+    "required": [
+        "type"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "tailscale",
+            "const": "tailscale",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "ts-ep",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "state_directory": {
+            "type": "string",
+            "default": "tailscale"
+        },
+        "auth_key": {
+            "type": "string",
+            "default": "ts-ep"
+        },
+        "control_url": {
+            "type": "string",
+            "default": "https://controlplane.tailscale.com"
+        },
+        "control_http_client": {
+            "type": "string"
+        },
+        "ephemeral": {
+            "x-format": "checkbox",
+            "type": "boolean"
+        },
+        "hostname": {
+            "type": "string",
+            "default": "ts-ep"
+        },
+        "accept_routes": {
+            "x-format": "checkbox",
+            "type": "boolean"
+        },
+        "exit_node": {
+            "type": "string",
+            "default": "ts-ep"
+        },
+        "exit_node_allow_lan_access": {
+            "x-format": "checkbox",
+            "type": "boolean"
+        },
+        "advertise_routes": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayDeleteContent": "",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "items": {
+                "type": "string"
+            }
+        },
+        "advertise_exit_node": {
+            "x-format": "checkbox",
+            "type": "boolean"
+        },
+        "advertise_tags": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayDeleteContent": "",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "items": {
+                "type": "string"
+            }
+        },
+        "relay_server_port": {
+            "type": "integer"
+        },
+        "relay_server_static_endpoints": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayDeleteContent": "",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "items": {
+                "type": "string"
+            }
+        },
+        "system_interface": {
+            "x-format": "checkbox",
+            "type": "boolean"
+        },
+        "system_interface_name": {
+            "type": "string",
+            "default": ""
+        },
+        "system_interface_mtu": {
+            "type": "integer"
+        },
+        "udp_timeout": {
+            "type": "string",
+            "default": "5d"
+        }
+    }
+}

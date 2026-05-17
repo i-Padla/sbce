@@ -1,0 +1,52 @@
+{
+    "type": "object",
+    "x-enablePropertiesToggle": true,
+    "x-propertiesToggleContent": "Toggle properties",
+    "x-enableCollapseToggle": true,
+    "x-collapseToggleContent": "",
+    "properties": {
+        "enabled": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "server_name": {
+            "type": "string"
+        },
+        "alpn": {
+            "type": "string"
+        },
+        "utls": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "x-format": "checkbox"
+                },
+                "fingerprint": {
+                    "type": "string"
+                }
+            }
+        },
+        "reality": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "x-format": "checkbox"
+                },
+                "public_key": {
+                    "type": "string"
+                },
+                "short_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "certificate_path": {
+            "type": "string"
+        },
+        "key_path": {
+            "type": "string"
+        }
+    }
+}

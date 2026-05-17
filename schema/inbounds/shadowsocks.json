@@ -1,0 +1,140 @@
+{
+    "x-mergeAllOf": true,
+    "allOf": [
+        {
+            "type": "object",
+            "title": "{{ value.tag}} ({{ value.type }})",
+            "x-format": "grid",
+            "required": [
+                "type",
+                "tag",
+                "method",
+                "password"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "default": "shadowsocks",
+                    "const": "shadowsocks",
+                    "readOnly": true,
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "tag": {
+                    "description": "The tag of the inbound.",
+                    "type": "string",
+                    "default": "ss-in",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "network": {
+                    "description": "Listen network, one of `tcp` `udp`.\n\nBoth if empty.",
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "tcp",
+                        "udp"
+                    ]
+                },
+                "method": {
+                    "description": "Encryption method.",
+                    "type": "string",
+                    "enum": [
+                        "2022-blake3-aes-128-gcm",
+                        "2022-blake3-aes-256-gcm",
+                        "2022-blake3-chacha20-poly1305",
+                        "none",
+                        "aes-128-gcm",
+                        "aes-192-gcm",
+                        "aes-256-gcm",
+                        "chacha20-ietf-poly1305",
+                        "xchacha20-ietf-poly1305"
+                    ]
+                },
+                "password": {
+                    "description": "Password.",
+                    "type": "string"
+                },
+                "users": {
+                    "description": "Multi-user configuration.",
+                    "type": "array",
+                    "x-format": "nav-vertical",
+                    "x-arrayAddContent": "Add",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-titleTemplate": "User #{{i1}} - {{ value.name }}",
+                    "items": {
+                        "type": "object",
+                        "title": "User #{{i1}} - {{ value.name }}",
+                        "x-enablePropertiesToggle": false,
+                        "required": [
+                            "name",
+                            "password"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "password": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "destinations": {
+                    "description": "Relay configuration.",
+                    "type": "array",
+                    "x-format": "nav-vertical",
+                    "x-arrayAddContent": "Add",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-titleTemplate": "{{ i1 }}) {{ value.name }}",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "server",
+                            "server_port",
+                            "password"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "server": {
+                                "type": "string"
+                            },
+                            "server_port": {
+                                "type": "integer"
+                            },
+                            "password": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "managed": {
+                    "description": "Enable this when the inbound is managed by the SSM API for dynamic user.",
+                    "type": "boolean",
+                    "x-format": "checkbox"
+                },
+                "multiplex": {
+                    "$ref": "#/$defs/shared_multiplex_inbound"
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_listen"
+        }
+    ]
+}

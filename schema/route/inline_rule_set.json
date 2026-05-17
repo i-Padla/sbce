@@ -1,0 +1,23 @@
+{
+    "type": "object",
+    "title": "{{ value.tag }} (inline)",
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "inline",
+            "const": "inline",
+            "readOnly": true
+        },
+        "tag": {
+            "type": "string"
+        },
+        "rules": {
+            "$ref": "#/$defs/route_rules"
+        }
+    },
+    "required": [
+        "type",
+        "tag",
+        "rules"
+    ]
+}

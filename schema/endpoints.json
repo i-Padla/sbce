@@ -1,0 +1,24 @@
+{
+  "type": "array",
+  "title": "Endpoints",
+  "x-format": "nav-horizontal",
+  "x-arrayAddContent": "Add",
+  "x-arrayMove": false,
+  "x-arrayDeleteContent": "",
+  "x-arrayDeleteAll": true,
+  "x-arrayDeleteAllContent": "Delete all",
+  "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
+  "items": {
+    "x-embedSwitcher": true,
+    "oneOf": [
+      {
+        "x-switcherTitle": "Wireguard",
+        "$ref": "#/$defs/endpoints_wireguard"
+      },
+      {
+        "x-switcherTitle": "Tailscale",
+        "$ref": "#/$defs/endpoints_tailscale"
+      }
+    ]
+  }
+}

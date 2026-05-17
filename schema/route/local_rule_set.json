@@ -1,0 +1,31 @@
+{
+    "type": "object",
+    "title": "{{ value.tag }} (local)",
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "local",
+            "const": "local",
+            "readOnly": true
+        },
+        "tag": {
+            "type": "string"
+        },
+        "format": {
+            "type": "string",
+            "enum": [
+                "source",
+                "binary"
+            ]
+        },
+        "path": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "type",
+        "tag",
+        "format",
+        "path"
+    ]
+}
