@@ -3,6 +3,10 @@
     "title": "Http3",
     "x-propertiesToggleContent": "Toggle properties",
     "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
     "properties": {
         "type": {
             "type": "string",
@@ -44,9 +48,5 @@
         "tls": {
             "type": "object"
         }
-    },
-    "required": [
-        "type",
-        "tag"
-    ]
+    }
 }

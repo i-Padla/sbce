@@ -8,7 +8,7 @@
         "domain_resolver": {
             "type": "object",
             "x-propGroup": "Shared dial fields",
-            "x-strigToPropertie": "server",
+            "x-stringToPropertie": "server",
             "properties": {
                 "server": {
                     "type": "string",

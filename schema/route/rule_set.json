@@ -14,17 +14,17 @@
     "x-titleTemplate": "#{{ i1 }} {{ value.tag }} ({{value.type}})",
     "items": {
         "x-embedSwitcher": true,
+        "discriminator": {
+            "propertyName": "type"
+        },
         "oneOf": [
             {
-                "x-switcherTitle": "Inline",
                 "$ref": "#/$defs/route_inline_rule_set"
             },
             {
-                "x-switcherTitle": "Local",
                 "$ref": "#/$defs/route_local_rule_set"
             },
             {
-                "x-switcherTitle": "Remote",
                 "$ref": "#/$defs/route_remote_rule_set"
             }
         ]

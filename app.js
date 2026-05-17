@@ -18,7 +18,7 @@ if (AjvConstructor) {
     strict: false,
   });
   ajv.addKeyword({
-    keyword: "x-strigToPropertie",
+    keyword: "x-stringToPropertie",
     modifying: true, // Позволяет изменять данные на лету
     compile: function (targetProperty) {
       // targetProperty — это строка с именем поля, куда нужно положить значение (например, "server")
@@ -213,24 +213,18 @@ function applyConfig(config) {
     alert("Критическая ошибка: Ajv или схема не инициализированы.");
     return;
   }
-  // // --- СКАЧИВАЕМ СХЕМУ КАК ФАЙЛ ---
-  // const blob = new Blob([JSON.stringify(schema_for_ajv, null, 2)], { type: "application/json" });
-  // const url = URL.createObjectURL(blob);
-  // const a = document.createElement("a");
-  // a.href = url;
-  // a.download = "schema_debug.json";
-  // document.body.appendChild(a);
-  // a.click();
-  // document.body.removeChild(a);
-  // URL.revokeObjectURL(url);
-  // // ---------------------------------
 
   let finalDataToLoad = config;
 
   try {
     // 1. Компилируем нашу глобальную схему
     const validate = ajv.compile(schema_for_ajv);
-
+    // pre-normalization для shorthand inline rule_set
+    for (const item of config.route?.rule_set ?? []) {
+      if (!item.type && item.rules) {
+        item.type = "inline";
+      }
+    }
     // 2. Валидируем. Ajv автоматически превратит строки в массивы там, где требует схема
     const isValid = validate(config);
 

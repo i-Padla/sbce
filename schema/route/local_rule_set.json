@@ -1,6 +1,13 @@
 {
     "type": "object",
     "title": "{{ value.tag }} (local)",
+    "x-switcherTitle": "Local",
+    "required": [
+        "type",
+        "tag",
+        "format",
+        "path"
+    ],
     "properties": {
         "type": {
             "type": "string",
@@ -21,11 +28,5 @@
         "path": {
             "type": "string"
         }
-    },
-    "required": [
-        "type",
-        "tag",
-        "format",
-        "path"
-    ]
+    }
 }

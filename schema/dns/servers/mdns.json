@@ -3,6 +3,10 @@
     "title": "mDNS",
     "x-propertiesToggleContent": "Toggle properties",
     "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
     "properties": {
         "type": {
             "type": "string",
@@ -33,9 +37,5 @@
                 "type": "string"
             }
         }
-    },
-    "required": [
-        "type",
-        "tag"
-    ]
+    }
 }

@@ -14,58 +14,48 @@
     "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
     "items": {
         "x-embedSwitcher": true,
+        "discriminator": {
+            "propertyName": "type"
+        },
         "oneOf": [
             {
-                "x-switcherTitle": "Local",
+                "$ref": "#/$defs/dns_servers_hosts"
+            },
+            {
                 "$ref": "#/$defs/dns_servers_local"
             },
             {
-                "x-switcherTitle": "TCP",
                 "$ref": "#/$defs/dns_servers_tcp"
             },
             {
-                "x-switcherTitle": "UDP",
                 "$ref": "#/$defs/dns_servers_udp"
             },
             {
-                "x-switcherTitle": "TLS",
                 "$ref": "#/$defs/dns_servers_tls"
             },
             {
-                "x-switcherTitle": "QUIC",
                 "$ref": "#/$defs/dns_servers_quic"
             },
             {
-                "x-switcherTitle": "HTTPS",
                 "$ref": "#/$defs/dns_servers_https"
             },
             {
-                "x-switcherTitle": "HTTP3",
                 "$ref": "#/$defs/dns_servers_http3"
             },
             {
-                "x-switcherTitle": "DHCP",
                 "$ref": "#/$defs/dns_servers_dhcp"
             },
             {
-                "x-switcherTitle": "mDNS",
                 "$ref": "#/$defs/dns_servers_mdns"
             },
             {
-                "x-switcherTitle": "FakeIP",
                 "$ref": "#/$defs/dns_servers_fakeip"
             },
             {
-                "x-switcherTitle": "Tailscale",
                 "$ref": "#/$defs/dns_servers_tailscale"
             },
             {
-                "x-switcherTitle": "Resolved",
                 "$ref": "#/$defs/dns_servers_resolved"
-            },
-            {
-                "x-switcherTitle": "Hosts",
-                "$ref": "#/$defs/dns_servers_hosts"
             }
         ]
     }

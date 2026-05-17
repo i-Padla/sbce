@@ -47,7 +47,7 @@
     },
     "default_domain_resolver": {
       "type": "object",
-      "x-strigToPropertie": "server",
+      "x-stringToPropertie": "server",
       "properties": {
         "server": {
           "type": "string",

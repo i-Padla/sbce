@@ -2,6 +2,10 @@
     "type": "object",
     "title": "Resolved",
     "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
     "properties": {
         "type": {
             "type": "string",
@@ -27,9 +31,5 @@
             "x-format": "checkbox",
             "type": "boolean"
         }
-    },
-    "required": [
-        "type",
-        "tag"
-    ]
+    }
 }

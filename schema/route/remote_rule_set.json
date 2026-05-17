@@ -1,6 +1,13 @@
 {
     "type": "object",
     "title": "{{ value.tag }} (remote)",
+    "x-switcherTitle": "Remote",
+    "required": [
+        "type",
+        "tag",
+        "format",
+        "url"
+    ],
     "properties": {
         "type": {
             "type": "string",
@@ -27,11 +34,5 @@
         "update_interval": {
             "type": "string"
         }
-    },
-    "required": [
-        "type",
-        "tag",
-        "format",
-        "url"
-    ]
+    }
 }

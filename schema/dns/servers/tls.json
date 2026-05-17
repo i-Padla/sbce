@@ -1,10 +1,26 @@
 {
+    "type": "object",
     "title": "TLS",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "tls",
+            "const": "tls",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    },
     "x-mergeAllOf": true,
     "allOf": [
         {
             "type": "object",
-            "x-format": "grid",
             "properties": {
                 "type": {
                     "type": "string",
@@ -40,11 +56,7 @@
                 "tls": {
                     "$ref": "#/$defs/shared_tls"
                 }
-            },
-            "required": [
-                "type",
-                "tag"
-            ]
+            }
         },
         {
             "$ref": "#/$defs/shared_dial"
