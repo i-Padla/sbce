@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "TProxy",
+    "title": "Hysteria",
     "x-format": "grid",
     "required": [
         "tag",
@@ -9,8 +9,8 @@
     "properties": {
         "type": {
             "type": "string",
-            "default": "tproxy",
-            "const": "tproxy",
+            "default": "hysteria",
+            "const": "hysteria",
             "readOnly": true,
             "x-grid": {
                 "columns": 6
@@ -25,7 +25,7 @@
             "properties": {
                 "tag": {
                     "type": "string",
-                    "default": "tproxy",
+                    "default": "hysteria-in",
                     "x-grid": {
                         "columns": 6
                     }

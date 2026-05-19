@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "TProxy",
+    "title": "HTTP",
     "x-format": "grid",
     "required": [
         "tag",
@@ -9,8 +9,8 @@
     "properties": {
         "type": {
             "type": "string",
-            "default": "tproxy",
-            "const": "tproxy",
+            "default": "http",
+            "const": "http",
             "readOnly": true,
             "x-grid": {
                 "columns": 6
@@ -25,7 +25,7 @@
             "properties": {
                 "tag": {
                     "type": "string",
-                    "default": "tproxy",
+                    "default": "http-in",
                     "x-grid": {
                         "columns": 6
                     }

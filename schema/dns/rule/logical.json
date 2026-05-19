@@ -1,6 +1,8 @@
 {
     "type": "object",
     "x-switcherTitle": "Logical",
+    "x-enableCollapseToggle": true,
+    "x-collapseToggleContent": "",
     "x-recursive": true,
     "required": [
         "type",

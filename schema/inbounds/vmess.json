@@ -1,21 +1,31 @@
 {
+  "type": "object",
+  "title": "VMess",
+  "x-format": "grid",
+  "required": [
+    "tag",
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "vmess",
+      "const": "vmess",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  },
   "x-mergeAllOf": true,
   "allOf": [
     {
       "type": "object",
-      "title": "{{ value.tag}} ({{ value.type }})",
       "x-format": "grid",
-      "required": ["tag", "type", "users"],
+      "required": [
+        "users"
+      ],
       "properties": {
-        "type": {
-          "type": "string",
-          "default": "vmess",
-          "const": "vmess",
-          "readOnly": true,
-          "x-grid": {
-            "columns": 6
-          }
-        },
         "tag": {
           "type": "string",
           "default": "tproxy",

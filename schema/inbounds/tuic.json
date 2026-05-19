@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "TProxy",
+    "title": "TUIC",
     "x-format": "grid",
     "required": [
         "tag",
@@ -9,8 +9,8 @@
     "properties": {
         "type": {
             "type": "string",
-            "default": "tproxy",
-            "const": "tproxy",
+            "default": "tuic",
+            "const": "tuic",
             "readOnly": true,
             "x-grid": {
                 "columns": 6
@@ -25,7 +25,7 @@
             "properties": {
                 "tag": {
                     "type": "string",
-                    "default": "tproxy",
+                    "default": "tuic-in",
                     "x-grid": {
                         "columns": 6
                     }

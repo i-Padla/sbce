@@ -1,5 +1,7 @@
 {
     "type": "object",
+    "x-enableCollapseToggle": true,
+    "x-collapseToggleContent": "",
     "properties": {
         "address_resolver": {
             "type": "string",

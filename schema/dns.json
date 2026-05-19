@@ -11,9 +11,10 @@
         "final": {
             "type": "string",
             "title": "Final Server",
-            "description": "The tag of the server to use as a fallback"
+            "description": "Default dns server tag.<br>The first server will be used if empty."
         },
         "strategy": {
+            "description": "Default domain strategy for resolving the domain names.",
             "type": "string",
             "enum": [
                 "prefer_ipv4",
@@ -22,13 +23,54 @@
                 "ipv6_only"
             ]
         },
-        "independent_cache": {
+        "disable_cache": {
+            "description": "Disable dns cache.<br>Conflict with `optimistic`",
             "x-format": "checkbox",
             "type": "boolean"
         },
-        "reverse_mapping": {
+        "disable_expire": {
+            "description": "Disable dns cache expire.<br>Conflict with `optimistic`",
             "x-format": "checkbox",
             "type": "boolean"
+        },
+        "independent_cache": {
+            "description": "Make each DNS server's cache independent for special purposes. If enabled, will slightly degrade performance.",
+            "x-format": "checkbox",
+            "type": "boolean",
+            "x-propGroup": "Deprecated in sing-box 1.14.0"
+        },
+        "cache_capacity": {
+            "type": "integer",
+            "title": "LRU cache capacity.",
+            "description": "Value less than 1024 will be ignored."
+        },
+        "optimistic": {
+            "description": "Enable optimistic DNS caching. When a cached DNS entry has expired but is still within the timeout window, the stale response is returned immediately while a background refresh is triggered. Conflict with `disable_cache` and `disable_expire`. When set to `true`, the default timeout of `3d` is used.",
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "description": "Enable optimistic DNS caching.",
+                    "x-format": "checkbox",
+                    "type": "boolean"
+                },
+                "timeout": {
+                    "type": "string",
+                    "description": "The maximum time an expired cache entry can be served optimistically.<br>`3d` is used by default."
+                }
+            }
+        },
+        "timeout": {
+            "description": "Default timeout for each DNS query. `10s` is used by default. Can be overridden by `rules.[].timeout` (DNS rule action) or `domain_resolver.timeout`.",
+            "type": "string"
+        },
+        "reverse_mapping": {
+            "description": "Stores a reverse mapping of IP addresses after responding to a DNS query in order to provide domain names when routing. Since this process relies on the act of resolving domain names by an application before making a request, it can be problematic in environments such as macOS, where DNS is proxied and cached by the system.",
+            "x-format": "checkbox",
+            "type": "boolean"
+        },
+        "client_subnet": {
+            "description": "",
+            "type": "string"
         }
     }
 }

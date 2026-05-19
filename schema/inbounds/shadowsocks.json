@@ -1,26 +1,32 @@
 {
+    "type": "object",
+    "title": "Shadowsocks",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "shadowsocks",
+            "const": "shadowsocks",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    },
     "x-mergeAllOf": true,
     "allOf": [
         {
             "type": "object",
-            "title": "{{ value.tag}} ({{ value.type }})",
             "x-format": "grid",
             "required": [
-                "type",
-                "tag",
                 "method",
                 "password"
             ],
             "properties": {
-                "type": {
-                    "type": "string",
-                    "default": "shadowsocks",
-                    "const": "shadowsocks",
-                    "readOnly": true,
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
                 "tag": {
                     "description": "The tag of the inbound.",
                     "type": "string",

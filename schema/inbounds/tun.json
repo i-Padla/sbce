@@ -1,21 +1,28 @@
 {
+  "type": "object",
+  "title": "Tun",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "tag"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "tun",
+      "const": "tun",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  },
   "x-mergeAllOf": true,
   "allOf": [
     {
       "type": "object",
-      "title": "{{ value.tag}} ({{ value.type }})",
       "x-format": "grid",
-      "required": ["type", "tag"],
       "properties": {
-        "type": {
-          "type": "string",
-          "default": "tun",
-          "const": "tun",
-          "readOnly": true,
-          "x-grid": {
-            "columns": 6
-          }
-        },
         "tag": {
           "type": "string",
           "default": "tun_in",
@@ -110,7 +117,12 @@
           "items": {
             "type": "string"
           },
-          "default": ["0.0.0.0/1", "128.0.0.0/1", "::/1", "8000::/1"]
+          "default": [
+            "0.0.0.0/1",
+            "128.0.0.0/1",
+            "::/1",
+            "8000::/1"
+          ]
         },
         "route_exclude_address": {
           "type": "array",
@@ -123,7 +135,10 @@
           "items": {
             "type": "string"
           },
-          "default": ["192.168.0.0/16", "fc00::/7"]
+          "default": [
+            "192.168.0.0/16",
+            "fc00::/7"
+          ]
         },
         "route_address_set": {
           "type": "array",

@@ -1,24 +1,28 @@
 {
+    "type": "object",
+    "title": "Mixed",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "mixed",
+            "const": "mixed",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    },
     "x-mergeAllOf": true,
     "allOf": [
         {
             "type": "object",
-            "title": "{{ value.tag}} ({{ value.type }})",
             "x-format": "grid",
-            "required": [
-                "type",
-                "tag"
-            ],
             "properties": {
-                "type": {
-                    "type": "string",
-                    "default": "mixed",
-                    "const": "mixed",
-                    "readOnly": true,
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
                 "tag": {
                     "type": "string",
                     "default": "mixed_in",

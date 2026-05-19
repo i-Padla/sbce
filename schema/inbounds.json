@@ -10,37 +10,59 @@
     "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
     "items": {
         "x-embedSwitcher": true,
+        "discriminator": {
+            "propertyName": "type"
+        },
         "oneOf": [
             {
-                "x-switcherTitle": "Direct",
+                "$ref": "#/$defs/inbounds_anytls"
+            },
+            {
+                "$ref": "#/$defs/inbounds_cloudflared"
+            },
+            {
                 "$ref": "#/$defs/inbounds_direct"
             },
             {
-                "x-switcherTitle": "Mixed",
+                "$ref": "#/$defs/inbounds_http"
+            },
+            {
+                "$ref": "#/$defs/inbounds_hysteria"
+            },
+            {
                 "$ref": "#/$defs/inbounds_mixed"
             },
             {
-                "x-switcherTitle": "SOCKS",
-                "$ref": "#/$defs/inbounds_socks"
+                "$ref": "#/$defs/inbounds_naive"
             },
             {
-                "x-switcherTitle": "Tproxy",
-                "$ref": "#/$defs/inbounds_tproxy"
+                "$ref": "#/$defs/inbounds_redirect"
             },
             {
-                "x-switcherTitle": "TUN",
-                "$ref": "#/$defs/inbounds_tun"
-            },
-            {
-                "x-switcherTitle": "VLESS",
-                "$ref": "#/$defs/inbounds_vless"
-            },
-            {
-                "x-switcherTitle": "Shadowsocks",
                 "$ref": "#/$defs/inbounds_shadowsocks"
             },
             {
-                "x-switcherTitle": "VMess",
+                "$ref": "#/$defs/inbounds_shadowtls"
+            },
+            {
+                "$ref": "#/$defs/inbounds_socks"
+            },
+            {
+                "$ref": "#/$defs/inbounds_tproxy"
+            },
+            {
+                "$ref": "#/$defs/inbounds_trojan"
+            },
+            {
+                "$ref": "#/$defs/inbounds_tuic"
+            },
+            {
+                "$ref": "#/$defs/inbounds_tun"
+            },
+            {
+                "$ref": "#/$defs/inbounds_vless"
+            },
+            {
                 "$ref": "#/$defs/inbounds_vmess"
             }
         ]

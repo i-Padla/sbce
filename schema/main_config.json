@@ -159,6 +159,33 @@
         "inbounds_mixed": {
             "$ref": "schema/inbounds/mixed.json"
         },
+        "inbounds_anytls": {
+            "$ref": "schema/inbounds/anytls.json"
+        },
+        "inbounds_cloudflared": {
+            "$ref": "schema/inbounds/cloudflared.json"
+        },
+        "inbounds_http": {
+            "$ref": "schema/inbounds/http.json"
+        },
+        "inbounds_hysteria": {
+            "$ref": "schema/inbounds/hysteria.json"
+        },
+        "inbounds_naive": {
+            "$ref": "schema/inbounds/naive.json"
+        },
+        "inbounds_redirect": {
+            "$ref": "schema/inbounds/redirect.json"
+        },
+        "inbounds_shadowtls": {
+            "$ref": "schema/inbounds/shadowtls.json"
+        },
+        "inbounds_tuic": {
+            "$ref": "schema/inbounds/tuic.json"
+        },
+        "inbounds_trojan": {
+            "$ref": "schema/inbounds/trojan.json"
+        },
         "inbounds_socks": {
             "$ref": "schema/inbounds/socks.json"
         },

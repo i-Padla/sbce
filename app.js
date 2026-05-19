@@ -169,6 +169,9 @@ function switchLayer(key) {
       objectAdd: false,
       btnContents: true,
       mergeAllOf: true,
+      parseMarkdown: true,
+      purifyHtml: true,
+      domPurifyOptions: {},
       show_errors: "always",
     });
 
