@@ -1,0 +1,105 @@
+{
+  "type": "object",
+  "title": "Hysteria",
+  "x-format": "grid",
+  "required": ["tag", "type"],
+  "properties": {
+    "type": {
+      "title": "Type",
+      "type": "string",
+      "default": "hysteria",
+      "const": "hysteria",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  },
+  "allOf": [
+    {
+      "type": "object",
+      "x-format": "grid",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "default": "hysteria-in",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "up": {
+          "type": "string",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "up_mbps": {
+          "type": "integer",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "down": {
+          "type": "string",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "down_mbps": {
+          "type": "integer",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "obfs": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "x-format": "nav-vertical",
+          "x-arrayAddContent": "Add",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-arrayButtonsPosition": "right",
+          "x-titleTemplate": "{{value.name}}",
+          "items": {
+            "type": "object",
+            "title": "{{value.name}}",
+            "x-enablePropertiesToggle": true,
+            "x-format": "grid",
+            "properties": {
+              "name": {
+                "title": "name",
+                "type": "string"
+              },
+              "auth": {
+                "title": "auth",
+                "type": "string"
+              },
+              "auth_str": {
+                "title": "auth_str",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "tls": {
+          "$ref": "#/$defs/shared_tls"
+        }
+      }
+    },
+    {
+      "$ref": "#/$defs/shared_quic"
+    },
+    {
+      "$ref": "#/$defs/shared_http2"
+    },
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
+}

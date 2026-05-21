@@ -1,70 +1,74 @@
 {
-    "type": "array",
-    "title": "Inbounds",
-    "x-format": "nav-horizontal",
-    "x-arrayAddContent": "Add",
-    "x-arrayMove": false,
-    "x-arrayDeleteContent": "",
-    "x-arrayDeleteAll": true,
-    "x-arrayDeleteAllContent": "Delete all",
-    "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
-    "items": {
-        "x-embedSwitcher": true,
-        "discriminator": {
-            "propertyName": "type"
-        },
-        "oneOf": [
-            {
-                "$ref": "#/$defs/inbounds_anytls"
-            },
-            {
-                "$ref": "#/$defs/inbounds_cloudflared"
-            },
-            {
-                "$ref": "#/$defs/inbounds_direct"
-            },
-            {
-                "$ref": "#/$defs/inbounds_http"
-            },
-            {
-                "$ref": "#/$defs/inbounds_hysteria"
-            },
-            {
-                "$ref": "#/$defs/inbounds_mixed"
-            },
-            {
-                "$ref": "#/$defs/inbounds_naive"
-            },
-            {
-                "$ref": "#/$defs/inbounds_redirect"
-            },
-            {
-                "$ref": "#/$defs/inbounds_shadowsocks"
-            },
-            {
-                "$ref": "#/$defs/inbounds_shadowtls"
-            },
-            {
-                "$ref": "#/$defs/inbounds_socks"
-            },
-            {
-                "$ref": "#/$defs/inbounds_tproxy"
-            },
-            {
-                "$ref": "#/$defs/inbounds_trojan"
-            },
-            {
-                "$ref": "#/$defs/inbounds_tuic"
-            },
-            {
-                "$ref": "#/$defs/inbounds_tun"
-            },
-            {
-                "$ref": "#/$defs/inbounds_vless"
-            },
-            {
-                "$ref": "#/$defs/inbounds_vmess"
-            }
-        ]
-    }
+  "type": "array",
+  "title": "Inbounds",
+  "x-format": "nav-horizontal",
+  "x-arrayAddContent": "Add",
+  "x-arrayMove": false,
+  "x-arrayDeleteContent": "",
+  "x-arrayDeleteAll": true,
+  "x-arrayDeleteAllContent": "Delete all",
+  "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+  "items": {
+    "x-embedSwitcher": true,
+    "x-discriminator": "type",
+    "discriminator": {
+      "propertyName": "type"
+    },
+    "oneOf": [
+      {
+        "$ref": "#/$defs/inbounds_anytls"
+      },
+      {
+        "$ref": "#/$defs/inbounds_cloudflared"
+      },
+      {
+        "$ref": "#/$defs/inbounds_direct"
+      },
+      {
+        "$ref": "#/$defs/inbounds_http"
+      },
+      {
+        "$ref": "#/$defs/inbounds_hysteria"
+      },
+      {
+        "$ref": "#/$defs/inbounds_mixed"
+      },
+      {
+        "$ref": "#/$defs/inbounds_naive"
+      },
+      {
+        "$ref": "#/$defs/inbounds_redirect"
+      },
+      {
+        "$ref": "#/$defs/inbounds_shadowsocks"
+      },
+      {
+        "$ref": "#/$defs/inbounds_shadowtls"
+      },
+      {
+        "$ref": "#/$defs/inbounds_socks"
+      },
+      {
+        "$ref": "#/$defs/inbounds_tproxy"
+      },
+      {
+        "$ref": "#/$defs/inbounds_trojan"
+      },
+      {
+        "$ref": "#/$defs/inbounds_tuic"
+      },
+      {
+        "$ref": "#/$defs/inbounds_hysteria2"
+      },
+      {
+        "$ref": "#/$defs/inbounds_tun"
+      },
+      {
+        "$ref": "#/$defs/inbounds_vless"
+      },
+      {
+        "$ref": "#/$defs/inbounds_vmess"
+      }
+    ]
+  }
 }

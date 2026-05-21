@@ -1,160 +1,158 @@
 <!doctype html>
 <html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sing-box Multi-Editor (Stable)</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: #f4f7f9;
+        font-family: sans-serif;
+      }
 
-<head>
-  <meta charset="utf-8" />
-  <title>Sing-box Multi-Editor (Stable)</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      overflow: hidden;
-      background: #f4f7f9;
-      font-family: sans-serif;
-    }
+      .editor-wrapper {
+        display: grid;
+        grid-template-columns: 220px 1fr 400px;
+        height: 100vh;
+      }
 
-    .editor-wrapper {
-      display: grid;
-      grid-template-columns: 220px 1fr 400px;
-      height: 100vh;
-    }
+      .panel {
+        height: 100vh;
+        overflow-y: auto;
+        background: white;
+        border-right: 1px solid #dee2e6;
+      }
 
-    .panel {
-      height: 100vh;
-      overflow-y: auto;
-      background: white;
-      border-right: 1px solid #dee2e6;
-    }
+      /* Меню слева */
+      .menu-panel {
+        background: #f8f9fa;
+        padding: 20px;
+      }
 
-    /* Меню слева */
-    .menu-panel {
-      background: #f8f9fa;
-      padding: 20px;
-    }
+      .section-link {
+        cursor: pointer;
+        color: #333;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 5px;
+        border-radius: 6px;
+        transition: 0.2s;
+        border: 1px solid transparent;
+        text-decoration: none;
+      }
 
-    .section-link {
-      cursor: pointer;
-      color: #333;
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      margin-bottom: 5px;
-      border-radius: 6px;
-      transition: 0.2s;
-      border: 1px solid transparent;
-      text-decoration: none;
-    }
+      .section-link:hover {
+        background: #e9ecef;
+      }
 
-    .section-link:hover {
-      background: #e9ecef;
-    }
+      .section-link.active {
+        background: #0d6efd !important;
+        color: white !important;
+      }
 
-    .section-link.active {
-      background: #0d6efd !important;
-      color: white !important;
-    }
+      .section-checkbox {
+        margin-right: 12px;
+        transform: scale(1.2);
+        cursor: pointer;
+      }
 
-    .section-checkbox {
-      margin-right: 12px;
-      transform: scale(1.2);
-      cursor: pointer;
-    }
+      /* Форма по центру */
+      .form-panel {
+        padding: 30px;
+        position: relative;
+      }
 
-    /* Форма по центру */
-    .form-panel {
-      padding: 30px;
-      position: relative;
-    }
+      .config-layer {
+        display: none;
+      }
 
-    .config-layer {
-      display: none;
-    }
+      /* Скрыто, пока не выберем в меню */
+      /* 1. Резервируем место под скроллбар в центральной панели */
+      .form-panel {
+        padding: 30px;
+        position: relative;
+        /* Это заставит панель всегда держать место под полосу прокрутки */
+        scrollbar-gutter: stable;
+      }
 
-    /* Скрыто, пока не выберем в меню */
-    /* 1. Резервируем место под скроллбар в центральной панели */
-    .form-panel {
-      padding: 30px;
-      position: relative;
-      /* Это заставит панель всегда держать место под полосу прокрутки */
-      scrollbar-gutter: stable;
-    }
-
-    /* 2. Для старых браузеров (если gutter не сработает) 
+      /* 2. Для старых браузеров (если gutter не сработает) 
       или если хочешь идеальной симметрии во всех колонках */
-    .panel {
-      scrollbar-gutter: stable;
-    }
+      .panel {
+        scrollbar-gutter: stable;
+      }
 
-    /* Превью справа */
-    .preview-panel {
-      background: #1e1e1e;
-      color: #d4d4d4;
-      padding: 15px;
-      border: none;
-    }
+      /* Превью справа */
+      .preview-panel {
+        background: #1e1e1e;
+        color: #d4d4d4;
+        padding: 15px;
+        border: none;
+      }
 
-    pre {
-      font-size: 12px;
-      margin: 0;
-      color: #9cdcfe;
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
+      pre {
+        font-size: 12px;
+        margin: 0;
+        color: #9cdcfe;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
 
-    .preview-header {
-      color: #888;
-      font-size: 11px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 5px;
-    }
+      .preview-header {
+        color: #888;
+        font-size: 11px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 5px;
+      }
 
-    /* Фикс для Jedison внутри Bootstrap 5 */
-    .jedi-ready h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: #0d6efd;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 10px;
-    }
+      /* Фикс для Jedison внутри Bootstrap 5 */
+      .jedi-ready h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #0d6efd;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+      }
 
-    .well {
-      background: #fff;
-      border: 1px solid #eee;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-  </style>
-  <link rel="stylesheet" href="./assets/bootstrap/bootstrap.min.css" />
-  <link rel="stylesheet" href="./assets/fontawesome6/all.min.css" />
-  <script src="./assets/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="./assets/jedison/jedison.umd.js"></script>
-  <script src="./assets/ajv/ajv2020.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.min.js"></script>
-</head>
+      .well {
+        background: #fff;
+        border: 1px solid #eee;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+    </style>
+    <link rel="stylesheet" href="./assets/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/fontawesome6/all.min.css" />
+    <script src="./assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="./assets/jedison/jedison.umd.js"></script>
+    <script src="./assets/ajv/ajv2020.bundle.min.js"></script>
+    <script src="./assets/marked/marked.min.js"></script>
+    <script src="./assets/dompurify/purify.min.js"></script>
+  </head>
 
-<body>
-  <div class="editor-wrapper">
-    <aside class="panel menu-panel">
-      <h5 class="mb-4">Sing-box Editor</h5>
-      <div id="main-menu"></div>
-    </aside>
+  <body>
+    <div class="editor-wrapper">
+      <aside class="panel menu-panel">
+        <h5 class="mb-4">Sing-box Editor</h5>
+        <div id="main-menu"></div>
+      </aside>
 
-    <main class="panel form-panel">
-      <div id="editor-layers"></div>
-    </main>
+      <main class="panel form-panel">
+        <div id="editor-layers"></div>
+      </main>
 
-    <aside class="panel preview-panel">
-      <div class="preview-header">FINAL CONFIG PREVIEW</div>
-      <pre id="json-preview"><code>{}</code></pre>
-    </aside>
-  </div>
+      <aside class="panel preview-panel">
+        <div class="preview-header">FINAL CONFIG PREVIEW</div>
+        <pre id="json-preview"><code>{}</code></pre>
+      </aside>
+    </div>
 
-  <script src="app.js"></script>
-</body>
-
+    <script src="app.js"></script>
+  </body>
 </html>

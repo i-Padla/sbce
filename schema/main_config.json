@@ -1,280 +1,313 @@
 {
-    "type": "object",
-    "properties": {
-        "log": {
-            "x-containerAttributes": {
-                "id": "section-log",
-                "class": "config-section"
-            },
-            "$ref": "#/$defs/log"
-        },
-        "dns": {
-            "x-containerAttributes": {
-                "id": "section-dns",
-                "class": "config-section"
-            },
-            "$ref": "#/$defs/dns"
-        },
-        "endpoints": {
-            "x-containerAttributes": {
-                "id": "section-endpoints",
-                "class": "config-section"
-            },
-            "$ref": "#/$defs/endpoints"
-        },
-        "inbounds": {
-            "x-containerAttributes": {
-                "id": "section-inbounds",
-                "class": "config-section"
-            },
-            "$ref": "#/$defs/inbounds"
-        },
-        "outbounds": {
-            "x-containerAttributes": {
-                "id": "section-outbounds",
-                "class": "config-section"
-            },
-            "$ref": "#/$defs/outbounds"
-        },
-        "ntp": {
-            "x-containerAttributes": {
-                "id": "section-ntp",
-                "class": "config-section"
-            },
-            "$ref": "#/$defs/ntp"
-        },
-        "route": {
-            "x-containerAttributes": {
-                "id": "section-route",
-                "class": "config-section"
-            },
-            "$ref": "#/$defs/route"
-        },
-        "experimental": {
-            "x-containerAttributes": {
-                "id": "section-experimental",
-                "class": "config-section"
-            },
-            "$ref": "#/$defs/experimental"
-        }
+  "type": "object",
+  "properties": {
+    "log": {
+      "x-containerAttributes": {
+        "id": "section-log",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/log"
     },
-    "additionalProperties": false,
-    "$defs": {
-        "log": {
-            "$ref": "schema/log.json"
-        },
-        "dns": {
-            "$ref": "schema/dns.json"
-        },
-        "endpoints": {
-            "$ref": "schema/endpoints.json"
-        },
-        "inbounds": {
-            "$ref": "schema/inbounds.json"
-        },
-        "outbounds": {
-            "$ref": "schema/outbounds.json"
-        },
-        "ntp": {
-            "$ref": "schema/ntp.json"
-        },
-        "route": {
-            "$ref": "schema/route.json"
-        },
-        "experimental": {
-            "$ref": "schema/experimental.json"
-        },
-        "dns_servers": {
-            "$ref": "schema/dns/servers.json"
-        },
-        "dns_rule": {
-            "$ref": "schema/dns/rule.json"
-        },
-        "dns_rule_default": {
-            "$ref": "schema/dns/rule/default.json"
-        },
-        "dns_rule_logical": {
-            "$ref": "schema/dns/rule/logical.json"
-        },
-        "dns_rule_action": {
-            "$ref": "schema/dns/rule/action.json"
-        },
-        "dns_servers_local": {
-            "$ref": "schema/dns/servers/local.json"
-        },
-        "dns_servers_hosts": {
-            "$ref": "schema/dns/servers/hosts.json"
-        },
-        "dns_servers_tcp": {
-            "$ref": "schema/dns/servers/tcp.json"
-        },
-        "dns_servers_udp": {
-            "$ref": "schema/dns/servers/udp.json"
-        },
-        "dns_servers_tls": {
-            "$ref": "schema/dns/servers/tls.json"
-        },
-        "dns_servers_quic": {
-            "$ref": "schema/dns/servers/quic.json"
-        },
-        "dns_servers_https": {
-            "$ref": "schema/dns/servers/https.json"
-        },
-        "dns_servers_http3": {
-            "$ref": "schema/dns/servers/http3.json"
-        },
-        "dns_servers_dhcp": {
-            "$ref": "schema/dns/servers/dhcp.json"
-        },
-        "dns_servers_mdns": {
-            "$ref": "schema/dns/servers/mdns.json"
-        },
-        "dns_servers_fakeip": {
-            "$ref": "schema/dns/servers/fakeip.json"
-        },
-        "dns_servers_tailscale": {
-            "$ref": "schema/dns/servers/tailscale.json"
-        },
-        "dns_servers_resolved": {
-            "$ref": "schema/dns/servers/resolved.json"
-        },
-        "endpoints_wireguard": {
-            "$ref": "schema/endpoints/wireguard.json"
-        },
-        "endpoints_tailscale": {
-            "$ref": "schema/endpoints/tailscale.json"
-        },
-        "shared_dial": {
-            "$ref": "schema/shared/dial.json"
-        },
-        "shared_listen": {
-            "$ref": "schema/shared/listen.json"
-        },
-        "shared_tls": {
-            "$ref": "schema/shared/tls.json"
-        },
-        "inbounds_direct": {
-            "$ref": "schema/inbounds/direct.json"
-        },
-        "inbounds_mixed": {
-            "$ref": "schema/inbounds/mixed.json"
-        },
-        "inbounds_anytls": {
-            "$ref": "schema/inbounds/anytls.json"
-        },
-        "inbounds_cloudflared": {
-            "$ref": "schema/inbounds/cloudflared.json"
-        },
-        "inbounds_http": {
-            "$ref": "schema/inbounds/http.json"
-        },
-        "inbounds_hysteria": {
-            "$ref": "schema/inbounds/hysteria.json"
-        },
-        "inbounds_naive": {
-            "$ref": "schema/inbounds/naive.json"
-        },
-        "inbounds_redirect": {
-            "$ref": "schema/inbounds/redirect.json"
-        },
-        "inbounds_shadowtls": {
-            "$ref": "schema/inbounds/shadowtls.json"
-        },
-        "inbounds_tuic": {
-            "$ref": "schema/inbounds/tuic.json"
-        },
-        "inbounds_trojan": {
-            "$ref": "schema/inbounds/trojan.json"
-        },
-        "inbounds_socks": {
-            "$ref": "schema/inbounds/socks.json"
-        },
-        "inbounds_tproxy": {
-            "$ref": "schema/inbounds/tproxy.json"
-        },
-        "inbounds_tun": {
-            "$ref": "schema/inbounds/tun.json"
-        },
-        "inbounds_vless": {
-            "$ref": "schema/inbounds/vless.json"
-        },
-        "inbounds_vmess": {
-            "$ref": "schema/inbounds/vmess.json"
-        },
-        "inbounds_shadowsocks": {
-            "$ref": "schema/inbounds/shadowsocks.json"
-        },
-        "shared_multiplex_inbound": {
-            "$ref": "schema/shared/multiplex_inbound.json"
-        },
-        "shared_multiplex_outbound": {
-            "$ref": "schema/shared/multiplex_outbound.json"
-        },
-        "shared_brutal": {
-            "$ref": "schema/shared/brutal.json"
-        },
-        "shared_v2ray_transport": {
-            "$ref": "schema/shared/v2ray_transport.json"
-        },
-        "shared_tls_inbound": {
-            "$ref": "schema/shared/tls_inbound.json"
-        },
-        "shared_tls_outbound": {
-            "$ref": "schema/shared/tls_outbound.json"
-        },
-        "shared_http_headers": {
-            "$ref": "schema/shared/http_headers.json"
-        },
-        "outbounds_block": {
-            "$ref": "schema/outbounds/block.json"
-        },
-        "outbounds_socks": {
-            "$ref": "schema/outbounds/socks.json"
-        },
-        "outbounds_direct": {
-            "$ref": "schema/outbounds/direct.json"
-        },
-        "outbounds_ssh": {
-            "$ref": "schema/outbounds/ssh.json"
-        },
-        "outbounds_dns": {
-            "$ref": "schema/outbounds/dns.json"
-        },
-        "outbounds_selector": {
-            "$ref": "schema/outbounds/selector.json"
-        },
-        "outbounds_shadowsocks": {
-            "$ref": "schema/outbounds/shadowsocks.json"
-        },
-        "outbounds_urltest": {
-            "$ref": "schema/outbounds/urltest.json"
-        },
-        "outbounds_vless": {
-            "$ref": "schema/outbounds/vless.json"
-        },
-        "outbounds_hysteria2": {
-            "$ref": "schema/outbounds/hysteria2.json"
-        },
-        "outbounds_vmess": {
-            "$ref": "schema/outbounds/vmess.json"
-        },
-        "route_rules": {
-            "$ref": "schema/route/rules.json"
-        },
-        "route_rule_action": {
-            "$ref": "schema/route/rule_action.json"
-        },
-        "route_rule_set": {
-            "$ref": "schema/route/rule_set.json"
-        },
-        "route_inline_rule_set": {
-            "$ref": "schema/route/inline_rule_set.json"
-        },
-        "route_local_rule_set": {
-            "$ref": "schema/route/local_rule_set.json"
-        },
-        "route_remote_rule_set": {
-            "$ref": "schema/route/remote_rule_set.json"
-        }
+    "dns": {
+      "x-containerAttributes": {
+        "id": "section-dns",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/dns"
+    },
+    "endpoints": {
+      "x-containerAttributes": {
+        "id": "section-endpoints",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/endpoints"
+    },
+    "inbounds": {
+      "x-containerAttributes": {
+        "id": "section-inbounds",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/inbounds"
+    },
+    "outbounds": {
+      "x-containerAttributes": {
+        "id": "section-outbounds",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/outbounds"
+    },
+    "ntp": {
+      "x-containerAttributes": {
+        "id": "section-ntp",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/ntp"
+    },
+    "route": {
+      "x-containerAttributes": {
+        "id": "section-route",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/route"
+    },
+    "experimental": {
+      "x-containerAttributes": {
+        "id": "section-experimental",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/experimental"
     }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "log": {
+      "$ref": "schema/log.json"
+    },
+    "dns": {
+      "$ref": "schema/dns.json"
+    },
+    "endpoints": {
+      "$ref": "schema/endpoints.json"
+    },
+    "inbounds": {
+      "$ref": "schema/inbounds.json"
+    },
+    "outbounds": {
+      "$ref": "schema/outbounds.json"
+    },
+    "ntp": {
+      "$ref": "schema/ntp.json"
+    },
+    "route": {
+      "$ref": "schema/route.json"
+    },
+    "experimental": {
+      "$ref": "schema/experimental.json"
+    },
+    "dns_servers": {
+      "$ref": "schema/dns/servers.json"
+    },
+    "dns_rule": {
+      "$ref": "schema/dns/rule.json"
+    },
+    "dns_rule_default": {
+      "$ref": "schema/dns/rule/default.json"
+    },
+    "dns_rule_logical": {
+      "$ref": "schema/dns/rule/logical.json"
+    },
+    "dns_rule_action": {
+      "$ref": "schema/dns/rule/action.json"
+    },
+    "dns_servers_local": {
+      "$ref": "schema/dns/servers/local.json"
+    },
+    "dns_servers_hosts": {
+      "$ref": "schema/dns/servers/hosts.json"
+    },
+    "dns_servers_tcp": {
+      "$ref": "schema/dns/servers/tcp.json"
+    },
+    "dns_servers_udp": {
+      "$ref": "schema/dns/servers/udp.json"
+    },
+    "dns_servers_tls": {
+      "$ref": "schema/dns/servers/tls.json"
+    },
+    "dns_servers_quic": {
+      "$ref": "schema/dns/servers/quic.json"
+    },
+    "dns_servers_https": {
+      "$ref": "schema/dns/servers/https.json"
+    },
+    "dns_servers_http3": {
+      "$ref": "schema/dns/servers/http3.json"
+    },
+    "dns_servers_dhcp": {
+      "$ref": "schema/dns/servers/dhcp.json"
+    },
+    "dns_servers_mdns": {
+      "$ref": "schema/dns/servers/mdns.json"
+    },
+    "dns_servers_fakeip": {
+      "$ref": "schema/dns/servers/fakeip.json"
+    },
+    "dns_servers_tailscale": {
+      "$ref": "schema/dns/servers/tailscale.json"
+    },
+    "dns_servers_resolved": {
+      "$ref": "schema/dns/servers/resolved.json"
+    },
+    "endpoints_wireguard": {
+      "$ref": "schema/endpoints/wireguard.json"
+    },
+    "endpoints_tailscale": {
+      "$ref": "schema/endpoints/tailscale.json"
+    },
+    "shared_dial": {
+      "$ref": "schema/shared/dial.json"
+    },
+    "shared_listen": {
+      "$ref": "schema/shared/listen.json"
+    },
+    "shared_tls": {
+      "$ref": "schema/shared/tls.json"
+    },
+    "inbounds_direct": {
+      "$ref": "schema/inbounds/01_direct.json"
+    },
+    "inbounds_mixed": {
+      "$ref": "schema/inbounds/02_mixed.json"
+    },
+    "inbounds_socks": {
+      "$ref": "schema/inbounds/03_socks.json"
+    },
+    "inbounds_http": {
+      "$ref": "schema/inbounds/04_http.json"
+    },
+    "inbounds_shadowsocks": {
+      "$ref": "schema/inbounds/05_shadowsocks.json"
+    },
+    "inbounds_vmess": {
+      "$ref": "schema/inbounds/06_vmess.json"
+    },
+    "inbounds_trojan": {
+      "$ref": "schema/inbounds/07_trojan.json"
+    },
+    "inbounds_naive": {
+      "$ref": "schema/inbounds/08_naive.json"
+    },
+    "inbounds_hysteria": {
+      "$ref": "schema/inbounds/09_hysteria.json"
+    },
+    "inbounds_shadowtls": {
+      "$ref": "schema/inbounds/10_shadowtls.json"
+    },
+    "inbounds_vless": {
+      "$ref": "schema/inbounds/11_vless.json"
+    },
+    "inbounds_tuic": {
+      "$ref": "schema/inbounds/12_tuic.json"
+    },
+    "inbounds_hysteria2": {
+      "$ref": "schema/inbounds/13_hysteria2.json"
+    },
+    "inbounds_anytls": {
+      "$ref": "schema/inbounds/14_anytls.json"
+    },
+    "inbounds_tun": {
+      "$ref": "schema/inbounds/15_tun.json"
+    },
+    "inbounds_redirect": {
+      "$ref": "schema/inbounds/16_redirect.json"
+    },
+    "inbounds_tproxy": {
+      "$ref": "schema/inbounds/17_tproxy.json"
+    },
+    "inbounds_cloudflared": {
+      "$ref": "schema/inbounds/18_cloudflared.json"
+    },
+    "shared_multiplex_inbound": {
+      "$ref": "schema/shared/multiplex_inbound.json"
+    },
+    "shared_multiplex_outbound": {
+      "$ref": "schema/shared/multiplex_outbound.json"
+    },
+    "shared_brutal": {
+      "$ref": "schema/shared/brutal.json"
+    },
+    "shared_v2ray_transport": {
+      "$ref": "schema/shared/v2ray_transport.json"
+    },
+    "shared_tls_inbound": {
+      "$ref": "schema/shared/tls_inbound.json"
+    },
+    "shared_tls_outbound": {
+      "$ref": "schema/shared/tls_outbound.json"
+    },
+    "shared_http2": {
+      "$ref": "schema/shared/http2.json"
+    },
+    "shared_quic": {
+      "$ref": "schema/shared/quic.json"
+    },
+    "shared_http_headers": {
+      "$ref": "schema/shared/http_headers.json"
+    },
+    "outbounds_direct": {
+      "$ref": "schema/outbounds/01_direct.json"
+    },
+    "outbounds_block": {
+      "$ref": "schema/outbounds/02_block.json"
+    },
+    "outbounds_socks": {
+      "$ref": "schema/outbounds/03_socks.json"
+    },
+    "outbounds_http": {
+      "$ref": "schema/outbounds/04_http.json"
+    },
+    "outbounds_shadowsocks": {
+      "$ref": "schema/outbounds/05_shadowsocks.json"
+    },
+    "outbounds_vmess": {
+      "$ref": "schema/outbounds/06_vmess.json"
+    },
+    "outbounds_trojan": {
+      "$ref": "schema/outbounds/07_trojan.json"
+    },
+    "outbounds_naive": {
+      "$ref": "schema/outbounds/08_naive.json"
+    },
+    "outbounds_hysteria": {
+      "$ref": "schema/outbounds/10_hysteria.json"
+    },
+    "outbounds_shadowtls": {
+      "$ref": "schema/outbounds/11_shadowtls.json"
+    },
+    "outbounds_vless": {
+      "$ref": "schema/outbounds/12_vless.json"
+    },
+    "outbounds_tuic": {
+      "$ref": "schema/outbounds/13_tuic.json"
+    },
+    "outbounds_hysteria2": {
+      "$ref": "schema/outbounds/14_hysteria2.json"
+    },
+    "outbounds_anytls": {
+      "$ref": "schema/outbounds/15_anytls.json"
+    },
+    "outbounds_tor": {
+      "$ref": "schema/outbounds/16_tor.json"
+    },
+    "outbounds_ssh": {
+      "$ref": "schema/outbounds/17_ssh.json"
+    },
+    "outbounds_dns": {
+      "$ref": "schema/outbounds/18_dns.json"
+    },
+    "outbounds_selector": {
+      "$ref": "schema/outbounds/19_selector.json"
+    },
+    "outbounds_urltest": {
+      "$ref": "schema/outbounds/20_urltest.json"
+    },
+    "route_rules": {
+      "$ref": "schema/route/rules.json"
+    },
+    "route_rule_action": {
+      "$ref": "schema/route/rule_action.json"
+    },
+    "route_rule_set": {
+      "$ref": "schema/route/rule_set.json"
+    },
+    "route_inline_rule_set": {
+      "$ref": "schema/route/inline_rule_set.json"
+    },
+    "route_local_rule_set": {
+      "$ref": "schema/route/local_rule_set.json"
+    },
+    "route_remote_rule_set": {
+      "$ref": "schema/route/remote_rule_set.json"
+    }
+  }
 }

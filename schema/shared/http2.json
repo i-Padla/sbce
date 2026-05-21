@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "idle_timeout": {
+      "type": "string"
+    },
+    "keep_alive_period": {
+      "type": "string",
+      "x-propGroup": "Shared HTTP2 fields"
+    },
+    "stream_receive_window": {
+      "type": "string",
+      "x-propGroup": "Shared HTTP2 fields"
+    },
+    "connection_receive_window": {
+      "type": "string",
+      "x-propGroup": "Shared HTTP2 fields"
+    },
+    "max_concurrent_streams": {
+      "type": "integer",
+      "x-propGroup": "Shared HTTP2 fields"
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "type": "object",
+  "title": "AnyTLS",
+  "x-format": "grid",
+  "required": ["tag", "type"],
+  "properties": {
+    "type": {
+      "title": "Type",
+      "type": "string",
+      "default": "anytls",
+      "const": "anytls",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  },
+  "allOf": [
+    {
+      "type": "object",
+      "x-format": "grid",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "default": "anytls-in",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "users": {
+          "type": "array",
+          "x-format": "table-object",
+          "x-arrayAddContent": "Add",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-arrayButtonsPosition": "right",
+          "items": {
+            "type": "object",
+            "x-enablePropertiesToggle": false,
+            "required": ["name", "password"],
+            "properties": {
+              "name": {
+                "title": "Name",
+                "type": "string"
+              },
+              "password": {
+                "title": "Password",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "padding_scheme": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-titleTemplate": "User #{{i1}} - {{ value.name }}",
+          "x-arrayButtonsPosition": "right",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "stop=8",
+            "0=30-30",
+            "1=100-400",
+            "2=400-500,c,500-1000,c,500-1000,c,500-1000,c,500-1000",
+            "3=9-9,500-1000",
+            "4=500-1000",
+            "5=500-1000",
+            "6=500-1000",
+            "7=500-1000"
+          ]
+        },
+        "tls": {
+          "$ref": "#/$defs/shared_tls"
+        }
+      }
+    },
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
+}

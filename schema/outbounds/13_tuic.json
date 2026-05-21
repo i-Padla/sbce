@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "title": "Tuic",
+  "x-format": "grid",
+  "required": ["type", "tag"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "tuic",
+      "const": "tuic",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "type": "string",
+      "default": "tuic-out",
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  }
+}

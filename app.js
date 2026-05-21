@@ -4,7 +4,6 @@ let schema_for_ajv = null;
 let globalRefParser = null;
 let debounceTimer;
 
-
 const AjvConstructor = window.ajv2020;
 let ajv = null;
 
@@ -26,14 +25,13 @@ if (AjvConstructor) {
         if (typeof data === "string") {
           // Заменяем строку на объект нужного формата прямо в родительском объекте
           dataCxt.parentData[dataCxt.parentDataProperty] = {
-            [targetProperty]: data
+            [targetProperty]: data,
           };
         }
         return true; // Валидация пройдена
       };
     },
   });
-
 } else {
   console.error("Библиотека ajv2020 не найдена в window.");
 }
@@ -230,7 +228,6 @@ function applyConfig(config) {
     }
     // Проверяем, что секция dns и массив rules вообще существуют
     for (const rule of config.dns?.rules ?? []) {
-
       if (rule.rewrite_ttl === null) {
         delete rule.rewrite_ttl;
       }
@@ -243,17 +240,21 @@ function applyConfig(config) {
     const isValid = validate(config);
 
     if (!isValid) {
-      // Выводим предупреждение, но не блокируем импорт полностью, 
+      // Выводим предупреждение, но не блокируем импорт полностью,
       // чтобы пользователь мог исправить ошибки прямо в интерфейсе
-      console.warn("Предупреждение при валидации импортируемого конфига:", validate.errors);
+      console.warn(
+        "Предупреждение при валидации импортируемого конфига:",
+        validate.errors,
+      );
     }
 
     // В случае успеха или мелких нестыковок используем мутировавший config
     finalDataToLoad = config;
-
   } catch (err) {
     console.error("Ошибка автоматической нормализации через Ajv:", err);
-    alert("Не удалось автоматически нормализовать конфиг через Ajv. Пробуем загрузить как есть.");
+    alert(
+      "Не удалось автоматически нормализовать конфиг через Ajv. Пробуем загрузить как есть.",
+    );
   }
 
   // 3. Распределяем нормализованные данные по инстансам форм

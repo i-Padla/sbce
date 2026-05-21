@@ -1,0 +1,92 @@
+{
+  "type": "object",
+  "title": "Trojan",
+  "x-format": "grid",
+  "required": ["tag", "type"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "trojan",
+      "const": "trojan",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  },
+  "allOf": [
+    {
+      "type": "object",
+      "x-format": "grid",
+      "properties": {
+        "tag": {
+          "type": "string",
+          "default": "trojan-in",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "users": {
+          "type": "array",
+          "x-format": "nav-vertical",
+          "x-arrayAddContent": "Add",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-arrayButtonsPosition": "right",
+          "items": {
+            "type": "object",
+            "x-enablePropertiesToggle": true,
+            "properties": {
+              "name": {
+                "title": "Name",
+                "type": "string",
+                "x-propertieOrder": 10
+              },
+              "password": {
+                "title": "Password",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "tls": {
+          "$ref": "#/$defs/shared_tls"
+        },
+        "fallback": {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "server": {
+              "type": "string",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server_port": {
+              "type": "integer",
+              "x-grid": {
+                "columns": 6
+              }
+            }
+          }
+        },
+        "fallback_for_alpn": {
+          "type": "object"
+        },
+        "multiplex": {
+          "$ref": "#/$defs/shared_multiplex_inbound"
+        },
+        "transport": {
+          "$ref": "#/$defs/shared_v2ray_transport"
+        }
+      }
+    },
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
+}

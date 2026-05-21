@@ -1,0 +1,5552 @@
+{
+  "type": "object",
+  "properties": {
+    "log": {
+      "x-containerAttributes": {
+        "id": "section-log",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/log"
+    },
+    "dns": {
+      "x-containerAttributes": {
+        "id": "section-dns",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/dns"
+    },
+    "endpoints": {
+      "x-containerAttributes": {
+        "id": "section-endpoints",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/endpoints"
+    },
+    "inbounds": {
+      "x-containerAttributes": {
+        "id": "section-inbounds",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/inbounds"
+    },
+    "outbounds": {
+      "x-containerAttributes": {
+        "id": "section-outbounds",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/outbounds"
+    },
+    "ntp": {
+      "x-containerAttributes": {
+        "id": "section-ntp",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/ntp"
+    },
+    "route": {
+      "x-containerAttributes": {
+        "id": "section-route",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/route"
+    },
+    "experimental": {
+      "x-containerAttributes": {
+        "id": "section-experimental",
+        "class": "config-section"
+      },
+      "$ref": "#/$defs/experimental"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "log": {
+      "type": "object",
+      "title": "Log",
+      "properties": {
+        "disabled": {
+          "x-format": "checkbox",
+          "type": "boolean",
+          "title": "Disable logging",
+          "description": "Disable logging output completely"
+        },
+        "level": {
+          "type": "string",
+          "title": "Log level",
+          "description": "Logging level",
+          "enum": [
+            "trace",
+            "debug",
+            "info",
+            "warn",
+            "error",
+            "fatal",
+            "panic"
+          ],
+          "default": "info"
+        },
+        "output": {
+          "type": "string",
+          "title": "Output file",
+          "description": "Path to log file (if empty, logs go to console)",
+          "default": "box.log"
+        },
+        "timestamp": {
+          "x-format": "checkbox",
+          "type": "boolean",
+          "title": "Include timestamp",
+          "description": "Add timestamp to each log line"
+        }
+      }
+    },
+    "dns": {
+      "type": "object",
+      "title": "DNS",
+      "properties": {
+        "servers": {
+          "$ref": "#/$defs/dns_servers"
+        },
+        "rules": {
+          "$ref": "#/$defs/dns_rule",
+          "x-recursive": true
+        },
+        "final": {
+          "type": "string",
+          "title": "Final Server",
+          "description": "Default dns server tag.<br>The first server will be used if empty."
+        },
+        "strategy": {
+          "description": "Default domain strategy for resolving the domain names.",
+          "type": "string",
+          "enum": [
+            "prefer_ipv4",
+            "prefer_ipv6",
+            "ipv4_only",
+            "ipv6_only"
+          ]
+        },
+        "disable_cache": {
+          "description": "Disable dns cache.<br>Conflict with `optimistic`",
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "disable_expire": {
+          "description": "Disable dns cache expire.<br>Conflict with `optimistic`",
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "independent_cache": {
+          "description": "Make each DNS server's cache independent for special purposes. If enabled, will slightly degrade performance.",
+          "x-format": "checkbox",
+          "type": "boolean",
+          "x-propGroup": "Deprecated in sing-box 1.14.0"
+        },
+        "cache_capacity": {
+          "type": "integer",
+          "title": "LRU cache capacity.",
+          "description": "Value less than 1024 will be ignored."
+        },
+        "optimistic": {
+          "description": "Enable optimistic DNS caching. When a cached DNS entry has expired but is still within the timeout window, the stale response is returned immediately while a background refresh is triggered. Conflict with `disable_cache` and `disable_expire`. When set to `true`, the default timeout of `3d` is used.",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "description": "Enable optimistic DNS caching.",
+              "x-format": "checkbox",
+              "type": "boolean"
+            },
+            "timeout": {
+              "type": "string",
+              "description": "The maximum time an expired cache entry can be served optimistically.<br>`3d` is used by default."
+            }
+          }
+        },
+        "timeout": {
+          "description": "Default timeout for each DNS query. `10s` is used by default. Can be overridden by `rules.[].timeout` (DNS rule action) or `domain_resolver.timeout`.",
+          "type": "string"
+        },
+        "reverse_mapping": {
+          "description": "Stores a reverse mapping of IP addresses after responding to a DNS query in order to provide domain names when routing. Since this process relies on the act of resolving domain names by an application before making a request, it can be problematic in environments such as macOS, where DNS is proxied and cached by the system.",
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "client_subnet": {
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "endpoints": {
+      "type": "array",
+      "title": "Endpoints",
+      "x-format": "nav-horizontal",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
+      "items": {
+        "x-embedSwitcher": true,
+        "oneOf": [
+          {
+            "x-switcherTitle": "Wireguard",
+            "$ref": "#/$defs/endpoints_wireguard"
+          },
+          {
+            "x-switcherTitle": "Tailscale",
+            "$ref": "#/$defs/endpoints_tailscale"
+          }
+        ]
+      }
+    },
+    "inbounds": {
+      "type": "array",
+      "title": "Inbounds",
+      "x-format": "nav-horizontal",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+      "items": {
+        "x-embedSwitcher": true,
+        "discriminator": {
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/inbounds_anytls"
+          },
+          {
+            "$ref": "#/$defs/inbounds_cloudflared"
+          },
+          {
+            "$ref": "#/$defs/inbounds_direct"
+          },
+          {
+            "$ref": "#/$defs/inbounds_http"
+          },
+          {
+            "$ref": "#/$defs/inbounds_hysteria"
+          },
+          {
+            "$ref": "#/$defs/inbounds_mixed"
+          },
+          {
+            "$ref": "#/$defs/inbounds_naive"
+          },
+          {
+            "$ref": "#/$defs/inbounds_redirect"
+          },
+          {
+            "$ref": "#/$defs/inbounds_shadowsocks"
+          },
+          {
+            "$ref": "#/$defs/inbounds_shadowtls"
+          },
+          {
+            "$ref": "#/$defs/inbounds_socks"
+          },
+          {
+            "$ref": "#/$defs/inbounds_tproxy"
+          },
+          {
+            "$ref": "#/$defs/inbounds_trojan"
+          },
+          {
+            "$ref": "#/$defs/inbounds_tuic"
+          },
+          {
+            "$ref": "#/$defs/inbounds_tun"
+          },
+          {
+            "$ref": "#/$defs/inbounds_vless"
+          },
+          {
+            "$ref": "#/$defs/inbounds_vmess"
+          }
+        ]
+      }
+    },
+    "outbounds": {
+      "type": "array",
+      "title": "Outbounds",
+      "x-format": "nav-horizontal",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+      "items": {
+        "x-embedSwitcher": true,
+        "discriminator": {
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/outbounds_direct"
+          },
+          {
+            "$ref": "#/$defs/outbounds_block"
+          },
+          {
+            "$ref": "#/$defs/outbounds_socks"
+          },
+          {
+            "$ref": "#/$defs/outbounds_urltest"
+          },
+          {
+            "$ref": "#/$defs/outbounds_ssh"
+          },
+          {
+            "$ref": "#/$defs/outbounds_dns"
+          },
+          {
+            "$ref": "#/$defs/outbounds_selector"
+          },
+          {
+            "$ref": "#/$defs/outbounds_vless"
+          },
+          {
+            "$ref": "#/$defs/outbounds_hysteria2"
+          },
+          {
+            "$ref": "#/$defs/outbounds_shadowsocks"
+          },
+          {
+            "$ref": "#/$defs/outbounds_vmess"
+          }
+        ]
+      }
+    },
+    "ntp": {
+      "type": "object",
+      "title": "NTP",
+      "x-format": "grid",
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "required": [
+            "server"
+          ],
+          "properties": {
+            "enabled": {
+              "x-format": "checkbox",
+              "type": "boolean",
+              "description": "Enable NTP service.",
+              "x-propertyOrder": 1
+            },
+            "server": {
+              "description": "NTP server address.",
+              "type": "string",
+              "title": "Server",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server_port": {
+              "description": "NTP server port. 123 is used by default.",
+              "type": "integer",
+              "title": "Port",
+              "default": 123,
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "interval": {
+              "description": "Time synchronization interval. 30 minutes is used by default.",
+              "type": "string",
+              "default": "30m"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_dial"
+        }
+      ]
+    },
+    "route": {
+      "type": "object",
+      "title": "Route",
+      "x-propertiesToggleContent": "Toggle properties",
+      "properties": {
+        "rules": {
+          "$ref": "#/$defs/route_rules",
+          "x-recursive": true
+        },
+        "rule_set": {
+          "$ref": "#/$defs/route_rule_set"
+        },
+        "final": {
+          "type": "string",
+          "description": "Default outbound tag. The first outbound will be used if empty."
+        },
+        "auto_detect_interface": {
+          "type": "boolean",
+          "x-format": "checkbox",
+          "description": "Bind outbound connections to the default NIC by default to prevent routing loops under tun. Only supported on Linux, Windows and macOS. Takes no effect if outbound.bind_interface is set."
+        },
+        "override_android_vpn": {
+          "type": "boolean",
+          "x-format": "checkbox",
+          "description": "Accept Android VPN as upstream NIC when auto_detect_interface enabled. Only supported on Android."
+        },
+        "default_interface": {
+          "type": "string",
+          "description": "Bind outbound connections to the specified NIC by default to prevent routing loops under tun. Only supported on Linux, Windows and macOS. Takes no effect if auto_detect_interface is set."
+        },
+        "default_mark": {
+          "type": "integer",
+          "description": "Set routing mark by default. Only supported on Linux. Takes no effect if outbound.routing_mark is set."
+        },
+        "find_process": {
+          "type": "boolean",
+          "x-format": "checkbox",
+          "description": "Enable process search for logging when no process_name, process_path, package_name, user or user_id rules exist. Only supported on Linux, Windows, and macOS."
+        },
+        "find_neighbor": {
+          "type": "boolean",
+          "x-format": "checkbox",
+          "description": "Enable neighbor resolution for logging when no source_mac_address or source_hostname rules exist. Only supported on Linux and macOS."
+        },
+        "default_http_client": {
+          "type": "string",
+          "description": "Tag of the default HTTP Client used by remote rule-sets. If empty and http_clients is defined, the first HTTP client is used."
+        },
+        "default_domain_resolver": {
+          "type": "object",
+          "x-stringToPropertie": "server",
+          "properties": {
+            "server": {
+              "type": "string",
+              "title": "Server DNS Tag"
+            }
+          },
+          "description": "DNS server tag to use for resolving domain names in outbounds and endpoints. Can be overridden by outbound.domain_resolver."
+        },
+        "default_network_strategy": {
+          "type": "string",
+          "description": "Default network strategy for outbound connections. Takes no effect if outbound.bind_interface, outbound.inet4_bind_address or outbound.inet6_bind_address is set. Conflicts with default_interface."
+        },
+        "default_fallback_delay": {
+          "type": "string",
+          "description": "Default fallback delay for network strategy."
+        }
+      }
+    },
+    "experimental": {
+      "type": "object",
+      "title": "Experimental",
+      "properties": {
+        "cache_file": {
+          "type": "object",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "properties": {
+            "enabled": {
+              "x-format": "checkbox",
+              "type": "boolean"
+            },
+            "path": {
+              "type": "string"
+            },
+            "cache_id": {
+              "type": "string"
+            },
+            "store_fakeip": {
+              "x-format": "checkbox",
+              "type": "boolean"
+            },
+            "store_rdrc": {
+              "x-format": "checkbox",
+              "type": "boolean"
+            },
+            "rdrc_timeout": {
+              "type": "string"
+            },
+            "store_dns": {
+              "x-format": "checkbox",
+              "type": "boolean"
+            }
+          }
+        },
+        "clash_api": {
+          "type": "object",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "properties": {
+            "external_controller": {
+              "type": "string"
+            },
+            "external_ui": {
+              "type": "string"
+            },
+            "external_ui_download_url": {
+              "type": "string"
+            },
+            "external_ui_download_detour": {
+              "type": "string"
+            },
+            "secret": {
+              "type": "string"
+            },
+            "default_mode": {
+              "type": "string"
+            },
+            "access_control_allow_origin": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "access_control_allow_private_network": {
+              "x-format": "checkbox",
+              "type": "boolean"
+            }
+          }
+        },
+        "v2ray_api": {
+          "type": "object",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "properties": {
+            "listen": {
+              "type": "string"
+            },
+            "stats": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "x-format": "checkbox",
+                  "type": "boolean"
+                },
+                "inbounds": {
+                  "type": "array",
+                  "x-format": "table",
+                  "x-arrayDeleteContent": "",
+                  "x-arrayAddContent": "Add",
+                  "x-arrayMove": false,
+                  "x-enableCollapseToggle": true,
+                  "x-collapseToggleContent": "",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "outbounds": {
+                  "type": "array",
+                  "x-format": "table",
+                  "x-arrayDeleteContent": "",
+                  "x-arrayAddContent": "Add",
+                  "x-arrayMove": false,
+                  "x-enableCollapseToggle": true,
+                  "x-collapseToggleContent": "",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "users": {
+                  "type": "array",
+                  "x-format": "table",
+                  "x-arrayDeleteContent": "",
+                  "x-arrayAddContent": "Add",
+                  "x-arrayMove": false,
+                  "x-enableCollapseToggle": true,
+                  "x-collapseToggleContent": "",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "dns_servers": {
+      "type": "array",
+      "title": "Servers",
+      "x-format": "nav-vertical",
+      "x-arrayAddContent": "Add",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-arrayMove": true,
+      "x-arrayMoveDownContent": "",
+      "x-arrayMoveUpContent": "",
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
+      "items": {
+        "x-embedSwitcher": true,
+        "discriminator": {
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/dns_servers_hosts"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_local"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_tcp"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_udp"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_tls"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_quic"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_https"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_http3"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_dhcp"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_mdns"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_fakeip"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_tailscale"
+          },
+          {
+            "$ref": "#/$defs/dns_servers_resolved"
+          }
+        ]
+      }
+    },
+    "dns_rule": {
+      "type": "array",
+      "title": "DNS rules",
+      "x-format": "table",
+      "x-arrayAddContent": "Add",
+      "x-arrayDeleteContent": "",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-arrayMove": true,
+      "x-arrayMoveDownContent": "",
+      "x-arrayMoveUpContent": "",
+      "x-arrayButtonsPosition": "right",
+      "x-recursive": true,
+      "x-titleTemplate": "#{{ i1 }}",
+      "items": {
+        "x-embedSwitcher": true,
+        "oneOf": [
+          {
+            "$ref": "#/$defs/dns_rule_default"
+          },
+          {
+            "$ref": "#/$defs/dns_rule_logical",
+            "x-recursive": true
+          }
+        ]
+      }
+    },
+    "dns_rule_default": {
+      "type": "object",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-switcherTitle": "Default",
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "default",
+              "default": "default",
+              "readOnly": true
+            },
+            "inbound": {
+              "type": "array",
+              "description": "Tags of Inbound",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "ip_version": {
+              "type": "integer",
+              "description": "4 (A DNS query) or 6 (AAAA DNS query).  Not limited if empty."
+            },
+            "query_type": {
+              "type": "array",
+              "description": "Tags of Inbound",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "network": {
+              "type": "string",
+              "enum": [
+                "tcp",
+                "udp",
+                "icmp"
+              ]
+            },
+            "auth_user": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "protocol": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "http",
+                  "tls",
+                  "quic",
+                  "stun",
+                  "dns",
+                  "bittorrent",
+                  "dtls",
+                  "ssh",
+                  "rdp",
+                  "ntp"
+                ]
+              }
+            },
+            "domain": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "domain_suffix": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "domain_keyword": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "domain_regex": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source_ip_cidr": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source_ip_is_private": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "source_port": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "source_port_range": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "port": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "port_range": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "process_name": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "process_path": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "process_path_regex": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "user": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "user_id": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "clash_mode": {
+              "type": "string"
+            },
+            "network_type": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "wifi",
+                  "cellular",
+                  "ethernet",
+                  "other"
+                ]
+              }
+            },
+            "network_is_expensive": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "network_is_constrained": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "interface_address": {
+              "type": "object",
+              "x-objectAdd": true,
+              "x-enablePropertiesToggle": true
+            },
+            "network_interface_address": {
+              "type": "object",
+              "x-objectAdd": true,
+              "x-enablePropertiesToggle": true
+            },
+            "default_interface_address": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source_mac_address": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source_hostname": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "prefered_by": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "host",
+                  "local",
+                  "mdns",
+                  "tailscale",
+                  "resolved"
+                ]
+              }
+            },
+            "wifi_ssid": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "wifi_bssid": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "rule_set": {
+              "type": "array",
+              "title": "Rule set",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "rule_set_ip_cidr_match_source": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "match_response": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "ip_cidr": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "ip_is_private": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "ip_accept_any": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "response_rcode": {
+              "type": "string",
+              "enum": [
+                "NOERROR",
+                "FORMERR",
+                "SERVFAIL",
+                "NXDOMAIN",
+                "NOTIMP",
+                "REFUSED"
+              ]
+            },
+            "response_answer": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": true,
+              "x-arrayButtonsPosition": "right",
+              "x-arrayMoveDownContent": "",
+              "x-arrayMoveUpContent": "",
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-enableCollapseToggle": false,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "response_ns": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": true,
+              "x-arrayButtonsPosition": "right",
+              "x-arrayMoveDownContent": "",
+              "x-arrayMoveUpContent": "",
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-enableCollapseToggle": false,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "response_extra": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": true,
+              "x-arrayButtonsPosition": "right",
+              "x-arrayMoveDownContent": "",
+              "x-arrayMoveUpContent": "",
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-enableCollapseToggle": false,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "invert": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "outbound": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/dns_rule_action"
+        }
+      ]
+    },
+    "dns_rule_logical": {
+      "type": "object",
+      "x-switcherTitle": "Logical",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-recursive": true,
+      "required": [
+        "type",
+        "mode",
+        "rules"
+      ],
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "logical",
+              "default": "logical",
+              "readOnly": true
+            },
+            "mode": {
+              "description": "`and` or `or`",
+              "type": "string",
+              "enum": [
+                "and",
+                "or"
+              ]
+            },
+            "rules": {
+              "$ref": "#/$defs/dns_rule",
+              "x-recursive": true
+            },
+            "invert": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/dns_rule_action"
+        }
+      ]
+    },
+    "dns_rule_action": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": [
+            "",
+            "route",
+            "evaluate",
+            "respond",
+            "route-options",
+            "reject",
+            "predefined"
+          ]
+        },
+        "server": {
+          "type": "string"
+        },
+        "strategy": {
+          "type": "string",
+          "enum": [
+            "prefer_ipv4",
+            "prefer_ipv6",
+            "ipv4_only",
+            "ipv6_only"
+          ]
+        },
+        "disable_cache": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "disable_optimistic_cache": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "rewrite_ttl": {
+          "type": "integer"
+        },
+        "timeout": {
+          "type": "string"
+        },
+        "client_subnet": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "default",
+            "drop"
+          ]
+        },
+        "no_drop": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "rcode": {
+          "type": "string",
+          "enum": [
+            "NOERROR",
+            "FORMERR",
+            "SERVFAIL",
+            "NXDOMAIN",
+            "NOTIMP",
+            "REFUSED"
+          ]
+        },
+        "answer": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": true,
+          "x-arrayButtonsPosition": "right",
+          "x-arrayMoveDownContent": "",
+          "x-arrayMoveUpContent": "",
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": false,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ns": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": true,
+          "x-arrayButtonsPosition": "right",
+          "x-arrayMoveDownContent": "",
+          "x-arrayMoveUpContent": "",
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": false,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "string"
+          }
+        },
+        "extra": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": true,
+          "x-arrayButtonsPosition": "right",
+          "x-arrayMoveDownContent": "",
+          "x-arrayMoveUpContent": "",
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": false,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dns_servers_local": {
+      "type": "object",
+      "title": "Local",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "local",
+          "const": "local",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "title": "Tag",
+          "default": "local-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "prefer_go": {
+          "x-format": "checkbox",
+          "type": "boolean"
+        }
+      }
+    },
+    "dns_servers_hosts": {
+      "type": "object",
+      "title": "Hosts",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "hosts",
+          "const": "hosts",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "hosts-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "path": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "title": "Hosts Paths",
+          "items": {
+            "type": "string"
+          }
+        },
+        "predefined": {
+          "type": "object",
+          "title": "Predifined hosts",
+          "x-objectAdd": true,
+          "x-propertiesContent": "Add custom header",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "additionalProperties": {
+            "type": "string",
+            "x-format": "table",
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": ""
+          }
+        }
+      }
+    },
+    "dns_servers_tcp": {
+      "type": "object",
+      "title": "TCP",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "tcp",
+          "const": "tcp",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "tcp-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "server": {
+          "type": "string",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "server_port": {
+          "type": "integer",
+          "default": 53,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "dns_servers_udp": {
+      "type": "object",
+      "title": "UDP",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "udp",
+          "const": "udp",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "udp-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "server": {
+          "type": "string",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "server_port": {
+          "type": "integer",
+          "default": 53,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "dns_servers_tls": {
+      "type": "object",
+      "title": "TLS",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "tls",
+          "const": "tls",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "tls",
+              "const": "tls",
+              "readOnly": true,
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "tag": {
+              "type": "string",
+              "default": "tls-dns",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server": {
+              "type": "string",
+              "title": "Server",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server_port": {
+              "type": "integer",
+              "title": "Port",
+              "default": 853,
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "tls": {
+              "$ref": "#/$defs/shared_tls"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_dial"
+        }
+      ]
+    },
+    "dns_servers_quic": {
+      "type": "object",
+      "title": "Quic",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "quic",
+          "const": "quic",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "quic-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "server": {
+          "type": "string",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "server_port": {
+          "type": "integer",
+          "default": 853,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tls": {
+          "type": "object",
+          "title": "TLS Settings",
+          "x-enableCollapseToggle": true,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "title": "Enable TLS"
+            },
+            "server_name": {
+              "type": "string",
+              "title": "Server Name (SNI)",
+              "default": "dns.google"
+            },
+            "insecure": {
+              "type": "boolean",
+              "title": "Allow Insecure"
+            }
+          }
+        }
+      }
+    },
+    "dns_servers_https": {
+      "type": "object",
+      "title": "HTTPS",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "https",
+          "const": "https",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "https-dns",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server": {
+              "type": "string",
+              "title": "Server",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server_port": {
+              "type": "integer",
+              "title": "Port",
+              "default": 853,
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "path": {
+              "type": "string",
+              "title": "Path"
+            },
+            "tls": {
+              "$ref": "#/$defs/shared_tls"
+            },
+            "headers": {
+              "$ref": "#/$defs/shared_http_headers"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_dial"
+        }
+      ]
+    },
+    "dns_servers_http3": {
+      "type": "object",
+      "title": "Http3",
+      "x-propertiesToggleContent": "Toggle properties",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "h3",
+          "const": "h3",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "http3-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "server": {
+          "type": "string",
+          "title": "Server",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "server_port": {
+          "type": "integer",
+          "title": "Port",
+          "default": 53,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "path": {
+          "type": "string"
+        },
+        "headers": {
+          "type": "object"
+        },
+        "tls": {
+          "type": "object"
+        }
+      }
+    },
+    "dns_servers_dhcp": {
+      "type": "object",
+      "title": "DHCP",
+      "x-propertiesToggleContent": "Toggle properties",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "dhcp",
+          "const": "dhcp",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "dhcp-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "interface": {
+          "type": "string"
+        }
+      }
+    },
+    "dns_servers_mdns": {
+      "type": "object",
+      "title": "mDNS",
+      "x-propertiesToggleContent": "Toggle properties",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "mdns",
+          "const": "mdns",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "mdns-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "interface": {
+          "type": "array",
+          "description": "List of network interface names to send mDNS queries on.\n When empty, all interfaces that are up, multicast-capable, and non-loopback are used.",
+          "x-format": "table",
+          "x-arrayDeleteContent": "",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dns_servers_fakeip": {
+      "type": "object",
+      "title": "FakeIP",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "fakeip",
+          "const": "fakeip",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "fakeip-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "inet4_range": {
+          "type": "string",
+          "title": "inet4_range",
+          "default": "198.18.0.0/15"
+        },
+        "inet6_range": {
+          "type": "string",
+          "title": "inet6_range",
+          "default": "fc00::/18"
+        }
+      }
+    },
+    "dns_servers_tailscale": {
+      "type": "object",
+      "title": "Tailscale",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "tailscale",
+          "const": "tailscale",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "tailscale-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "accept_default_resolvers": {
+          "x-format": "checkbox",
+          "type": "boolean",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "accept_search_domain": {
+          "x-format": "checkbox",
+          "type": "boolean",
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "dns_servers_resolved": {
+      "type": "object",
+      "title": "Resolved",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "resolved",
+          "const": "resolved",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "resolved-dns",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "service": {
+          "type": "string",
+          "default": "resolved"
+        },
+        "accept_default_resolvers": {
+          "x-format": "checkbox",
+          "type": "boolean"
+        }
+      }
+    },
+    "endpoints_wireguard": {
+      "type": "object",
+      "title": "Wireguard",
+      "x-deactivateNonRequired": true,
+      "x-enablePropertiesToggle": true,
+      "x-propertiesToggleContent": "Toggle properties",
+      "x-format": "grid",
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "wireguard",
+          "const": "wireguard",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "wg-in",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "system": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "name": {
+          "type": "string"
+        },
+        "mtu": {
+          "type": "integer",
+          "default": 1408
+        },
+        "address": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayDeleteContent": "",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "private_key": {
+          "type": "string"
+        },
+        "listen_port": {
+          "type": "integer"
+        },
+        "peers": {
+          "type": "array",
+          "x-format": "nav-vertical",
+          "x-deactivateNonRequired": true,
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "minItems": 1,
+          "title": "Peers List",
+          "x-titleTemplate": "{{ i1 }}) {{ value.peerTag }}",
+          "items": {
+            "type": "object",
+            "x-deactivateNonRequired": true,
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "x-enablePropertiesToggle": true,
+            "x-propertiesToggleContent": "Toggle properties",
+            "x-format": "grid",
+            "title": "{{value.x-tag}}",
+            "properties": {
+              "x-tag": {
+                "title": "Tag",
+                "type": "string",
+                "description": "Purely cosmetic value to use through UI, will NOT be used in final config",
+                "x-inputAttributes": {
+                  "placeholder": "Alice, Bob, Charlie etc."
+                }
+              },
+              "address": {
+                "type": "string",
+                "x-grid": {
+                  "columns": 6
+                }
+              },
+              "port": {
+                "type": "integer",
+                "x-grid": {
+                  "columns": 6
+                }
+              },
+              "public_key": {
+                "type": "string"
+              },
+              "pre_shared_key": {
+                "type": "string"
+              },
+              "allowed_ips": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "persistent_keepalive_interval": {
+                "type": "integer"
+              },
+              "reserved": {
+                "type": "array",
+                "x-format": "table",
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "x-arrayAdd": false,
+                "x-arrayMove": false,
+                "x-arrayDelete": false,
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                  "type": "integer",
+                  "default": 0
+                }
+              }
+            },
+            "required": [
+              "public_key",
+              "allowed_ips"
+            ]
+          }
+        },
+        "udp_timeout": {
+          "type": "string",
+          "default": "5m"
+        },
+        "workers": {
+          "type": "integer",
+          "default": 0
+        }
+      },
+      "required": [
+        "type",
+        "tag",
+        "address",
+        "private_key",
+        "peers"
+      ]
+    },
+    "endpoints_tailscale": {
+      "type": "object",
+      "title": "Tailscale",
+      "x-deactivateNonRequired": true,
+      "x-enablePropertiesToggle": true,
+      "x-propertiesToggleContent": "Toggle properties",
+      "x-format": "grid",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "tailscale",
+          "const": "tailscale",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "ts-ep",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "state_directory": {
+          "type": "string",
+          "default": "tailscale"
+        },
+        "auth_key": {
+          "type": "string",
+          "default": "ts-ep"
+        },
+        "control_url": {
+          "type": "string",
+          "default": "https://controlplane.tailscale.com"
+        },
+        "control_http_client": {
+          "type": "string"
+        },
+        "ephemeral": {
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "hostname": {
+          "type": "string",
+          "default": "ts-ep"
+        },
+        "accept_routes": {
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "exit_node": {
+          "type": "string",
+          "default": "ts-ep"
+        },
+        "exit_node_allow_lan_access": {
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "advertise_routes": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayDeleteContent": "",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "string"
+          }
+        },
+        "advertise_exit_node": {
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "advertise_tags": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayDeleteContent": "",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "string"
+          }
+        },
+        "relay_server_port": {
+          "type": "integer"
+        },
+        "relay_server_static_endpoints": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayDeleteContent": "",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "string"
+          }
+        },
+        "system_interface": {
+          "x-format": "checkbox",
+          "type": "boolean"
+        },
+        "system_interface_name": {
+          "type": "string",
+          "default": ""
+        },
+        "system_interface_mtu": {
+          "type": "integer"
+        },
+        "udp_timeout": {
+          "type": "string",
+          "default": "5d"
+        }
+      }
+    },
+    "shared_dial": {
+      "type": "object",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "properties": {
+        "address_resolver": {
+          "type": "string",
+          "x-propGroup": "Shared dial fields"
+        },
+        "domain_resolver": {
+          "type": "object",
+          "x-propGroup": "Shared dial fields",
+          "x-stringToPropertie": "server",
+          "properties": {
+            "server": {
+              "type": "string",
+              "title": "Server DNS Tag"
+            },
+            "strategy": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "shared_listen": {
+      "type": "object",
+      "properties": {
+        "listen": {
+          "type": "string",
+          "x-propGroup": "Shared listen fields"
+        },
+        "listen_port": {
+          "type": "integer",
+          "x-propGroup": "Shared listen fields"
+        },
+        "sniff": {
+          "type": "boolean",
+          "x-format": "checkbox",
+          "x-propGroup": "Shared listen fields"
+        }
+      }
+    },
+    "shared_tls": {
+      "type": "object",
+      "x-enablePropertiesToggle": true,
+      "x-propertiesToggleContent": "Toggle properties",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "server_name": {
+          "type": "string"
+        },
+        "alpn": {
+          "type": "string"
+        },
+        "utls": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "fingerprint": {
+              "type": "string"
+            }
+          }
+        },
+        "reality": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "public_key": {
+              "type": "string"
+            },
+            "short_id": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "inbounds_direct": {
+      "type": "object",
+      "title": "Direct",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "direct",
+          "const": "direct",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "direct",
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "inbounds_mixed": {
+      "type": "object",
+      "title": "Mixed",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "mixed",
+          "const": "mixed",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "mixed_in",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "users": {
+              "type": "array",
+              "title": "Users",
+              "x-format": "nav-vertical",
+              "x-arrayAddContent": "Add user",
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "x-arrayMove": false,
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-titleTemplate": "{{ i1 }}) {{ value.username }}",
+              "items": {
+                "type": "object",
+                "title": "{{ value.username }}",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "title": "username",
+                    "default": "Alice"
+                  },
+                  "password": {
+                    "type": "string",
+                    "title": "password"
+                  }
+                }
+              }
+            },
+            "set_system_proxy": {
+              "type": "boolean",
+              "x-format": "checkbox",
+              "title": "set_system_proxy"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_anytls": {
+      "type": "object",
+      "title": "AnyTLS",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "title": "Type",
+          "type": "string",
+          "default": "anytls",
+          "const": "anytls",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "anytls-in",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "users": {
+              "type": "array",
+              "x-format": "table-object",
+              "x-arrayAddContent": "Add",
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "x-arrayMove": false,
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-arrayButtonsPosition": "right",
+              "items": {
+                "type": "object",
+                "x-enablePropertiesToggle": false,
+                "required": [
+                  "name",
+                  "password"
+                ],
+                "properties": {
+                  "name": {
+                    "title": "Name",
+                    "type": "string"
+                  },
+                  "password": {
+                    "title": "Password",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "padding_scheme": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayAddContent": "Add",
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "x-arrayMove": false,
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-titleTemplate": "User #{{i1}} - {{ value.name }}",
+              "x-arrayButtonsPosition": "right",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "stop=8",
+                "0=30-30",
+                "1=100-400",
+                "2=400-500,c,500-1000,c,500-1000,c,500-1000,c,500-1000",
+                "3=9-9,500-1000",
+                "4=500-1000",
+                "5=500-1000",
+                "6=500-1000",
+                "7=500-1000"
+              ]
+            },
+            "tls": {
+              "$ref": "#/$defs/shared_tls"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_cloudflared": {
+      "type": "object",
+      "title": "Cloudflared",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type",
+        "token"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "cloudflared",
+          "const": "cloudflared",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "cloudflared-in",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "token": {
+              "type": "string"
+            },
+            "ha_connections": {
+              "type": "integer",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "protocol": {
+              "type": "string",
+              "enum": [
+                "quic",
+                "hhtp2"
+              ],
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "post_quantum": {
+              "x-format": "checkbox",
+              "type": "boolean"
+            },
+            "edge_ip_version": {
+              "type": "integer",
+              "enum": [
+                0,
+                4,
+                6
+              ],
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "datagram_version": {
+              "type": "string",
+              "enum": [
+                "v2",
+                "v3"
+              ],
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "grace_period": {
+              "type": "string",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "region": {
+              "type": "string",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "control_dialer": {
+              "$ref": "#/$defs/shared_dial"
+            },
+            "tunnel_dialer": {
+              "$ref": "#/$defs/shared_dial"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_http": {
+      "type": "object",
+      "title": "HTTP",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "http",
+          "const": "http",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "http-in",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "users": {
+              "type": "array",
+              "x-format": "table-object",
+              "x-arrayAddContent": "Add",
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "x-arrayMove": false,
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-arrayButtonsPosition": "right",
+              "items": {
+                "type": "object",
+                "x-enablePropertiesToggle": false,
+                "required": [
+                  "name",
+                  "password"
+                ],
+                "properties": {
+                  "name": {
+                    "title": "Name",
+                    "type": "string"
+                  },
+                  "password": {
+                    "title": "Password",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "tls": {
+              "$ref": "#/$defs/shared_tls"
+            },
+            "set_system_proxy": {
+              "x-format": "checkbox",
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_hysteria": {
+      "type": "object",
+      "title": "Hysteria",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "hysteria",
+          "const": "hysteria",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "hysteria-in",
+              "x-grid": {
+                "columns": 6
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_quic"
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_naive": {
+      "type": "object",
+      "title": "Naive",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "naive",
+          "const": "naive",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "naive-in",
+              "x-grid": {
+                "columns": 6
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_redirect": {
+      "type": "object",
+      "title": "Redirect",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "redirect",
+          "const": "redirect",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "redirect-in",
+              "x-grid": {
+                "columns": 6
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_shadowtls": {
+      "type": "object",
+      "title": "ShadowTLS",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "shadowtls",
+          "const": "shadowtls",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "st-in",
+              "x-grid": {
+                "columns": 6
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_tuic": {
+      "type": "object",
+      "title": "TUIC",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "tuic",
+          "const": "tuic",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "tuic-in",
+              "x-grid": {
+                "columns": 6
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_trojan": {
+      "type": "object",
+      "title": "Trojan",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "trojan",
+          "const": "trojan",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "trojan-in",
+              "x-grid": {
+                "columns": 6
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_socks": {
+      "type": "object",
+      "title": "Socks",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "socks",
+          "const": "socks",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "socks-in",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "users": {
+              "description": "Multi-user configuration.",
+              "type": "array",
+              "x-format": "nav-vertical",
+              "x-arrayAddContent": "Add",
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "x-arrayMove": false,
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-titleTemplate": "User #{{i1}} - {{ value.name }}",
+              "items": {
+                "type": "object",
+                "title": "User #{{i1}} - {{ value.name }}",
+                "x-enablePropertiesToggle": false,
+                "required": [
+                  "name",
+                  "password"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_tproxy": {
+      "type": "object",
+      "title": "TProxy",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "tproxy",
+          "const": "tproxy",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "tproxy",
+              "x-grid": {
+                "columns": 6
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_tun": {
+      "type": "object",
+      "title": "Tun",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "tun",
+          "const": "tun",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "tun_in",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "interface_name": {
+              "type": "string"
+            },
+            "address": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "mtu": {
+              "type": "integer",
+              "default": 9000
+            },
+            "auto_route": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "iproute2_table_index": {
+              "type": "integer",
+              "default": 2022
+            },
+            "iproute2_rule_index": {
+              "type": "integer",
+              "default": 9000
+            },
+            "auto_redirect": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "auto_redirect_input_mark": {
+              "type": "string",
+              "default": "0x2023"
+            },
+            "auto_redirect_output_mark": {
+              "type": "string",
+              "default": "0x2024"
+            },
+            "auto_redirect_reset_mark": {
+              "type": "string",
+              "default": "0x2025"
+            },
+            "auto_redirect_nfqueue": {
+              "type": "integer",
+              "default": 100
+            },
+            "auto_redirect_iproute2_fallback_rule_index": {
+              "type": "integer",
+              "default": 327668
+            },
+            "exclude_mptcp": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "loopback_address": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string",
+                "default": "10.7.0.1"
+              }
+            },
+            "strict_route": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "route_address": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "0.0.0.0/1",
+                "128.0.0.0/1",
+                "::/1",
+                "8000::/1"
+              ]
+            },
+            "route_exclude_address": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              },
+              "default": [
+                "192.168.0.0/16",
+                "fc00::/7"
+              ]
+            },
+            "route_address_set": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "route_exclude_address_set": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "endpoint_independent_nat": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "udp_timeout": {
+              "type": "string",
+              "default": "5m"
+            },
+            "stack": {
+              "type": "string",
+              "default": "system"
+            },
+            "include_interface": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "exclude_interface": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "include_uid": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "include_uid_range": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "exclude_uid": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "exclude_uid_range": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "include_android_user": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "integer"
+              }
+            },
+            "include_package": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "exclude_package": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "include_mac_address": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "exclude_mac_address": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "string"
+              }
+            },
+            "platform": {
+              "type": "object",
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "properties": {
+                "http_proxy": {
+                  "type": "object",
+                  "x-enableCollapseToggle": true,
+                  "x-collapseToggleContent": "",
+                  "x-format": "grid",
+                  "properties": {
+                    "enabled": {
+                      "type": "boolean",
+                      "x-format": "checkbox"
+                    },
+                    "server": {
+                      "type": "string",
+                      "x-grid": {
+                        "columns": 6
+                      }
+                    },
+                    "server_port": {
+                      "type": "integer",
+                      "x-grid": {
+                        "columns": 6
+                      }
+                    },
+                    "bypass_domain": {
+                      "type": "array",
+                      "x-format": "table",
+                      "x-arrayDeleteContent": "",
+                      "x-arrayAddContent": "Add",
+                      "x-arrayMove": false,
+                      "x-enableCollapseToggle": true,
+                      "x-collapseToggleContent": "",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "match_domain": {
+                      "type": "array",
+                      "x-format": "table",
+                      "x-arrayDeleteContent": "",
+                      "x-arrayAddContent": "Add",
+                      "x-arrayMove": false,
+                      "x-enableCollapseToggle": true,
+                      "x-collapseToggleContent": "",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "gso": {
+              "type": "boolean"
+            },
+            "inet4_address": {
+              "type": "array"
+            },
+            "inet6_address": {
+              "type": "array"
+            },
+            "inet4_route_address": {
+              "type": "array"
+            },
+            "inet6_route_address": {
+              "type": "array"
+            },
+            "inet4_route_exclude_address": {
+              "type": "array"
+            },
+            "inet6_route_exclude_address": {
+              "type": "array"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_vless": {
+      "type": "object",
+      "title": "VLESS",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "vless",
+          "const": "vless",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "required": [
+            "server",
+            "server_port",
+            "uuid"
+          ],
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "VLESS_in",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server": {
+              "type": "string",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server_port": {
+              "type": "integer",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "uuid": {
+              "type": "string",
+              "x-inputAttributes": {
+                "placeholder": "bf000d23-0752-40b4-affe-68f7707a9661"
+              }
+            },
+            "flow": {
+              "type": "string",
+              "default": "xtls-rprx-vision"
+            },
+            "network": {
+              "description": "Enabled network.One of tcp udp.Both is enabled by default.",
+              "type": "string",
+              "enum": [
+                "",
+                "tcp",
+                "udp"
+              ]
+            },
+            "tls": {
+              "$ref": "#/$defs/shared_tls_inbound"
+            },
+            "multiplex": {
+              "$ref": "#/$defs/shared_multiplex_inbound"
+            },
+            "transport": {
+              "$ref": "#/$defs/shared_v2ray_transport"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_vmess": {
+      "type": "object",
+      "title": "VMess",
+      "x-format": "grid",
+      "required": [
+        "tag",
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "vmess",
+          "const": "vmess",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "required": [
+            "users"
+          ],
+          "properties": {
+            "tag": {
+              "type": "string",
+              "default": "tproxy",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "users": {
+              "type": "array",
+              "x-format": "nav-vertical",
+              "x-arrayDeleteContent": "",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "alterId": {
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "tls": {
+              "$ref": "#/$defs/shared_tls_inbound"
+            },
+            "multiplex": {
+              "$ref": "#/$defs/shared_multiplex_inbound"
+            },
+            "transport": {
+              "$ref": "#/$defs/shared_v2ray_transport"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "inbounds_shadowsocks": {
+      "type": "object",
+      "title": "Shadowsocks",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "shadowsocks",
+          "const": "shadowsocks",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "required": [
+            "method",
+            "password"
+          ],
+          "properties": {
+            "tag": {
+              "description": "The tag of the inbound.",
+              "type": "string",
+              "default": "ss-in",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "network": {
+              "description": "Listen network, one of `tcp` `udp`.\n\nBoth if empty.",
+              "type": "string",
+              "enum": [
+                "",
+                "tcp",
+                "udp"
+              ]
+            },
+            "method": {
+              "description": "Encryption method.",
+              "type": "string",
+              "enum": [
+                "2022-blake3-aes-128-gcm",
+                "2022-blake3-aes-256-gcm",
+                "2022-blake3-chacha20-poly1305",
+                "none",
+                "aes-128-gcm",
+                "aes-192-gcm",
+                "aes-256-gcm",
+                "chacha20-ietf-poly1305",
+                "xchacha20-ietf-poly1305"
+              ]
+            },
+            "password": {
+              "description": "Password.",
+              "type": "string"
+            },
+            "users": {
+              "description": "Multi-user configuration.",
+              "type": "array",
+              "x-format": "nav-vertical",
+              "x-arrayAddContent": "Add",
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "x-arrayMove": false,
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-titleTemplate": "User #{{i1}} - {{ value.name }}",
+              "items": {
+                "type": "object",
+                "title": "User #{{i1}} - {{ value.name }}",
+                "x-enablePropertiesToggle": false,
+                "required": [
+                  "name",
+                  "password"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "destinations": {
+              "description": "Relay configuration.",
+              "type": "array",
+              "x-format": "nav-vertical",
+              "x-arrayAddContent": "Add",
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "x-arrayMove": false,
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "x-titleTemplate": "{{ i1 }}) {{ value.name }}",
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "server",
+                  "server_port",
+                  "password"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "server": {
+                    "type": "string"
+                  },
+                  "server_port": {
+                    "type": "integer"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "managed": {
+              "description": "Enable this when the inbound is managed by the SSM API for dynamic user.",
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "multiplex": {
+              "$ref": "#/$defs/shared_multiplex_inbound"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_listen"
+        }
+      ]
+    },
+    "shared_multiplex_inbound": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "padding": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "brutal": {
+          "$ref": "#/$defs/shared_brutal"
+        }
+      }
+    },
+    "shared_multiplex_outbound": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "padding": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "brutal": {
+          "$ref": "#/$defs/shared_brutal"
+        }
+      }
+    },
+    "shared_brutal": {
+      "type": "object",
+      "x-enablePropertiesToggle": false,
+      "required": [
+        "enabled",
+        "up_mbps",
+        "down_mbps"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-format": "checkbox",
+          "x-propGroup": "Brutal"
+        },
+        "up_mbps": {
+          "type": "integer",
+          "x-format": "checkbox",
+          "x-propGroup": "Brutal"
+        },
+        "down_mbps": {
+          "type": "integer",
+          "x-propGroup": "Brutal"
+        }
+      }
+    },
+    "shared_v2ray_transport": {
+      "x-embedSwitcher": "true",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "required": [
+        "type"
+      ],
+      "anyOf": [
+        {
+          "x-switcherTitle": "HTTP",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "http",
+              "default": "http",
+              "readOnly": true
+            },
+            "host": {
+              "type": "array"
+            },
+            "path": {
+              "description": "Path of HTTP request.The server will verify.",
+              "type": "string"
+            },
+            "method": {
+              "description": "Method of HTTP request.The server will verify if not empty..",
+              "type": "string"
+            },
+            "headers": {
+              "type": "object"
+            },
+            "idle_timeout": {
+              "type": "string",
+              "default": "15s"
+            },
+            "ping_timeout": {
+              "type": "string",
+              "default": "15s"
+            }
+          }
+        },
+        {
+          "x-switcherTitle": "WebSocket",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "ws",
+              "default": "ws",
+              "readOnly": true
+            },
+            "path": {
+              "description": "Path of HTTP request.The server will verify.",
+              "type": "string"
+            },
+            "headers": {
+              "$ref": "#/$defs/shared_http_headers"
+            },
+            "max_early_data": {
+              "description": "Allowed payload size is in the request. Enabled if not zero.",
+              "type": "integer"
+            },
+            "early_data_header_name": {
+              "description": "Early data is sent in path instead of header by default. To be compatible with Xray-core, set this to Sec-WebSocket-Protocol. It needs to be consistent with the server.",
+              "type": "string"
+            }
+          }
+        },
+        {
+          "x-switcherTitle": "QUIC",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "quic",
+              "default": "quic",
+              "readOnly": true
+            }
+          }
+        },
+        {
+          "x-switcherTitle": "gRPC",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "grpc",
+              "default": "grpc",
+              "readOnly": true
+            }
+          }
+        },
+        {
+          "x-switcherTitle": "HTTPupgrade",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "httpupgrade",
+              "default": "httpupgrade",
+              "readOnly": true
+            }
+          }
+        }
+      ]
+    },
+    "shared_tls_inbound": {
+      "type": "object",
+      "x-enablePropertiesToggle": true,
+      "x-propertiesToggleContent": "Toggle properties",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "server_name": {
+          "type": "string"
+        },
+        "alpn": {
+          "type": "string"
+        },
+        "utls": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "fingerprint": {
+              "type": "string"
+            }
+          }
+        },
+        "reality": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "public_key": {
+              "type": "string"
+            },
+            "short_id": {
+              "type": "string"
+            }
+          }
+        },
+        "certificate_path": {
+          "type": "string"
+        },
+        "key_path": {
+          "type": "string"
+        }
+      }
+    },
+    "shared_tls_outbound": {
+      "type": "object",
+      "x-enablePropertiesToggle": true,
+      "x-propertiesToggleContent": "Toggle properties",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "engine": {
+          "type": "string",
+          "enum": [
+            "",
+            "go",
+            "windows",
+            "apple"
+          ]
+        },
+        "disable_sni": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "server_name": {
+          "type": "string"
+        },
+        "insecure": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "alpn": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "items": {
+            "type": "string"
+          }
+        },
+        "min_version": {
+          "type": "string",
+          "enum": [
+            "",
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3"
+          ]
+        },
+        "max_version": {
+          "type": "string",
+          "enum": [
+            "",
+            "1.0",
+            "1.1",
+            "1.2",
+            "1.3"
+          ]
+        },
+        "cipher_suites": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "items": {
+            "type": "string",
+            "enum": [
+              "",
+              "TLS_RSA_WITH_AES_128_CBC_SHA",
+              "TLS_RSA_WITH_AES_256_CBC_SHA",
+              "TLS_RSA_WITH_AES_128_GCM_SHA256",
+              "TLS_RSA_WITH_AES_256_GCM_SHA384",
+              "TLS_AES_128_GCM_SHA256",
+              "TLS_AES_256_GCM_SHA384",
+              "TLS_CHACHA20_POLY1305_SHA256",
+              "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+              "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
+              "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+              "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+              "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+              "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+              "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+              "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+              "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+              "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
+            ]
+          }
+        },
+        "curve_preferences": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "items": {
+            "type": "string",
+            "enum": [
+              "",
+              "P256",
+              "P384",
+              "P521",
+              "X25519",
+              "X25519MLKEM768"
+            ]
+          }
+        },
+        "certificate": {
+          "type": "string"
+        },
+        "certificate_path": {
+          "type": "string"
+        },
+        "certificate_public_key_sha256": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "items": {
+            "type": "string"
+          }
+        },
+        "client_certificate": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "items": {
+            "type": "string"
+          }
+        },
+        "client_certificate_path": {
+          "type": "string"
+        },
+        "client_key": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "items": {
+            "type": "string"
+          }
+        },
+        "client_key_path": {
+          "type": "string"
+        },
+        "fragment": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "fragment_fallback_delay": {
+          "type": "string"
+        },
+        "record_fragment": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "spoof": {
+          "type": "string"
+        },
+        "spoof_method": {
+          "type": "string",
+          "enum": [
+            "",
+            "wrong-sequence",
+            "wrong-checksum",
+            "wrong-ack",
+            "wrong-md5",
+            "wrong-timestamp"
+          ]
+        },
+        "kernel_tx": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "kernel_rx": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        },
+        "handshake_timeout": {
+          "type": "string"
+        },
+        "ech": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "config": {
+              "type": "array",
+              "x-format": "table",
+              "x-arrayAddContent": "Add",
+              "x-arrayMove": false,
+              "x-arrayDeleteContent": "",
+              "x-arrayDeleteAll": true,
+              "x-arrayDeleteAllContent": "Delete all",
+              "items": {
+                "type": "string"
+              }
+            },
+            "config_path": {
+              "type": "string"
+            },
+            "query_server_name": {
+              "type": "string"
+            },
+            "pq_signature_schemes_enabled": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "dynamic_record_sizing_disabled": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            }
+          }
+        },
+        "utls": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "fingerprint": {
+              "type": "string"
+            }
+          }
+        },
+        "reality": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "x-format": "checkbox"
+            },
+            "public_key": {
+              "type": "string"
+            },
+            "short_id": {
+              "type": "string"
+            }
+          }
+        },
+        "key_path": {
+          "type": "string"
+        }
+      }
+    },
+    "shared_http2": {
+      "type": "object",
+      "properties": {
+        "idle_timeout": {
+          "type": "string"
+        },
+        "keep_alive_period": {
+          "type": "string"
+        },
+        "stream_receive_window": {
+          "type": "string"
+        },
+        "connection_receive_window": {
+          "type": "string"
+        },
+        "max_concurrent_streams": {
+          "type": "integer"
+        }
+      }
+    },
+    "shared_quic": {
+      "type": "object",
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "initial_packet_size": {
+              "type": "integer"
+            },
+            "disable_path_mtu_discovery": {
+              "x-format": "checkbox",
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_http2"
+        }
+      ]
+    },
+    "shared_http_headers": {
+      "type": "object",
+      "title": "HTTP Headers",
+      "x-objectAdd": true,
+      "x-propertiesContent": "Add custom header",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "properties": {
+        "Host": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "User-Agent": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "Accept-Language": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "Accept-Encoding": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "Referer": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "Cookie": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "Authorization": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "Cache-Control": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "X-Forwarded-For": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "Sec-WebSocket-Protocol": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayAddContent": "",
+        "x-arrayDelete": true,
+        "x-arrayDeleteContent": "",
+        "x-arrayDeleteAll": true,
+        "x-arrayDeleteAllContent": "Delete all",
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "x-arrayMove": false,
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "outbounds_block": {
+      "type": "object",
+      "title": "Block",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "block",
+          "const": "block",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "block",
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "outbounds_socks": {
+      "type": "object",
+      "title": "SOCKS",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "socks",
+          "const": "socks",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "socks-out",
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "outbounds_direct": {
+      "type": "object",
+      "title": "Direct",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "direct",
+          "const": "direct",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "direct",
+              "const": "direct",
+              "readOnly": true,
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "tag": {
+              "type": "string",
+              "default": "direct-out",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "override_address": {
+              "type": "string",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "override_port": {
+              "type": "integer",
+              "x-grid": {
+                "columns": 6
+              }
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_dial"
+        }
+      ]
+    },
+    "outbounds_ssh": {
+      "type": "object",
+      "title": "SSH",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "ssh",
+          "const": "ssh",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "ssh-out",
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "outbounds_dns": {
+      "type": "object",
+      "title": "DNS",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "dns",
+          "const": "dns",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "dns-out",
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "outbounds_selector": {
+      "type": "object",
+      "title": "Selector",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "selector",
+          "const": "selector",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "selector",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "outbounds": {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": true,
+          "x-arrayButtonsPosition": "right",
+          "x-arrayMoveDownContent": "",
+          "x-arrayMoveUpContent": "",
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": false,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "string"
+          }
+        },
+        "default": {
+          "description": "The default outbound tag. The first outbound will be used if empty.",
+          "type": "string"
+        },
+        "interrupt_exist_connections": {
+          "type": "boolean",
+          "x-format": "checkbox"
+        }
+      }
+    },
+    "outbounds_shadowsocks": {
+      "type": "object",
+      "title": "Shadowsocks",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag",
+        "server",
+        "server_port",
+        "method",
+        "password"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "shadowsocks",
+          "const": "shadowsocks",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "required": [
+            "type",
+            "tag",
+            "server",
+            "server_port",
+            "method",
+            "password"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "shadowsocks",
+              "const": "shadowsocks",
+              "readOnly": true,
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "tag": {
+              "type": "string",
+              "default": "ss-out",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server": {
+              "description": "The tag of the inbound.",
+              "type": "string",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server_port": {
+              "description": "The tag of the inbound.",
+              "type": "integer",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "method": {
+              "description": "Encryption method.",
+              "type": "string",
+              "enum": [
+                "2022-blake3-aes-128-gcm",
+                "2022-blake3-aes-256-gcm",
+                "2022-blake3-chacha20-poly1305",
+                "none",
+                "aes-128-gcm",
+                "aes-192-gcm",
+                "aes-256-gcm",
+                "chacha20-ietf-poly1305",
+                "xchacha20-ietf-poly1305"
+              ]
+            },
+            "password": {
+              "description": "Password.",
+              "type": "string"
+            },
+            "udp_over_tcp": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "description": "Enable the UDP over TCP protocol.",
+                  "type": "boolean"
+                },
+                "version": {
+                  "description": "The protocol version, `1` or `2`.\n\n2 is used by default.",
+                  "type": "integer",
+                  "enum": [
+                    1,
+                    2
+                  ]
+                }
+              }
+            },
+            "plugin": {
+              "description": "Shadowsocks SIP003 plugin, implemented in internal.Only obfs-local and v2ray-plugin are supported.",
+              "type": "string",
+              "enum": [
+                "",
+                "obfs-local",
+                "v2ray-plugin"
+              ]
+            },
+            "plugin_opts": {
+              "description": "Shadowsocks SIP003 plugin options.",
+              "type": "string"
+            },
+            "network": {
+              "description": "Enabled network.One of tcp udp.Both is enabled by default.",
+              "type": "string",
+              "enum": [
+                "",
+                "tcp",
+                "udp"
+              ]
+            },
+            "multiplex": {
+              "$ref": "#/$defs/shared_multiplex_inbound"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_dial"
+        }
+      ]
+    },
+    "outbounds_urltest": {
+      "type": "object",
+      "title": "URLTest",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "urltest",
+          "const": "urltest",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "URLtest",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "outbounds": {
+          "description": "List of outbound tags to test.",
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": true,
+          "x-arrayButtonsPosition": "right",
+          "x-arrayMoveDownContent": "",
+          "x-arrayMoveUpContent": "",
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": false,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "string"
+          }
+        },
+        "url": {
+          "description": "The URL to test. https://www.gstatic.com/generate_204 will be used if empty.",
+          "type": "string"
+        },
+        "interval": {
+          "description": "The test interval. 3m will be used if empty.",
+          "type": "string"
+        },
+        "tolerance": {
+          "description": "The test tolerance in milliseconds. 50 will be used if empty.",
+          "type": "integer"
+        },
+        "idle_timeout": {
+          "description": "The default outbound tag. The first outbound will be used if empty.",
+          "type": "string"
+        },
+        "interrupt_exist_connections": {
+          "description": "Interrupt existing connections when the selected outbound has changed. Only inbound connections are affected by this setting, internal connections will always be interrupted.",
+          "type": "boolean",
+          "x-format": "checkbox"
+        }
+      }
+    },
+    "outbounds_vless": {
+      "type": "object",
+      "title": "VLESS",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag",
+        "server",
+        "server_port",
+        "uuid"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "vless",
+          "const": "vless",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      },
+      "x-mergeAllOf": true,
+      "allOf": [
+        {
+          "type": "object",
+          "x-format": "grid",
+          "required": [
+            "type",
+            "tag",
+            "server",
+            "server_port",
+            "uuid"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "default": "vless",
+              "const": "vless",
+              "readOnly": true,
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "tag": {
+              "type": "string",
+              "default": "vless-out",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server": {
+              "type": "string",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "server_port": {
+              "type": "integer",
+              "x-grid": {
+                "columns": 6
+              }
+            },
+            "uuid": {
+              "type": "string",
+              "x-inputAttributes": {
+                "placeholder": "bf000d23-0752-40b4-affe-68f7707a9661"
+              }
+            },
+            "flow": {
+              "type": "string",
+              "default": "xtls-rprx-vision"
+            },
+            "network": {
+              "description": "Enabled network.One of tcp udp.Both is enabled by default.",
+              "type": "string",
+              "enum": [
+                "",
+                "tcp",
+                "udp"
+              ]
+            },
+            "tls": {
+              "$ref": "#/$defs/shared_tls_outbound"
+            },
+            "packet_encoding": {
+              "type": "string",
+              "enum": [
+                "xudp",
+                "packetaddr",
+                ""
+              ]
+            },
+            "multiplex": {
+              "$ref": "#/$defs/shared_multiplex_outbound"
+            },
+            "transport": {
+              "$ref": "#/$defs/shared_v2ray_transport"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_dial"
+        }
+      ]
+    },
+    "outbounds_hysteria2": {
+      "type": "object",
+      "title": "Hysteria2",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "hysteria2",
+          "const": "hysteria2",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "hy2-out",
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "outbounds_vmess": {
+      "type": "object",
+      "title": "VMess",
+      "x-format": "grid",
+      "required": [
+        "type",
+        "tag"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "vmess",
+          "const": "vmess",
+          "readOnly": true,
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tag": {
+          "type": "string",
+          "default": "vmess-out",
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    "route_rules": {
+      "type": "array",
+      "title": "Rules",
+      "x-format": "nav-vertical",
+      "x-arrayAddContent": "Add",
+      "x-arrayDeleteContent": "",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-arrayMove": true,
+      "x-arrayMoveDownContent": "",
+      "x-arrayMoveUpContent": "",
+      "x-recursive": true,
+      "x-titleTemplate": "#{{ i1 }}",
+      "items": {
+        "x-embedSwitcher": true,
+        "oneOf": [
+          {
+            "type": "object",
+            "x-switcherTitle": "Default rule",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "default",
+                "default": "default",
+                "readOnly": true
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "route",
+                  "reject",
+                  "sniff",
+                  "hijack-dns",
+                  "resolve",
+                  "route-options"
+                ]
+              },
+              "querry_type": {
+                "type": "string"
+              },
+              "outbound": {
+                "type": "string"
+              },
+              "inbound": {
+                "type": "array",
+                "description": "Tags of Inbound",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "x-containerAttributes": {
+                  "title": "Здесь находится текст вашей подсказки, который появится при наведении"
+                },
+                "items": {
+                  "type": "string"
+                }
+              },
+              "ip_version": {
+                "type": "integer"
+              },
+              "network": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "tcp",
+                    "udp",
+                    "icmp"
+                  ]
+                }
+              },
+              "auth_user": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "protocol": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "http",
+                    "tls",
+                    "quic",
+                    "stun",
+                    "dns",
+                    "bittorrent",
+                    "dtls",
+                    "ssh",
+                    "rdp",
+                    "ntp"
+                  ]
+                }
+              },
+              "client": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "domain": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "domain_suffix": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "domain_keyword": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "domain_regex": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source_ip_cidr": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source_ip_is_private": {
+                "type": "boolean",
+                "x-format": "checkbox"
+              },
+              "ip_cidr": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "ip_is_private": {
+                "type": "boolean",
+                "x-format": "checkbox"
+              },
+              "source_port": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "source_port_range": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "port": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "process_name": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "process_path": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "process_path_regex": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "user": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "user_id": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "clash_mode": {
+                "type": "string"
+              },
+              "network_type": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "wifi",
+                    "cellular",
+                    "ethernet",
+                    "other"
+                  ]
+                }
+              },
+              "network_is_expensive": {
+                "type": "boolean",
+                "x-format": "checkbox"
+              },
+              "network_is_constrained": {
+                "type": "boolean",
+                "x-format": "checkbox"
+              },
+              "interface_address": {
+                "type": "object",
+                "x-objectAdd": true,
+                "x-enablePropertiesToggle": true
+              },
+              "network_interface_address": {
+                "type": "object",
+                "x-objectAdd": true,
+                "x-enablePropertiesToggle": true
+              },
+              "default_interface_address": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "wifi_ssid": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "wifi_bssid": {
+                "type": "array",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "server": {
+                "type": "string"
+              },
+              "rewrite_ttl": {
+                "type": "integer"
+              },
+              "rule_set": {
+                "type": "array",
+                "title": "Rule set",
+                "x-format": "table",
+                "x-arrayDeleteContent": "",
+                "x-arrayAddContent": "Add",
+                "x-arrayMove": false,
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "x-switcherTitle": "Logical rule",
+            "required": [
+              "type",
+              "mode",
+              "rules"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "logical",
+                "default": "logical",
+                "readOnly": true
+              },
+              "action": {
+                "type": "string",
+                "enum": [
+                  "route",
+                  "reject",
+                  "sniff",
+                  "hijack-dns",
+                  "resolve",
+                  "route-options"
+                ]
+              },
+              "mode": {
+                "description": "`and` or `or`",
+                "type": "string",
+                "enum": [
+                  "and",
+                  "or"
+                ]
+              },
+              "rules": {
+                "$ref": "#/$defs/route_rules",
+                "x-recursive": true
+              }
+            }
+          }
+        ]
+      }
+    },
+    "route_rule_action": {},
+    "route_rule_set": {
+      "type": "array",
+      "title": "Rule set",
+      "x-format": "nav-vertical",
+      "x-arrayAddContent": "Add rule set",
+      "x-arrayDeleteContent": "",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-arrayMove": true,
+      "x-arrayMoveDownContent": "",
+      "x-arrayMoveUpContent": "",
+      "x-titleTemplate": "#{{ i1 }} {{ value.tag }} ({{value.type}})",
+      "items": {
+        "x-embedSwitcher": true,
+        "discriminator": {
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/route_inline_rule_set"
+          },
+          {
+            "$ref": "#/$defs/route_local_rule_set"
+          },
+          {
+            "$ref": "#/$defs/route_remote_rule_set"
+          }
+        ]
+      }
+    },
+    "route_inline_rule_set": {
+      "type": "object",
+      "title": "{{ value.tag }} (inline)",
+      "x-switcherTitle": "Inline",
+      "required": [
+        "type",
+        "tag",
+        "rules"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "inline",
+          "const": "inline",
+          "readOnly": true
+        },
+        "tag": {
+          "type": "string"
+        },
+        "rules": {
+          "$ref": "#/$defs/route_rules",
+          "x-recursive": true
+        }
+      }
+    },
+    "route_local_rule_set": {
+      "type": "object",
+      "title": "{{ value.tag }} (local)",
+      "x-switcherTitle": "Local",
+      "required": [
+        "type",
+        "tag",
+        "format",
+        "path"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "local",
+          "const": "local",
+          "readOnly": true
+        },
+        "tag": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "source",
+            "binary"
+          ]
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    },
+    "route_remote_rule_set": {
+      "type": "object",
+      "title": "{{ value.tag }} (remote)",
+      "x-switcherTitle": "Remote",
+      "required": [
+        "type",
+        "tag",
+        "format",
+        "url"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "remote",
+          "const": "remote",
+          "readOnly": true
+        },
+        "tag": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "source",
+            "binary"
+          ]
+        },
+        "url": {
+          "type": "string"
+        },
+        "http_client": {
+          "type": "string"
+        },
+        "update_interval": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

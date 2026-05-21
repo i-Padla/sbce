@@ -1,52 +1,77 @@
 {
-    "type": "array",
-    "title": "Outbounds",
-    "x-format": "nav-horizontal",
-    "x-arrayAddContent": "Add",
-    "x-arrayMove": false,
-    "x-arrayDeleteContent": "",
-    "x-arrayDeleteAll": true,
-    "x-arrayDeleteAllContent": "Delete all",
-    "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
-    "items": {
-        "x-embedSwitcher": true,
-        "discriminator": {
-            "propertyName": "type"
-        },
-        "oneOf": [
-            {
-                "$ref": "#/$defs/outbounds_direct"
-            },
-            {
-                "$ref": "#/$defs/outbounds_block"
-            },
-            {
-                "$ref": "#/$defs/outbounds_socks"
-            },
-            {
-                "$ref": "#/$defs/outbounds_urltest"
-            },
-            {
-                "$ref": "#/$defs/outbounds_ssh"
-            },
-            {
-                "$ref": "#/$defs/outbounds_dns"
-            },
-            {
-                "$ref": "#/$defs/outbounds_selector"
-            },
-            {
-                "$ref": "#/$defs/outbounds_vless"
-            },
-            {
-                "$ref": "#/$defs/outbounds_hysteria2"
-            },
-            {
-                "$ref": "#/$defs/outbounds_shadowsocks"
-            },
-            {
-                "$ref": "#/$defs/outbounds_vmess"
-            }
-        ]
-    }
+  "type": "array",
+  "title": "Outbounds",
+  "x-format": "nav-horizontal",
+  "x-arrayAddContent": "Add",
+  "x-arrayMove": false,
+  "x-arrayDeleteContent": "",
+  "x-arrayDeleteAll": true,
+  "x-arrayDeleteAllContent": "Delete all",
+  "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+  "items": {
+    "x-embedSwitcher": true,
+    "x-discriminator": "type",
+    "discriminator": {
+      "propertyName": "type"
+    },
+    "oneOf": [
+      {
+        "$ref": "#/$defs/outbounds_direct"
+      },
+      {
+        "$ref": "#/$defs/outbounds_block"
+      },
+      {
+        "$ref": "#/$defs/outbounds_socks"
+      },
+      {
+        "$ref": "#/$defs/outbounds_http"
+      },
+      {
+        "$ref": "#/$defs/outbounds_shadowsocks"
+      },
+      {
+        "$ref": "#/$defs/outbounds_vmess"
+      },
+      {
+        "$ref": "#/$defs/outbounds_trojan"
+      },
+      {
+        "$ref": "#/$defs/outbounds_naive"
+      },
+      {
+        "$ref": "#/$defs/outbounds_hysteria"
+      },
+      {
+        "$ref": "#/$defs/outbounds_shadowtls"
+      },
+      {
+        "$ref": "#/$defs/outbounds_vless"
+      },
+      {
+        "$ref": "#/$defs/outbounds_tuic"
+      },
+      {
+        "$ref": "#/$defs/outbounds_hysteria2"
+      },
+      {
+        "$ref": "#/$defs/outbounds_anytls"
+      },
+      {
+        "$ref": "#/$defs/outbounds_tor"
+      },
+      {
+        "$ref": "#/$defs/outbounds_ssh"
+      },
+      {
+        "$ref": "#/$defs/outbounds_dns"
+      },
+      {
+        "$ref": "#/$defs/outbounds_selector"
+      },
+      {
+        "$ref": "#/$defs/outbounds_urltest"
+      }
+    ]
+  }
 }

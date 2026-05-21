@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "AnyTLS",
+    "title": "HTTP",
     "x-format": "grid",
     "required": [
         "tag",
@@ -8,10 +8,9 @@
     ],
     "properties": {
         "type": {
-            "title": "Type",
             "type": "string",
-            "default": "anytls",
-            "const": "anytls",
+            "default": "http",
+            "const": "http",
             "readOnly": true,
             "x-grid": {
                 "columns": 6
@@ -26,7 +25,7 @@
             "properties": {
                 "tag": {
                     "type": "string",
-                    "default": "anytls-in",
+                    "default": "http-in",
                     "x-grid": {
                         "columns": 6
                     }
@@ -41,11 +40,9 @@
                     "x-arrayDeleteContent": "",
                     "x-arrayDeleteAll": true,
                     "x-arrayDeleteAllContent": "Delete all",
-                    "x-titleTemplate": "User #{{i1}} - {{ value.name }}",
                     "x-arrayButtonsPosition": "right",
                     "items": {
                         "type": "object",
-                        "title": "User #{{i1}} - {{ value.name }}",
                         "x-enablePropertiesToggle": false,
                         "required": [
                             "name",
@@ -63,35 +60,12 @@
                         }
                     }
                 },
-                "padding_scheme": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayAddContent": "Add",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "x-arrayMove": false,
-                    "x-arrayDeleteContent": "",
-                    "x-arrayDeleteAll": true,
-                    "x-arrayDeleteAllContent": "Delete all",
-                    "x-titleTemplate": "User #{{i1}} - {{ value.name }}",
-                    "x-arrayButtonsPosition": "right",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": [
-                        "stop=8",
-                        "0=30-30",
-                        "1=100-400",
-                        "2=400-500,c,500-1000,c,500-1000,c,500-1000,c,500-1000",
-                        "3=9-9,500-1000",
-                        "4=500-1000",
-                        "5=500-1000",
-                        "6=500-1000",
-                        "7=500-1000"
-                    ]
-                },
                 "tls": {
                     "$ref": "#/$defs/shared_tls"
+                },
+                "set_system_proxy": {
+                    "x-format": "checkbox",
+                    "type": "boolean"
                 }
             }
         },

@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "initial_packet_size": {
+      "type": "integer",
+      "x-propGroup": "Shared QUIC fields"
+    },
+    "disable_path_mtu_discovery": {
+      "x-format": "checkbox",
+      "type": "boolean",
+      "x-propGroup": "Shared QUIC fields"
+    }
+  }
+}

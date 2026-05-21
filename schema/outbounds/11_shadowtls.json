@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "title": "Shadowtls",
+  "x-format": "grid",
+  "required": ["type", "tag"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "shadowtls",
+      "const": "shadowtls",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "type": "string",
+      "default": "shadowtls-out",
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  }
+}
