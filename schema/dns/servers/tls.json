@@ -54,7 +54,7 @@
                     }
                 },
                 "tls": {
-                    "$ref": "#/$defs/shared_tls"
+                    "$ref": "#/$defs/shared_tls_inbound"
                 }
             }
         },

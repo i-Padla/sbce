@@ -1,24 +1,27 @@
 {
-  "type": "object",
-  "title": "AnyTLS",
-  "x-format": "grid",
-  "required": ["type", "tag"],
-  "properties": {
-    "type": {
-      "type": "string",
-      "default": "anytls",
-      "const": "anytls",
-      "readOnly": true,
-      "x-grid": {
-        "columns": 6
-      }
-    },
-    "tag": {
-      "type": "string",
-      "default": "anytls-out",
-      "x-grid": {
-        "columns": 6
-      }
+    "type": "object",
+    "title": "AnyTLS",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "anytls",
+            "const": "anytls",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "anytls-out",
+            "x-grid": {
+                "columns": 6
+            }
+        }
     }
-  }
 }

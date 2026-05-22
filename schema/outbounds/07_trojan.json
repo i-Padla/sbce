@@ -1,24 +1,27 @@
 {
-  "type": "object",
-  "title": "Trojan",
-  "x-format": "grid",
-  "required": ["type", "tag"],
-  "properties": {
-    "type": {
-      "type": "string",
-      "default": "trojan",
-      "const": "trojan",
-      "readOnly": true,
-      "x-grid": {
-        "columns": 6
-      }
-    },
-    "tag": {
-      "type": "string",
-      "default": "trojan-out",
-      "x-grid": {
-        "columns": 6
-      }
+    "type": "object",
+    "title": "Trojan",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "trojan",
+            "const": "trojan",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "trojan-out",
+            "x-grid": {
+                "columns": 6
+            }
+        }
     }
-  }
 }

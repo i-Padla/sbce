@@ -50,7 +50,7 @@
                     "title": "Path"
                 },
                 "tls": {
-                    "$ref": "#/$defs/shared_tls"
+                    "$ref": "#/$defs/shared_tls_inbound"
                 },
                 "headers": {
                     "$ref": "#/$defs/shared_http_headers"

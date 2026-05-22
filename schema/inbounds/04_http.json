@@ -61,7 +61,7 @@
                     }
                 },
                 "tls": {
-                    "$ref": "#/$defs/shared_tls"
+                    "$ref": "#/$defs/shared_tls_inbound"
                 },
                 "set_system_proxy": {
                     "x-format": "checkbox",

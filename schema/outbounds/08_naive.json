@@ -1,24 +1,27 @@
 {
-  "type": "object",
-  "title": "Naive",
-  "x-format": "grid",
-  "required": ["type", "tag"],
-  "properties": {
-    "type": {
-      "type": "string",
-      "default": "naive",
-      "const": "naive",
-      "readOnly": true,
-      "x-grid": {
-        "columns": 6
-      }
-    },
-    "tag": {
-      "type": "string",
-      "default": "naive-out",
-      "x-grid": {
-        "columns": 6
-      }
+    "type": "object",
+    "title": "Naive",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "naive",
+            "const": "naive",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "naive-out",
+            "x-grid": {
+                "columns": 6
+            }
+        }
     }
-  }
 }

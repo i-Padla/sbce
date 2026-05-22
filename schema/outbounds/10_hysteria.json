@@ -1,24 +1,27 @@
 {
-  "type": "object",
-  "title": "Hysteria",
-  "x-format": "grid",
-  "required": ["type", "tag"],
-  "properties": {
-    "type": {
-      "type": "string",
-      "default": "hysteria",
-      "const": "hysteria",
-      "readOnly": true,
-      "x-grid": {
-        "columns": 6
-      }
-    },
-    "tag": {
-      "type": "string",
-      "default": "hysteria-out",
-      "x-grid": {
-        "columns": 6
-      }
+    "type": "object",
+    "title": "Hysteria",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "hysteria",
+            "const": "hysteria",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "hysteria-out",
+            "x-grid": {
+                "columns": 6
+            }
+        }
     }
-  }
 }

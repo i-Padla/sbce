@@ -1,52 +1,59 @@
 {
-  "type": "object",
-  "title": "Direct",
-  "x-format": "grid",
-  "required": ["type", "tag"],
-  "properties": {
-    "type": {
-      "type": "string",
-      "default": "direct",
-      "const": "direct",
-      "readOnly": true,
-      "x-grid": {
-        "columns": 6
-      }
-    }
-  },
-  "allOf": [
-    {
-      "properties": {
+    "type": "object",
+    "title": "Direct",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
         "type": {
-          "type": "string",
-          "default": "direct",
-          "const": "direct",
-          "readOnly": true,
-          "x-grid": {
-            "columns": 6
-          }
-        },
-        "tag": {
-          "type": "string",
-          "default": "direct",
-          "x-grid": {
-            "columns": 6
-          }
-        },
-        "network": {
-          "type": "string",
-          "enum": ["", "tcp", "udp"]
-        },
-        "override_address": {
-          "type": "string"
-        },
-        "override_port": {
-          "type": "integer"
+            "type": "string",
+            "default": "direct",
+            "const": "direct",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
         }
-      }
     },
-    {
-      "$ref": "#/$defs/shared_listen"
-    }
-  ]
+    "allOf": [
+        {
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "default": "direct",
+                    "const": "direct",
+                    "readOnly": true,
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "tag": {
+                    "type": "string",
+                    "default": "direct",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "network": {
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "tcp",
+                        "udp"
+                    ]
+                },
+                "override_address": {
+                    "type": "string"
+                },
+                "override_port": {
+                    "type": "integer"
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_listen"
+        }
+    ]
 }

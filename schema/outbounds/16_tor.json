@@ -1,24 +1,27 @@
 {
-  "type": "object",
-  "title": "Tor",
-  "x-format": "grid",
-  "required": ["type", "tag"],
-  "properties": {
-    "type": {
-      "type": "string",
-      "default": "tor",
-      "const": "tor",
-      "readOnly": true,
-      "x-grid": {
-        "columns": 6
-      }
-    },
-    "tag": {
-      "type": "string",
-      "default": "tor-out",
-      "x-grid": {
-        "columns": 6
-      }
+    "type": "object",
+    "title": "Tor",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "tor",
+            "const": "tor",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "tor-out",
+            "x-grid": {
+                "columns": 6
+            }
+        }
     }
-  }
 }

@@ -12,16 +12,168 @@
             "default": "hysteria2",
             "const": "hysteria2",
             "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tag": {
-            "type": "string",
-            "default": "hy2-out",
+            "x-propOrder": 10,
             "x-grid": {
                 "columns": 6
             }
         }
-    }
+    },
+    "allOf": [
+        {
+            "type": "object",
+            "required": [
+                "server",
+                "server_port",
+                "tls"
+            ],
+            "properties": {
+                "tag": {
+                    "type": "string",
+                    "default": "hy2-out",
+                    "x-propOrder": 20,
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server": {
+                    "type": "string",
+                    "x-propOrder": 30,
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server_port": {
+                    "type": "integer",
+                    "x-propOrder": 40,
+                    "x-grid": {
+                        "columns": 2
+                    }
+                },
+                "server_ports": {
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayDeleteContent": "",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "hop_interval": {
+                    "type": "string"
+                },
+                "hop_interval_max": {
+                    "type": "string"
+                },
+                "up_mbps": {
+                    "type": "integer"
+                },
+                "down_mbps": {
+                    "type": "integer"
+                },
+                "obfs": {
+                    "type": "object",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "x-format": "grid",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "",
+                                "salamander"
+                            ],
+                            "x-grid": {
+                                "columns": 6
+                            }
+                        },
+                        "password": {
+                            "type": "string",
+                            "x-grid": {
+                                "columns": 6
+                            }
+                        }
+                    }
+                },
+                "password": {
+                    "type": "string"
+                },
+                "network": {
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "tcp",
+                        "udp"
+                    ]
+                },
+                "tls": {
+                    "$ref": "#/$defs/shared_tls_outbound"
+                },
+                "bbr_profile": {
+                    "type": "string",
+                    "enum": [
+                        "standard",
+                        "conservative",
+                        "uaggressive"
+                    ]
+                },
+                "brutal_debug": {
+                    "type": "boolean",
+                    "x-format": "checkbox"
+                },
+                "realm": {
+                    "type": "object",
+                    "required": [
+                        "server_url",
+                        "realm_id",
+                        "stun_servers"
+                    ],
+                    "properties": {
+                        "server_url": {
+                            "type": "string"
+                        },
+                        "token": {
+                            "type": "string"
+                        },
+                        "realm_id": {
+                            "type": "string"
+                        },
+                        "stun_servers": {
+                            "type": "array",
+                            "x-format": "table",
+                            "x-arrayDeleteContent": "",
+                            "x-arrayAddContent": "Add",
+                            "x-arrayMove": false,
+                            "x-enableCollapseToggle": true,
+                            "x-collapseToggleContent": "",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "http_client": {
+                            "oneOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "object"
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_quic"
+        },
+        {
+            "$ref": "#/$defs/shared_http2"
+        },
+        {
+            "$ref": "#/$defs/shared_dial"
+        }
+    ]
 }
