@@ -4,7 +4,9 @@
     "x-format": "grid",
     "required": [
         "type",
-        "tag"
+        "server",
+        "server_port",
+        "password"
     ],
     "properties": {
         "type": {
@@ -15,13 +17,55 @@
             "x-grid": {
                 "columns": 6
             }
-        },
-        "tag": {
-            "type": "string",
-            "default": "trojan-out",
-            "x-grid": {
-                "columns": 6
-            }
         }
-    }
+    },
+    "allOf": [
+        {
+            "type": "object",
+            "properties": {
+                "tag": {
+                    "type": "string",
+                    "default": "trojan-out",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server": {
+                    "type": "string",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server_port": {
+                    "type": "integer",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "password": {
+                    "type": "string"
+                },
+                "network": {
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "tcp",
+                        "udp"
+                    ]
+                },
+                "tls": {
+                    "$ref": "#/$defs/shared_tls_outbound"
+                },
+                "transport": {
+                    "$ref": "#/$defs/shared_v2ray_transport"
+                },
+                "multiplex": {
+                    "$ref": "#/$defs/shared_multiplex_outbound"
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_dial"
+        }
+    ]
 }

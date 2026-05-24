@@ -3,8 +3,7 @@
     "title": "Hysteria2",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {
@@ -46,7 +45,7 @@
                     "type": "integer",
                     "x-propOrder": 40,
                     "x-grid": {
-                        "columns": 2
+                        "columns": 6
                     }
                 },
                 "server_ports": {
@@ -68,10 +67,16 @@
                     "type": "string"
                 },
                 "up_mbps": {
-                    "type": "integer"
+                    "type": "integer",
+                    "x-grid": {
+                        "columns": 6
+                    }
                 },
                 "down_mbps": {
-                    "type": "integer"
+                    "type": "integer",
+                    "x-grid": {
+                        "columns": 6
+                    }
                 },
                 "obfs": {
                     "type": "object",
@@ -116,7 +121,7 @@
                     "enum": [
                         "standard",
                         "conservative",
-                        "uaggressive"
+                        "aggressive"
                     ]
                 },
                 "brutal_debug": {

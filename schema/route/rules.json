@@ -243,6 +243,18 @@
                             "type": "integer"
                         }
                     },
+                    "port_range": {
+                        "type": "array",
+                        "x-format": "table",
+                        "x-arrayDeleteContent": "",
+                        "x-arrayAddContent": "Add",
+                        "x-arrayMove": false,
+                        "x-enableCollapseToggle": true,
+                        "x-collapseToggleContent": "",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
                     "process_name": {
                         "type": "array",
                         "x-format": "table",
@@ -268,6 +280,30 @@
                         }
                     },
                     "process_path_regex": {
+                        "type": "array",
+                        "x-format": "table",
+                        "x-arrayDeleteContent": "",
+                        "x-arrayAddContent": "Add",
+                        "x-arrayMove": false,
+                        "x-enableCollapseToggle": true,
+                        "x-collapseToggleContent": "",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "package_name": {
+                        "type": "array",
+                        "x-format": "table",
+                        "x-arrayDeleteContent": "",
+                        "x-arrayAddContent": "Add",
+                        "x-arrayMove": false,
+                        "x-enableCollapseToggle": true,
+                        "x-collapseToggleContent": "",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "package_name_regex": {
                         "type": "array",
                         "x-format": "table",
                         "x-arrayDeleteContent": "",
@@ -340,7 +376,19 @@
                     "network_interface_address": {
                         "type": "object",
                         "x-objectAdd": true,
-                        "x-enablePropertiesToggle": true
+                        "x-enablePropertiesToggle": true,
+                        "additionalProperties": {
+                            "type": "array",
+                            "x-format": "table",
+                            "x-arrayDeleteContent": "",
+                            "x-arrayAddContent": "Add",
+                            "x-arrayMove": false,
+                            "x-enableCollapseToggle": true,
+                            "x-collapseToggleContent": "",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
                     },
                     "default_interface_address": {
                         "type": "array",
@@ -378,6 +426,46 @@
                             "type": "string"
                         }
                     },
+                    "preferred_by": {
+                        "type": "array",
+                        "x-format": "table",
+                        "x-arrayDeleteContent": "",
+                        "x-arrayAddContent": "Add",
+                        "x-arrayMove": false,
+                        "x-enableCollapseToggle": true,
+                        "x-collapseToggleContent": "",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "tailscale",
+                                "wireguard"
+                            ]
+                        }
+                    },
+                    "source_mac_address": {
+                        "type": "array",
+                        "x-format": "table",
+                        "x-arrayDeleteContent": "",
+                        "x-arrayAddContent": "Add",
+                        "x-arrayMove": false,
+                        "x-enableCollapseToggle": true,
+                        "x-collapseToggleContent": "",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "source_hostname": {
+                        "type": "array",
+                        "x-format": "table",
+                        "x-arrayDeleteContent": "",
+                        "x-arrayAddContent": "Add",
+                        "x-arrayMove": false,
+                        "x-enableCollapseToggle": true,
+                        "x-collapseToggleContent": "",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
                     "server": {
                         "type": "string"
                     },
@@ -396,6 +484,10 @@
                         "items": {
                             "type": "string"
                         }
+                    },
+                    "invert": {
+                        "type": "boolean",
+                        "x-format": "checkbox"
                     }
                 }
             },

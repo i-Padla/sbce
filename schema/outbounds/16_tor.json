@@ -3,8 +3,7 @@
     "title": "Tor",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {
@@ -15,13 +14,62 @@
             "x-grid": {
                 "columns": 6
             }
-        },
-        "tag": {
-            "type": "string",
-            "default": "tor-out",
-            "x-grid": {
-                "columns": 6
-            }
         }
-    }
+    },
+    "allOf": [
+        {
+            "type": "object",
+            "properties": {
+                "tag": {
+                    "type": "string",
+                    "default": "tor-out",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "executable_path": {
+                    "type": "string"
+                },
+                "extra_args": {
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayDeleteContent": "",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "data_directory": {
+                    "type": "string"
+                },
+                "torrc": {
+                    "type": "object",
+                    "x-objectAdd": true,
+                    "x-addPropertyContent": "Add torrc options",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "properties": {
+                        "ClientOnly": {
+                            "type": "string"
+                        },
+                        "SocksPort": {
+                            "type": "string"
+                        },
+                        "ControlPort": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_dial"
+        }
+    ]
 }

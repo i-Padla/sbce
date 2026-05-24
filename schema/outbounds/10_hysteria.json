@@ -4,7 +4,9 @@
     "x-format": "grid",
     "required": [
         "type",
-        "tag"
+        "server",
+        "server_port",
+        "tls"
     ],
     "properties": {
         "type": {
@@ -15,13 +17,113 @@
             "x-grid": {
                 "columns": 6
             }
-        },
-        "tag": {
-            "type": "string",
-            "default": "hysteria-out",
-            "x-grid": {
-                "columns": 6
-            }
         }
-    }
+    },
+    "allOf": [
+        {
+            "type": "object",
+            "properties": {
+                "tag": {
+                    "type": "string",
+                    "default": "hysteria-out",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server": {
+                    "type": "string",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server_port": {
+                    "type": "integer",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server_ports": {
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayDeleteContent": "",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "hop_interval": {
+                    "type": "string"
+                },
+                "up": {
+                    "type": "string",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "up_mbps": {
+                    "type": "integer",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "down": {
+                    "type": "string",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "down_mbps": {
+                    "type": "integer",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "obfs": {
+                    "type": "string"
+                },
+                "auth": {
+                    "type": "string"
+                },
+                "auth_str": {
+                    "type": "string"
+                },
+                "network": {
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "tcp",
+                        "udp"
+                    ]
+                },
+                "tls": {
+                    "$ref": "#/$defs/shared_tls_outbound"
+                },
+                "recv_window_conn": {
+                    "type": "integer",
+                    "x-propGroup": "depricated"
+                },
+                "recv_window": {
+                    "type": "integer",
+                    "x-propGroup": "depricated"
+                },
+                "disable_mtu_discovery": {
+                    "type": "boolean",
+                    "x-format": "checkbox",
+                    "x-propGroup": "depricated"
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_quic"
+        },
+        {
+            "$ref": "#/$defs/shared_http2"
+        },
+        {
+            "$ref": "#/$defs/shared_dial"
+        }
+    ]
 }

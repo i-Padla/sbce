@@ -2,7 +2,6 @@
     "type": "object",
     "x-enablePropertiesToggle": false,
     "required": [
-        "enabled",
         "up_mbps",
         "down_mbps"
     ],

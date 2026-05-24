@@ -7,6 +7,74 @@ let debounceTimer;
 const AjvConstructor = window.ajv2020;
 let ajv = null;
 
+//----------------- Fix for properties pop-up dialog window, so it foesn't  scroll up.
+
+// (function () {
+//   let lastStableScroll = 0;
+//   let lockTimer = null;
+
+//   // 1. Запоминаем скролл в момент ЛЮБОГО взаимодействия с диалогом
+//   document.addEventListener('mousedown', (e) => {
+//     const dialog = e.target.closest('dialog.jedi-properties-slot');
+//     if (dialog) {
+//       lastStableScroll = dialog.scrollTop;
+
+//       // Включаем "режим защиты" на короткое время
+//       clearTimeout(lockTimer);
+//       dialog.dataset.focusLock = "true";
+//       lockTimer = setTimeout(() => {
+//         dialog.dataset.focusLock = "false";
+//       }, 100); // 300мс хватит на все перерисовки Jedison
+//     }
+//   }, true);
+
+//   // 2. Перехватываем фокус СИНХРОННО
+//   document.addEventListener('focusin', (e) => {
+//     const dialog = e.target.closest('dialog.jedi-properties-slot');
+//     if (dialog && dialog.dataset.focusLock === "true") {
+//       // Если скролл изменился в момент фокуса - возвращаем мгновенно
+//       if (dialog.scrollTop !== lastStableScroll) {
+//         dialog.scrollTop = lastStableScroll;
+//       }
+//     }
+//   }, true);
+// })();
+(function () {
+  const scrollRegistry = new WeakMap();
+
+  document.addEventListener('mousedown', (e) => {
+    const dialog = e.target.closest('dialog.jedi-properties-slot');
+
+    // ЕСЛИ КЛИК ВНЕ ДИАЛОГА — ПОЛНЫЙ ИГНОР
+    if (!dialog) return;
+
+    // Запоминаем скролл только для ЭТОГО конкретного диалога
+    scrollRegistry.set(dialog, dialog.scrollTop);
+    dialog.dataset.focusLock = "true";
+
+    // Снимаем блокировку через 300мс
+    setTimeout(() => {
+      dialog.dataset.focusLock = "false";
+    }, 1000);
+  }, true);
+
+  document.addEventListener('focusin', (e) => {
+    const dialog = e.target.closest('dialog.jedi-properties-slot');
+
+    // Если мы не в диалоге или замок не активен — выходим
+    if (!dialog || dialog.dataset.focusLock !== "true") return;
+
+    const savedScroll = scrollRegistry.get(dialog);
+
+    // Если скролл убежал — возвращаем ЕГО ВНУТРИ ДИАЛОГА
+    if (savedScroll !== undefined && dialog.scrollTop !== savedScroll) {
+      dialog.scrollTop = savedScroll;
+    }
+  }, true);
+})();
+
+// ------------------------------------------------------------------------------------
+
 if (AjvConstructor) {
   ajv = new AjvConstructor({
     coerceTypes: "array",
@@ -113,7 +181,7 @@ function buildMenu() {
     item.setAttribute("data-section", key);
 
     item.innerHTML = `
-                    <input type="checkbox" checked class="section-checkbox" id="check-${key}">
+                    <input type="checkbox" class="section-checkbox" id="check-${key}">
                     <span class="flex-grow-1 text-truncate">${title}</span>
                 `;
 
@@ -171,7 +239,10 @@ function switchLayer(key) {
       purifyHtml: true,
       domPurifyOptions: {},
       show_errors: "always",
+      subErrors: true
     });
+
+
 
     instances[key].on("change", () => {
       clearTimeout(debounceTimer);
@@ -257,18 +328,38 @@ function applyConfig(config) {
     );
   }
 
-  // 3. Распределяем нормализованные данные по инстансам форм
+  // 3. Сначала полностью очищаем текущее состояние форм
+  Object.keys(schema_ready.properties).forEach((key) => {
+    // Выключаем чекбокс в сайдбаре
+    const checkbox = document.getElementById(`check-${key}`);
+    if (checkbox) {
+      checkbox.checked = false;
+    }
+
+    // Если инстанс формы существует, очищаем его (ставим пустые значения)
+    if (instances[key]) {
+      // setValue({}) или setValue(null) сбросит форму к дефолтам схемы
+      instances[key].setValue(instances[key].schema.type === 'array' ? [] : {});
+    }
+  });
+
+  // 4. Теперь загружаем новые данные
   Object.keys(schema_ready.properties).forEach((key) => {
     if (finalDataToLoad[key]) {
+      // Если слоя еще нет в DOM — создаем его
       if (!instances[key]) {
         switchLayer(key);
       }
+
+      // Заполняем данными
       if (instances[key]) {
         instances[key].setValue(finalDataToLoad[key]);
-      }
-      const checkbox = document.getElementById(`check-${key}`);
-      if (checkbox) {
-        checkbox.checked = true;
+
+        // Включаем чекбокс обратно
+        const checkbox = document.getElementById(`check-${key}`);
+        if (checkbox) {
+          checkbox.checked = true;
+        }
       }
     }
   });
@@ -318,4 +409,23 @@ function refreshPreview() {
     previewBox.textContent = JSON.stringify(finalConfig, null, 2);
   }
 }
+document.getElementById('copy-btn').addEventListener('click', function () {
+  const code = document.getElementById('json-preview').innerText;
+  const btn = this;
+
+  navigator.clipboard.writeText(code).then(() => {
+    // Визуальное подтверждение
+    const originalHtml = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED!';
+    btn.classList.add('success');
+
+    setTimeout(() => {
+      btn.innerHTML = originalHtml;
+      btn.classList.remove('success');
+    }, 2000);
+  }).catch(err => {
+    console.error('Ошибка при копировании: ', err);
+  });
+});
 window.onload = init;
+

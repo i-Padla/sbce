@@ -3,8 +3,7 @@
     "title": "Direct",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {

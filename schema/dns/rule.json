@@ -1,7 +1,7 @@
 {
     "type": "array",
     "title": "DNS rules",
-    "x-format": "table",
+    "x-format": "nav-vertical",
     "x-arrayAddContent": "Add",
     "x-arrayDeleteContent": "",
     "x-enableCollapseToggle": true,
@@ -11,7 +11,6 @@
     "x-arrayMove": true,
     "x-arrayMoveDownContent": "",
     "x-arrayMoveUpContent": "",
-    "x-arrayButtonsPosition": "right",
     "x-recursive": true,
     "x-titleTemplate": "#{{ i1 }}",
     "items": {

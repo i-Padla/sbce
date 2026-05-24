@@ -48,8 +48,7 @@
                         "properties": {
                             "username": {
                                 "type": "string",
-                                "title": "username",
-                                "default": "Alice"
+                                "title": "username"
                             },
                             "password": {
                                 "type": "string",

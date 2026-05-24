@@ -5,7 +5,11 @@
     "required": [
         "type"
     ],
-    "anyOf": [
+    "x-discriminator": "type",
+    "discriminator": {
+        "propertyName": "type"
+    },
+    "oneOf": [
         {
             "x-switcherTitle": "HTTP",
             "type": "object",
@@ -17,7 +21,18 @@
                     "readOnly": true
                 },
                 "host": {
-                    "type": "array"
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "path": {
                     "description": "Path of HTTP request.The server will verify.",
@@ -28,7 +43,7 @@
                     "type": "string"
                 },
                 "headers": {
-                    "type": "object"
+                    "$ref": "#/$defs/shared_http_headers"
                 },
                 "idle_timeout": {
                     "type": "string",
@@ -88,6 +103,19 @@
                     "const": "grpc",
                     "default": "grpc",
                     "readOnly": true
+                },
+                "service_name": {
+                    "type": "string"
+                },
+                "idle_timeout": {
+                    "type": "string"
+                },
+                "ping_timeout": {
+                    "type": "string"
+                },
+                "permit_without_stream": {
+                    "type": "boolean",
+                    "x-format": "checkbox"
                 }
             }
         },
@@ -100,6 +128,15 @@
                     "const": "httpupgrade",
                     "default": "httpupgrade",
                     "readOnly": true
+                },
+                "host": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "headers": {
+                    "$ref": "#/$defs/shared_http_headers"
                 }
             }
         }

@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "Redirect",
+    "title": "Redirect  - unfinished",
     "x-format": "grid",
     "required": [
         "tag",

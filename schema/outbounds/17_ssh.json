@@ -3,8 +3,7 @@
     "title": "SSH",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {
@@ -15,13 +14,130 @@
             "x-grid": {
                 "columns": 6
             }
-        },
-        "tag": {
-            "type": "string",
-            "default": "ssh-out",
-            "x-grid": {
-                "columns": 6
-            }
         }
-    }
+    },
+    "allOf": [
+        {
+            "type": "object",
+            "x-format": "grid",
+            "properties": {
+                "tag": {
+                    "type": "string",
+                    "default": "ssh-out",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server": {
+                    "type": "string",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server_port": {
+                    "type": "integer",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "user": {
+                    "type": "string",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "password": {
+                    "type": "string",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "private_key": {
+                    "type": "string"
+                },
+                "private_key_path": {
+                    "type": "string"
+                },
+                "private_key_passphrase": {
+                    "type": "string"
+                },
+                "host_key": {
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "host_key_algorithms": {
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "client_version": {
+                    "type": "string"
+                },
+                "cipher": {
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "mac": {
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "kex_algorithm": {
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayAddContent": "Add",
+                    "x-arrayMove": false,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_dial"
+        }
+    ]
 }

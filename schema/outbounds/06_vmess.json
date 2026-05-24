@@ -4,7 +4,9 @@
     "x-format": "grid",
     "required": [
         "type",
-        "tag"
+        "server",
+        "server_port",
+        "uuid"
     ],
     "properties": {
         "type": {
@@ -15,13 +17,86 @@
             "x-grid": {
                 "columns": 6
             }
-        },
-        "tag": {
-            "type": "string",
-            "default": "vmess-out",
-            "x-grid": {
-                "columns": 6
-            }
         }
-    }
+    },
+    "allOf": [
+        {
+            "type": "object",
+            "properties": {
+                "tag": {
+                    "type": "string",
+                    "default": "vmess-out",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server": {
+                    "type": "string",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "server_port": {
+                    "type": "integer",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "security": {
+                    "type": "string",
+                    "enum": [
+                        "auto",
+                        "none",
+                        "zero",
+                        "aes-128-gcm",
+                        "chacha20-poly1305",
+                        "aes-128-ctr"
+                    ]
+                },
+                "alter_id": {
+                    "type": "integer"
+                },
+                "global_padding": {
+                    "type": "boolean",
+                    "x-format": "checkbox"
+                },
+                "authenticated_length": {
+                    "type": "boolean",
+                    "x-format": "checkbox",
+                    "default": true
+                },
+                "network": {
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "tcp",
+                        "udp"
+                    ]
+                },
+                "tls": {
+                    "$ref": "#/$defs/shared_tls_outbound"
+                },
+                "packet_encoding": {
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "packetaddr",
+                        "xudp"
+                    ]
+                },
+                "transport": {
+                    "$ref": "#/$defs/shared_v2ray_transport"
+                },
+                "multiplex": {
+                    "$ref": "#/$defs/shared_multiplex_outbound"
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_dial"
+        }
+    ]
 }

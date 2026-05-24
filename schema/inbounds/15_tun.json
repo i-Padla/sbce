@@ -17,438 +17,426 @@
             }
         }
     },
-    "x-mergeAllOf": true,
-    "allOf": [
-        {
-            "type": "object",
-            "x-format": "grid",
-            "properties": {
-                "tag": {
-                    "type": "string",
-                    "default": "tun_in",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "interface_name": {
-                    "type": "string"
-                },
-                "address": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "mtu": {
-                    "type": "integer",
-                    "default": 9000
-                },
-                "auto_route": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "iproute2_table_index": {
-                    "type": "integer",
-                    "default": 2022
-                },
-                "iproute2_rule_index": {
-                    "type": "integer",
-                    "default": 9000
-                },
-                "auto_redirect": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "auto_redirect_input_mark": {
-                    "type": "string",
-                    "default": "0x2023"
-                },
-                "auto_redirect_output_mark": {
-                    "type": "string",
-                    "default": "0x2024"
-                },
-                "auto_redirect_reset_mark": {
-                    "type": "string",
-                    "default": "0x2025"
-                },
-                "auto_redirect_nfqueue": {
-                    "type": "integer",
-                    "default": 100
-                },
-                "auto_redirect_iproute2_fallback_rule_index": {
-                    "type": "integer",
-                    "default": 327668
-                },
-                "exclude_mptcp": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "loopback_address": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
+    "tag": {
+        "type": "string",
+        "default": "tun_in",
+        "x-grid": {
+            "columns": 6
+        }
+    },
+    "interface_name": {
+        "type": "string"
+    },
+    "address": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "mtu": {
+        "type": "integer",
+        "default": 9000
+    },
+    "auto_route": {
+        "type": "boolean",
+        "x-format": "checkbox"
+    },
+    "iproute2_table_index": {
+        "type": "integer",
+        "default": 2022
+    },
+    "iproute2_rule_index": {
+        "type": "integer",
+        "default": 9000
+    },
+    "auto_redirect": {
+        "type": "boolean",
+        "x-format": "checkbox"
+    },
+    "auto_redirect_input_mark": {
+        "type": "string",
+        "default": "0x2023"
+    },
+    "auto_redirect_output_mark": {
+        "type": "string",
+        "default": "0x2024"
+    },
+    "auto_redirect_reset_mark": {
+        "type": "string",
+        "default": "0x2025"
+    },
+    "auto_redirect_nfqueue": {
+        "type": "integer",
+        "default": 100
+    },
+    "auto_redirect_iproute2_fallback_rule_index": {
+        "type": "integer",
+        "default": 327668
+    },
+    "exclude_mptcp": {
+        "type": "boolean",
+        "x-format": "checkbox"
+    },
+    "loopback_address": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string",
+            "default": "10.7.0.1"
+        }
+    },
+    "strict_route": {
+        "type": "boolean",
+        "x-format": "checkbox"
+    },
+    "route_address": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        },
+        "default": [
+            "0.0.0.0/1",
+            "128.0.0.0/1",
+            "::/1",
+            "8000::/1"
+        ]
+    },
+    "route_exclude_address": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        },
+        "default": [
+            "192.168.0.0/16",
+            "fc00::/7"
+        ]
+    },
+    "route_address_set": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "route_exclude_address_set": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "endpoint_independent_nat": {
+        "type": "boolean",
+        "x-format": "checkbox"
+    },
+    "udp_timeout": {
+        "type": "string",
+        "default": "5m"
+    },
+    "stack": {
+        "type": "string",
+        "default": "system"
+    },
+    "include_interface": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "exclude_interface": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "include_uid": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "integer"
+        }
+    },
+    "include_uid_range": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "exclude_uid": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "integer"
+        }
+    },
+    "exclude_uid_range": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "include_android_user": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "integer"
+        }
+    },
+    "include_package": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "exclude_package": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "include_mac_address": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "exclude_mac_address": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "platform": {
+        "type": "object",
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "properties": {
+            "http_proxy": {
+                "type": "object",
+                "x-enableCollapseToggle": true,
+                "x-collapseToggleContent": "",
+                "x-format": "grid",
+                "properties": {
+                    "enabled": {
+                        "type": "boolean",
+                        "x-format": "checkbox"
+                    },
+                    "server": {
                         "type": "string",
-                        "default": "10.7.0.1"
-                    }
-                },
-                "strict_route": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "route_address": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": [
-                        "0.0.0.0/1",
-                        "128.0.0.0/1",
-                        "::/1",
-                        "8000::/1"
-                    ]
-                },
-                "route_exclude_address": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": [
-                        "192.168.0.0/16",
-                        "fc00::/7"
-                    ]
-                },
-                "route_address_set": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "route_exclude_address_set": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "endpoint_independent_nat": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "udp_timeout": {
-                    "type": "string",
-                    "default": "5m"
-                },
-                "stack": {
-                    "type": "string",
-                    "default": "system"
-                },
-                "include_interface": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "exclude_interface": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "include_uid": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "include_uid_range": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "exclude_uid": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "exclude_uid_range": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "include_android_user": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "include_package": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "exclude_package": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "include_mac_address": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "exclude_mac_address": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "platform": {
-                    "type": "object",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "properties": {
-                        "http_proxy": {
-                            "type": "object",
-                            "x-enableCollapseToggle": true,
-                            "x-collapseToggleContent": "",
-                            "x-format": "grid",
-                            "properties": {
-                                "enabled": {
-                                    "type": "boolean",
-                                    "x-format": "checkbox"
-                                },
-                                "server": {
-                                    "type": "string",
-                                    "x-grid": {
-                                        "columns": 6
-                                    }
-                                },
-                                "server_port": {
-                                    "type": "integer",
-                                    "x-grid": {
-                                        "columns": 6
-                                    }
-                                },
-                                "bypass_domain": {
-                                    "type": "array",
-                                    "x-format": "table",
-                                    "x-arrayDeleteContent": "",
-                                    "x-arrayAddContent": "Add",
-                                    "x-arrayMove": false,
-                                    "x-enableCollapseToggle": true,
-                                    "x-collapseToggleContent": "",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                "match_domain": {
-                                    "type": "array",
-                                    "x-format": "table",
-                                    "x-arrayDeleteContent": "",
-                                    "x-arrayAddContent": "Add",
-                                    "x-arrayMove": false,
-                                    "x-enableCollapseToggle": true,
-                                    "x-collapseToggleContent": "",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
+                        "x-grid": {
+                            "columns": 6
                         }
-                    }
-                },
-                "gso": {
-                    "type": "boolean",
-                    "x-propGroup": "Depricated"
-                },
-                "inet4_address": {
-                    "type": "array",
-                    "x-propGroup": "Depricated",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "inet6_address": {
-                    "type": "array",
-                    "x-propGroup": "Depricated",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "inet4_route_address": {
-                    "type": "array",
-                    "x-propGroup": "Depricated",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "inet6_route_address": {
-                    "type": "array",
-                    "x-propGroup": "Depricated",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "inet4_route_exclude_address": {
-                    "type": "array",
-                    "x-propGroup": "Depricated",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "inet6_route_exclude_address": {
-                    "type": "array",
-                    "x-propGroup": "Depricated",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
+                    },
+                    "server_port": {
+                        "type": "integer",
+                        "x-grid": {
+                            "columns": 6
+                        }
+                    },
+                    "bypass_domain": {
+                        "type": "array",
+                        "x-format": "table",
+                        "x-arrayDeleteContent": "",
+                        "x-arrayAddContent": "Add",
+                        "x-arrayMove": false,
+                        "x-enableCollapseToggle": true,
+                        "x-collapseToggleContent": "",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "match_domain": {
+                        "type": "array",
+                        "x-format": "table",
+                        "x-arrayDeleteContent": "",
+                        "x-arrayAddContent": "Add",
+                        "x-arrayMove": false,
+                        "x-enableCollapseToggle": true,
+                        "x-collapseToggleContent": "",
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 }
             }
-        },
-        {
-            "$ref": "#/$defs/shared_listen"
         }
-    ]
+    },
+    "gso": {
+        "type": "boolean",
+        "x-propGroup": "Depricated"
+    },
+    "inet4_address": {
+        "type": "array",
+        "x-propGroup": "Depricated",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "inet6_address": {
+        "type": "array",
+        "x-propGroup": "Depricated",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "inet4_route_address": {
+        "type": "array",
+        "x-propGroup": "Depricated",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "inet6_route_address": {
+        "type": "array",
+        "x-propGroup": "Depricated",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "inet4_route_exclude_address": {
+        "type": "array",
+        "x-propGroup": "Depricated",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    },
+    "inet6_route_exclude_address": {
+        "type": "array",
+        "x-propGroup": "Depricated",
+        "x-format": "table",
+        "x-arrayDeleteContent": "",
+        "x-arrayAddContent": "Add",
+        "x-arrayMove": false,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "items": {
+            "type": "string"
+        }
+    }
 }

@@ -4,7 +4,6 @@
     "x-format": "grid",
     "required": [
         "type",
-        "tag",
         "server",
         "server_port",
         "uuid"

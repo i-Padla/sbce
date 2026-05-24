@@ -2,7 +2,7 @@
     "type": "object",
     "title": "HTTP Headers",
     "x-objectAdd": true,
-    "x-propertiesContent": "Add custom header",
+    "x-addPropertyContent": "Add custom header",
     "x-enableCollapseToggle": true,
     "x-collapseToggleContent": "",
     "properties": {

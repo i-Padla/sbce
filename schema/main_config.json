@@ -209,7 +209,10 @@
       "$ref": "schema/shared/brutal.json"
     },
     "shared_v2ray_transport": {
-      "$ref": "schema/shared/v2ray_transport.json"
+      "$ref": "schema/shared/11_v2ray_transport.json"
+    },
+    "shared_udp_over_tcp": {
+      "$ref": "schema/shared/12_udp_over_tcp.json"
     },
     "shared_http_headers": {
       "$ref": "schema/shared/http_headers.json"

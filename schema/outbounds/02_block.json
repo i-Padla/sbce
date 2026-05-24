@@ -3,8 +3,7 @@
     "title": "Block",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {

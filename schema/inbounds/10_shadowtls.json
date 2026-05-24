@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "ShadowTLS",
+    "title": "ShadowTLS  - unfinished",
     "x-format": "grid",
     "required": [
         "tag",

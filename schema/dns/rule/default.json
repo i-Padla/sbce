@@ -334,7 +334,7 @@
                         "type": "string"
                     }
                 },
-                "prefered_by": {
+                "preferred_by": {
                     "type": "array",
                     "x-format": "table",
                     "x-arrayDeleteContent": "",

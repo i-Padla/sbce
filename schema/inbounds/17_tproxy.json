@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "TProxy",
+    "title": "TProxy  - unfinished",
     "x-format": "grid",
     "required": [
         "tag",
