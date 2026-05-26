@@ -45,14 +45,14 @@ let ajv = null;
   document.addEventListener('mousedown', (e) => {
     const dialog = e.target.closest('dialog.jedi-properties-slot');
 
-    // ЕСЛИ КЛИК ВНЕ ДИАЛОГА — ПОЛНЫЙ ИГНОР
+
     if (!dialog) return;
 
-    // Запоминаем скролл только для ЭТОГО конкретного диалога
+
     scrollRegistry.set(dialog, dialog.scrollTop);
     dialog.dataset.focusLock = "true";
 
-    // Снимаем блокировку через 300мс
+
     setTimeout(() => {
       dialog.dataset.focusLock = "false";
     }, 1000);
@@ -61,12 +61,12 @@ let ajv = null;
   document.addEventListener('focusin', (e) => {
     const dialog = e.target.closest('dialog.jedi-properties-slot');
 
-    // Если мы не в диалоге или замок не активен — выходим
+
     if (!dialog || dialog.dataset.focusLock !== "true") return;
 
     const savedScroll = scrollRegistry.get(dialog);
 
-    // Если скролл убежал — возвращаем ЕГО ВНУТРИ ДИАЛОГА
+
     if (savedScroll !== undefined && dialog.scrollTop !== savedScroll) {
       dialog.scrollTop = savedScroll;
     }
@@ -86,17 +86,16 @@ if (AjvConstructor) {
   });
   ajv.addKeyword({
     keyword: "x-stringToPropertie",
-    modifying: true, // Позволяет изменять данные на лету
+    modifying: true,
     compile: function (targetProperty) {
-      // targetProperty — это строка с именем поля, куда нужно положить значение (например, "server")
       return function (data, dataCxt) {
         if (typeof data === "string") {
-          // Заменяем строку на объект нужного формата прямо в родительском объекте
+
           dataCxt.parentData[dataCxt.parentDataProperty] = {
             [targetProperty]: data,
           };
         }
-        return true; // Валидация пройдена
+        return true;
       };
     },
   });
@@ -185,18 +184,18 @@ function buildMenu() {
                     <span class="flex-grow-1 text-truncate">${title}</span>
                 `;
 
-    // Чекбокс просто обновляет превью
+
     item.querySelector("input").onclick = (e) => {
       e.stopPropagation();
       refreshPreview();
     };
 
-    // Клик по тексту переключает слой
+
     item.onclick = () => switchLayer(key);
     menu.appendChild(item);
   });
 
-  // Добавляем пункт для загрузки конфига в меню только один раз
+
   const loadItem = document.createElement("div");
   loadItem.className = "section-link";
   loadItem.setAttribute("data-section", "load");
@@ -220,7 +219,7 @@ function switchLayer(key) {
   const targetLayer = document.getElementById(`layer-${key}`);
   targetLayer.style.display = "block";
 
-  // Инициализируем Jedison только для секций со схемой
+
   if (key !== "load" && !instances[key]) {
     console.log(`Инициализация секции: ${key}`);
     instances[key] = new Jedison.Create({
@@ -240,9 +239,8 @@ function switchLayer(key) {
       domPurifyOptions: {},
       show_errors: "always",
       subErrors: true
+
     });
-
-
 
     instances[key].on("change", () => {
       clearTimeout(debounceTimer);
@@ -289,15 +287,15 @@ function applyConfig(config) {
   let finalDataToLoad = config;
 
   try {
-    // 1. Компилируем нашу глобальную схему
+
     const validate = ajv.compile(schema_for_ajv);
-    // pre-normalization для shorthand inline rule_set
+
     for (const item of config.route?.rule_set ?? []) {
       if (!item.type && item.rules) {
         item.type = "inline";
       }
     }
-    // Проверяем, что секция dns и массив rules вообще существуют
+
     for (const rule of config.dns?.rules ?? []) {
       if (rule.rewrite_ttl === null) {
         delete rule.rewrite_ttl;
@@ -307,19 +305,18 @@ function applyConfig(config) {
         delete rule.client_subnet;
       }
     }
-    // 2. Валидируем. Ajv автоматически превратит строки в массивы там, где требует схема
+
     const isValid = validate(config);
 
     if (!isValid) {
-      // Выводим предупреждение, но не блокируем импорт полностью,
-      // чтобы пользователь мог исправить ошибки прямо в интерфейсе
+
       console.warn(
         "Предупреждение при валидации импортируемого конфига:",
         validate.errors,
       );
     }
 
-    // В случае успеха или мелких нестыковок используем мутировавший config
+
     finalDataToLoad = config;
   } catch (err) {
     console.error("Ошибка автоматической нормализации через Ajv:", err);
@@ -328,34 +325,34 @@ function applyConfig(config) {
     );
   }
 
-  // 3. Сначала полностью очищаем текущее состояние форм
+
   Object.keys(schema_ready.properties).forEach((key) => {
-    // Выключаем чекбокс в сайдбаре
+
     const checkbox = document.getElementById(`check-${key}`);
     if (checkbox) {
       checkbox.checked = false;
     }
 
-    // Если инстанс формы существует, очищаем его (ставим пустые значения)
+
     if (instances[key]) {
-      // setValue({}) или setValue(null) сбросит форму к дефолтам схемы
+
       instances[key].setValue(instances[key].schema.type === 'array' ? [] : {});
     }
   });
 
-  // 4. Теперь загружаем новые данные
+
   Object.keys(schema_ready.properties).forEach((key) => {
     if (finalDataToLoad[key]) {
-      // Если слоя еще нет в DOM — создаем его
+
       if (!instances[key]) {
         switchLayer(key);
       }
 
-      // Заполняем данными
+
       if (instances[key]) {
         instances[key].setValue(finalDataToLoad[key]);
 
-        // Включаем чекбокс обратно
+
         const checkbox = document.getElementById(`check-${key}`);
         if (checkbox) {
           checkbox.checked = true;
@@ -364,7 +361,7 @@ function applyConfig(config) {
     }
   });
 
-  // Принудительный фокус на секцию log
+
   if (schema_ready.properties["log"]) {
     switchLayer("log");
   }
@@ -377,7 +374,7 @@ function cleanData(data) {
   } else if (data !== null && typeof data === "object") {
     const newObj = {};
     for (const key in data) {
-      // Если ключ технический — просто пропускаем его
+
       if (key !== "x-tag" && !key.startsWith("_")) {
         newObj[key] = cleanData(data[key]);
       }
@@ -393,12 +390,12 @@ function refreshPreview() {
   Object.keys(schema_ready.properties).forEach((key) => {
     const checkbox = document.getElementById(`check-${key}`);
 
-    // Если чекбокс активен и инстанс существует
+
     if (checkbox?.checked && instances[key]) {
       const rawData = instances[key].getValue();
 
       if (rawData && Object.keys(rawData).length > 0) {
-        // ЧИСТИМ СРАЗУ ПРИ ПОЛУЧЕНИИ
+
         finalConfig[key] = cleanData(rawData);
       }
     }
@@ -414,7 +411,7 @@ document.getElementById('copy-btn').addEventListener('click', function () {
   const btn = this;
 
   navigator.clipboard.writeText(code).then(() => {
-    // Визуальное подтверждение
+
     const originalHtml = btn.innerHTML;
     btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED!';
     btn.classList.add('success');

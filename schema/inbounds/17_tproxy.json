@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "TProxy  - unfinished",
+    "title": "TProxy",
     "x-format": "grid",
     "required": [
         "tag",
@@ -29,6 +29,14 @@
                     "x-grid": {
                         "columns": 6
                     }
+                },
+                "network": {
+                    "type": "string",
+                    "enum": [
+                        "",
+                        "tcp",
+                        "udp"
+                    ]
                 }
             }
         },
