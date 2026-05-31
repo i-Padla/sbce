@@ -1,4 +1,64 @@
 {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Certificate",
     "type": "object",
-    "title": "Certificate - unfinished"
+    "properties": {
+        "store": {
+            "type": "string",
+            "enum": [
+                "system",
+                "mozilla",
+                "chrome",
+                "none"
+            ]
+        },
+        "certificate": {
+            "description": "The certificate line array to trust, in PEM format.",
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "",
+            "x-arrayDelete": true,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "x-arrayMove": false,
+            "items": {
+                "type": "string"
+            }
+        },
+        "certificate_path": {
+            "description": "The paths to certificates to trust, in PEM format.  Will be automatically reloaded if file modified.",
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "",
+            "x-arrayDelete": true,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "x-arrayMove": false,
+            "items": {
+                "type": "string"
+            }
+        },
+        "certificate_directory_path": {
+            "description": "The directory path to search for certificates to trust, in PEM format.  Will be automatically reloaded if file modified.",
+            "type": "array",
+            "x-format": "table",
+            "x-arrayAddContent": "",
+            "x-arrayDelete": true,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "x-arrayMove": false,
+            "items": {
+                "type": "string"
+            }
+        }
+    }
 }

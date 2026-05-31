@@ -4,11 +4,11 @@
     "x-format": "grid",
     "required": [
         "type",
-        "tag",
         "handshake"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "shadowtls",
             "const": "shadowtls",
@@ -25,6 +25,7 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "st-in",
                     "x-grid": {

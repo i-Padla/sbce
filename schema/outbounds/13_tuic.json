@@ -11,6 +11,7 @@
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "tuic",
             "const": "tuic",
@@ -25,6 +26,7 @@
             "type": "object",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "tuic-out",
                     "x-grid": {
@@ -90,9 +92,6 @@
         },
         {
             "$ref": "#/$defs/shared_quic"
-        },
-        {
-            "$ref": "#/$defs/shared_http2"
         },
         {
             "$ref": "#/$defs/shared_dial"

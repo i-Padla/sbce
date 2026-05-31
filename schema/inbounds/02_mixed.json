@@ -3,11 +3,11 @@
     "title": "Mixed",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "mixed",
             "const": "mixed",
@@ -24,8 +24,9 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
-                    "default": "mixed_in",
+                    "default": "mixed-in",
                     "x-grid": {
                         "columns": 6
                     }

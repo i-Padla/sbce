@@ -7,6 +7,7 @@
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "direct",
             "const": "direct",
@@ -22,16 +23,8 @@
             "type": "object",
             "x-format": "grid",
             "properties": {
-                "type": {
-                    "type": "string",
-                    "default": "direct",
-                    "const": "direct",
-                    "readOnly": true,
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "direct-out",
                     "x-grid": {

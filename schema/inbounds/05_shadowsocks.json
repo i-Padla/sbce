@@ -3,11 +3,11 @@
     "title": "Shadowsocks",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "shadowsocks",
             "const": "shadowsocks",
@@ -28,6 +28,7 @@
             ],
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "description": "The tag of the inbound.",
                     "type": "string",
                     "default": "ss-in",

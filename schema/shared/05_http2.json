@@ -2,7 +2,8 @@
   "type": "object",
   "properties": {
     "idle_timeout": {
-      "type": "string"
+      "type": "string",
+      "x-propGroup": "Shared HTTP2 fields"
     },
     "keep_alive_period": {
       "type": "string",

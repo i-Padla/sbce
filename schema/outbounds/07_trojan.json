@@ -10,6 +10,7 @@
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "trojan",
             "const": "trojan",
@@ -24,6 +25,7 @@
             "type": "object",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "trojan-out",
                     "x-grid": {

@@ -3,11 +3,11 @@
     "title": "Hysteria",
     "x-format": "grid",
     "required": [
-        "tag",
         "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "title": "Type",
             "type": "string",
             "default": "hysteria",
@@ -24,6 +24,7 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "hysteria-in",
                     "x-grid": {
@@ -96,9 +97,6 @@
         },
         {
             "$ref": "#/$defs/shared_quic"
-        },
-        {
-            "$ref": "#/$defs/shared_http2"
         },
         {
             "$ref": "#/$defs/shared_listen"

@@ -1,4 +1,20 @@
 {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "array",
-    "title": "HTTP clients - unfinished"
+    "title": "HTTP clients",
+    "x-format": "nav-horizontal",
+    "x-arrayAddContent": "Add",
+    "x-arrayMove": false,
+    "x-arrayDeleteContent": "",
+    "x-arrayDeleteAll": true,
+    "x-arrayDeleteAllContent": "Delete all",
+    "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
+    "items": {
+        "$ref": "#/$defs/shared_http_client",
+        "additionalProperties": {
+            "tag": {
+                "type": "string"
+            }
+        }
+    }
 }

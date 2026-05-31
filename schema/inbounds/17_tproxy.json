@@ -3,11 +3,11 @@
     "title": "TProxy",
     "x-format": "grid",
     "required": [
-        "tag",
         "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "tproxy",
             "const": "tproxy",
@@ -24,6 +24,7 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "tproxy",
                     "x-grid": {

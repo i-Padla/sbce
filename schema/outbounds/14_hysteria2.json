@@ -7,6 +7,7 @@
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "hysteria2",
             "const": "hysteria2",
@@ -27,28 +28,29 @@
             ],
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "hy2-out",
-                    "x-propOrder": 20,
                     "x-grid": {
                         "columns": 6
                     }
                 },
                 "server": {
                     "type": "string",
-                    "x-propOrder": 30,
+                    "x-propertyOrder": 30,
                     "x-grid": {
                         "columns": 6
                     }
                 },
                 "server_port": {
                     "type": "integer",
-                    "x-propOrder": 40,
+                    "x-propertyOrder": 40,
                     "x-grid": {
                         "columns": 6
                     }
                 },
                 "server_ports": {
+                    "x-propertyOrder": 50,
                     "type": "array",
                     "x-format": "table",
                     "x-arrayDeleteContent": "",
@@ -173,9 +175,6 @@
         },
         {
             "$ref": "#/$defs/shared_quic"
-        },
-        {
-            "$ref": "#/$defs/shared_http2"
         },
         {
             "$ref": "#/$defs/shared_dial"

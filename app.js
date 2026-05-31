@@ -2,74 +2,48 @@ let instances = {};
 let schema_ready = null;
 let schema_for_ajv = null;
 let globalRefParser = null;
-let debounceTimer;
 
 const AjvConstructor = window.ajv2020;
 let ajv = null;
 
 //----------------- Fix for properties pop-up dialog window, so it foesn't  scroll up.
 
-// (function () {
-//   let lastStableScroll = 0;
-//   let lockTimer = null;
-
-//   // 1. Запоминаем скролл в момент ЛЮБОГО взаимодействия с диалогом
-//   document.addEventListener('mousedown', (e) => {
-//     const dialog = e.target.closest('dialog.jedi-properties-slot');
-//     if (dialog) {
-//       lastStableScroll = dialog.scrollTop;
-
-//       // Включаем "режим защиты" на короткое время
-//       clearTimeout(lockTimer);
-//       dialog.dataset.focusLock = "true";
-//       lockTimer = setTimeout(() => {
-//         dialog.dataset.focusLock = "false";
-//       }, 100); // 300мс хватит на все перерисовки Jedison
-//     }
-//   }, true);
-
-//   // 2. Перехватываем фокус СИНХРОННО
-//   document.addEventListener('focusin', (e) => {
-//     const dialog = e.target.closest('dialog.jedi-properties-slot');
-//     if (dialog && dialog.dataset.focusLock === "true") {
-//       // Если скролл изменился в момент фокуса - возвращаем мгновенно
-//       if (dialog.scrollTop !== lastStableScroll) {
-//         dialog.scrollTop = lastStableScroll;
-//       }
-//     }
-//   }, true);
-// })();
 (function () {
   const scrollRegistry = new WeakMap();
 
+  const restoreScroll = (dialog) => {
+    const savedScroll = scrollRegistry.get(dialog);
+    if (savedScroll !== undefined && dialog.scrollTop !== savedScroll) {
+      dialog.scrollTop = savedScroll;
+    }
+  };
+
   document.addEventListener('mousedown', (e) => {
     const dialog = e.target.closest('dialog.jedi-properties-slot');
-
-
     if (!dialog) return;
-
 
     scrollRegistry.set(dialog, dialog.scrollTop);
     dialog.dataset.focusLock = "true";
+  }, true);
 
+  document.addEventListener('mouseup', (e) => {
+    const dialog = e.target.closest('dialog.jedi-properties-slot');
+    if (!dialog) return;
 
-    setTimeout(() => {
-      dialog.dataset.focusLock = "false";
-    }, 1000);
+    requestAnimationFrame(() => {
+      restoreScroll(dialog);
+      requestAnimationFrame(() => {
+        restoreScroll(dialog);
+        dialog.dataset.focusLock = "false";
+      });
+    });
   }, true);
 
   document.addEventListener('focusin', (e) => {
     const dialog = e.target.closest('dialog.jedi-properties-slot');
-
-
     if (!dialog || dialog.dataset.focusLock !== "true") return;
 
-    const savedScroll = scrollRegistry.get(dialog);
-
-
-    if (savedScroll !== undefined && dialog.scrollTop !== savedScroll) {
-      dialog.scrollTop = savedScroll;
-    }
+    restoreScroll(dialog);
   }, true);
 })();
 
@@ -114,7 +88,8 @@ const init = async () => {
 
     schema_ready = structuredClone(schema_for_ajv);
     globalRefParser = new Jedison.RefParser();
-    await globalRefParser.dereference(schema_ready); // Dereferencing schema by native Jedison RefParser because of reasons
+    await globalRefParser.dereference(schema_ready); // "Dereferencing" schema by Jedison RefParser for it to add x-recursive to rucursive parts of the schema.
+
 
     const layersContainer = document.getElementById("editor-layers");
     const props = schema_ready.properties;
@@ -149,6 +124,7 @@ const init = async () => {
       `<div class="alert alert-danger">${e.message}</div>`;
   }
 };
+
 
 async function bundleSchema(rawSchema) {
   const entries = Object.entries(rawSchema.$defs);
@@ -238,15 +214,12 @@ function switchLayer(key) {
       purifyHtml: true,
       domPurifyOptions: {},
       show_errors: "always",
-      subErrors: true
+      subErrors: false
 
     });
 
     instances[key].on("change", () => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        refreshPreview();
-      }, 250);
+      refreshPreview();
     });
   }
 
@@ -290,12 +263,13 @@ function applyConfig(config) {
 
     const validate = ajv.compile(schema_for_ajv);
 
+    // Normalizing user config by adding type=inline to route rule-sets without type.
     for (const item of config.route?.rule_set ?? []) {
       if (!item.type && item.rules) {
         item.type = "inline";
       }
     }
-
+    // Normalizing user config by deleting rewrite_ttl and client_subnet fields if they are ==== null
     for (const rule of config.dns?.rules ?? []) {
       if (rule.rewrite_ttl === null) {
         delete rule.rewrite_ttl;
@@ -303,6 +277,18 @@ function applyConfig(config) {
 
       if (rule.client_subnet === null) {
         delete rule.client_subnet;
+      }
+    }
+    // Normalizing user config by changing masquerade field from string to object
+    for (const inbound of config.inbounds ?? []) {
+      if (inbound.type === "hysteria2" && typeof inbound.masquerade === "string") {
+        const raw = inbound.masquerade;
+
+        if (raw.startsWith("http")) {
+          inbound.masquerade = { type: "proxy", url: raw };
+        } else if (raw.startsWith("file://")) {
+          inbound.masquerade = { type: "file", directory: raw.replace("file://", "") };
+        }
       }
     }
 
@@ -351,7 +337,6 @@ function applyConfig(config) {
 
       if (instances[key]) {
         instances[key].setValue(finalDataToLoad[key]);
-
 
         const checkbox = document.getElementById(`check-${key}`);
         if (checkbox) {

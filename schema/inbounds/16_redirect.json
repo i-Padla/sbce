@@ -3,11 +3,11 @@
     "title": "Redirect",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "redirect",
             "const": "redirect",
@@ -24,6 +24,7 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "redirect-in",
                     "x-grid": {

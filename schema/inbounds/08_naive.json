@@ -3,12 +3,12 @@
     "title": "Naive",
     "x-format": "grid",
     "required": [
-        "tag",
         "type",
         "users"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "naive",
             "const": "naive",
@@ -25,6 +25,7 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "naive-in",
                     "x-grid": {

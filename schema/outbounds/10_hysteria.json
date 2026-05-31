@@ -10,6 +10,7 @@
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "hysteria",
             "const": "hysteria",
@@ -24,6 +25,7 @@
             "type": "object",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "hysteria-out",
                     "x-grid": {
@@ -118,9 +120,6 @@
         },
         {
             "$ref": "#/$defs/shared_quic"
-        },
-        {
-            "$ref": "#/$defs/shared_http2"
         },
         {
             "$ref": "#/$defs/shared_dial"

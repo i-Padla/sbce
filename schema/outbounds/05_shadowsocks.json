@@ -11,6 +11,7 @@
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "shadowsocks",
             "const": "shadowsocks",
@@ -25,25 +26,9 @@
         {
             "type": "object",
             "x-format": "grid",
-            "required": [
-                "type",
-                "tag",
-                "server",
-                "server_port",
-                "method",
-                "password"
-            ],
             "properties": {
-                "type": {
-                    "type": "string",
-                    "default": "shadowsocks",
-                    "const": "shadowsocks",
-                    "readOnly": true,
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "ss-out",
                     "x-grid": {

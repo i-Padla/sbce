@@ -3,11 +3,11 @@
     "title": "Tun",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "tun",
             "const": "tun",
@@ -21,6 +21,7 @@
         {
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "tun_in",
                     "x-grid": {
@@ -445,7 +446,29 @@
             }
         },
         {
-            "$ref": "#/$defs/shared_listen"
+            "properties": {
+                "routing_mark": {
+                    "type": "integer",
+                    "x-propGroup": "Shared listen fields"
+                },
+                "bind_interface": {
+                    "type": "string",
+                    "x-propGroup": "Shared listen fields"
+                },
+                "reuse_addr": {
+                    "type": "boolean",
+                    "x-format": "checkbox",
+                    "x-propGroup": "Shared listen fields"
+                },
+                "netns": {
+                    "type": "string",
+                    "x-propGroup": "Shared listen fields"
+                },
+                "udp_timeout": {
+                    "type": "string",
+                    "x-propGroup": "Shared listen fields"
+                }
+            }
         }
     ]
 }

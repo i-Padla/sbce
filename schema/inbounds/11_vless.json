@@ -3,11 +3,11 @@
     "title": "VLESS",
     "x-format": "grid",
     "required": [
-        "tag",
         "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "vless",
             "const": "vless",
@@ -26,6 +26,7 @@
             ],
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "VLESS_in",
                     "x-grid": {

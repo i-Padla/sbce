@@ -10,6 +10,7 @@
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "vless",
             "const": "vless",
@@ -24,24 +25,9 @@
         {
             "type": "object",
             "x-format": "grid",
-            "required": [
-                "type",
-                "tag",
-                "server",
-                "server_port",
-                "uuid"
-            ],
             "properties": {
-                "type": {
-                    "type": "string",
-                    "default": "vless",
-                    "const": "vless",
-                    "readOnly": true,
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "vless-out",
                     "x-grid": {

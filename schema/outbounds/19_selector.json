@@ -7,6 +7,7 @@
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "selector",
             "const": "selector",
@@ -16,6 +17,7 @@
             }
         },
         "tag": {
+            "x-propertyOrder": 20,
             "type": "string",
             "default": "selector",
             "x-grid": {

@@ -4,13 +4,13 @@
     "x-format": "grid",
     "required": [
         "type",
-        "tag",
         "server",
         "server_port",
         "tls"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "naive",
             "const": "naive",
@@ -25,6 +25,7 @@
             "type": "object",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "naive-out",
                     "x-grid": {

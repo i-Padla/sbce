@@ -3,11 +3,11 @@
     "title": "Trojan",
     "x-format": "grid",
     "required": [
-        "tag",
         "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "trojan",
             "const": "trojan",
@@ -23,6 +23,7 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "trojan-in",
                     "x-grid": {

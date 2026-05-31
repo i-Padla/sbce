@@ -7,6 +7,7 @@
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "ssh",
             "const": "ssh",
@@ -22,6 +23,7 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "ssh-out",
                     "x-grid": {

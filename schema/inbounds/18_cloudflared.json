@@ -3,12 +3,12 @@
     "title": "Cloudflared",
     "x-format": "grid",
     "required": [
-        "tag",
         "type",
         "token"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "cloudflared",
             "const": "cloudflared",
@@ -24,6 +24,7 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "cloudflared-in",
                     "x-grid": {

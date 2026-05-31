@@ -3,11 +3,11 @@
     "title": "AnyTLS",
     "x-format": "grid",
     "required": [
-        "tag",
         "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "title": "Type",
             "type": "string",
             "default": "anytls",
@@ -24,6 +24,7 @@
             "x-format": "grid",
             "properties": {
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "anytls-in",
                     "x-grid": {
@@ -70,7 +71,6 @@
                     "x-arrayDeleteContent": "",
                     "x-arrayDeleteAll": true,
                     "x-arrayDeleteAllContent": "Delete all",
-                    "x-titleTemplate": "User #{{i1}} - {{ value.name }}",
                     "x-arrayButtonsPosition": "right",
                     "items": {
                         "type": "string"

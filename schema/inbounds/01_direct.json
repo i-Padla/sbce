@@ -3,11 +3,11 @@
     "title": "Direct",
     "x-format": "grid",
     "required": [
-        "type",
-        "tag"
+        "type"
     ],
     "properties": {
         "type": {
+            "x-propertyOrder": 10,
             "type": "string",
             "default": "direct",
             "const": "direct",
@@ -20,16 +20,8 @@
     "allOf": [
         {
             "properties": {
-                "type": {
-                    "type": "string",
-                    "default": "direct",
-                    "const": "direct",
-                    "readOnly": true,
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
                 "tag": {
+                    "x-propertyOrder": 20,
                     "type": "string",
                     "default": "direct",
                     "x-grid": {
