@@ -1,10 +1,17 @@
 {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
     "title": "Hysteria2",
     "x-format": "grid",
     "required": [
         "type",
         "tls"
+    ],
+    "x-prepared": [
+        "tag",
+        "up_mbps",
+        "down_mbps",
+        "masquerade"
     ],
     "properties": {
         "type": {
@@ -17,228 +24,234 @@
             "x-grid": {
                 "columns": 6
             }
-        }
-    },
-    "allOf": [
-        {
+        },
+        "tag": {
+            "x-propertyOrder": 20,
+            "type": "string",
+            "default": "hy2-in",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "up_mbps": {
+            "type": "integer",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "down_mbps": {
+            "type": "integer",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "obfs": {
             "type": "object",
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
             "x-format": "grid",
             "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
+                "type": {
                     "type": "string",
-                    "default": "hy2-in",
+                    "enum": [
+                        "",
+                        "salamander"
+                    ],
                     "x-grid": {
                         "columns": 6
                     }
                 },
-                "up_mbps": {
-                    "type": "integer",
+                "password": {
+                    "type": "string",
                     "x-grid": {
                         "columns": 6
                     }
-                },
-                "down_mbps": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
+                }
+            }
+        },
+        "users": {
+            "type": "array",
+            "x-format": "nav-vertical",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "x-arrayButtonsPosition": "right",
+            "x-titleTemplate": "#{{i1}} {{value.name}}",
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "items": {
+                "type": "object",
+                "title": "#{{i1}} {{value.name}}",
+                "x-enablePropertiesToggle": true,
+                "x-format": "grid",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
                     }
+                }
+            }
+        },
+        "ignore_client_bandwidth": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "masquerade": {
+            "x-switcherInput": "modal",
+            "oneOf": [
+                {
+                    "x-switcherTitle": "File server or reveverse proxy",
+                    "type": "string"
                 },
-                "obfs": {
+                {
+                    "x-switcherTitle": "Advanced",
                     "type": "object",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "x-format": "grid",
+                    "required": [
+                        "type"
+                    ],
                     "properties": {
                         "type": {
                             "type": "string",
                             "enum": [
-                                "",
-                                "salamander"
-                            ],
-                            "x-grid": {
-                                "columns": 6
-                            }
+                                "file",
+                                "proxy",
+                                "string"
+                            ]
                         },
-                        "password": {
-                            "type": "string",
-                            "x-grid": {
-                                "columns": 6
-                            }
+                        "directory": {
+                            "description": "File server root directory.",
+                            "type": "string"
+                        },
+                        "url": {
+                            "description": "Reverse proxy target URL.",
+                            "type": "string"
+                        },
+                        "rewrite_host": {
+                            "description": "Rewrite the `Host` header to the target URL.",
+                            "type": "boolean"
+                        },
+                        "status_code": {
+                            "description": "Fixed response status code.",
+                            "type": "integer"
+                        },
+                        "headers": {
+                            "$ref": "#/$defs/shared_http_headers"
+                        },
+                        "content": {
+                            "description": "Fixed response content.",
+                            "type": "string"
                         }
                     }
+                }
+            ]
+        },
+        "bbr_profile": {
+            "type": "string",
+            "enum": [
+                "standard",
+                "conservative",
+                "aggressive"
+            ]
+        },
+        "brutal_debug": {
+            "type": "boolean",
+            "x-format": "checkbox"
+        },
+        "realm": {
+            "type": "object",
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "x-format": "grid",
+            "required": [
+                "server_url",
+                "realm_id",
+                "stun_servers"
+            ],
+            "properties": {
+                "server_url": {
+                    "type": "string"
                 },
-                "users": {
+                "token": {
+                    "type": "string"
+                },
+                "realm_id": {
+                    "type": "string"
+                },
+                "stun_servers": {
                     "type": "array",
-                    "x-format": "nav-vertical",
+                    "x-format": "table",
                     "x-arrayAddContent": "Add",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
                     "x-arrayMove": false,
                     "x-arrayDeleteContent": "",
                     "x-arrayDeleteAll": true,
                     "x-arrayDeleteAllContent": "Delete all",
                     "x-arrayButtonsPosition": "right",
-                    "x-titleTemplate": "#{{i1}} {{value.name}}",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
+                    "minItems": 1,
                     "items": {
-                        "type": "object",
-                        "title": "#{{i1}} {{value.name}}",
-                        "x-enablePropertiesToggle": true,
-                        "x-format": "grid",
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "password": {
-                                "type": "string"
-                            }
+                        "type": "string"
+                    }
+                },
+                "stun_domain_resolver": {
+                    "type": "object",
+                    "properties": {
+                        "server": {
+                            "type": "string"
+                        },
+                        "strategy": {
+                            "type": "string",
+                            "enum": [
+                                "prefer_ipv4",
+                                "prefer_ipv6",
+                                "ipv4_only",
+                                "ipv6_only"
+                            ]
+                        },
+                        "disable_cache": {
+                            "type": "boolean",
+                            "x-format": "checkbox"
+                        },
+                        "disable_optimistic_cache": {
+                            "type": "boolean",
+                            "x-format": "checkbox"
+                        },
+                        "rewrite_ttl": {
+                            "type": "integer"
+                        },
+                        "timeout": {
+                            "type": "string"
+                        },
+                        "client_subnet": {
+                            "type": "string"
                         }
                     }
                 },
-                "ignore_client_bandwidth": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "masquerade": {
-                    "type": "object",
-                    "required": [
-                        "type"
-                    ],
+                "http_client": {
+                    "x-switcherInput": "modal",
+                    "x-prepared": true,
                     "oneOf": [
                         {
-                            "properties": {
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "file",
-                                        "proxy",
-                                        "string"
-                                    ]
-                                },
-                                "directory": {
-                                    "description": "File server root directory.",
-                                    "type": "string"
-                                },
-                                "url": {
-                                    "description": "Reverse proxy target URL.",
-                                    "type": "string"
-                                },
-                                "rewrite_host": {
-                                    "description": "Rewrite the `Host` header to the target URL.",
-                                    "type": "boolean"
-                                },
-                                "status_code": {
-                                    "description": "Fixed response status code.",
-                                    "type": "integer"
-                                },
-                                "headers": {
-                                    "$ref": "#/$defs/shared_http_headers"
-                                },
-                                "content": {
-                                    "description": "Fixed response content.",
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    ]
-                },
-                "bbr_profile": {
-                    "type": "string",
-                    "enum": [
-                        "standard",
-                        "conservative",
-                        "aggressive"
-                    ]
-                },
-                "brutal_debug": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "realm": {
-                    "type": "object",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "x-format": "grid",
-                    "required": [
-                        "server_url",
-                        "realm_id",
-                        "stun_servers"
-                    ],
-                    "oneOf": [
+                            "x-switcherTitle": "Tag only",
+                            "type": "string"
+                        },
                         {
-                            "x-titleHidden": true,
-                            "properties": {
-                                "server_url": {
-                                    "type": "string"
-                                },
-                                "token": {
-                                    "type": "string"
-                                },
-                                "realm_id": {
-                                    "type": "string"
-                                },
-                                "stun_servers": {
-                                    "type": "array",
-                                    "x-format": "table",
-                                    "x-arrayAddContent": "Add",
-                                    "x-enableCollapseToggle": true,
-                                    "x-collapseToggleContent": "",
-                                    "x-arrayMove": false,
-                                    "x-arrayDeleteContent": "",
-                                    "x-arrayDeleteAll": true,
-                                    "x-arrayDeleteAllContent": "Delete all",
-                                    "x-arrayButtonsPosition": "right",
-                                    "minItems": 1,
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                "stun_domain_resolver": {
-                                    "type": "object",
-                                    "properties": {
-                                        "server": {
-                                            "type": "string"
-                                        },
-                                        "strategy": {
-                                            "type": "string",
-                                            "enum": [
-                                                "prefer_ipv4",
-                                                "prefer_ipv6",
-                                                "ipv4_only",
-                                                "ipv6_only"
-                                            ]
-                                        },
-                                        "disable_cache": {
-                                            "type": "boolean",
-                                            "x-format": "checkbox"
-                                        },
-                                        "disable_optimistic_cache": {
-                                            "type": "boolean",
-                                            "x-format": "checkbox"
-                                        },
-                                        "rewrite_ttl": {
-                                            "type": "integer"
-                                        },
-                                        "timeout": {
-                                            "type": "string"
-                                        },
-                                        "client_subnet": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "http_client": {
-                                    "$ref": "#/$defs/shared_http_client"
-                                }
-                            }
+                            "x-switcherTitle": "Advanced",
+                            "$ref": "#/$defs/shared_http_client"
                         }
                     ]
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_inbound"
                 }
             }
         },
+        "tls": {
+            "$ref": "#/$defs/shared_tls_inbound"
+        }
+    },
+    "allOf": [
         {
             "$ref": "#/$defs/shared_quic"
         },

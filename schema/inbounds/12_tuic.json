@@ -1,6 +1,6 @@
 {
     "type": "object",
-    "title": "TUIC  - unfinished",
+    "title": "TUIC",
     "x-format": "grid",
     "required": [
         "type",
@@ -16,81 +16,75 @@
             "x-grid": {
                 "columns": 6
             }
-        }
-    },
-    "x-mergeAllOf": true,
-    "allOf": [
-        {
-            "type": "object",
-            "x-format": "grid",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "tuic-in",
-                    "x-grid": {
-                        "columns": 6
+        },
+        "tag": {
+            "x-propertyOrder": 20,
+            "x-prepared": true,
+            "type": "string",
+            "default": "tuic-in",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "users": {
+            "type": "array",
+            "x-format": "nav-vertical",
+            "x-arrayAddContent": "Add",
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "x-arrayMove": false,
+            "x-arrayDeleteContent": "",
+            "x-arrayDeleteAll": true,
+            "x-arrayDeleteAllContent": "Delete all",
+            "x-arrayButtonsPosition": "right",
+            "x-titleTemplate": "#{{i1}} {{value.name}}",
+            "items": {
+                "type": "object",
+                "title": "#{{i1}} {{value.name}}",
+                "x-enablePropertiesToggle": true,
+                "x-format": "grid",
+                "required": [
+                    "uuid"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
                     }
-                },
-                "users": {
-                    "type": "array",
-                    "x-format": "nav-vertical",
-                    "x-arrayAddContent": "Add",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "x-arrayMove": false,
-                    "x-arrayDeleteContent": "",
-                    "x-arrayDeleteAll": true,
-                    "x-arrayDeleteAllContent": "Delete all",
-                    "x-arrayButtonsPosition": "right",
-                    "x-titleTemplate": "#{{i1}} {{value.name}}",
-                    "items": {
-                        "type": "object",
-                        "title": "#{{i1}} {{value.name}}",
-                        "x-enablePropertiesToggle": true,
-                        "x-format": "grid",
-                        "required": [
-                            "uuid"
-                        ],
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "uuid": {
-                                "type": "string"
-                            },
-                            "password": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                },
-                "congestion_control": {
-                    "description": "QUIC congestion control algorithm. `cubic` is used by default.",
-                    "type": "string",
-                    "enum": [
-                        "cubic",
-                        "new_reno",
-                        "bbr"
-                    ]
-                },
-                "auth_timeout": {
-                    "description": "How long the server should wait for the client to send the authentication command. `3s` is used by default.",
-                    "type": "string"
-                },
-                "zero_rtt_handshake": {
-                    "description": "Enable 0-RTT QUIC connection handshake on the client side.",
-                    "type": "boolean"
-                },
-                "heartbeat": {
-                    "description": "Interval for sending heartbeat packets for keeping the connection alive. `10s` is used by default.",
-                    "type": "string"
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_inbound"
                 }
             }
         },
+        "congestion_control": {
+            "description": "QUIC congestion control algorithm. `cubic` is used by default.",
+            "type": "string",
+            "enum": [
+                "cubic",
+                "new_reno",
+                "bbr"
+            ]
+        },
+        "auth_timeout": {
+            "description": "How long the server should wait for the client to send the authentication command. `3s` is used by default.",
+            "type": "string"
+        },
+        "zero_rtt_handshake": {
+            "description": "Enable 0-RTT QUIC connection handshake on the client side.",
+            "type": "boolean"
+        },
+        "heartbeat": {
+            "description": "Interval for sending heartbeat packets for keeping the connection alive. `10s` is used by default.",
+            "type": "string"
+        },
+        "tls": {
+            "$ref": "#/$defs/shared_tls_inbound"
+        }
+    },
+    "allOf": [
         {
             "$ref": "#/$defs/shared_listen"
         },

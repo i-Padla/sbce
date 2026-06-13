@@ -10,11 +10,13 @@
     "x-arrayDeleteAllContent": "Delete all",
     "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
     "items": {
-        "$ref": "#/$defs/shared_http_client",
-        "additionalProperties": {
+        "properties": {
             "tag": {
-                "type": "string"
+                "type": "string",
+                "x-prepared": true,
+                "x-propOrder": 10
             }
-        }
+        },
+        "$ref": "#/$defs/shared_http_client"
     }
 }

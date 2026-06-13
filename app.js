@@ -214,7 +214,7 @@ function switchLayer(key) {
       purifyHtml: true,
       domPurifyOptions: {},
       show_errors: "always",
-      subErrors: false
+      subErrors: true
 
     });
 
@@ -277,18 +277,6 @@ function applyConfig(config) {
 
       if (rule.client_subnet === null) {
         delete rule.client_subnet;
-      }
-    }
-    // Normalizing user config by changing masquerade field from string to object
-    for (const inbound of config.inbounds ?? []) {
-      if (inbound.type === "hysteria2" && typeof inbound.masquerade === "string") {
-        const raw = inbound.masquerade;
-
-        if (raw.startsWith("http")) {
-          inbound.masquerade = { type: "proxy", url: raw };
-        } else if (raw.startsWith("file://")) {
-          inbound.masquerade = { type: "file", directory: raw.replace("file://", "") };
-        }
       }
     }
 
