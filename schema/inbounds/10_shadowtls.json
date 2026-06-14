@@ -4,7 +4,8 @@
     "x-format": "grid",
     "required": [
         "type",
-        "handshake"
+        "handshake",
+        "listen"
     ],
     "properties": {
         "type": {

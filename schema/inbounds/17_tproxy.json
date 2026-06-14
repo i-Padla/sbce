@@ -3,7 +3,8 @@
     "title": "TProxy",
     "x-format": "grid",
     "required": [
-        "type"
+        "type",
+        "listen"
     ],
     "properties": {
         "type": {

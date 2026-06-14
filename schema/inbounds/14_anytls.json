@@ -3,7 +3,8 @@
     "title": "AnyTLS",
     "x-format": "grid",
     "required": [
-        "type"
+        "type",
+        "listen"
     ],
     "properties": {
         "type": {

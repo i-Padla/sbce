@@ -1,0 +1,69 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "title": "Sing-box API",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "listen"
+    ],
+    "properties": {
+        "type": {
+            "x-propertyOrder": 10,
+            "type": "string",
+            "default": "api",
+            "const": "api",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    },
+    "allOf": [
+        {
+            "properties": {
+                "tag": {
+                    "x-prepared": true,
+                    "x-propertyOrder": 20,
+                    "type": "string",
+                    "default": "",
+                    "x-grid": {
+                        "columns": 6
+                    }
+                },
+                "secret": {
+                    "x-propertyOrder": 30,
+                    "type": "string"
+                },
+                "access_control_allow_origin": {
+                    "x-propertyOrder": 40,
+                    "type": "array",
+                    "x-format": "table",
+                    "x-arrayAddContent": "",
+                    "x-arrayDelete": true,
+                    "x-arrayDeleteContent": "",
+                    "x-arrayDeleteAll": true,
+                    "x-arrayDeleteAllContent": "Delete all",
+                    "x-enableCollapseToggle": true,
+                    "x-collapseToggleContent": "",
+                    "x-arrayMove": false,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "access_control_allow_private_network": {
+                    "x-propertyOrder": 50,
+                    "x-format": "checkbox",
+                    "type": "boolean"
+                },
+                "tls": {
+                    "x-propertyOrder": 60,
+                    "$ref": "#/$defs/shared_tls_inbound"
+                }
+            }
+        },
+        {
+            "$ref": "#/$defs/shared_listen"
+        }
+    ]
+}

@@ -1,4 +1,29 @@
 {
     "type": "array",
-    "title": "Certificate providers- unfinished"
+    "title": "Certificate providers",
+    "x-format": "nav-horizontal",
+    "x-arrayAddContent": "Add",
+    "x-arrayMove": false,
+    "x-arrayDeleteContent": "",
+    "x-arrayDeleteAll": true,
+    "x-arrayDeleteAllContent": "Delete all",
+    "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+    "items": {
+        "x-embedSwitcher": true,
+        "x-discriminator": "type",
+        "discriminator": {
+            "propertyName": "type"
+        },
+        "oneOf": [
+            {
+                "$ref": "#/$defs/certificate_providers_acme"
+            },
+            {
+                "$ref": "#/$defs/certificate_providers_tailscale"
+            },
+            {
+                "$ref": "#/$defs/certificate_providers_cloudflare_origin_ca"
+            }
+        ]
+    }
 }

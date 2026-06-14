@@ -1,17 +1,17 @@
 {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
-    "title": "Direct",
+    "title": "Hysteria realm - unfinished",
     "x-format": "grid",
     "required": [
-        "type",
-        "listen"
+        "type"
     ],
     "properties": {
         "type": {
             "x-propertyOrder": 10,
             "type": "string",
-            "default": "direct",
-            "const": "direct",
+            "default": "hysteria-realm",
+            "const": "hysteria-realm",
             "readOnly": true,
             "x-grid": {
                 "columns": 6
@@ -22,26 +22,13 @@
         {
             "properties": {
                 "tag": {
+                    "x-prepared": true,
                     "x-propertyOrder": 20,
                     "type": "string",
-                    "default": "direct",
+                    "default": "",
                     "x-grid": {
                         "columns": 6
                     }
-                },
-                "network": {
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "tcp",
-                        "udp"
-                    ]
-                },
-                "override_address": {
-                    "type": "string"
-                },
-                "override_port": {
-                    "type": "integer"
                 }
             }
         },

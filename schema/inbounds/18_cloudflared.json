@@ -4,7 +4,8 @@
     "x-format": "grid",
     "required": [
         "type",
-        "token"
+        "token",
+        "listen"
     ],
     "properties": {
         "type": {

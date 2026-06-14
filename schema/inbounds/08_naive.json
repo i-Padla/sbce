@@ -4,7 +4,8 @@
     "x-format": "grid",
     "required": [
         "type",
-        "users"
+        "users",
+        "listen"
     ],
     "properties": {
         "type": {

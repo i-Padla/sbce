@@ -2,9 +2,6 @@
     "type": "object",
     "x-enableCollapseToggle": true,
     "x-collapseToggleContent": "",
-    "required": [
-        "listen"
-    ],
     "properties": {
         "listen": {
             "type": "string",

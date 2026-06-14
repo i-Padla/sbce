@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "DERP",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "config_path",
+    "listen"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "derp",
+      "const": "derp",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "tag": {
+          "x-prepared": true,
+          "x-propertyOrder": 20,
+          "type": "string",
+          "default": "",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "tls": {
+          "x-propertyOrder": 30,
+          "$ref": "#/$defs/shared_tls_inbound"
+        },
+        "config_path": {
+          "x-propertyOrder": 40,
+          "type": "string"
+        },
+        "verify_client_endpoint": {
+          "x-propertyOrder": 50,
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "type": "string"
+          }
+        },
+        "verify_client_url": {
+          "x-propertyOrder": 60,
+          "type": "array",
+          "x-format": "table",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "x-switcherInput": "modal",
+            "oneOf": [
+              {
+                "x-switcherTitle": "URL only",
+                "type": "string"
+              },
+              {
+                "x-switcherTitle": "Advanced",
+                "$ref": "#/$defs/shared_http_client",
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "http_client": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "home": {
+          "x-propertyOrder": 70,
+          "type": "string"
+        },
+        "mesh_with": {
+          "x-propertyOrder": 80,
+          "type": "array",
+          "x-format": "nav-horizontal",
+          "x-arrayAddContent": "",
+          "x-arrayDelete": true,
+          "x-arrayDeleteContent": "",
+          "x-arrayDeleteAll": true,
+          "x-arrayDeleteAllContent": "Delete all",
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "x-arrayMove": false,
+          "items": {
+            "x-prepared": true,
+            "x-switcherInput": "modal",
+            "oneOf": [
+              {
+                "x-switcherTitle": "Tag only",
+                "type": "string"
+              },
+              {
+                "x-switcherTitle": "Advanced",
+                "$ref": "#/$defs/shared_dial",
+                "required": [
+                  "server",
+                  "server_port"
+                ],
+                "properties": {
+                  "server": {
+                    "type": "string"
+                  },
+                  "server_port": {
+                    "type": "integer"
+                  },
+                  "host": {
+                    "type": "string"
+                  },
+                  "tls": {
+                    "$ref": "#/$defs/shared_tls_outbound"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "mesh_psk": {
+          "x-propertyOrder": 90,
+          "type": "string"
+        },
+        "mesh_psk_file": {
+          "x-propertyOrder": 100,
+          "type": "string"
+        },
+        "stun": {
+          "x-propertyOrder": 110,
+          "x-prepared": true,
+          "x-switcherInput": "modal",
+          "oneOf": [
+            {
+              "x-switcherTitle": "STUN port",
+              "type": "integer"
+            },
+            {
+              "x-switcherTitle": "Advanced",
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "x-format": "checkbox",
+                  "type": "boolean"
+                }
+              },
+              "$ref": "#/$defs/shared_listen"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
+}

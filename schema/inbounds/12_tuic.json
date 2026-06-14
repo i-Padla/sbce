@@ -4,7 +4,8 @@
     "x-format": "grid",
     "required": [
         "type",
-        "tls"
+        "tls",
+        "listen"
     ],
     "properties": {
         "type": {

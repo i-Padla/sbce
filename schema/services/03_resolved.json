@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Resolved",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "listen",
+    "listen_port"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "resolved",
+      "const": "resolved",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  },
+  "allOf": [
+    {
+      "properties": {
+        "tag": {
+          "x-prepared": true,
+          "x-propertyOrder": 20,
+          "type": "string",
+          "default": "",
+          "x-grid": {
+            "columns": 6
+          }
+        }
+      }
+    },
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
+}

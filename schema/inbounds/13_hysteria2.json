@@ -5,7 +5,8 @@
     "x-format": "grid",
     "required": [
         "type",
-        "tls"
+        "tls",
+        "listen"
     ],
     "x-prepared": [
         "tag",

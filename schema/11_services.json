@@ -1,4 +1,41 @@
 {
     "type": "array",
-    "title": "Cervices - unfinished"
+    "title": "Services",
+    "x-format": "nav-horizontal",
+    "x-arrayAddContent": "Add",
+    "x-arrayMove": false,
+    "x-arrayDeleteContent": "",
+    "x-arrayDeleteAll": true,
+    "x-arrayDeleteAllContent": "Delete all",
+    "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+    "items": {
+        "x-embedSwitcher": true,
+        "x-discriminator": "type",
+        "discriminator": {
+            "propertyName": "type"
+        },
+        "oneOf": [
+            {
+                "$ref": "#/$defs/services_api"
+            },
+            {
+                "$ref": "#/$defs/services_derp"
+            },
+            {
+                "$ref": "#/$defs/services_resolved"
+            },
+            {
+                "$ref": "#/$defs/services_ssm_api"
+            },
+            {
+                "$ref": "#/$defs/services_ccm"
+            },
+            {
+                "$ref": "#/$defs/services_ocm"
+            },
+            {
+                "$ref": "#/$defs/services_hysteria_realm"
+            }
+        ]
+    }
 }

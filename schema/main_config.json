@@ -178,6 +178,15 @@
     "dns_servers_resolved": {
       "$ref": "schema/dns/servers/resolved.json"
     },
+    "certificate_providers_acme": {
+      "$ref": "schema/certificate_providers/01_acme.json"
+    },
+    "certificate_providers_tailscale": {
+      "$ref": "schema/certificate_providers/02_tailscale.json"
+    },
+    "certificate_providers_cloudflare_origin_ca": {
+      "$ref": "schema/certificate_providers/03_cloudflare_origin_ca.json"
+    },
     "endpoints_wireguard": {
       "$ref": "schema/endpoints/wireguard.json"
     },
@@ -351,6 +360,27 @@
     },
     "route_remote_rule_set": {
       "$ref": "schema/route/remote_rule_set.json"
+    },
+    "services_api": {
+      "$ref": "schema/services/01_api.json"
+    },
+    "services_derp": {
+      "$ref": "schema/services/02_derp.json"
+    },
+    "services_resolved": {
+      "$ref": "schema/services/03_resolved.json"
+    },
+    "services_ssm_api": {
+      "$ref": "schema/services/04_ssm_api.json"
+    },
+    "services_ccm": {
+      "$ref": "schema/services/05_ccm.json"
+    },
+    "services_ocm": {
+      "$ref": "schema/services/06_ocm.json"
+    },
+    "services_hysteria_realm": {
+      "$ref": "schema/services/07_hysteria_realm.json"
     }
   }
 }
