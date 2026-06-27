@@ -2,12 +2,14 @@ let instances = {};
 let schema_ready = null;
 let schema_for_ajv = null;
 let globalRefParser = null;
+import { BooleanToggle, TextareaArrayEditor } from "./assets/custom.editors.js";
+// import { infoDictionary } from "./assets/info/infoDictionary.js";
+
 
 const AjvConstructor = window.ajv2020;
 let ajv = null;
 
 //----------------- Fix for properties pop-up dialog window, so it foesn't  scroll up.
-
 (function () {
   const scrollRegistry = new WeakMap();
 
@@ -18,35 +20,46 @@ let ajv = null;
     }
   };
 
-  document.addEventListener('mousedown', (e) => {
-    const dialog = e.target.closest('dialog.jedi-properties-slot');
-    if (!dialog) return;
+  document.addEventListener(
+    "mousedown",
+    (e) => {
+      const dialog = e.target.closest("dialog.jedi-properties-slot");
+      if (!dialog) return;
 
-    scrollRegistry.set(dialog, dialog.scrollTop);
-    dialog.dataset.focusLock = "true";
-  }, true);
+      scrollRegistry.set(dialog, dialog.scrollTop);
+      dialog.dataset.focusLock = "true";
+    },
+    true,
+  );
 
-  document.addEventListener('mouseup', (e) => {
-    const dialog = e.target.closest('dialog.jedi-properties-slot');
-    if (!dialog) return;
+  document.addEventListener(
+    "mouseup",
+    (e) => {
+      const dialog = e.target.closest("dialog.jedi-properties-slot");
+      if (!dialog) return;
 
-    requestAnimationFrame(() => {
-      restoreScroll(dialog);
       requestAnimationFrame(() => {
         restoreScroll(dialog);
-        dialog.dataset.focusLock = "false";
+        requestAnimationFrame(() => {
+          restoreScroll(dialog);
+          dialog.dataset.focusLock = "false";
+        });
       });
-    });
-  }, true);
+    },
+    true,
+  );
 
-  document.addEventListener('focusin', (e) => {
-    const dialog = e.target.closest('dialog.jedi-properties-slot');
-    if (!dialog || dialog.dataset.focusLock !== "true") return;
+  document.addEventListener(
+    "focusin",
+    (e) => {
+      const dialog = e.target.closest("dialog.jedi-properties-slot");
+      if (!dialog || dialog.dataset.focusLock !== "true") return;
 
-    restoreScroll(dialog);
-  }, true);
+      restoreScroll(dialog);
+    },
+    true,
+  );
 })();
-
 // ------------------------------------------------------------------------------------
 
 if (AjvConstructor) {
@@ -64,7 +77,6 @@ if (AjvConstructor) {
     compile: function (targetProperty) {
       return function (data, dataCxt) {
         if (typeof data === "string") {
-
           dataCxt.parentData[dataCxt.parentDataProperty] = {
             [targetProperty]: data,
           };
@@ -89,7 +101,6 @@ const init = async () => {
     schema_ready = structuredClone(schema_for_ajv);
     globalRefParser = new Jedison.RefParser();
     await globalRefParser.dereference(schema_ready); // "Dereferencing" schema by Jedison RefParser for it to add x-recursive to rucursive parts of the schema.
-
 
     const layersContainer = document.getElementById("editor-layers");
     const props = schema_ready.properties;
@@ -125,23 +136,60 @@ const init = async () => {
   }
 };
 
-
 async function bundleSchema(rawSchema) {
-  const entries = Object.entries(rawSchema.$defs);
+  await Promise.all(Object.entries(rawSchema.$defs).map(async ([key, value]) => {
+    try {
+      const response = await fetch(value.$ref);
+      if (!response.ok) return;
+      const schemaPart = await response.json();
 
-  await Promise.all(
-    entries.map(async ([key, value]) => {
-      try {
-        const response = await fetch(value.$ref);
+      const docPath = value.$ref.replace('schema/', 'assets/info/').replace('.json', '.md');
+      const mdResponse = await fetch(docPath);
 
-        if (response.ok) {
-          rawSchema.$defs[key] = await response.json();
+      if (mdResponse.ok) {
+        const text = await mdResponse.text();
+        const lines = text.split(/\r?\n/);
+
+        const dict = {};
+        let currentKey = null;
+        let currentBuffer = [];
+
+        for (const line of lines) {
+          if (/^#{4,}/.test(line)) {
+            if (currentKey) dict[currentKey] = marked.parse(currentBuffer.join('\n'));
+            currentKey = line.replace(/^#+\s*/, '').trim();
+            currentBuffer = [];
+          } else if (currentKey) {
+            currentBuffer.push(line);
+          }
         }
-      } catch (err) {
-        console.error(`Ошибка в файле ${key}:`, err);
+        if (currentKey) dict[currentKey] = marked.parse(currentBuffer.join('\n'));
+
+
+        const injectDescriptions = (node, currentPath = "") => {
+          if (!node || typeof node !== 'object') return;
+
+          if (currentPath && dict[currentPath]) {
+            node['x-info'] = { variant: "modal", content: dict[currentPath] };
+            console.log(`✅ [${key}] Добавлено описание для: ${currentPath}`);
+          }
+
+          if (node.properties) {
+            for (const [propKey, propValue] of Object.entries(node.properties)) {
+              const nextPath = currentPath ? `${currentPath}.${propKey}` : propKey;
+              injectDescriptions(propValue, nextPath);
+            }
+          }
+        };
+
+        injectDescriptions(schemaPart);
       }
-    }),
-  );
+
+      rawSchema.$defs[key] = schemaPart;
+    } catch (err) {
+      console.error(`❌ [${key}] Ошибка обработки:`, err);
+    }
+  }));
 
   return rawSchema;
 }
@@ -160,23 +208,20 @@ function buildMenu() {
                     <span class="flex-grow-1 text-truncate">${title}</span>
                 `;
 
-
     item.querySelector("input").onclick = (e) => {
       e.stopPropagation();
       refreshPreview();
     };
 
-
     item.onclick = () => switchLayer(key);
     menu.appendChild(item);
   });
-
 
   const loadItem = document.createElement("div");
   loadItem.className = "section-link";
   loadItem.setAttribute("data-section", "load");
   loadItem.innerHTML = `
-                <i class="fa-solid fa-file-import me-2 text-secondary" style="width: 20px;"></i>
+                <i class="my-icon my-icon-save me-2"></i>
                 <span class="flex-grow-1 text-truncate">Upload config</span>
             `;
   loadItem.onclick = () => switchLayer("load");
@@ -195,7 +240,6 @@ function switchLayer(key) {
   const targetLayer = document.getElementById(`layer-${key}`);
   targetLayer.style.display = "block";
 
-
   if (key !== "load" && !instances[key]) {
     console.log(`Инициализация секции: ${key}`);
     instances[key] = new Jedison.Create({
@@ -203,19 +247,19 @@ function switchLayer(key) {
       id: key,
       refParser: globalRefParser,
       theme: new Jedison.ThemeBootstrap5(),
-      iconLib: "fontawesome6",
+      iconLib: "custom",
       schema: schema_ready.properties[key],
+      customEditors: [BooleanToggle, TextareaArrayEditor],
       enablePropertiesToggle: true,
       deactivateNonRequired: true,
       objectAdd: false,
       btnContents: true,
       mergeAllOf: true,
-      parseMarkdown: true,
+      parseMarkdown: false,
       purifyHtml: true,
       domPurifyOptions: {},
       show_errors: "always",
-      subErrors: true
-
+      subErrors: true,
     });
 
     instances[key].on("change", () => {
@@ -260,7 +304,6 @@ function applyConfig(config) {
   let finalDataToLoad = config;
 
   try {
-
     const validate = ajv.compile(schema_for_ajv);
 
     // Normalizing user config by adding type=inline to route rule-sets without type.
@@ -283,13 +326,11 @@ function applyConfig(config) {
     const isValid = validate(config);
 
     if (!isValid) {
-
       console.warn(
         "Предупреждение при валидации импортируемого конфига:",
         validate.errors,
       );
     }
-
 
     finalDataToLoad = config;
   } catch (err) {
@@ -299,33 +340,26 @@ function applyConfig(config) {
     );
   }
 
-
   Object.keys(schema_ready.properties).forEach((key) => {
-
     const checkbox = document.getElementById(`check-${key}`);
     if (checkbox) {
       checkbox.checked = false;
     }
 
-
     if (instances[key]) {
-
-      instances[key].setValue(instances[key].schema.type === 'array' ? [] : {});
+      instances[key].setValue(instances[key].schema.type === "array" ? [] : {});
     }
   });
 
-
   Object.keys(schema_ready.properties).forEach((key) => {
     if (finalDataToLoad[key]) {
-
       if (!instances[key]) {
         switchLayer(key);
       }
 
-
       if (instances[key]) {
         instances[key].setValue(finalDataToLoad[key]);
-
+        finalDataToLoad[key] = instances[key].getValue();
         const checkbox = document.getElementById(`check-${key}`);
         if (checkbox) {
           checkbox.checked = true;
@@ -333,7 +367,6 @@ function applyConfig(config) {
       }
     }
   });
-
 
   if (schema_ready.properties["log"]) {
     switchLayer("log");
@@ -347,7 +380,6 @@ function cleanData(data) {
   } else if (data !== null && typeof data === "object") {
     const newObj = {};
     for (const key in data) {
-
       if (key !== "x-tag" && !key.startsWith("_")) {
         newObj[key] = cleanData(data[key]);
       }
@@ -363,12 +395,10 @@ function refreshPreview() {
   Object.keys(schema_ready.properties).forEach((key) => {
     const checkbox = document.getElementById(`check-${key}`);
 
-
     if (checkbox?.checked && instances[key]) {
       const rawData = instances[key].getValue();
 
       if (rawData && Object.keys(rawData).length > 0) {
-
         finalConfig[key] = cleanData(rawData);
       }
     }
@@ -379,23 +409,25 @@ function refreshPreview() {
     previewBox.textContent = JSON.stringify(finalConfig, null, 2);
   }
 }
-document.getElementById('copy-btn').addEventListener('click', function () {
-  const code = document.getElementById('json-preview').innerText;
+document.getElementById("copy-btn").addEventListener("click", function () {
+  const code = document.getElementById("json-preview").innerText;
   const btn = this;
 
-  navigator.clipboard.writeText(code).then(() => {
+  navigator.clipboard
+    .writeText(code)
+    .then(() => {
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED!';
+      btn.classList.add("success");
 
-    const originalHtml = btn.innerHTML;
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED!';
-    btn.classList.add('success');
-
-    setTimeout(() => {
-      btn.innerHTML = originalHtml;
-      btn.classList.remove('success');
-    }, 2000);
-  }).catch(err => {
-    console.error('Ошибка при копировании: ', err);
-  });
+      setTimeout(() => {
+        btn.innerHTML = originalHtml;
+        btn.classList.remove("success");
+      }, 2000);
+    })
+    .catch((err) => {
+      console.error("Ошибка при копировании: ", err);
+    });
 });
 window.onload = init;
-
+window.loadConfig = loadConfig;

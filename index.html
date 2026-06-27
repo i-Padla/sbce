@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Sing-box Multi-Editor (Stable)</title>
+  <title>Sing-box config editor</title>
   <style>
     body {
       margin: 0;
@@ -16,7 +16,7 @@
 
     .editor-wrapper {
       display: grid;
-      grid-template-columns: 220px 1fr 400px;
+      grid-template-columns: fit-content(15%) 1fr 20%;
       height: 100vh;
     }
 
@@ -30,7 +30,7 @@
     /* Меню слева */
     .menu-panel {
       background: #f8f9fa;
-      padding: 20px;
+      padding: 10px;
     }
 
     .section-link {
@@ -63,7 +63,7 @@
 
     /* Форма по центру */
     .form-panel {
-      padding: 30px;
+      padding: 10px;
       position: relative;
     }
 
@@ -74,7 +74,7 @@
     /* Скрыто, пока не выберем в меню */
     /* 1. Резервируем место под скроллбар в центральной панели */
     .form-panel {
-      padding: 30px;
+      padding: 10px;
       position: relative;
       /* Это заставит панель всегда держать место под полосу прокрутки */
       scrollbar-gutter: stable;
@@ -84,11 +84,6 @@
       или если хочешь идеальной симметрии во всех колонках */
     .panel {
       scrollbar-gutter: stable;
-    }
-
-    /* Hiding oneOf selector field in some edge cases */
-    .jedi-switcher:has(option:only-child) {
-      display: none !important;
     }
 
     /* Превью справа */
@@ -150,9 +145,16 @@
       color: white;
       border-color: #198754;
     }
+
+    /* Modal-info dialog restyling */
+    .modal-header {
+      display: none !important;
+    }
   </style>
   <link rel="stylesheet" href="./assets/bootstrap/bootstrap.min.css" />
-  <link rel="stylesheet" href="./assets/fontawesome6/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <!-- <link rel="stylesheet" href="./assets/bootstrap/bootstrap-icons.css" /> -->
+  <link rel="stylesheet" href="./assets/myTheme/icons/icons.css" />
   <script src="./assets/bootstrap/bootstrap.bundle.min.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/jedison@latest/dist/umd/jedison.umd.js"></script> -->
   <script src="./assets/jedison/jedison.umd.min.1.12.1_fix.js"></script>
@@ -172,10 +174,10 @@
       <div id="editor-layers"></div>
     </main>
 
-    <aside class="panel preview-panel" style="position: relative;">
+    <aside class="panel preview-panel" style="position: relative">
       <div class="preview-header d-flex justify-content-between align-items-center">
         <span>FINAL CONFIG PREVIEW</span>
-        <button id="copy-btn" class="btn btn-sm btn-outline-light" style="font-size: 10px; padding: 2px 8px;">
+        <button id="copy-btn" class="btn btn-sm btn-outline-light" style="font-size: 10px; padding: 2px 8px">
           <i class="fa-regular fa-copy"></i> COPY
         </button>
       </div>
@@ -183,7 +185,7 @@
     </aside>
   </div>
 
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 
 </html>

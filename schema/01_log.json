@@ -1,39 +1,55 @@
 {
-    "type": "object",
-    "title": "Log",
-    "properties": {
-        "disabled": {
-            "x-format": "checkbox",
-            "type": "boolean",
-            "title": "Disable logging",
-            "description": "Disable logging output completely"
-        },
-        "level": {
-            "type": "string",
-            "title": "Log level",
-            "description": "Logging level",
-            "enum": [
-                "trace",
-                "debug",
-                "info",
-                "warn",
-                "error",
-                "fatal",
-                "panic"
-            ],
-            "default": "info"
-        },
-        "output": {
-            "type": "string",
-            "title": "Output file",
-            "description": "Path to log file (if empty, logs go to console)",
-            "default": "box.log"
-        },
-        "timestamp": {
-            "x-format": "checkbox",
-            "type": "boolean",
-            "title": "Include timestamp",
-            "description": "Add timestamp to each log line"
-        }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Log",
+  "properties": {
+    "disabled": {
+      "x-format": "toggle",
+      "switch": true,
+      "x-enumTitles": [
+        "Disable",
+        "Enable"
+      ],
+      "type": "boolean",
+      "title": "Disable log"
+    },
+    "level": {
+      "type": "string",
+      "title": "Log level",
+      "enum": [
+        "trace",
+        "debug",
+        "info",
+        "warn",
+        "error",
+        "fatal",
+        "panic"
+      ],
+      "default": "info",
+      "x-grid": {
+        "columns": 1
+      }
+    },
+    "output": {
+      "type": "string",
+      "title": "Output file",
+      "x-grid": {
+        "columns": 3,
+        "newRow": true
+      }
+    },
+    "timestamp": {
+      "x-format": "toggle",
+      "x-enumTitles": [
+        "No",
+        "Yes"
+      ],
+      "type": "boolean",
+      "title": "Include timestamp",
+      "x-grid": {
+        "columns": 3,
+        "newRow": true
+      }
     }
+  }
 }

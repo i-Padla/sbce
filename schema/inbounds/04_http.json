@@ -1,78 +1,63 @@
 {
-    "type": "object",
-    "title": "HTTP",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "listen"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "http",
-            "const": "http",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "HTTP",
+  "x-format": "grid",
+  "required": ["type", "listen"],
+  "x-prepaed": ["tag"],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "http",
+      "const": "http",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "x-mergeAllOf": true,
-    "allOf": [
-        {
-            "type": "object",
-            "x-format": "grid",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "http-in",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "users": {
-                    "type": "array",
-                    "x-format": "table-object",
-                    "x-arrayAddContent": "Add",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "x-arrayMove": false,
-                    "x-arrayDeleteContent": "",
-                    "x-arrayDeleteAll": true,
-                    "x-arrayDeleteAllContent": "Delete all",
-                    "x-arrayButtonsPosition": "right",
-                    "items": {
-                        "type": "object",
-                        "x-enablePropertiesToggle": false,
-                        "required": [
-                            "name",
-                            "password"
-                        ],
-                        "properties": {
-                            "name": {
-                                "title": "Name",
-                                "type": "string"
-                            },
-                            "password": {
-                                "title": "Password",
-                                "type": "string"
-                            }
-                        }
-                    }
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_inbound"
-                },
-                "set_system_proxy": {
-                    "x-format": "checkbox",
-                    "type": "boolean"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_listen"
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "http-in",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "users": {
+      "type": "array",
+      "x-format": "table-object",
+      "x-arrayAddContent": "Add",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-arrayButtonsPosition": "right",
+      "items": {
+        "type": "object",
+        "x-enablePropertiesToggle": false,
+        "required": ["name", "password"],
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "password": {
+            "title": "Password",
+            "type": "string"
+          }
         }
-    ]
+      }
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_inbound"
+    },
+    "set_system_proxy": {
+      "x-format": "checkbox",
+      "type": "boolean"
+    }
+  },
+
+  "$ref": "#/$defs/shared_listen"
 }

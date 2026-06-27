@@ -1,0 +1,75 @@
+.my-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: -.125em;
+}
+
+.my-icon-properties {
+    background-image: url('./SVG/menu.svg');
+}
+
+.my-icon-delete {
+    background-image: url('./SVG/cup.svg');
+}
+
+.my-icon-add {
+    background-image: url('./SVG/plus.svg');
+}
+
+.my-icon-moveUp {
+    background-image: url('./SVG/arrow-bold-up.svg');
+}
+
+.my-icon-moveDown {
+    background-image: url('./SVG/arrow-bold-down.svg');
+}
+
+.my-icon-collapse {
+    background-image: url('./SVG/chevron-down.svg');
+}
+
+.my-icon-expand {
+    background-image: url('./SVG/plus.svg');
+}
+
+.my-icon-drag {
+    background-image: url('./SVG/hand.svg');
+}
+
+.my-icon-info {
+    background-color: #00a2ed;
+    -webkit-mask-image: url('./SVG/help.svg');
+    mask-image: url('./SVG/help.svg');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    position: relative;
+    top: -5px;
+    margin-left: 3px;
+    width: 10px;
+    height: 10px;
+}
+
+.my-icon-close {
+    background-image: url('./SVG/cross.svg');
+}
+
+.my-icon-edit {
+    background-image: url('./SVG/pencil.svg');
+}
+
+.my-icon-save {
+    background-image: url('./SVG/save.svg');
+}
+
+.my-icon-copy {
+    background-image: url('./SVG/clipboard.svg');
+}
+
+.my-icon-switcher {
+    background-image: url('./SVG/chevron-down.svg');
+}

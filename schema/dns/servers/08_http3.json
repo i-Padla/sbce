@@ -1,0 +1,53 @@
+{
+    "type": "object",
+    "title": "Http3",
+    "x-propertiesToggleContent": "Toggle properties",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag",
+        "server"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "h3",
+            "const": "h3",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "http3-dns",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "server": {
+            "type": "string",
+            "title": "Server",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "server_port": {
+            "type": "integer",
+            "title": "Port",
+            "default": 53,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "path": {
+            "type": "string"
+        },
+        "headers": {
+            "type": "object"
+        },
+        "tls": {
+            "type": "object"
+        }
+    }
+}

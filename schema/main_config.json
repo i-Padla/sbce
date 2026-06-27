@@ -140,43 +140,43 @@
       "$ref": "schema/dns/rule/action.json"
     },
     "dns_servers_local": {
-      "$ref": "schema/dns/servers/local.json"
+      "$ref": "schema/dns/servers/01_local.json"
     },
     "dns_servers_hosts": {
-      "$ref": "schema/dns/servers/hosts.json"
+      "$ref": "schema/dns/servers/02_hosts.json"
     },
     "dns_servers_tcp": {
-      "$ref": "schema/dns/servers/tcp.json"
+      "$ref": "schema/dns/servers/03_tcp.json"
     },
     "dns_servers_udp": {
-      "$ref": "schema/dns/servers/udp.json"
+      "$ref": "schema/dns/servers/04_udp.json"
     },
     "dns_servers_tls": {
-      "$ref": "schema/dns/servers/tls.json"
+      "$ref": "schema/dns/servers/05_tls.json"
     },
     "dns_servers_quic": {
-      "$ref": "schema/dns/servers/quic.json"
+      "$ref": "schema/dns/servers/06_quic.json"
     },
     "dns_servers_https": {
-      "$ref": "schema/dns/servers/https.json"
+      "$ref": "schema/dns/servers/07_https.json"
     },
     "dns_servers_http3": {
-      "$ref": "schema/dns/servers/http3.json"
+      "$ref": "schema/dns/servers/08_http3.json"
     },
     "dns_servers_dhcp": {
-      "$ref": "schema/dns/servers/dhcp.json"
+      "$ref": "schema/dns/servers/09_dhcp.json"
     },
     "dns_servers_mdns": {
-      "$ref": "schema/dns/servers/mdns.json"
+      "$ref": "schema/dns/servers/10_mdns.json"
     },
     "dns_servers_fakeip": {
-      "$ref": "schema/dns/servers/fakeip.json"
+      "$ref": "schema/dns/servers/11_fakeip.json"
     },
     "dns_servers_tailscale": {
-      "$ref": "schema/dns/servers/tailscale.json"
+      "$ref": "schema/dns/servers/12_tailscale.json"
     },
     "dns_servers_resolved": {
-      "$ref": "schema/dns/servers/resolved.json"
+      "$ref": "schema/dns/servers/13_resolved.json"
     },
     "certificate_providers_acme": {
       "$ref": "schema/certificate_providers/01_acme.json"
@@ -381,6 +381,9 @@
     },
     "services_hysteria_realm": {
       "$ref": "schema/services/07_hysteria_realm.json"
+    },
+    "string_or_array": {
+      "$ref": "schema/misc/string_or_array.json"
     }
   }
 }

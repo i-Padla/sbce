@@ -1,52 +1,38 @@
 {
-    "type": "object",
-    "title": "Direct",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "listen"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "direct",
-            "const": "direct",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "Direct",
+  "x-format": "grid",
+  "required": ["type", "listen"],
+  "x-prepaed": ["tag"],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "direct",
+      "const": "direct",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "direct",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "network": {
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "tcp",
-                        "udp"
-                    ]
-                },
-                "override_address": {
-                    "type": "string"
-                },
-                "override_port": {
-                    "type": "integer"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_listen"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "direct",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "network": {
+      "type": "string",
+      "enum": ["", "tcp", "udp"]
+    },
+    "override_address": {
+      "type": "string"
+    },
+    "override_port": {
+      "type": "integer"
+    }
+  },
+  "$ref": "#/$defs/shared_listen"
 }

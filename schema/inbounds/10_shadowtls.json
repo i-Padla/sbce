@@ -1,128 +1,106 @@
 {
-    "type": "object",
-    "title": "ShadowTLS",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "handshake",
-        "listen"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "shadowtls",
-            "const": "shadowtls",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "ShadowTLS",
+  "x-format": "grid",
+  "required": ["type", "handshake", "listen"],
+  "x-prepaed": ["tag"],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "shadowtls",
+      "const": "shadowtls",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "x-mergeAllOf": true,
-    "allOf": [
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "st-in",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "version": {
+      "type": "integer",
+      "enum": [1, 2, 3]
+    },
+    "password": {
+      "type": "string"
+    },
+    "users": {
+      "type": "array",
+      "x-format": "nav-vertical",
+      "x-arrayAddContent": "Add",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-arrayButtonsPosition": "right",
+      "x-titleTemplate": "{{value.name}}",
+      "items": {
+        "type": "object",
+        "title": "{{value.name}}",
+        "x-enablePropertiesToggle": true,
+        "x-format": "grid",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "handshake": {
+      "allOf": [
         {
-            "type": "object",
-            "x-format": "grid",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "st-in",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "version": {
-                    "type": "integer",
-                    "enum": [
-                        1,
-                        2,
-                        3
-                    ]
-                },
-                "password": {
-                    "type": "string"
-                },
-                "users": {
-                    "type": "array",
-                    "x-format": "nav-vertical",
-                    "x-arrayAddContent": "Add",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "x-arrayMove": false,
-                    "x-arrayDeleteContent": "",
-                    "x-arrayDeleteAll": true,
-                    "x-arrayDeleteAllContent": "Delete all",
-                    "x-arrayButtonsPosition": "right",
-                    "x-titleTemplate": "{{value.name}}",
-                    "items": {
-                        "type": "object",
-                        "title": "{{value.name}}",
-                        "x-enablePropertiesToggle": true,
-                        "x-format": "grid",
-                        "properties": {
-                            "name": {
-                                "type": "string"
-                            },
-                            "password": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                },
-                "handshake": {
-                    "allOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "server": {
-                                    "type": "string"
-                                },
-                                "server_port": {
-                                    "type": "integer"
-                                }
-                            }
-                        },
-                        {
-                            "$ref": "#/$defs/shared_dial"
-                        }
-                    ]
-                },
-                "handshake_for_server_name": {
-                    "allOf": [
-                        {
-                            "type": "object",
-                            "properties": {
-                                "server": {
-                                    "type": "string"
-                                },
-                                "server_port": {
-                                    "type": "integer"
-                                }
-                            }
-                        },
-                        {
-                            "$ref": "#/$defs/shared_dial"
-                        }
-                    ]
-                },
-                "strict_mode": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "wildcard_sni": {
-                    "type": "string",
-                    "enum": [
-                        "off",
-                        "authed",
-                        "all"
-                    ]
-                }
+          "type": "object",
+          "properties": {
+            "server": {
+              "type": "string"
+            },
+            "server_port": {
+              "type": "integer"
             }
+          }
         },
         {
-            "$ref": "#/$defs/shared_listen"
+          "$ref": "#/$defs/shared_dial"
         }
-    ]
+      ]
+    },
+    "handshake_for_server_name": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "server": {
+              "type": "string"
+            },
+            "server_port": {
+              "type": "integer"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/shared_dial"
+        }
+      ]
+    },
+    "strict_mode": {
+      "type": "boolean",
+      "x-format": "checkbox"
+    },
+    "wildcard_sni": {
+      "type": "string",
+      "enum": ["off", "authed", "all"]
+    }
+  },
+  "$ref": "#/$defs/shared_listen"
 }

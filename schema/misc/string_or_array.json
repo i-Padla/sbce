@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-format": "textarea-array",
+  "oneOf": [
+    { "type": "string" },
+    {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  ]
+}

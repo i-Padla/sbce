@@ -1,32 +1,24 @@
 {
-    "type": "object",
-    "title": "{{ value.tag }} (local)",
-    "x-switcherTitle": "Local",
-    "required": [
-        "type",
-        "tag",
-        "format",
-        "path"
-    ],
-    "properties": {
-        "type": {
-            "type": "string",
-            "default": "local",
-            "const": "local",
-            "readOnly": true
-        },
-        "tag": {
-            "type": "string"
-        },
-        "format": {
-            "type": "string",
-            "enum": [
-                "source",
-                "binary"
-            ]
-        },
-        "path": {
-            "type": "string"
-        }
+  "type": "object",
+  "title": "{{ value.tag }} (local)",
+  "x-switcherTitle": "Local",
+  "required": ["type", "tag", "format", "path"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "local",
+      "const": "local",
+      "readOnly": true
+    },
+    "tag": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string",
+      "enum": ["source", "binary"]
+    },
+    "path": {
+      "type": "string"
     }
+  }
 }

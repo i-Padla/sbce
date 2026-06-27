@@ -1,0 +1,40 @@
+{
+    "type": "object",
+    "title": "mDNS",
+    "x-propertiesToggleContent": "Toggle properties",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "mdns",
+            "const": "mdns",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "mdns-dns",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "interface": {
+            "type": "array",
+            "x-format": "table",
+            "x-arrayDeleteContent": "",
+            "x-arrayAddContent": "Add",
+            "x-arrayMove": false,
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

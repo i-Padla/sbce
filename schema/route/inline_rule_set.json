@@ -1,24 +1,20 @@
 {
-    "type": "object",
-    "title": "{{ value.tag }} (inline)",
-    "x-switcherTitle": "Inline",
-    "required": [
-        "type",
-        "tag",
-        "rules"
-    ],
-    "properties": {
-        "type": {
-            "type": "string",
-            "default": "inline",
-            "const": "inline",
-            "readOnly": true
-        },
-        "tag": {
-            "type": "string"
-        },
-        "rules": {
-            "$ref": "#/$defs/route_rules"
-        }
+  "type": "object",
+  "title": "{{ value.tag }} (inline)",
+  "x-switcherTitle": "Inline",
+  "required": ["type", "tag", "rules"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "inline",
+      "const": "inline",
+      "readOnly": true
+    },
+    "tag": {
+      "type": "string"
+    },
+    "rules": {
+      "$ref": "#/$defs/route_rules"
     }
+  }
 }

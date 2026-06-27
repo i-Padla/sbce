@@ -1,61 +1,49 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "type": "object",
-    "title": "SSM API",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "servers",
-        "listen"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "ssm-api",
-            "const": "ssm-api",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "SSM API",
+  "x-format": "grid",
+  "required": ["type", "servers", "listen"],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "ssm-api",
+      "const": "ssm-api",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "properties": {
-                "tag": {
-                    "x-prepared": true,
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "",
-                    "x-grid": {
-                        "x-prepared": true,
-                        "columns": 6
-                    }
-                },
-                "servers": {
-                    "type": "object",
-                    "title": "Servers",
-                    "x-objectAdd": true,
-                    "x-addPropertyContent": "Add server",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                },
-                "cache_path": {
-                    "x-propertyOrder": 30,
-                    "type": "string"
-                },
-                "tls": {
-                    "x-propertyOrder": 40,
-                    "$ref": "#/$defs/shared_tls_inbound"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_listen"
-        }
-    ]
+    "tag": {
+      "x-prepared": true,
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "",
+      "x-grid": {
+        "x-prepared": true,
+        "columns": 6
+      }
+    },
+    "servers": {
+      "type": "object",
+      "title": "Servers",
+      "x-objectAdd": true,
+      "x-addPropertyContent": "Add server",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "cache_path": {
+      "x-propertyOrder": 30,
+      "type": "string"
+    },
+    "tls": {
+      "x-propertyOrder": 40,
+      "$ref": "#/$defs/shared_tls_inbound"
+    }
+  },
+  "$ref": "#/$defs/shared_listen"
 }

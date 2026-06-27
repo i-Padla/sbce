@@ -1,39 +1,93 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "type": "object",
-    "title": "CCM - unfinished",
-    "x-format": "grid",
-    "required": [
-        "type"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "ccm",
-            "const": "ccm",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "CCM",
+  "x-format": "grid",
+  "required": ["type", "listen"],
+  "$ref": "#/$defs/shared_listen",
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "ccm",
+      "const": "ccm",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "properties": {
-                "tag": {
-                    "x-prepared": true,
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                }
+    "tag": {
+      "x-prepared": true,
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "credential_path": { "type": "string" },
+    "usages_path": { "type": "string" },
+    "users": {
+      "type": "array",
+      "x-format": "nav-vertical",
+      "x-arrayAddContent": "Add",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-arrayButtonsPosition": "right",
+      "x-titleTemplate": "#{{i1}} {{value.name}}",
+      "items": {
+        "type": "object",
+        "x-enablePropertiesToggle": true,
+        "title": "{{value.name}}",
+        "x-format": "grid",
+        "properties": {
+          "name": {
+            "x-propertieOrder": 10,
+            "title": "Name",
+            "type": "string",
+            "x-grid": {
+              "columns": 6
             }
-        },
-        {
-            "$ref": "#/$defs/shared_listen"
+          },
+          "token": {
+            "x-propertieOrder": 20,
+            "title": "Token",
+            "type": "string",
+            "x-grid": {
+              "columns": 6
+            }
+          }
         }
-    ]
+      }
+    },
+    "headers": {
+      "type": "object",
+      "title": "Headers",
+      "x-objectAdd": true,
+      "x-addPropertyContent": "Add custom header",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "additionalProperties": {
+        "type": "array",
+        "x-format": "table",
+        "x-arrayAddContent": "",
+        "x-arrayDelete": true,
+        "x-arrayDeleteContent": "",
+        "x-arrayDeleteAll": true,
+        "x-arrayDeleteAllContent": "Delete all",
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "x-arrayMove": false,
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "detour": { "type": "string" },
+    "tls": { "$ref": "#/$defs/shared_tls_inbound" }
+  }
 }

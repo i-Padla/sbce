@@ -1,38 +1,30 @@
 {
-    "type": "object",
-    "title": "{{ value.tag }} (remote)",
-    "x-switcherTitle": "Remote",
-    "required": [
-        "type",
-        "tag",
-        "format",
-        "url"
-    ],
-    "properties": {
-        "type": {
-            "type": "string",
-            "default": "remote",
-            "const": "remote",
-            "readOnly": true
-        },
-        "tag": {
-            "type": "string"
-        },
-        "format": {
-            "type": "string",
-            "enum": [
-                "source",
-                "binary"
-            ]
-        },
-        "url": {
-            "type": "string"
-        },
-        "http_client": {
-            "type": "string"
-        },
-        "update_interval": {
-            "type": "string"
-        }
+  "type": "object",
+  "title": "{{ value.tag }} (remote)",
+  "x-switcherTitle": "Remote",
+  "required": ["type", "tag", "format", "url"],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "remote",
+      "const": "remote",
+      "readOnly": true
+    },
+    "tag": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string",
+      "enum": ["source", "binary"]
+    },
+    "url": {
+      "type": "string"
+    },
+    "http_client": {
+      "type": "string"
+    },
+    "update_interval": {
+      "type": "string"
     }
+  }
 }

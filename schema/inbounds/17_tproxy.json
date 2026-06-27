@@ -1,49 +1,32 @@
 {
-    "type": "object",
-    "title": "TProxy",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "listen"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "tproxy",
-            "const": "tproxy",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "TProxy",
+  "x-format": "grid",
+  "required": ["type", "listen"],
+  "x-prepaed": ["tag"],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "tproxy",
+      "const": "tproxy",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "x-mergeAllOf": true,
-    "allOf": [
-        {
-            "type": "object",
-            "x-format": "grid",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "tproxy",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "network": {
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "tcp",
-                        "udp"
-                    ]
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_listen"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "tproxy",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "network": {
+      "type": "string",
+      "enum": ["", "tcp", "udp"]
+    }
+  },
+  "$ref": "#/$defs/shared_listen"
 }

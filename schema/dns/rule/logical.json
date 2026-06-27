@@ -1,43 +1,36 @@
 {
-    "type": "object",
-    "x-switcherTitle": "Logical",
-    "x-enableCollapseToggle": true,
-    "x-collapseToggleContent": "",
-    "x-recursive": true,
-    "required": [
-        "type",
-        "mode",
-        "rules"
-    ],
-    "x-mergeAllOf": true,
-    "allOf": [
-        {
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "const": "logical",
-                    "default": "logical",
-                    "readOnly": true
-                },
-                "mode": {
-                    "description": "`and` or `or`",
-                    "type": "string",
-                    "enum": [
-                        "and",
-                        "or"
-                    ]
-                },
-                "rules": {
-                    "$ref": "#/$defs/dns_rule"
-                },
-                "invert": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                }
-            }
+  "type": "object",
+  "x-switcherTitle": "Logical",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "x-recursive": true,
+  "required": ["mode", "rules"],
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "logical",
+          "default": "logical",
+          "readOnly": true
         },
-        {
-            "$ref": "#/$defs/dns_rule_action"
+        "mode": {
+          "description": "`and` or `or`",
+          "type": "string",
+          "enum": ["and", "or"]
+        },
+        "rules": {
+          "$ref": "#/$defs/dns_rule"
+        },
+        "invert": {
+          "type": "boolean",
+          "x-format": "checkbox"
         }
-    ]
+      }
+    },
+    {
+      "$ref": "#/$defs/dns_rule_action"
+    }
+  ]
 }

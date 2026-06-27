@@ -20,10 +20,10 @@
         },
         "oneOf": [
             {
-                "$ref": "#/$defs/dns_servers_hosts"
+                "$ref": "#/$defs/dns_servers_local"
             },
             {
-                "$ref": "#/$defs/dns_servers_local"
+                "$ref": "#/$defs/dns_servers_hosts"
             },
             {
                 "$ref": "#/$defs/dns_servers_tcp"

@@ -1,0 +1,45 @@
+{
+    "type": "object",
+    "title": "Tailscale",
+    "x-format": "grid",
+    "required": [
+        "type",
+        "tag",
+        "endpoint"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "default": "tailscale",
+            "const": "tailscale",
+            "readOnly": true,
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "tag": {
+            "type": "string",
+            "default": "tailscale-dns",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "endpoint": {
+            "type": "string"
+        },
+        "accept_default_resolvers": {
+            "x-format": "toggle",
+            "type": "boolean",
+            "x-grid": {
+                "columns": 6
+            }
+        },
+        "accept_search_domain": {
+            "x-format": "toggle",
+            "type": "boolean",
+            "x-grid": {
+                "columns": 6
+            }
+        }
+    }
+}
