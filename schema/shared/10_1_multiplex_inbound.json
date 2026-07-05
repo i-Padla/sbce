@@ -1,16 +1,16 @@
 {
-    "type": "object",
-    "properties": {
-        "enabled": {
-            "type": "boolean",
-            "x-format": "checkbox"
-        },
-        "padding": {
-            "type": "boolean",
-            "x-format": "checkbox"
-        },
-        "brutal": {
-            "$ref": "#/$defs/shared_brutal"
-        }
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "padding": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "brutal": {
+      "$ref": "#/$defs/shared_brutal"
     }
+  }
 }

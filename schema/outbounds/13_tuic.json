@@ -1,100 +1,96 @@
 {
-    "type": "object",
-    "title": "Tuic",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "server",
-        "server_port",
-        "uuid",
-        "tls"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "tuic",
-            "const": "tuic",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "Tuic",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "server",
+    "server_port",
+    "uuid",
+    "tls"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "tuic",
+      "const": "tuic",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "type": "object",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "tuic-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server_port": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "uuid": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "congestion_control": {
-                    "type": "string",
-                    "enum": [
-                        "cubic",
-                        "new_reno",
-                        "bbr"
-                    ]
-                },
-                "udp_relay_mode": {
-                    "type": "string",
-                    "enum": [
-                        "native",
-                        "quic"
-                    ]
-                },
-                "udp_over_stream": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "zero_rtt_handshake": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "heartbeat": {
-                    "type": "string"
-                },
-                "network": {
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "tcp",
-                        "udp"
-                    ]
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_outbound"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_quic"
-        },
-        {
-            "$ref": "#/$defs/shared_dial"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "tuic-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "uuid": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "congestion_control": {
+      "type": "string",
+      "enum": [
+        "cubic",
+        "new_reno",
+        "bbr"
+      ]
+    },
+    "udp_relay_mode": {
+      "type": "string",
+      "enum": [
+        "native",
+        "quic"
+      ]
+    },
+    "udp_over_stream": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "zero_rtt_handshake": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "heartbeat": {
+      "type": "string"
+    },
+    "network": {
+      "type": "string",
+      "enum": [
+        "",
+        "tcp",
+        "udp"
+      ]
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_outbound"
+    }
+  },
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_quic"
+    },
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

@@ -1,89 +1,77 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "type": "object",
-    "title": "Cloudflare Origin CA",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "domain"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "cloudflare-origin-ca",
-            "const": "cloudflare-origin-ca",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Cloudflare Origin CA",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "domain"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "cloudflare-origin-ca",
+      "const": "cloudflare-origin-ca",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "x-prepared": true,
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "domain": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "data_directory": {
+      "type": "string"
+    },
+    "api_token": {
+      "type": "string"
+    },
+    "origin_ca_key": {
+      "type": "string"
+    },
+    "request_type": {
+      "type": "string",
+      "enum": [
+        "",
+        "origin-rsa",
+        "origin-ecc"
+      ]
+    },
+    "requested_validity": {
+      "type": "integer",
+      "enum": [
+        5475,
+        7,
+        30,
+        90,
+        365,
+        730,
+        1095
+      ]
+    },
+    "http_client": {
+      "x-switcherInput": "modal",
+      "x-prepared": true,
+      "oneOf": [
+        {
+          "x-switcherTitle": "Tag only",
+          "type": "string"
         },
-        "tag": {
-            "x-prepared": true,
-            "x-propertyOrder": 20,
-            "type": "string",
-            "default": "",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "domain": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "data_directory": {
-            "type": "string"
-        },
-        "api_token": {
-            "type": "string"
-        },
-        "origin_ca_key": {
-            "type": "string"
-        },
-        "request_type": {
-            "type": "string",
-            "enum": [
-                "",
-                "origin-rsa",
-                "origin-ecc"
-            ]
-        },
-        "requested_validity": {
-            "type": "integer",
-            "enum": [
-                5475,
-                7,
-                30,
-                90,
-                365,
-                730,
-                1095
-            ]
-        },
-        "http_client": {
-            "x-switcherInput": "modal",
-            "x-prepared": true,
-            "oneOf": [
-                {
-                    "x-switcherTitle": "Tag only",
-                    "type": "string"
-                },
-                {
-                    "x-switcherTitle": "Advanced",
-                    "$ref": "#/$defs/shared_http_client"
-                }
-            ]
+        {
+          "x-switcherTitle": "Advanced",
+          "$ref": "#/$defs/shared_http_client"
         }
+      ]
     }
+  }
 }

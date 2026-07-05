@@ -2,8 +2,13 @@
   "type": "object",
   "title": "Hysteria",
   "x-format": "grid",
-  "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
+  "required": [
+    "type",
+    "listen"
+  ],
+  "x-prepaed": [
+    "tag"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -85,8 +90,26 @@
     },
     "tls": {
       "$ref": "#/$defs/shared_tls_inbound"
+    },
+    "recv_window_conn": {
+      "type": "integer",
+      "x-propGroup": "Deprecated in sing-box 1.14.0"
+    },
+    "recv_window_client": {
+      "type": "integer",
+      "x-propGroup": "Deprecated in sing-box 1.14.0"
+    },
+    "max_conn_client": {
+      "type": "integer",
+      "x-propGroup": "Deprecated in sing-box 1.14.0"
+    },
+    "disable_mtu_discovery": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Deprecated in sing-box 1.14.0"
     }
   },
+  "x-mergeAllOf": true,
   "allOf": [
     {
       "$ref": "#/$defs/shared_quic"

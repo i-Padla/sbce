@@ -2,8 +2,13 @@
   "type": "object",
   "title": "Trojan",
   "x-format": "grid",
-  "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
+  "required": [
+    "type",
+    "listen"
+  ],
+  "x-prepaed": [
+    "tag"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -81,6 +86,5 @@
       "$ref": "#/$defs/shared_v2ray_transport"
     }
   },
-
   "$ref": "#/$defs/shared_listen"
 }

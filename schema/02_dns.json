@@ -43,7 +43,7 @@
       "type": "object",
       "properties": {
         "enabled": {
-          "x-format": "checkbox",
+          "x-format": "toggle",
           "type": "boolean"
         },
         "timeout": {
@@ -55,7 +55,7 @@
       "type": "string"
     },
     "reverse_mapping": {
-      "x-format": "checkbox",
+      "x-format": "toggle",
       "type": "boolean"
     },
     "client_subnet": {

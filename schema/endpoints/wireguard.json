@@ -1,154 +1,132 @@
 {
-	"type": "object",
-	"title": "Wireguard",
-	"x-deactivateNonRequired": true,
-	"x-enablePropertiesToggle": true,
-	"x-propertiesToggleContent": "Toggle properties",
-	"x-format": "grid",
-	"required": [
-		"type",
-		"address",
-		"private_key",
-		"peers"
-	],
-	"properties": {
-		"type": {
-			"type": "string",
-			"default": "wireguard",
-			"const": "wireguard",
-			"readOnly": true,
-			"x-grid": {
-				"columns": 6
-			}
-		},
-		"tag": {
-			"type": "string",
-			"default": "wg-in",
-			"x-grid": {
-				"columns": 6
-			}
-		},
-		"system": {
-			"type": "boolean",
-			"x-format": "checkbox"
-		},
-		"name": {
-			"type": "string"
-		},
-		"mtu": {
-			"type": "integer",
-			"default": 1408
-		},
-		"address": {
-			"type": "array",
-			"x-format": "table",
-			"x-arrayDeleteContent": "",
-			"x-arrayAddContent": "Add",
-			"x-arrayMove": false,
-			"items": {
-				"type": "string"
-			}
-		},
-		"private_key": {
-			"type": "string"
-		},
-		"listen_port": {
-			"type": "integer"
-		},
-		"peers": {
-			"type": "array",
-			"x-format": "nav-vertical",
-			"x-deactivateNonRequired": true,
-			"x-arrayAddContent": "Add",
-			"x-arrayMove": false,
-			"x-arrayDeleteContent": "",
-			"x-arrayDeleteAll": true,
-			"x-arrayDeleteAllContent": "Delete all",
-			"x-enableCollapseToggle": true,
-			"x-collapseToggleContent": "",
-			"minItems": 1,
-			"title": "Peers List",
-			"x-titleTemplate": "{{ i1 }}) {{ value.peerTag }}",
-			"items": {
-				"type": "object",
-				"x-deactivateNonRequired": true,
-				"x-enableCollapseToggle": true,
-				"x-collapseToggleContent": "",
-				"x-enablePropertiesToggle": true,
-				"x-propertiesToggleContent": "Toggle properties",
-				"x-format": "grid",
-				"title": "{{value.x-tag}}",
-				"properties": {
-					"x-tag": {
-						"title": "Tag",
-						"type": "string",
-						"description": "Purely cosmetic value to use through UI, will NOT be used in final config",
-						"x-inputAttributes": {
-							"placeholder": "Alice, Bob, Charlie etc."
-						}
-					},
-					"address": {
-						"type": "string",
-						"x-grid": {
-							"columns": 6
-						}
-					},
-					"port": {
-						"type": "integer",
-						"x-grid": {
-							"columns": 6
-						}
-					},
-					"public_key": {
-						"type": "string"
-					},
-					"pre_shared_key": {
-						"type": "string"
-					},
-					"allowed_ips": {
-						"type": "array",
-						"x-format": "table",
-						"x-arrayDeleteContent": "",
-						"x-arrayAddContent": "Add",
-						"x-arrayMove": false,
-						"items": {
-							"type": "string"
-						}
-					},
-					"persistent_keepalive_interval": {
-						"type": "integer"
-					},
-					"reserved": {
-						"type": "array",
-						"x-format": "table",
-						"x-enableCollapseToggle": true,
-						"x-collapseToggleContent": "",
-						"x-arrayAdd": false,
-						"x-arrayMove": false,
-						"x-arrayDelete": false,
-						"default": [
-							0,
-							0,
-							0
-						],
-						"items": {
-							"type": "integer"
-						}
-					}
-				},
-				"required": [
-					"public_key",
-					"allowed_ips"
-				]
-			}
-		},
-		"udp_timeout": {
-			"type": "string",
-			"default": "5m"
-		},
-		"workers": {
-			"type": "integer",
-			"default": 0
-		}
-	}
+  "type": "object",
+  "title": "Wireguard",
+  "x-deactivateNonRequired": true,
+  "x-enablePropertiesToggle": true,
+  "x-propertiesToggleContent": "Toggle properties",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "address",
+    "private_key",
+    "peers"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "wireguard",
+      "const": "wireguard",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "type": "string",
+      "default": "wg-in",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "system": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "name": {
+      "type": "string"
+    },
+    "mtu": {
+      "type": "integer",
+      "default": 1408
+    },
+    "address": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "private_key": {
+      "type": "string"
+    },
+    "listen_port": {
+      "type": "integer"
+    },
+    "peers": {
+      "type": "array",
+      "x-format": "nav-vertical",
+      "x-deactivateNonRequired": true,
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "minItems": 1,
+      "title": "Peers List",
+      "x-titleTemplate": "{{ i1 }}) {{ value.peerTag }}",
+      "items": {
+        "type": "object",
+        "x-deactivateNonRequired": true,
+        "x-enableCollapseToggle": true,
+        "x-collapseToggleContent": "",
+        "x-enablePropertiesToggle": true,
+        "x-propertiesToggleContent": "Toggle properties",
+        "x-format": "grid",
+        "title": "{{value.x-tag}}",
+        "properties": {
+          "address": {
+            "type": "string",
+            "x-grid": {
+              "columns": 6
+            }
+          },
+          "port": {
+            "type": "integer",
+            "x-grid": {
+              "columns": 6
+            }
+          },
+          "public_key": {
+            "type": "string"
+          },
+          "pre_shared_key": {
+            "type": "string"
+          },
+          "allowed_ips": {
+            "$ref": "#/$defs/string_or_array"
+          },
+          "persistent_keepalive_interval": {
+            "type": "integer"
+          },
+          "reserved": {
+            "type": "array",
+            "x-format": "table",
+            "x-enableCollapseToggle": true,
+            "x-collapseToggleContent": "",
+            "x-arrayAdd": false,
+            "x-arrayMove": false,
+            "x-arrayDelete": false,
+            "default": [
+              0,
+              0,
+              0
+            ],
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "required": [
+          "public_key",
+          "allowed_ips"
+        ]
+      }
+    },
+    "udp_timeout": {
+      "type": "string",
+      "default": "5m"
+    },
+    "workers": {
+      "type": "integer",
+      "default": 0
+    }
+  }
 }

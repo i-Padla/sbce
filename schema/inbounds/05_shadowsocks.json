@@ -2,8 +2,11 @@
   "type": "object",
   "title": "Shadowsocks",
   "x-format": "grid",
-  "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
+  "required": [
+    "type",
+    "listen",
+    "password"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -17,7 +20,6 @@
     },
     "tag": {
       "x-propertyOrder": 20,
-      "description": "The tag of the inbound.",
       "type": "string",
       "default": "ss-in",
       "x-grid": {
@@ -25,12 +27,14 @@
       }
     },
     "network": {
-      "description": "Listen network, one of `tcp` `udp`.\n\nBoth if empty.",
       "type": "string",
-      "enum": ["", "tcp", "udp"]
+      "enum": [
+        "",
+        "tcp",
+        "udp"
+      ]
     },
     "method": {
-      "description": "Encryption method.",
       "type": "string",
       "enum": [
         "2022-blake3-aes-128-gcm",
@@ -45,11 +49,9 @@
       ]
     },
     "password": {
-      "description": "Password.",
       "type": "string"
     },
     "users": {
-      "description": "Multi-user configuration.",
       "type": "array",
       "x-format": "nav-vertical",
       "x-arrayAddContent": "Add",
@@ -64,7 +66,10 @@
         "type": "object",
         "title": "User #{{i1}} - {{ value.name }}",
         "x-enablePropertiesToggle": false,
-        "required": ["name", "password"],
+        "required": [
+          "name",
+          "password"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -76,7 +81,6 @@
       }
     },
     "destinations": {
-      "description": "Relay configuration.",
       "type": "array",
       "x-format": "nav-vertical",
       "x-arrayAddContent": "Add",
@@ -89,7 +93,12 @@
       "x-titleTemplate": "{{ i1 }}) {{ value.name }}",
       "items": {
         "type": "object",
-        "required": ["name", "server", "server_port", "password"],
+        "required": [
+          "name",
+          "server",
+          "server_port",
+          "password"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -107,14 +116,12 @@
       }
     },
     "managed": {
-      "description": "Enable this when the inbound is managed by the SSM API for dynamic user.",
       "type": "boolean",
-      "x-format": "checkbox"
+      "x-format": "toggle"
     },
     "multiplex": {
       "$ref": "#/$defs/shared_multiplex_inbound"
     }
   },
-
   "$ref": "#/$defs/shared_listen"
 }

@@ -1,27 +1,32 @@
 {
-    "type": "array",
-    "title": "DNS rules",
-    "x-format": "nav-vertical",
-    "x-arrayAddContent": "Add",
-    "x-arrayDeleteContent": "",
-    "x-enableCollapseToggle": true,
-    "x-collapseToggleContent": "",
-    "x-arrayDeleteAll": true,
-    "x-arrayDeleteAllContent": "Delete all",
-    "x-arrayMove": true,
-    "x-arrayMoveDownContent": "",
-    "x-arrayMoveUpContent": "",
-    "x-recursive": true,
-    "x-titleTemplate": "#{{ i1 }}",
-    "items": {
-        "x-embedSwitcher": true,
-        "oneOf": [
-            {
-                "$ref": "#/$defs/dns_rule_default"
-            },
-            {
-                "$ref": "#/$defs/dns_rule_logical"
-            }
-        ]
-    }
+  "type": "array",
+  "title": "DNS rules",
+  "x-format": "nav-vertical",
+  "x-arrayAddContent": "Add",
+  "x-arrayDeleteContent": "",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "x-arrayDeleteAll": true,
+  "x-arrayDeleteAllContent": "Delete all",
+  "x-arrayMove": true,
+  "x-arrayMoveDownContent": "",
+  "x-arrayMoveUpContent": "",
+  "x-recursive": true,
+  "x-titleTemplate": "#{{ i1 }}",
+  "items": {
+    "x-embedSwitcher": true,
+    "x-propertyOrder": {
+      "type": 10
+    },
+    "oneOf": [
+      {
+        "x-switcherTitle": "Default rule",
+        "$ref": "#/$defs/dns_rule_default"
+      },
+      {
+        "x-switcherTitle": "Logical rule",
+        "$ref": "#/$defs/dns_rule_logical"
+      }
+    ]
+  }
 }

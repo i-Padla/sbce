@@ -1,134 +1,15 @@
 {
-    "type": "object",
-    "title": "Experimental",
-    "properties": {
-        "cache_file": {
-            "type": "object",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "properties": {
-                "enabled": {
-                    "x-format": "checkbox",
-                    "type": "boolean"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "cache_id": {
-                    "type": "string"
-                },
-                "store_fakeip": {
-                    "x-format": "checkbox",
-                    "type": "boolean"
-                },
-                "store_rdrc": {
-                    "x-format": "checkbox",
-                    "type": "boolean"
-                },
-                "rdrc_timeout": {
-                    "type": "string"
-                },
-                "store_dns": {
-                    "x-format": "checkbox",
-                    "type": "boolean"
-                }
-            }
-        },
-        "clash_api": {
-            "type": "object",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "properties": {
-                "external_controller": {
-                    "type": "string"
-                },
-                "external_ui": {
-                    "type": "string"
-                },
-                "external_ui_download_url": {
-                    "type": "string"
-                },
-                "external_ui_download_detour": {
-                    "type": "string"
-                },
-                "secret": {
-                    "type": "string"
-                },
-                "default_mode": {
-                    "type": "string"
-                },
-                "access_control_allow_origin": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "access_control_allow_private_network": {
-                    "x-format": "checkbox",
-                    "type": "boolean"
-                }
-            }
-        },
-        "v2ray_api": {
-            "type": "object",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "properties": {
-                "listen": {
-                    "type": "string"
-                },
-                "stats": {
-                    "type": "object",
-                    "properties": {
-                        "enabled": {
-                            "x-format": "checkbox",
-                            "type": "boolean"
-                        },
-                        "inbounds": {
-                            "type": "array",
-                            "x-format": "table",
-                            "x-arrayDeleteContent": "",
-                            "x-arrayAddContent": "Add",
-                            "x-arrayMove": false,
-                            "x-enableCollapseToggle": true,
-                            "x-collapseToggleContent": "",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "outbounds": {
-                            "type": "array",
-                            "x-format": "table",
-                            "x-arrayDeleteContent": "",
-                            "x-arrayAddContent": "Add",
-                            "x-arrayMove": false,
-                            "x-enableCollapseToggle": true,
-                            "x-collapseToggleContent": "",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "users": {
-                            "type": "array",
-                            "x-format": "table",
-                            "x-arrayDeleteContent": "",
-                            "x-arrayAddContent": "Add",
-                            "x-arrayMove": false,
-                            "x-enableCollapseToggle": true,
-                            "x-collapseToggleContent": "",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        }
+  "type": "object",
+  "title": "Experimental",
+  "properties": {
+    "cache_file": {
+      "$ref": "#/$defs/experimental_cache_file"
+    },
+    "clash_api": {
+      "$ref": "#/$defs/experimental_clash_api"
+    },
+    "v2ray_api": {
+      "$ref": "#/$defs/experimental_v2ray_api"
     }
+  }
 }

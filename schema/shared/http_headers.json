@@ -1,175 +1,43 @@
 {
-    "type": "object",
-    "title": "HTTP Headers",
-    "x-objectAdd": true,
-    "x-addPropertyContent": "Add custom header",
-    "x-enableCollapseToggle": true,
-    "x-collapseToggleContent": "",
-    "properties": {
-        "Host": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "User-Agent": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "Accept-Language": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "Accept-Encoding": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "Referer": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "Cookie": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "Authorization": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "Cache-Control": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "X-Forwarded-For": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "Sec-WebSocket-Protocol": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        }
+  "type": "object",
+  "title": "HTTP Headers",
+  "x-objectAdd": true,
+  "x-addPropertyContent": "Add custom header",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "properties": {
+    "Host": {
+      "$ref": "#/$defs/string_or_array"
     },
-    "additionalProperties": {
-        "type": "array",
-        "x-format": "table",
-        "x-arrayAddContent": "",
-        "x-arrayDelete": true,
-        "x-arrayDeleteContent": "",
-        "x-arrayDeleteAll": true,
-        "x-arrayDeleteAllContent": "Delete all",
-        "x-enableCollapseToggle": true,
-        "x-collapseToggleContent": "",
-        "x-arrayMove": false,
-        "items": {
-            "type": "string"
-        }
+    "User-Agent": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "Accept-Language": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "Accept-Encoding": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "Referer": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "Cookie": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "Authorization": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "Cache-Control": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "X-Forwarded-For": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "Sec-WebSocket-Protocol": {
+      "$ref": "#/$defs/string_or_array"
     }
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/string_or_array"
+  }
 }

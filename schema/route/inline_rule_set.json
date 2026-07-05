@@ -2,7 +2,10 @@
   "type": "object",
   "title": "{{ value.tag }} (inline)",
   "x-switcherTitle": "Inline",
-  "required": ["type", "tag", "rules"],
+  "required": [
+    "tag",
+    "rules"
+  ],
   "properties": {
     "type": {
       "type": "string",

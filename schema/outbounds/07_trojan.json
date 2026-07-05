@@ -1,73 +1,64 @@
 {
-    "type": "object",
-    "title": "Trojan",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "server",
-        "server_port",
-        "password"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "trojan",
-            "const": "trojan",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "Trojan",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "server",
+    "server_port",
+    "password"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "trojan",
+      "const": "trojan",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "type": "object",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "trojan-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server_port": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "password": {
-                    "type": "string"
-                },
-                "network": {
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "tcp",
-                        "udp"
-                    ]
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_outbound"
-                },
-                "transport": {
-                    "$ref": "#/$defs/shared_v2ray_transport"
-                },
-                "multiplex": {
-                    "$ref": "#/$defs/shared_multiplex_outbound"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_dial"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "trojan-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "password": {
+      "type": "string"
+    },
+    "network": {
+      "type": "string",
+      "enum": [
+        "",
+        "tcp",
+        "udp"
+      ]
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_outbound"
+    },
+    "transport": {
+      "$ref": "#/$defs/shared_v2ray_transport"
+    },
+    "multiplex": {
+      "$ref": "#/$defs/shared_multiplex_outbound"
+    }
+  },
+  "$ref": "#/$defs/shared_dial"
 }

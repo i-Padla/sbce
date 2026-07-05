@@ -1,63 +1,63 @@
 {
-    "type": "array",
-    "title": "Servers",
-    "x-format": "nav-vertical",
-    "x-arrayAddContent": "Add",
-    "x-enableCollapseToggle": true,
-    "x-collapseToggleContent": "",
-    "x-arrayMove": true,
-    "x-arrayMoveDownContent": "",
-    "x-arrayMoveUpContent": "",
-    "x-arrayDeleteContent": "",
-    "x-arrayDeleteAll": true,
-    "x-arrayDeleteAllContent": "Delete all",
-    "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
-    "items": {
-        "x-embedSwitcher": true,
-        "x-discriminator": "type",
-        "discriminator": {
-            "propertyName": "type"
-        },
-        "oneOf": [
-            {
-                "$ref": "#/$defs/dns_servers_local"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_hosts"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_tcp"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_udp"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_tls"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_quic"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_https"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_http3"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_dhcp"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_mdns"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_fakeip"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_tailscale"
-            },
-            {
-                "$ref": "#/$defs/dns_servers_resolved"
-            }
-        ]
-    }
+  "type": "array",
+  "title": "Servers",
+  "x-format": "nav-vertical",
+  "x-arrayAddContent": "Add",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "x-arrayMove": true,
+  "x-arrayMoveDownContent": "",
+  "x-arrayMoveUpContent": "",
+  "x-arrayDeleteContent": "",
+  "x-arrayDeleteAll": true,
+  "x-arrayDeleteAllContent": "Delete all",
+  "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
+  "items": {
+    "x-embedSwitcher": true,
+    "x-discriminator": "type",
+    "discriminator": {
+      "propertyName": "type"
+    },
+    "oneOf": [
+      {
+        "$ref": "#/$defs/dns_servers_local"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_hosts"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_tcp"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_udp"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_tls"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_quic"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_https"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_http3"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_dhcp"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_mdns"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_fakeip"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_tailscale"
+      },
+      {
+        "$ref": "#/$defs/dns_servers_resolved"
+      }
+    ]
+  }
 }

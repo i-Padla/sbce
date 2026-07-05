@@ -1,0 +1,364 @@
+import Editor from './editor.js'
+import { clamp, isArray, isSet } from '../helpers/utils.js'
+import {
+  getSchemaMaxItems,
+  getSchemaMinItems,
+  getSchemaType,
+  getSchemaXOption
+} from '../helpers/schema.js'
+
+/**
+ * Represents an EditorArray instance.
+ * @extends Editor
+ */
+class EditorArray extends Editor {
+  static resolves (schema) {
+    return getSchemaType(schema) === 'array'
+  }
+
+  init () {
+    super.init()
+    this.activeItemIndex = 0
+  }
+
+  build () {
+    this.control = this.theme.getArrayControl({
+      title: this.getTitle(),
+      description: this.getDescription(),
+      titleHidden: getSchemaXOption(this.instance.schema, 'titleHidden'),
+      id: this.getIdFromPath(this.instance.path),
+      enableCollapseToggle: getSchemaXOption(this.instance.schema, 'enableCollapseToggle') ?? this.instance.jedison.getOption('enableCollapseToggle'),
+      startCollapsed: getSchemaXOption(this.instance.schema, 'startCollapsed') ?? this.instance.jedison.getOption('startCollapsed'),
+      readOnly: this.instance.isReadOnly(),
+      info: this.getInfo(),
+      editJsonData: getSchemaXOption(this.instance.schema, 'editJsonData') ?? this.instance.jedison.getOption('editJsonData'),
+      arrayAdd: getSchemaXOption(this.instance.schema, 'arrayAdd') ?? this.instance.jedison.getOption('arrayAdd'),
+      arrayAddContent: getSchemaXOption(this.instance.schema, 'arrayAddContent') ?? this.instance.jedison.translator.translate('arrayAdd'),
+      arrayFooterAdd: getSchemaXOption(this.instance.schema, 'arrayFooterAdd') ?? this.instance.jedison.getOption('arrayFooterAdd'),
+      arrayFooterAddContent: getSchemaXOption(this.instance.schema, 'arrayFooterAddContent') ?? this.instance.jedison.translator.translate('arrayAdd'),
+      arrayFooterButtonsPosition: getSchemaXOption(this.instance.schema, 'arrayFooterButtonsPosition') ?? this.instance.jedison.getOption('arrayFooterButtonsPosition'),
+      arrayDeleteAll: getSchemaXOption(this.instance.schema, 'arrayDeleteAll') ?? this.instance.jedison.getOption('arrayDeleteAll'),
+      arrayDeleteAllContent: getSchemaXOption(this.instance.schema, 'arrayDeleteAllContent') ?? this.instance.jedison.translator.translate('arrayDeleteAll'),
+      arrayFooterDeleteAll: getSchemaXOption(this.instance.schema, 'arrayFooterDeleteAll') ?? this.instance.jedison.getOption('arrayFooterDeleteAll'),
+      arrayFooterDeleteAllContent: getSchemaXOption(this.instance.schema, 'arrayFooterDeleteAllContent') ?? this.instance.jedison.translator.translate('arrayDeleteAll'),
+      collapseToggleContent: getSchemaXOption(this.instance.schema, 'collapseToggleContent') ?? this.instance.jedison.translator.translate('collapseToggle'),
+      titleIconClass: getSchemaXOption(this.instance.schema, 'titleIconClass')
+    })
+
+    this.control.jsonData.input.value = JSON.stringify(this.instance.getValue(), null, 2)
+  }
+
+  deleteAllItems () {
+    const schemaConfirm = getSchemaXOption(this.instance.schema, 'arrayDeleteConfirm')
+    const globalConfirm = this.instance.jedison.getOption('arrayDeleteConfirm')
+    const shouldConfirm = isSet(schemaConfirm) ? schemaConfirm : globalConfirm
+
+    const doDeleteAll = () => {
+      this.instance.setValue([], true, 'user')
+    }
+
+    if (shouldConfirm) {
+      if (window.confirm(this.instance.jedison.translator.translate('arrayConfirmDeleteAll'))) {
+        doDeleteAll()
+      }
+    } else {
+      doDeleteAll()
+    }
+  }
+
+  adaptForHorizontal (labelCol, inputCol) {
+    this.theme.adaptForHorizontalArrayControl(this.control, labelCol, inputCol, this.getTitle())
+  }
+
+  addEventListeners () {
+    this.control.addBtn.addEventListener('click', () => {
+      this.instance.addItem('user')
+    })
+
+    this.control.footerAddBtn.addEventListener('click', () => {
+      this.instance.addItem('user')
+    })
+
+    if (this.control.deleteAllBtn) {
+      this.control.deleteAllBtn.addEventListener('click', () => {
+        this.deleteAllItems()
+      })
+    }
+
+    if (this.control.footerDeleteAllBtn) {
+      this.control.footerDeleteAllBtn.addEventListener('click', () => {
+        this.deleteAllItems()
+      })
+    }
+
+    this.addJsonDataEventListeners()
+  }
+
+  addJsonDataEventListeners () {
+    this.control.jsonData.copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(this.control.jsonData.input.value)
+    })
+
+    this.control.jsonData.saveBtn.addEventListener('click', () => {
+      try {
+        const inputValue = JSON.parse(this.control.jsonData.input.value)
+        this.instance.setValue(inputValue, true, 'user')
+        this.control.jsonData.dialog.close()
+      } catch (error) {
+        // eslint-disable-next-line no-undef
+        alert('Invalid JSON')
+      }
+    })
+
+    this.control.jsonData.toggle.addEventListener('click', () => {
+      this.refreshJsonDataInputSize()
+    })
+  }
+
+  getErrorFeedback (config) {
+    return this.theme.getAlert(config)
+  }
+
+  sanitize (value) {
+    if (isArray(value)) {
+      return value
+    }
+
+    return []
+  }
+
+  getButtons (index) {
+    const schemaDeleteContent = getSchemaXOption(this.instance.schema, 'arrayDeleteContent')
+    const schemaMoveUpContent = getSchemaXOption(this.instance.schema, 'arrayMoveUpContent')
+    const schemaMoveDownContent = getSchemaXOption(this.instance.schema, 'arrayMoveDownContent')
+    const schemaDragContent = getSchemaXOption(this.instance.schema, 'arrayDragContent')
+    const schemaAddAfterContent = getSchemaXOption(this.instance.schema, 'arrayAddAfterContent')
+
+    const deleteBtn = this.theme.getDeleteItemBtn({
+      content: schemaDeleteContent ?? this.instance.jedison.translator.translate('arrayDelete')
+    })
+
+    const moveUpBtn = this.theme.getMoveUpItemBtn({
+      content: schemaMoveUpContent ?? this.instance.jedison.translator.translate('arrayMoveUp')
+    })
+
+    const moveDownBtn = this.theme.getMoveDownItemBtn({
+      content: schemaMoveDownContent ?? this.instance.jedison.translator.translate('arrayMoveDown')
+    })
+
+    const dragBtn = this.theme.getDragItemBtn({
+      content: schemaDragContent ?? this.instance.jedison.translator.translate('arrayDrag')
+    })
+
+    const addAfterBtn = this.theme.getAddAfterItemBtn({
+      content: schemaAddAfterContent ?? this.instance.jedison.translator.translate('arrayAddAfter')
+    })
+
+    const btnGroup = this.theme.getBtnGroup()
+
+    deleteBtn.addEventListener('click', () => {
+      const schemaConfirm = getSchemaXOption(this.instance.schema, 'arrayDeleteConfirm')
+      const globalConfirm = this.instance.jedison.getOption('arrayDeleteConfirm')
+      const shouldConfirm = isSet(schemaConfirm) ? schemaConfirm : globalConfirm
+
+      const doDelete = () => {
+        this.activeItemIndex = clamp((index - 1), 0, (this.instance.value.length - 1))
+        this.instance.deleteItem(index, 'user')
+      }
+
+      if (shouldConfirm) {
+        if (window.confirm(this.instance.jedison.translator.translate('arrayConfirmDelete'))) {
+          doDelete()
+        }
+      } else {
+        doDelete()
+      }
+    })
+
+    moveUpBtn.addEventListener('click', () => {
+      const toIndex = index - 1
+      this.activeItemIndex = toIndex
+      this.instance.move(index, toIndex, 'user')
+    })
+
+    moveDownBtn.addEventListener('click', () => {
+      const toIndex = index + 1
+      this.activeItemIndex = toIndex
+      this.instance.move(index, toIndex, 'user')
+    })
+
+    addAfterBtn.addEventListener('click', () => {
+      this.activeItemIndex = index + 1
+      this.instance.addItemAfter(index, 'user')
+    })
+
+    if (index === 0) {
+      moveUpBtn.setAttribute('always-disabled', true)
+    }
+
+    if (index === this.instance.children.length - 1) {
+      moveDownBtn.setAttribute('always-disabled', true)
+    }
+
+    return { deleteBtn, moveUpBtn, moveDownBtn, btnGroup, dragBtn, addAfterBtn }
+  }
+
+  isSortable () {
+    return window.Sortable && isSet(getSchemaXOption(this.instance.schema, 'sortable'))
+  }
+
+  refreshSortable (container) {
+    if (this.isSortable()) {
+      if (this.sortable) {
+        this.sortable.destroy()
+      }
+
+      this.sortable = window.Sortable.create(container, {
+        animation: 150,
+        handle: '.jedi-array-drag',
+        disabled: this.disabled || this.readOnly,
+        onEnd: (evt) => {
+          this.instance.move(evt.oldIndex, evt.newIndex)
+        }
+      })
+    }
+  }
+
+  refreshDeleteAllBtn () {
+    if (!this.control.deleteAllBtn && !this.control.footerDeleteAllBtn) return
+
+    const isEmpty = this.instance.value.length === 0
+    const cannotDeleteAll = isEmpty
+
+    const btns = [this.control.deleteAllBtn, this.control.footerDeleteAllBtn].filter(Boolean)
+
+    if (cannotDeleteAll || this.disabled || this.readOnly) {
+      btns.forEach((btn) => {
+        btn.setAttribute('disabled', '')
+        btn.setAttribute('always-disabled', true)
+      })
+    } else {
+      if (!this.disabled && !this.readOnly) {
+        btns.forEach((btn) => {
+          btn.removeAttribute('disabled')
+          btn.removeAttribute('always-disabled')
+        })
+      }
+    }
+  }
+
+  refreshAddBtn () {
+    const maxItems = getSchemaMaxItems(this.instance.schema)
+    const enforceMaxItems = getSchemaXOption(this.instance.schema, 'enforceMaxItems') ?? this.instance.jedison.getOption('enforceMaxItems')
+
+    if (isSet(maxItems) && enforceMaxItems && maxItems <= this.instance.value.length) {
+      this.control.addBtn.setAttribute('disabled', '')
+      this.control.addBtn.setAttribute('always-disabled', true)
+      this.control.footerAddBtn.setAttribute('disabled', '')
+      this.control.footerAddBtn.setAttribute('always-disabled', true)
+      this.control.childrenSlot.querySelectorAll('.jedi-array-add-after').forEach((btn) => {
+        btn.setAttribute('disabled', '')
+        btn.setAttribute('always-disabled', true)
+      })
+    } else {
+      if (!this.disabled && !this.readOnly) {
+        this.control.addBtn.removeAttribute('disabled')
+        this.control.addBtn.removeAttribute('always-disabled')
+        this.control.footerAddBtn.removeAttribute('disabled')
+        this.control.footerAddBtn.removeAttribute('always-disabled')
+        this.control.childrenSlot.querySelectorAll('.jedi-array-add-after').forEach((btn) => {
+          btn.removeAttribute('disabled')
+          btn.removeAttribute('always-disabled')
+        })
+      }
+    }
+  }
+
+  refreshUI () {
+    super.refreshUI()
+    const minItems = getSchemaMinItems(this.instance.schema)
+    const arrayDelete = getSchemaXOption(this.instance.schema, 'arrayDelete') ?? this.instance.jedison.getOption('arrayDelete')
+    const arrayMove = getSchemaXOption(this.instance.schema, 'arrayMove') ?? this.instance.jedison.getOption('arrayMove')
+    const arrayAddAfter = getSchemaXOption(this.instance.schema, 'arrayAddAfter') ?? this.instance.jedison.getOption('arrayAddAfter')
+
+    this.control.childrenSlot.innerHTML = ''
+
+    this.instance.children.forEach((child, index) => {
+      const { deleteBtn, moveUpBtn, moveDownBtn, dragBtn, btnGroup, addAfterBtn } = this.getButtons(index)
+      const { container, arrayActions, body } = this.theme.getArrayItem({
+        readOnly: this.instance.isReadOnly(),
+        index: index
+      })
+
+      arrayActions.appendChild(btnGroup)
+
+      if (isSet(arrayDelete) && arrayDelete === true) {
+        btnGroup.appendChild(deleteBtn)
+      }
+
+      if (isSet(arrayMove) && arrayMove === true) {
+        btnGroup.appendChild(moveUpBtn)
+        btnGroup.appendChild(moveDownBtn)
+      }
+
+      if (this.isSortable()) {
+        btnGroup.appendChild(dragBtn)
+      }
+
+      if (isSet(arrayAddAfter) && arrayAddAfter === true) {
+        btnGroup.appendChild(addAfterBtn)
+      }
+
+      this.control.childrenSlot.appendChild(container)
+      body.appendChild(child.ui.control.container)
+
+      if (this.disabled || this.instance.isReadOnly()) {
+        child.ui.disable()
+      } else {
+        child.ui.enable()
+      }
+
+      if (isSet(minItems) && this.instance.value.length <= minItems) {
+        deleteBtn.setAttribute('disabled', '')
+      }
+    })
+
+    this.refreshDisabledState()
+    this.refreshSortable(this.control.childrenSlot)
+
+    this.instance.children.forEach((child) => {
+      child.ui.refreshUI()
+    })
+
+    this.refreshAddBtn()
+    this.refreshDeleteAllBtn()
+    this.refreshJsonData()
+    this.refreshLegendWarning()
+  }
+
+  refreshLegendWarning () {
+    if (!this.control.legendText) return
+    const navWarning = getSchemaXOption(this.instance.schema, 'navWarning') ?? true
+    const hasErrors = navWarning && this.instance.hasNestedValidationErrors()
+
+    const existing = this.control.legendText.querySelector('.jedi-legend-warning')
+    if (existing) existing.parentNode.removeChild(existing)
+
+    if (hasErrors) {
+      const warning = document.createElement('span')
+      warning.classList.add('jedi-legend-warning')
+      warning.textContent = '⚠'
+      const navWarningMessage = getSchemaXOption(this.instance.schema, 'navWarningMessage')
+      if (navWarningMessage) warning.setAttribute('title', navWarningMessage)
+      this.theme.styleLegendWarning(warning)
+      this.control.legendText.appendChild(warning)
+    }
+  }
+
+  showValidationErrors (errors, force = false) {
+    super.showValidationErrors(errors, force)
+    this.refreshLegendWarning()
+  }
+}
+
+export default EditorArray

@@ -2,7 +2,12 @@
   "type": "object",
   "title": "{{ value.tag }} (local)",
   "x-switcherTitle": "Local",
-  "required": ["type", "tag", "format", "path"],
+  "required": [
+    "type",
+    "tag",
+    "format",
+    "path"
+  ],
   "properties": {
     "type": {
       "type": "string",
@@ -15,7 +20,10 @@
     },
     "format": {
       "type": "string",
-      "enum": ["source", "binary"]
+      "enum": [
+        "source",
+        "binary"
+      ]
     },
     "path": {
       "type": "string"

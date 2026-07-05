@@ -1,144 +1,133 @@
 {
-    "x-embedSwitcher": "true",
-    "x-enableCollapseToggle": true,
-    "x-collapseToggleContent": "",
-    "required": [
-        "type"
-    ],
-    "x-discriminator": "type",
-    "discriminator": {
-        "propertyName": "type"
-    },
-    "oneOf": [
-        {
-            "x-switcherTitle": "HTTP",
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "const": "http",
-                    "default": "http",
-                    "readOnly": true
-                },
-                "host": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-arrayDeleteContent": "",
-                    "x-arrayDeleteAll": true,
-                    "x-arrayDeleteAllContent": "Delete all",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "path": {
-                    "description": "Path of HTTP request.The server will verify.",
-                    "type": "string"
-                },
-                "method": {
-                    "description": "Method of HTTP request.The server will verify if not empty..",
-                    "type": "string"
-                },
-                "headers": {
-                    "$ref": "#/$defs/shared_http_headers"
-                },
-                "idle_timeout": {
-                    "type": "string",
-                    "default": "15s"
-                },
-                "ping_timeout": {
-                    "type": "string",
-                    "default": "15s"
-                }
-            }
+  "x-embedSwitcher": "true",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "required": [
+    "type"
+  ],
+  "x-discriminator": "type",
+  "discriminator": {
+    "propertyName": "type"
+  },
+  "oneOf": [
+    {
+      "x-switcherTitle": "HTTP",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "http",
+          "default": "http",
+          "readOnly": true
         },
-        {
-            "x-switcherTitle": "WebSocket",
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "const": "ws",
-                    "default": "ws",
-                    "readOnly": true
-                },
-                "path": {
-                    "description": "Path of HTTP request.The server will verify.",
-                    "type": "string"
-                },
-                "headers": {
-                    "$ref": "#/$defs/shared_http_headers"
-                },
-                "max_early_data": {
-                    "description": "Allowed payload size is in the request. Enabled if not zero.",
-                    "type": "integer"
-                },
-                "early_data_header_name": {
-                    "description": "Early data is sent in path instead of header by default. To be compatible with Xray-core, set this to Sec-WebSocket-Protocol. It needs to be consistent with the server.",
-                    "type": "string"
-                }
-            }
+        "host": {
+          "$ref": "#/$defs/string_or_array"
         },
-        {
-            "x-switcherTitle": "QUIC",
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "const": "quic",
-                    "default": "quic",
-                    "readOnly": true
-                }
-            }
+        "path": {
+          "description": "Path of HTTP request.The server will verify.",
+          "type": "string"
         },
-        {
-            "x-switcherTitle": "gRPC",
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "const": "grpc",
-                    "default": "grpc",
-                    "readOnly": true
-                },
-                "service_name": {
-                    "type": "string"
-                },
-                "idle_timeout": {
-                    "type": "string"
-                },
-                "ping_timeout": {
-                    "type": "string"
-                },
-                "permit_without_stream": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                }
-            }
+        "method": {
+          "description": "Method of HTTP request.The server will verify if not empty..",
+          "type": "string"
         },
-        {
-            "x-switcherTitle": "HTTPupgrade",
-            "type": "object",
-            "properties": {
-                "type": {
-                    "type": "string",
-                    "const": "httpupgrade",
-                    "default": "httpupgrade",
-                    "readOnly": true
-                },
-                "host": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "headers": {
-                    "$ref": "#/$defs/shared_http_headers"
-                }
-            }
+        "headers": {
+          "$ref": "#/$defs/shared_http_headers"
+        },
+        "idle_timeout": {
+          "type": "string",
+          "default": "15s"
+        },
+        "ping_timeout": {
+          "type": "string",
+          "default": "15s"
         }
-    ]
+      }
+    },
+    {
+      "x-switcherTitle": "WebSocket",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "ws",
+          "default": "ws",
+          "readOnly": true
+        },
+        "path": {
+          "description": "Path of HTTP request.The server will verify.",
+          "type": "string"
+        },
+        "headers": {
+          "$ref": "#/$defs/shared_http_headers"
+        },
+        "max_early_data": {
+          "description": "Allowed payload size is in the request. Enabled if not zero.",
+          "type": "integer"
+        },
+        "early_data_header_name": {
+          "description": "Early data is sent in path instead of header by default. To be compatible with Xray-core, set this to Sec-WebSocket-Protocol. It needs to be consistent with the server.",
+          "type": "string"
+        }
+      }
+    },
+    {
+      "x-switcherTitle": "QUIC",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "quic",
+          "default": "quic",
+          "readOnly": true
+        }
+      }
+    },
+    {
+      "x-switcherTitle": "gRPC",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "grpc",
+          "default": "grpc",
+          "readOnly": true
+        },
+        "service_name": {
+          "type": "string"
+        },
+        "idle_timeout": {
+          "type": "string"
+        },
+        "ping_timeout": {
+          "type": "string"
+        },
+        "permit_without_stream": {
+          "type": "boolean",
+          "x-format": "toggle"
+        }
+      }
+    },
+    {
+      "x-switcherTitle": "HTTPupgrade",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "httpupgrade",
+          "default": "httpupgrade",
+          "readOnly": true
+        },
+        "host": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "headers": {
+          "$ref": "#/$defs/shared_http_headers"
+        }
+      }
+    }
+  ]
 }

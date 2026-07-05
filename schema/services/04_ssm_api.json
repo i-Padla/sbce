@@ -3,7 +3,11 @@
   "type": "object",
   "title": "SSM API",
   "x-format": "grid",
-  "required": ["type", "servers", "listen"],
+  "required": [
+    "type",
+    "servers",
+    "listen"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,

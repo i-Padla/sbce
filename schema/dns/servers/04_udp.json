@@ -1,41 +1,41 @@
 {
-    "type": "object",
-    "title": "UDP",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "tag",
-        "server"
-    ],
-    "properties": {
-        "type": {
-            "type": "string",
-            "default": "udp",
-            "const": "udp",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tag": {
-            "type": "string",
-            "default": "udp-dns",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "server": {
-            "type": "string",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "server_port": {
-            "type": "integer",
-            "default": 53,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "UDP",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "tag",
+    "server"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "udp",
+      "const": "udp",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "type": "string",
+      "default": "udp-dns",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "default": 53,
+      "x-grid": {
+        "columns": 6
+      }
     }
+  }
 }

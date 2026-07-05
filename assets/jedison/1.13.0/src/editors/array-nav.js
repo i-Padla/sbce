@@ -1,0 +1,235 @@
+import EditorArray from "./array.js";
+import { compileTemplate, isSet } from "../helpers/utils.js";
+import {
+  getSchemaTitle,
+  getSchemaType,
+  getSchemaXOption,
+} from "../helpers/schema.js";
+
+/**
+ * Represents an EditorArrayNav instance.
+ * @extends EditorArray
+ */
+class EditorArrayNav extends EditorArray {
+  static resolves(schema) {
+    const format = getSchemaXOption(schema, "format");
+    const regex = /^nav-(horizontal|vertical(?:-\d+)?)$/;
+    const hasNavFormat = regex.test(format);
+    return getSchemaType(schema) === "array" && hasNavFormat;
+  }
+
+  navigateTo(path) {
+    const nextChildPath = this.getNextChildPath(path);
+    if (nextChildPath) {
+      const childIndex = this.instance.children.findIndex(
+        (c) => c.path === nextChildPath,
+      );
+      if (childIndex !== -1) {
+        this.activeItemIndex = childIndex;
+        this.refreshUI();
+      }
+    }
+    super.navigateTo(path);
+  }
+
+  addEventListeners() {
+    this.control.addBtn.addEventListener("click", () => {
+      this.activeItemIndex = this.instance.value.length;
+      this.instance.addItem("user");
+    });
+
+    this.control.footerAddBtn.addEventListener("click", () => {
+      this.activeItemIndex = this.instance.value.length;
+      this.instance.addItem("user");
+    });
+
+    if (this.control.deleteAllBtn) {
+      this.control.deleteAllBtn.addEventListener("click", () => {
+        this.activeItemIndex = 0;
+        this.deleteAllItems();
+      });
+    }
+
+    if (this.control.footerDeleteAllBtn) {
+      this.control.footerDeleteAllBtn.addEventListener("click", () => {
+        this.activeItemIndex = 0;
+        this.deleteAllItems();
+      });
+    }
+
+    this.addJsonDataEventListeners();
+  }
+
+  refreshUI() {
+    this.control.childrenSlot.innerHTML = "";
+
+    this.clearStoredEventListeners();
+
+    const format = getSchemaXOption(this.instance.schema, "format");
+    const formatParts = format.split("-");
+    const variant = formatParts[1];
+    const columns = formatParts[2];
+    const navColumns = variant === "horizontal" ? 12 : (columns ?? 4);
+    const row = this.theme.getRow();
+    const tabListCol = this.theme.getCol(12, 12, navColumns, navColumns);
+    const tabContentCol = this.theme.getCol(
+      12,
+      12,
+      12 - navColumns,
+      12 - navColumns,
+    );
+    const tabContent = this.theme.getTabContent();
+    const tabList = this.theme.getTabList({
+      variant: variant,
+    });
+
+    const arrayDelete =
+      getSchemaXOption(this.instance.schema, "arrayDelete") ??
+      this.instance.jedison.getOption("arrayDelete");
+    const arrayMove =
+      getSchemaXOption(this.instance.schema, "arrayMove") ??
+      this.instance.jedison.getOption("arrayMove");
+    const arrayAddAfter =
+      getSchemaXOption(this.instance.schema, "arrayAddAfter") ??
+      this.instance.jedison.getOption("arrayAddAfter");
+
+    this.control.childrenSlot.appendChild(row);
+    row.appendChild(tabListCol);
+    row.appendChild(tabContentCol);
+    tabListCol.appendChild(tabList);
+    tabContentCol.appendChild(tabContent);
+
+    this.instance.children.forEach((child, index) => {
+      const {
+        deleteBtn,
+        moveUpBtn,
+        moveDownBtn,
+        dragBtn,
+        btnGroup,
+        addAfterBtn,
+      } = this.getButtons(index);
+
+      if (isSet(arrayDelete) && arrayDelete === true) {
+        btnGroup.appendChild(deleteBtn);
+      }
+
+      if (isSet(arrayMove) && arrayMove === true) {
+        btnGroup.appendChild(moveUpBtn);
+        btnGroup.appendChild(moveDownBtn);
+      }
+
+      if (isSet(arrayAddAfter) && arrayAddAfter === true) {
+        btnGroup.appendChild(addAfterBtn);
+      }
+
+      if (this.isSortable()) {
+        btnGroup.appendChild(dragBtn);
+      }
+
+      this.control.childrenSlot.appendChild(child.ui.control.container);
+      const schemaTitle = getSchemaTitle(child.schema);
+
+      const childTitle = isSet(schemaTitle)
+        ? schemaTitle + " " + (index + 1)
+        : child.getKey();
+      let titleTemplate;
+
+      const schemaOptionTitleTemplate = getSchemaXOption(
+        this.instance.schema,
+        "titleTemplate",
+      );
+
+      if (schemaOptionTitleTemplate) {
+        const template = schemaOptionTitleTemplate;
+        const data = child.getTemplateData(template);
+
+        titleTemplate = compileTemplate(template, data) ?? childTitle;
+      }
+
+      const active = index === this.activeItemIndex;
+      const id = this.getIdFromPath(child.path);
+
+      const navWarning =
+        getSchemaXOption(this.instance.schema, "navWarning") ?? true;
+      const navWarningMessage = getSchemaXOption(
+        this.instance.schema,
+        "navWarningMessage",
+      );
+
+      const { list, arrayActions } = this.theme.getTab({
+        hasErrors: navWarning && child.hasNestedValidationErrors(),
+        navWarningMessage: navWarningMessage,
+        title: titleTemplate?.length ? titleTemplate : childTitle,
+        id: id,
+        active: active,
+      });
+
+      arrayActions.appendChild(btnGroup);
+
+      const clickHandler = () => {
+        this.activeItemIndex = index;
+      };
+
+      list.addEventListener("click", clickHandler);
+
+      // Store listener for cleanup
+      this.storedEventListeners.push({
+        element: list,
+        handler: clickHandler,
+        eventType: "click",
+      });
+
+      this.theme.setTabPaneAttributes(child.ui.control.container, active, id);
+      tabList.appendChild(list);
+      tabContent.appendChild(child.ui.control.container);
+
+      if (this.disabled || this.instance.isReadOnly()) {
+        child.ui.disable();
+      } else {
+        child.ui.enable();
+      }
+
+      if (index === 0) {
+        moveUpBtn.setAttribute("disabled", "");
+      }
+
+      if (this.instance.value.length - 1 === index) {
+        moveDownBtn.setAttribute("disabled", "");
+      }
+    });
+
+    this.refreshSortable(tabList);
+    this.refreshDisabledState();
+    this.instance.children.forEach((child) => {
+      child.ui.refreshUI();
+    });
+    this.refreshAddBtn();
+    this.refreshDeleteAllBtn();
+    this.refreshJsonData();
+  }
+
+  showValidationErrors(errors, force = false) {
+    super.showValidationErrors(errors, force);
+    this.refreshUI();
+  }
+
+  refreshSortable(container) {
+    if (this.isSortable()) {
+      if (this.sortable) {
+        this.sortable.destroy();
+      }
+
+      this.sortable = window.Sortable.create(container, {
+        animation: 150,
+        handle: ".jedi-array-drag",
+        disabled: this.disabled || this.readOnly,
+        onEnd: (evt) => {
+          this.activeItemIndex = evt.newIndex;
+          this.instance.move(evt.oldIndex, evt.newIndex);
+        },
+      });
+    }
+  }
+}
+
+export default EditorArrayNav;

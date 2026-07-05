@@ -2,8 +2,13 @@
   "type": "object",
   "title": "VLESS",
   "x-format": "grid",
-  "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
+  "required": [
+    "type",
+    "listen"
+  ],
+  "x-prepaed": [
+    "tag"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -40,7 +45,9 @@
         "title": "{{value.name}}",
         "x-enablePropertiesToggle": true,
         "x-format": "grid",
-        "required": ["uuid"],
+        "required": [
+          "uuid"
+        ],
         "properties": {
           "name": {
             "type": "string"
@@ -50,7 +57,9 @@
           },
           "flow": {
             "type": "string",
-            "enum": ["xtls-rprx-vision"]
+            "enum": [
+              "xtls-rprx-vision"
+            ]
           }
         }
       }

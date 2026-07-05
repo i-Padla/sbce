@@ -1,91 +1,80 @@
 {
-    "type": "object",
-    "title": "VLESS",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "server",
-        "server_port",
-        "uuid"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "vless",
-            "const": "vless",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "VLESS",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "server",
+    "server_port",
+    "uuid"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "vless",
+      "const": "vless",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "x-mergeAllOf": true,
-    "allOf": [
-        {
-            "type": "object",
-            "x-format": "grid",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "vless-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server_port": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "uuid": {
-                    "type": "string",
-                    "x-inputAttributes": {
-                        "placeholder": "bf000d23-0752-40b4-affe-68f7707a9661"
-                    }
-                },
-                "flow": {
-                    "type": "string",
-                    "default": "xtls-rprx-vision"
-                },
-                "network": {
-                    "description": "Enabled network.One of tcp udp.Both is enabled by default.",
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "tcp",
-                        "udp"
-                    ]
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_outbound"
-                },
-                "packet_encoding": {
-                    "type": "string",
-                    "enum": [
-                        "xudp",
-                        "packetaddr",
-                        ""
-                    ]
-                },
-                "multiplex": {
-                    "$ref": "#/$defs/shared_multiplex_outbound"
-                },
-                "transport": {
-                    "$ref": "#/$defs/shared_v2ray_transport"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_dial"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "vless-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "uuid": {
+      "type": "string",
+      "x-inputAttributes": {
+        "placeholder": "bf000d23-0752-40b4-affe-68f7707a9661"
+      }
+    },
+    "flow": {
+      "type": "string",
+      "default": "xtls-rprx-vision"
+    },
+    "network": {
+      "description": "Enabled network.One of tcp udp.Both is enabled by default.",
+      "type": "string",
+      "enum": [
+        "",
+        "tcp",
+        "udp"
+      ]
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_outbound"
+    },
+    "packet_encoding": {
+      "type": "string",
+      "enum": [
+        "xudp",
+        "packetaddr",
+        ""
+      ]
+    },
+    "multiplex": {
+      "$ref": "#/$defs/shared_multiplex_outbound"
+    },
+    "transport": {
+      "$ref": "#/$defs/shared_v2ray_transport"
+    }
+  },
+  "$ref": "#/$defs/shared_dial"
 }

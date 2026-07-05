@@ -1,103 +1,103 @@
 {
-    "type": "object",
-    "title": "Cloudflared",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "token",
-        "listen"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "cloudflared",
-            "const": "cloudflared",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
-    },
-    "allOf": [
-        {
-            "type": "object",
-            "x-format": "grid",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "cloudflared-in",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "token": {
-                    "type": "string"
-                },
-                "ha_connections": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "protocol": {
-                    "type": "string",
-                    "enum": [
-                        "quic",
-                        "hhtp2"
-                    ],
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "post_quantum": {
-                    "x-format": "checkbox",
-                    "type": "boolean"
-                },
-                "edge_ip_version": {
-                    "type": "integer",
-                    "enum": [
-                        0,
-                        4,
-                        6
-                    ],
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "datagram_version": {
-                    "type": "string",
-                    "enum": [
-                        "v2",
-                        "v3"
-                    ],
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "grace_period": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "region": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "control_dialer": {
-                    "$ref": "#/$defs/shared_dial"
-                },
-                "tunnel_dialer": {
-                    "$ref": "#/$defs/shared_dial"
-                }
-            }
+  "type": "object",
+  "title": "Cloudflared",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "token",
+    "listen"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "cloudflared",
+      "const": "cloudflared",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  },
+  "allOf": [
+    {
+      "type": "object",
+      "x-format": "grid",
+      "properties": {
+        "tag": {
+          "x-propertyOrder": 20,
+          "type": "string",
+          "default": "cloudflared-in",
+          "x-grid": {
+            "columns": 6
+          }
         },
-        {
-            "$ref": "#/$defs/shared_listen"
+        "token": {
+          "type": "string"
+        },
+        "ha_connections": {
+          "type": "integer",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "protocol": {
+          "type": "string",
+          "enum": [
+            "quic",
+            "hhtp2"
+          ],
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "post_quantum": {
+          "x-format": "toggle",
+          "type": "boolean"
+        },
+        "edge_ip_version": {
+          "type": "integer",
+          "enum": [
+            0,
+            4,
+            6
+          ],
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "datagram_version": {
+          "type": "string",
+          "enum": [
+            "v2",
+            "v3"
+          ],
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "grace_period": {
+          "type": "string",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "region": {
+          "type": "string",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "control_dialer": {
+          "$ref": "#/$defs/shared_dial"
+        },
+        "tunnel_dialer": {
+          "$ref": "#/$defs/shared_dial"
         }
-    ]
+      }
+    },
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

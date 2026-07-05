@@ -3,7 +3,11 @@
   "type": "object",
   "title": "Hysteria realm",
   "x-format": "grid",
-  "required": ["type", "listen", "users"],
+  "required": [
+    "type",
+    "listen",
+    "users"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -24,9 +28,9 @@
         "columns": 6
       }
     },
-
-    "tls": { "$ref": "#/$defs/shared_tls_inbound" },
-
+    "tls": {
+      "$ref": "#/$defs/shared_tls_inbound"
+    },
     "users": {
       "type": "array",
       "x-format": "nav-vertical",
@@ -41,7 +45,10 @@
       "x-titleTemplate": "#{{i1}} {{value.name}}",
       "items": {
         "type": "object",
-        "required": ["name", "token"],
+        "required": [
+          "name",
+          "token"
+        ],
         "x-enablePropertiesToggle": true,
         "title": "{{value.name}}",
         "x-format": "grid",
@@ -62,7 +69,9 @@
               "columns": 6
             }
           },
-          "max_realms": { "type": "integer" }
+          "max_realms": {
+            "type": "integer"
+          }
         }
       }
     }

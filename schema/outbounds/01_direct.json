@@ -1,52 +1,41 @@
 {
-    "type": "object",
-    "title": "Direct",
-    "x-format": "grid",
-    "required": [
-        "type"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "direct",
-            "const": "direct",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "Direct",
+  "x-format": "grid",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "direct",
+      "const": "direct",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "x-mergeAllOf": true,
-    "allOf": [
-        {
-            "type": "object",
-            "x-format": "grid",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "direct-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "override_address": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "override_port": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_dial"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "direct-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "override_address": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "override_port": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    }
+  },
+  "$ref": "#/$defs/shared_dial"
 }

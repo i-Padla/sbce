@@ -6,9 +6,10 @@
       "x-propGroup": "Shared QUIC fields"
     },
     "disable_path_mtu_discovery": {
-      "x-format": "checkbox",
+      "x-format": "toggle",
       "type": "boolean",
       "x-propGroup": "Shared QUIC fields"
     }
-  }
+  },
+  "$ref": "#/$defs/shared_http2"
 }

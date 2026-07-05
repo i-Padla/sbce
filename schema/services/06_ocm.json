@@ -3,7 +3,10 @@
   "type": "object",
   "title": "OCM",
   "x-format": "grid",
-  "required": ["type", "listen"],
+  "required": [
+    "type",
+    "listen"
+  ],
   "$ref": "#/$defs/shared_listen",
   "properties": {
     "type": {
@@ -25,8 +28,12 @@
         "columns": 6
       }
     },
-    "credential_path": { "type": "string" },
-    "usages_path": { "type": "string" },
+    "credential_path": {
+      "type": "string"
+    },
+    "usages_path": {
+      "type": "string"
+    },
     "users": {
       "type": "array",
       "x-format": "nav-vertical",
@@ -72,22 +79,14 @@
       "x-enableCollapseToggle": true,
       "x-collapseToggleContent": "",
       "additionalProperties": {
-        "type": "array",
-        "x-format": "table",
-        "x-arrayAddContent": "",
-        "x-arrayDelete": true,
-        "x-arrayDeleteContent": "",
-        "x-arrayDeleteAll": true,
-        "x-arrayDeleteAllContent": "Delete all",
-        "x-enableCollapseToggle": true,
-        "x-collapseToggleContent": "",
-        "x-arrayMove": false,
-        "items": {
-          "type": "string"
-        }
+        "$ref": "#/$defs/string_or_array"
       }
     },
-    "detour": { "type": "string" },
-    "tls": { "$ref": "#/$defs/shared_tls_inbound" }
+    "detour": {
+      "type": "string"
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_inbound"
+    }
   }
 }

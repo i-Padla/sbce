@@ -10,59 +10,132 @@
       "$ref": "#/$defs/route_rule_set"
     },
     "final": {
-      "type": "string",
-      "description": "Default outbound tag. The first outbound will be used if empty."
+      "type": "string"
     },
     "auto_detect_interface": {
       "type": "boolean",
-      "x-format": "checkbox",
-      "description": "Bind outbound connections to the default NIC by default to prevent routing loops under tun. Only supported on Linux, Windows and macOS. Takes no effect if outbound.bind_interface is set."
+      "x-format": "toggle"
     },
     "override_android_vpn": {
       "type": "boolean",
-      "x-format": "checkbox",
-      "description": "Accept Android VPN as upstream NIC when auto_detect_interface enabled. Only supported on Android."
+      "x-format": "toggle"
     },
     "default_interface": {
-      "type": "string",
-      "description": "Bind outbound connections to the specified NIC by default to prevent routing loops under tun. Only supported on Linux, Windows and macOS. Takes no effect if auto_detect_interface is set."
+      "type": "string"
     },
     "default_mark": {
-      "type": "integer",
-      "description": "Set routing mark by default. Only supported on Linux. Takes no effect if outbound.routing_mark is set."
+      "type": "integer"
     },
     "find_process": {
       "type": "boolean",
-      "x-format": "checkbox",
-      "description": "Enable process search for logging when no process_name, process_path, package_name, user or user_id rules exist. Only supported on Linux, Windows, and macOS."
+      "x-format": "toggle"
     },
     "find_neighbor": {
       "type": "boolean",
-      "x-format": "checkbox",
-      "description": "Enable neighbor resolution for logging when no source_mac_address or source_hostname rules exist. Only supported on Linux and macOS."
+      "x-format": "toggle"
+    },
+    "dhcp_lease_files": {
+      "$ref": "#/$defs/unfinished"
     },
     "default_http_client": {
-      "type": "string",
-      "description": "Tag of the default HTTP Client used by remote rule-sets. If empty and http_clients is defined, the first HTTP client is used."
+      "type": "string"
     },
     "default_domain_resolver": {
-      "type": "object",
-      "x-stringToPropertie": "server",
-      "properties": {
-        "server": {
-          "type": "string",
-          "title": "Server DNS Tag"
+      "x-propGroup": "Shared dial fields",
+      "x-switcherInput": "modal",
+      "oneOf": [
+        {
+          "x-switcherTitle": "Tag only",
+          "type": "string"
+        },
+        {
+          "x-switcherTitle": "Advanced",
+          "type": "object",
+          "properties": {
+            "server": {
+              "type": "string"
+            },
+            "strategy": {
+              "type": "string",
+              "enum": [
+                "prefer_ipv4",
+                "prefer_ipv6",
+                "ipv4_only",
+                "ipv6_only"
+              ]
+            },
+            "disable_cache": {
+              "type": "boolean",
+              "x-format": "toggle"
+            },
+            "disable_optimistic_cache": {
+              "type": "boolean",
+              "x-format": "toggle"
+            },
+            "rewrite_ttl": {
+              "type": "integer"
+            },
+            "timeout": {
+              "type": "string"
+            },
+            "client_subnet": {
+              "type": "string"
+            }
+          }
         }
-      },
-      "description": "DNS server tag to use for resolving domain names in outbounds and endpoints. Can be overridden by outbound.domain_resolver."
+      ]
     },
     "default_network_strategy": {
-      "type": "string",
-      "description": "Default network strategy for outbound connections. Takes no effect if outbound.bind_interface, outbound.inet4_bind_address or outbound.inet6_bind_address is set. Conflicts with default_interface."
+      "type": "string"
+    },
+    "default_network_type": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayAddContent": "",
+      "x-arrayDelete": true,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-propGroup": "Shared dial fields",
+      "x-arrayMove": false,
+      "items": {
+        "type": "string",
+        "enum": [
+          "",
+          "wifi",
+          "cellular",
+          "ethernet",
+          "other"
+        ]
+      }
+    },
+    "default_fallback_network_type": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayAddContent": "",
+      "x-arrayDelete": true,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-propGroup": "Shared dial fields",
+      "x-arrayMove": false,
+      "items": {
+        "type": "string",
+        "enum": [
+          "",
+          "wifi",
+          "cellular",
+          "ethernet",
+          "other"
+        ]
+      }
     },
     "default_fallback_delay": {
-      "type": "string",
-      "description": "Default fallback delay for network strategy."
+      "type": "string"
     }
   }
 }

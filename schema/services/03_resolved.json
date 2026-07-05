@@ -18,24 +18,30 @@
       "x-grid": {
         "columns": 6
       }
-    }
-  },
-  "allOf": [
-    {
-      "properties": {
-        "tag": {
-          "x-prepared": true,
-          "x-propertyOrder": 20,
-          "type": "string",
-          "default": "",
-          "x-grid": {
-            "columns": 6
-          }
-        }
+    },
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "",
+      "x-grid": {
+        "columns": 6
       }
     },
-    {
-      "$ref": "#/$defs/shared_listen"
+    "listen": {
+      "type": "string",
+      "x-propGroup": "Shared listen fields",
+      "x-grid": {
+        "columns": 6,
+        "newRow": true
+      }
+    },
+    "listen_port": {
+      "type": "integer",
+      "x-propGroup": "Shared listen fields",
+      "x-grid": {
+        "columns": 6
+      }
     }
-  ]
+  },
+  "$ref": "#/$defs/shared_listen"
 }

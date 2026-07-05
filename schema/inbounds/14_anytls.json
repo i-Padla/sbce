@@ -2,8 +2,13 @@
   "type": "object",
   "title": "AnyTLS",
   "x-format": "grid",
-  "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
+  "required": [
+    "type",
+    "listen"
+  ],
+  "x-prepaed": [
+    "tag"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -38,7 +43,10 @@
       "items": {
         "type": "object",
         "x-enablePropertiesToggle": false,
-        "required": ["name", "password"],
+        "required": [
+          "name",
+          "password"
+        ],
         "properties": {
           "name": {
             "title": "Name",

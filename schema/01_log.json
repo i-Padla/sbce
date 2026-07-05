@@ -2,6 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "title": "Log",
+  "x-propertyOrder": {
+    "disabled": 10,
+    "level": 20,
+    "output": 30,
+    "timestamp": 40
+  },
   "properties": {
     "disabled": {
       "x-format": "toggle",
@@ -25,18 +31,11 @@
         "fatal",
         "panic"
       ],
-      "default": "info",
-      "x-grid": {
-        "columns": 1
-      }
+      "default": "info"
     },
     "output": {
       "type": "string",
-      "title": "Output file",
-      "x-grid": {
-        "columns": 3,
-        "newRow": true
-      }
+      "title": "Output file"
     },
     "timestamp": {
       "x-format": "toggle",
@@ -45,11 +44,7 @@
         "Yes"
       ],
       "type": "boolean",
-      "title": "Include timestamp",
-      "x-grid": {
-        "columns": 3,
-        "newRow": true
-      }
+      "title": "Include timestamp"
     }
   }
 }

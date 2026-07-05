@@ -1,20 +1,30 @@
 {
-    "type": "object",
-    "x-format": "grid",
-    "x-enableCollapseToggle": true,
-    "x-collapseToggleContent": "",
-    "properties": {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "x-switcherInput": "modal",
+  "oneOf": [
+    {
+      "type": "object",
+      "x-switcherTitle": "Object format",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "properties": {
         "enabled": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "default": true
+          "type": "boolean",
+          "x-format": "toggle"
         },
         "version": {
-            "type": "integer",
-            "enum": [
-                2,
-                1
-            ]
+          "type": "integer",
+          "enum": [
+            2,
+            1
+          ]
         }
+      }
+    },
+    {
+      "x-switcherTitle": "Boolean format",
+      "type": "boolean",
+      "x-format": "toggle"
     }
+  ]
 }

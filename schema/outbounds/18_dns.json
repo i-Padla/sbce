@@ -1,28 +1,28 @@
 {
-    "type": "object",
-    "title": "DNS",
-    "x-format": "grid",
-    "required": [
-        "type"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "dns",
-            "const": "dns",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tag": {
-            "x-propertyOrder": 20,
-            "type": "string",
-            "default": "dns-out",
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "DNS",
+  "x-format": "grid",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "dns",
+      "const": "dns",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "dns-out",
+      "x-grid": {
+        "columns": 6
+      }
     }
+  }
 }

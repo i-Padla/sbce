@@ -1,77 +1,48 @@
 {
-    "type": "object",
-    "title": "Tor",
-    "x-format": "grid",
-    "required": [
-        "type"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "tor",
-            "const": "tor",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "Tor",
+  "x-format": "grid",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "tor",
+      "const": "tor",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "type": "object",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "tor-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "executable_path": {
-                    "type": "string"
-                },
-                "extra_args": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "data_directory": {
-                    "type": "string"
-                },
-                "torrc": {
-                    "type": "object",
-                    "x-objectAdd": true,
-                    "x-addPropertyContent": "Add torrc options",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "properties": {
-                        "ClientOnly": {
-                            "type": "string"
-                        },
-                        "SocksPort": {
-                            "type": "string"
-                        },
-                        "ControlPort": {
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_dial"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "tor-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "executable_path": {
+      "type": "string"
+    },
+    "extra_args": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "data_directory": {
+      "type": "string"
+    },
+    "torrc": {
+      "type": "object",
+      "x-objectAdd": true,
+      "x-addPropertyContent": "Add torrc options",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "$ref": "#/$defs/shared_dial"
 }

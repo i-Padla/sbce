@@ -4,33 +4,29 @@
   "x-enableCollapseToggle": true,
   "x-collapseToggleContent": "",
   "x-recursive": true,
-  "required": ["mode", "rules"],
-  "x-mergeAllOf": true,
-  "allOf": [
-    {
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "logical",
-          "default": "logical",
-          "readOnly": true
-        },
-        "mode": {
-          "description": "`and` or `or`",
-          "type": "string",
-          "enum": ["and", "or"]
-        },
-        "rules": {
-          "$ref": "#/$defs/dns_rule"
-        },
-        "invert": {
-          "type": "boolean",
-          "x-format": "checkbox"
-        }
-      }
+  "required": [
+    "type",
+    "mode",
+    "rules"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "logical",
+      "default": "logical",
+      "readOnly": true
     },
-    {
-      "$ref": "#/$defs/dns_rule_action"
+    "mode": {
+      "description": "`and` or `or`",
+      "type": "string",
+      "enum": [
+        "and",
+        "or"
+      ]
+    },
+    "rules": {
+      "$ref": "#/$defs/dns_rule"
     }
-  ]
+  },
+  "$ref": "#/$defs/dns_rule_action"
 }

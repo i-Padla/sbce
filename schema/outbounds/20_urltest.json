@@ -1,65 +1,45 @@
 {
-    "type": "object",
-    "title": "URLTest",
-    "x-format": "grid",
-    "required": [
-        "type"
-    ],
-    "properties": {
-        "type": {
-            "type": "string",
-            "default": "urltest",
-            "const": "urltest",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tag": {
-            "type": "string",
-            "default": "URLtest",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "outbounds": {
-            "description": "List of outbound tags to test.",
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": true,
-            "x-arrayButtonsPosition": "right",
-            "x-arrayMoveDownContent": "",
-            "x-arrayMoveUpContent": "",
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": false,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string"
-            }
-        },
-        "url": {
-            "description": "The URL to test. https://www.gstatic.com/generate_204 will be used if empty.",
-            "type": "string"
-        },
-        "interval": {
-            "description": "The test interval. 3m will be used if empty.",
-            "type": "string"
-        },
-        "tolerance": {
-            "description": "The test tolerance in milliseconds. 50 will be used if empty.",
-            "type": "integer"
-        },
-        "idle_timeout": {
-            "description": "The default outbound tag. The first outbound will be used if empty.",
-            "type": "string"
-        },
-        "interrupt_exist_connections": {
-            "description": "Interrupt existing connections when the selected outbound has changed. Only inbound connections are affected by this setting, internal connections will always be interrupted.",
-            "type": "boolean",
-            "x-format": "checkbox"
-        }
+  "type": "object",
+  "title": "URLTest",
+  "x-format": "grid",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "urltest",
+      "const": "urltest",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "type": "string",
+      "default": "URLtest",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "outbounds": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "url": {
+      "type": "string"
+    },
+    "interval": {
+      "type": "string"
+    },
+    "tolerance": {
+      "type": "integer"
+    },
+    "idle_timeout": {
+      "type": "string"
+    },
+    "interrupt_exist_connections": {
+      "type": "boolean",
+      "x-format": "toggle"
     }
+  }
 }

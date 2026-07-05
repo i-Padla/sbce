@@ -14,9 +14,6 @@
   "x-titleTemplate": "#{{ i1 }} {{ value.tag }} ({{value.type}})",
   "items": {
     "x-embedSwitcher": true,
-    "discriminator": {
-      "propertyName": "type"
-    },
     "oneOf": [
       {
         "$ref": "#/$defs/route_inline_rule_set"

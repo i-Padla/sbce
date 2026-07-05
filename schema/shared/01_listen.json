@@ -1,73 +1,97 @@
 {
-    "type": "object",
-    "x-enableCollapseToggle": true,
-    "x-collapseToggleContent": "",
-    "properties": {
-        "listen": {
-            "type": "string",
-            "x-propGroup": "Shared listen fields"
-        },
-        "listen_port": {
-            "type": "integer",
-            "x-propGroup": "Shared listen fields"
-        },
-        "bind_interface": {
-            "type": "string",
-            "x-propGroup": "Shared listen fields"
-        },
-        "routing_mark": {
-            "type": "integer",
-            "x-propGroup": "Shared listen fields"
-        },
-        "reuse_addr": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared listen fields"
-        },
-        "netns": {
-            "type": "string",
-            "x-propGroup": "Shared listen fields"
-        },
-        "tcp_fast_open": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared listen fields"
-        },
-        "tcp_multi_path": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared listen fields"
-        },
-        "disable_tcp_keep_alive": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared listen fields"
-        },
-        "tcp_keep_alive": {
-            "type": "string",
-            "x-propGroup": "Shared listen fields"
-        },
-        "tcp_keep_alive_interval": {
-            "type": "string",
-            "x-propGroup": "Shared listen fields"
-        },
-        "udp_fragment": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared listen fields"
-        },
-        "udp_timeout": {
-            "type": "string",
-            "x-propGroup": "Shared listen fields"
-        },
-        "detour": {
-            "type": "string",
-            "x-propGroup": "Shared listen fields"
-        },
-        "sniff": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared listen fields"
-        }
+  "type": "object",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "properties": {
+    "listen": {
+      "type": "string",
+      "x-propGroup": "Shared listen fields"
+    },
+    "listen_port": {
+      "type": "integer",
+      "x-propGroup": "Shared listen fields"
+    },
+    "bind_interface": {
+      "type": "string",
+      "x-propGroup": "Shared listen fields"
+    },
+    "routing_mark": {
+      "type": "integer",
+      "x-propGroup": "Shared listen fields"
+    },
+    "reuse_addr": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared listen fields"
+    },
+    "netns": {
+      "type": "string",
+      "x-propGroup": "Shared listen fields"
+    },
+    "tcp_fast_open": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared listen fields"
+    },
+    "tcp_multi_path": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared listen fields"
+    },
+    "disable_tcp_keep_alive": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared listen fields"
+    },
+    "tcp_keep_alive": {
+      "type": "string",
+      "x-propGroup": "Shared listen fields"
+    },
+    "tcp_keep_alive_interval": {
+      "type": "string",
+      "x-propGroup": "Shared listen fields"
+    },
+    "udp_fragment": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared listen fields"
+    },
+    "udp_timeout": {
+      "type": "string",
+      "x-propGroup": "Shared listen fields"
+    },
+    "detour": {
+      "type": "string",
+      "x-propGroup": "Shared listen fields"
+    },
+    "sniff": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Deprecated in sing-box 1.11.0"
+    },
+    "sniff_override_destination": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Deprecated in sing-box 1.11.0"
+    },
+    "sniff_timeout": {
+      "type": "string",
+      "x-propGroup": "Deprecated in sing-box 1.11.0"
+    },
+    "domain_strategy": {
+      "type": "string",
+      "enum": [
+        "prefer_ipv4",
+        "prefer_ipv6",
+        "ipv4_only",
+        "ipv6_only"
+      ],
+      "x-propGroup": "Deprecated in sing-box 1.11.0"
+    },
+    "udp_disable_domain_unmapping": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Deprecated in sing-box 1.11.0"
     }
+  }
 }

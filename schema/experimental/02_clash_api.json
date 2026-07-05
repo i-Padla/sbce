@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "properties": {
+    "external_controller": {
+      "type": "string"
+    },
+    "external_ui": {
+      "type": "string"
+    },
+    "external_ui_download_url": {
+      "type": "string"
+    },
+    "external_ui_download_detour": {
+      "type": "string"
+    },
+    "secret": {
+      "type": "string"
+    },
+    "default_mode": {
+      "type": "string"
+    },
+    "access_control_allow_origin": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "access_control_allow_private_network": {
+      "x-format": "toggle",
+      "type": "boolean"
+    }
+  }
+}

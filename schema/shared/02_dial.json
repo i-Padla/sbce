@@ -1,145 +1,183 @@
 {
-    "type": "object",
-    "x-enableCollapseToggle": true,
-    "x-collapseToggleContent": "",
-    "properties": {
-        "detour": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "properties": {
+    "detour": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "bind_interface": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "inet4_bind_address": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "inet6_bind_address": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "bind_address_no_port": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared dial fields"
+    },
+    "routing_mark": {
+      "type": "integer",
+      "x-propGroup": "Shared dial fields"
+    },
+    "reuse_addr": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared dial fields"
+    },
+    "netns": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "connect_timeout": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "tcp_fast_open": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared dial fields"
+    },
+    "tcp_multi_path": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared dial fields"
+    },
+    "disable_tcp_keep_alive": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared dial fields"
+    },
+    "tcp_keep_alive": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "tcp_keep_alive_interval": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "udp_fragment": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Shared dial fields"
+    },
+    "domain_resolver": {
+      "x-propGroup": "Shared dial fields",
+      "x-switcherInput": "modal",
+      "oneOf": [
+        {
+          "x-switcherTitle": "Tag only",
+          "type": "string"
         },
-        "bind_interface": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
-        },
-        "inet4_bind_address": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
-        },
-        "inet6_bind_address": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
-        },
-        "bind_address_no_port": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared dial fields"
-        },
-        "routing_mark": {
-            "type": "integer",
-            "x-propGroup": "Shared dial fields"
-        },
-        "reuse_addr": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared dial fields"
-        },
-        "netns": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
-        },
-        "connect_timeout": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
-        },
-        "tcp_fast_open": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared dial fields"
-        },
-        "tcp_multi_path": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared dial fields"
-        },
-        "disable_tcp_keep_alive": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared dial fields"
-        },
-        "tcp_keep_alive": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
-        },
-        "tcp_keep_alive_interval": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
-        },
-        "udp_fragment": {
-            "type": "boolean",
-            "x-format": "checkbox",
-            "x-propGroup": "Shared dial fields"
-        },
-        "domain_resolver": {
-            "type": "object",
-            "x-propGroup": "Shared dial fields",
-            "x-stringToPropertie": "server",
-            "properties": {
-                "server": {
-                    "type": "string",
-                    "title": "Server DNS Tag"
-                },
-                "strategy": {
-                    "type": "string"
-                }
+        {
+          "x-switcherTitle": "Advanced",
+          "type": "object",
+          "properties": {
+            "server": {
+              "type": "string"
+            },
+            "strategy": {
+              "type": "string",
+              "enum": [
+                "prefer_ipv4",
+                "prefer_ipv6",
+                "ipv4_only",
+                "ipv6_only"
+              ]
+            },
+            "disable_cache": {
+              "type": "boolean",
+              "x-format": "toggle"
+            },
+            "disable_optimistic_cache": {
+              "type": "boolean",
+              "x-format": "toggle"
+            },
+            "rewrite_ttl": {
+              "type": "integer"
+            },
+            "timeout": {
+              "type": "string"
+            },
+            "client_subnet": {
+              "type": "string"
             }
-        },
-        "network_strategy": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
-        },
-        "network_type": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-propGroup": "Shared dial fields",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string",
-                "enum": [
-                    "",
-                    "wifi",
-                    "cellular",
-                    "ethernet",
-                    "other"
-                ]
-            }
-        },
-        "fallback_network_type": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-propGroup": "Shared dial fields",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string",
-                "enum": [
-                    "",
-                    "wifi",
-                    "cellular",
-                    "ethernet",
-                    "other"
-                ]
-            }
-        },
-        "fallback_delay": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
-        },
-        "address_resolver": {
-            "type": "string",
-            "x-propGroup": "Shared dial fields"
+          }
         }
+      ]
+    },
+    "network_strategy": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "network_type": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayAddContent": "",
+      "x-arrayDelete": true,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-propGroup": "Shared dial fields",
+      "x-arrayMove": false,
+      "items": {
+        "type": "string",
+        "enum": [
+          "",
+          "wifi",
+          "cellular",
+          "ethernet",
+          "other"
+        ]
+      }
+    },
+    "fallback_network_type": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayAddContent": "",
+      "x-arrayDelete": true,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-propGroup": "Shared dial fields",
+      "x-arrayMove": false,
+      "items": {
+        "type": "string",
+        "enum": [
+          "",
+          "wifi",
+          "cellular",
+          "ethernet",
+          "other"
+        ]
+      }
+    },
+    "fallback_delay": {
+      "type": "string",
+      "x-propGroup": "Shared dial fields"
+    },
+    "domain_strategy": {
+      "type": "string",
+      "enum": [
+        "prefer_ipv4",
+        "prefer_ipv6",
+        "ipv4_only",
+        "ipv6_only"
+      ],
+      "x-propGroup": "Deprecated in sing-box 1.12.0"
     }
+  }
 }

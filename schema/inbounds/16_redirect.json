@@ -2,8 +2,13 @@
   "type": "object",
   "title": "Redirect",
   "x-format": "grid",
-  "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
+  "required": [
+    "type",
+    "listen"
+  ],
+  "x-prepaed": [
+    "tag"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,

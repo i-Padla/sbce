@@ -2,7 +2,12 @@
   "type": "object",
   "title": "{{ value.tag }} (remote)",
   "x-switcherTitle": "Remote",
-  "required": ["type", "tag", "format", "url"],
+  "required": [
+    "type",
+    "tag",
+    "format",
+    "url"
+  ],
   "properties": {
     "type": {
       "type": "string",
@@ -15,7 +20,10 @@
     },
     "format": {
       "type": "string",
-      "enum": ["source", "binary"]
+      "enum": [
+        "source",
+        "binary"
+      ]
     },
     "url": {
       "type": "string"
@@ -24,6 +32,9 @@
       "type": "string"
     },
     "update_interval": {
+      "type": "string"
+    },
+    "download_detour": {
       "type": "string"
     }
   }

@@ -2,8 +2,13 @@
   "type": "object",
   "title": "Direct",
   "x-format": "grid",
-  "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
+  "required": [
+    "type",
+    "listen"
+  ],
+  "x-prepaed": [
+    "tag"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -25,7 +30,11 @@
     },
     "network": {
       "type": "string",
-      "enum": ["", "tcp", "udp"]
+      "enum": [
+        "",
+        "tcp",
+        "udp"
+      ]
     },
     "override_address": {
       "type": "string"

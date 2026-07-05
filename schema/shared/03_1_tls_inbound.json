@@ -1,293 +1,224 @@
 {
-    "type": "object",
-    "x-enablePropertiesToggle": true,
-    "x-propertiesToggleContent": "Toggle properties",
-    "x-enableCollapseToggle": true,
-    "x-collapseToggleContent": "",
-    "properties": {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "x-enablePropertiesToggle": true,
+  "x-propertiesToggleContent": "Toggle properties",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "server_name": {
+      "type": "string"
+    },
+    "alpn": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "min_version": {
+      "type": "string",
+      "enum": [
+        "",
+        "1.0",
+        "1.1",
+        "1.2",
+        "1.3"
+      ]
+    },
+    "max_version": {
+      "type": "string",
+      "enum": [
+        "",
+        "1.0",
+        "1.1",
+        "1.2",
+        "1.3"
+      ]
+    },
+    "cipher_suites": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "string",
+        "enum": [
+          "",
+          "TLS_RSA_WITH_AES_128_CBC_SHA",
+          "TLS_RSA_WITH_AES_256_CBC_SHA",
+          "TLS_RSA_WITH_AES_128_GCM_SHA256",
+          "TLS_RSA_WITH_AES_256_GCM_SHA384",
+          "TLS_AES_128_GCM_SHA256",
+          "TLS_AES_256_GCM_SHA384",
+          "TLS_CHACHA20_POLY1305_SHA256",
+          "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
+          "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
+          "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
+          "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
+          "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
+          "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
+          "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+          "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
+          "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+          "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
+        ]
+      }
+    },
+    "curve_preferences": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "string",
+        "enum": [
+          "",
+          "P256",
+          "P384",
+          "P521",
+          "X25519",
+          "X25519MLKEM768"
+        ]
+      }
+    },
+    "certificate": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "certificate_path": {
+      "type": "string"
+    },
+    "client_authentication": {
+      "type": "string"
+    },
+    "client_certificate": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "client_certificate_path": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "client_certificate_public_key_sha256": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "key": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "key_path": {
+      "type": "string"
+    },
+    "kernel_tx": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "kernel_rx": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "handshake_timeout": {
+      "type": "string",
+      "description": "TLS handshake timeout, in golang's Duration format. `15s` is used by default."
+    },
+    "certificate_provider": {
+      "x-switcherInput": "modal",
+      "oneOf": [
+        {
+          "x-switcherTitle": "Tag only",
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/certificate_providers_acme"
+        },
+        {
+          "$ref": "#/$defs/certificate_providers_tailscale"
+        },
+        {
+          "$ref": "#/$defs/certificate_providers_cloudflare_origin_ca"
+        }
+      ]
+    },
+    "ech": {
+      "type": "object",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "properties": {
         "enabled": {
-            "type": "boolean",
-            "x-format": "checkbox"
-        },
-        "server_name": {
-            "type": "string"
-        },
-        "alpn": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": false,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string"
-            }
-        },
-        "min_version": {
-            "type": "string",
-            "enum": [
-                "",
-                "1.0",
-                "1.1",
-                "1.2",
-                "1.3"
-            ]
-        },
-        "max_version": {
-            "type": "string",
-            "enum": [
-                "",
-                "1.0",
-                "1.1",
-                "1.2",
-                "1.3"
-            ]
-        },
-        "cipher_suites": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": false,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string",
-                "enum": [
-                    "",
-                    "TLS_RSA_WITH_AES_128_CBC_SHA",
-                    "TLS_RSA_WITH_AES_256_CBC_SHA",
-                    "TLS_RSA_WITH_AES_128_GCM_SHA256",
-                    "TLS_RSA_WITH_AES_256_GCM_SHA384",
-                    "TLS_AES_128_GCM_SHA256",
-                    "TLS_AES_256_GCM_SHA384",
-                    "TLS_CHACHA20_POLY1305_SHA256",
-                    "TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA",
-                    "TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA",
-                    "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA",
-                    "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA",
-                    "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
-                    "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384",
-                    "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
-                    "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",
-                    "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
-                    "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
-                ]
-            }
-        },
-        "curve_preferences": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": false,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string",
-                "enum": [
-                    "",
-                    "P256",
-                    "P384",
-                    "P521",
-                    "X25519",
-                    "X25519MLKEM768"
-                ]
-            }
-        },
-        "certificate": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": false,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string"
-            }
-        },
-        "certificate_path": {
-            "type": "string"
-        },
-        "client_authentication": {
-            "type": "string"
-        },
-        "client_certificate": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": false,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string"
-            }
-        },
-        "client_certificate_path": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": false,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string"
-            }
-        },
-        "certificate_public_key_sha256": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": false,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string"
-            }
+          "type": "boolean",
+          "x-format": "toggle"
         },
         "key": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": false,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string"
-            }
+          "$ref": "#/$defs/string_or_array"
         },
         "key_path": {
-            "type": "string"
+          "type": "string"
         },
-        "kernel_tx": {
-            "type": "boolean",
-            "x-format": "checkbox"
+        "pq_signature_schemes_enabled": {
+          "type": "boolean",
+          "x-format": "toggle",
+          "x-propGroup": "depricated"
         },
-        "kernel_rx": {
-            "type": "boolean",
-            "x-format": "checkbox"
-        },
-        "handshake_timout": {
-            "type": "string",
-            "description": "TLS handshake timeout, in golang's Duration format. `15s` is used by default."
-        },
-        "ech": {
-            "type": "object",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "properties": {
-                "enabled": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "key": {
-                    "type": "array",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "x-format": "table",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-arrayDeleteContent": "",
-                    "x-arrayDeleteAll": true,
-                    "x-arrayDeleteAllContent": "Delete all",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "key_path": {
-                    "type": "string"
-                },
-                "pq_signature_schemes_enabled": {
-                    "type": "boolean",
-                    "x-format": "checkbox",
-                    "x-propGroup": "depricated"
-                },
-                "dynamic_record_sizing_disabled": {
-                    "type": "boolean",
-                    "x-format": "checkbox",
-                    "x-propGroup": "depricated"
-                }
-            }
-        },
-        "reality": {
-            "type": "object",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "properties": {
-                "enabled": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "handshake": {
-                    "allOf": [
-                        {
-                            "type": "object",
-                            "x-enableCollapseToggle": true,
-                            "x-collapseToggleContent": "",
-                            "x-format": "grid",
-                            "properties": {
-                                "server": {
-                                    "type": "string",
-                                    "x-grid": {
-                                        "columns": 6
-                                    }
-                                },
-                                "server_port": {
-                                    "type": "integer",
-                                    "x-grid": {
-                                        "columns": 6
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            "$ref": "#/$defs/shared_dial"
-                        }
-                    ]
-                },
-                "private_key": {
-                    "type": "string"
-                },
-                "short_id": {
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-arrayDeleteContent": "",
-                    "x-arrayDeleteAll": true,
-                    "x-arrayDeleteAllContent": "Delete all",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "max_time_difference": {
-                    "type": "string"
-                }
-            }
+        "dynamic_record_sizing_disabled": {
+          "type": "boolean",
+          "x-format": "toggle",
+          "x-propGroup": "depricated"
         }
+      }
+    },
+    "reality": {
+      "type": "object",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "x-format": "toggle"
+        },
+        "handshake": {
+          "allOf": [
+            {
+              "type": "object",
+              "x-enableCollapseToggle": true,
+              "x-collapseToggleContent": "",
+              "x-format": "grid",
+              "properties": {
+                "server": {
+                  "type": "string",
+                  "x-grid": {
+                    "columns": 6
+                  }
+                },
+                "server_port": {
+                  "type": "integer",
+                  "x-grid": {
+                    "columns": 6
+                  }
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/shared_dial"
+            }
+          ]
+        },
+        "private_key": {
+          "type": "string"
+        },
+        "short_id": {
+          "$ref": "#/$defs/string_or_array"
+        },
+        "max_time_difference": {
+          "type": "string"
+        }
+      }
     }
+  }
 }

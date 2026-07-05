@@ -1,73 +1,64 @@
 {
-    "type": "object",
-    "title": "HTTP",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "server",
-        "server_port"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "http",
-            "const": "http",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "HTTP",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "server",
+    "server_port"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "http",
+      "const": "http",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "type": "object",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "http-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server_port": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "username": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "password": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "path": {
-                    "type": "string"
-                },
-                "headers": {
-                    "$ref": "#/$defs/shared_http_headers"
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_outbound"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_dial"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "http-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "username": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "password": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "path": {
+      "type": "string"
+    },
+    "headers": {
+      "$ref": "#/$defs/shared_http_headers"
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_outbound"
+    }
+  },
+  "$ref": "#/$defs/shared_dial"
 }

@@ -5,501 +5,298 @@
   "x-collapseToggleContent": "",
   "x-switcherTitle": "Default",
   "x-mergeAllOf": true,
-  "allOf": [
-    {
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "default",
-          "default": "default",
-          "readOnly": true
-        },
-        "inbound_": {
-          "type": "array",
-          "description": "Tags of Inbound",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "inbound": {
-          "x-format": "textarea-array",
-          "x-info": {
-            "variant": "modal",
-            "content": "Tags of Inbound"
-          },
-          "oneOf": [
-            {
-              "type": "array",
-              "description": "Tags of Inbound",
-              "x-format": "table",
-              "x-arrayDeleteContent": "",
-              "x-arrayAddContent": "Add",
-              "x-arrayMove": false,
-              "x-enableCollapseToggle": true,
-              "x-collapseToggleContent": "",
-              "items": {
-                "type": "string"
-              }
-            },
-            { "type": "string" }
-          ]
-        },
-        "ip_version": {
-          "type": "integer",
-          "description": "4 (A DNS query) or 6 (AAAA DNS query).  Not limited if empty."
-        },
-        "query_type": {
-          "type": "array",
-          "description": "Tags of Inbound",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "network": {
-          "type": "string",
-          "enum": ["tcp", "udp", "icmp"]
-        },
-        "auth_user": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "protocol": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string",
-            "enum": [
-              "http",
-              "tls",
-              "quic",
-              "stun",
-              "dns",
-              "bittorrent",
-              "dtls",
-              "ssh",
-              "rdp",
-              "ntp"
-            ]
-          }
-        },
-        "domain": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "domain_suffix": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "domain_keyword": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "domain_regex": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "source_ip_cidr": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "source_ip_is_private": {
-          "type": "boolean",
-          "x-format": "checkbox"
-        },
-        "source_port": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "integer"
-          }
-        },
-        "source_port_range": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "port": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "integer"
-          }
-        },
-        "port_range": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "process_name": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "process_path": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "process_path_regex": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "user": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "user_id": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "integer"
-          }
-        },
-        "clash_mode": {
-          "type": "string"
-        },
-        "network_type": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string",
-            "enum": ["wifi", "cellular", "ethernet", "other"]
-          }
-        },
-        "network_is_expensive": {
-          "type": "boolean",
-          "x-format": "checkbox"
-        },
-        "network_is_constrained": {
-          "type": "boolean",
-          "x-format": "checkbox"
-        },
-        "interface_address": {
-          "type": "object",
-          "x-objectAdd": true,
-          "x-enablePropertiesToggle": true
-        },
-        "network_interface_address": {
-          "type": "object",
-          "x-objectAdd": true,
-          "x-enablePropertiesToggle": true
-        },
-        "default_interface_address": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "source_mac_address": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "source_hostname": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "preferred_by": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string",
-            "enum": ["host", "local", "mdns", "tailscale", "resolved"]
-          }
-        },
-        "wifi_ssid": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "wifi_bssid": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "rule_set": {
-          "type": "array",
-          "title": "Rule set",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "rule_set_ip_cidr_match_source": {
-          "type": "boolean",
-          "x-format": "checkbox"
-        },
-        "match_response": {
-          "type": "boolean",
-          "x-format": "checkbox"
-        },
-        "ip_cidr": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "ip_is_private": {
-          "type": "boolean",
-          "x-format": "checkbox"
-        },
-        "ip_accept_any": {
-          "type": "boolean",
-          "x-format": "checkbox"
-        },
-        "response_rcode": {
-          "type": "string",
-          "enum": [
-            "NOERROR",
-            "FORMERR",
-            "SERVFAIL",
-            "NXDOMAIN",
-            "NOTIMP",
-            "REFUSED"
-          ]
-        },
-        "response_answer": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": true,
-          "x-arrayButtonsPosition": "right",
-          "x-arrayMoveDownContent": "",
-          "x-arrayMoveUpContent": "",
-          "x-arrayDeleteContent": "",
-          "x-arrayDeleteAll": true,
-          "x-arrayDeleteAllContent": "Delete all",
-          "x-enableCollapseToggle": false,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "response_ns": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": true,
-          "x-arrayButtonsPosition": "right",
-          "x-arrayMoveDownContent": "",
-          "x-arrayMoveUpContent": "",
-          "x-arrayDeleteContent": "",
-          "x-arrayDeleteAll": true,
-          "x-arrayDeleteAllContent": "Delete all",
-          "x-enableCollapseToggle": false,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "response_extra": {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": true,
-          "x-arrayButtonsPosition": "right",
-          "x-arrayMoveDownContent": "",
-          "x-arrayMoveUpContent": "",
-          "x-arrayDeleteContent": "",
-          "x-arrayDeleteAll": true,
-          "x-arrayDeleteAllContent": "Delete all",
-          "x-enableCollapseToggle": false,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "string"
-          }
-        },
-        "invert": {
-          "type": "boolean",
-          "x-format": "checkbox"
-        },
-        "outbound": {
-          "type": "string"
-        }
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "default",
+      "default": "default",
+      "readOnly": true
+    },
+    "inbound": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "ip_version": {
+      "type": "integer",
+      "description": "4 (A DNS query) or 6 (AAAA DNS query).  Not limited if empty."
+    },
+    "query_type": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "network": {
+      "type": "string",
+      "enum": [
+        "tcp",
+        "udp",
+        "icmp"
+      ]
+    },
+    "auth_user": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "protocol": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "string",
+        "enum": [
+          "http",
+          "tls",
+          "quic",
+          "stun",
+          "dns",
+          "bittorrent",
+          "dtls",
+          "ssh",
+          "rdp",
+          "ntp"
+        ]
       }
     },
-    {
-      "$ref": "#/$defs/dns_rule_action"
+    "domain": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "domain_suffix": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "domain_keyword": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "domain_regex": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "source_ip_cidr": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "source_ip_is_private": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "source_port": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "source_port_range": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "port": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "port_range": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "process_name": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "process_path": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "process_path_regex": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "package_name": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "package_name_regex": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "user": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "user_id": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "clash_mode": {
+      "type": "string"
+    },
+    "network_type": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "string",
+        "enum": [
+          "wifi",
+          "cellular",
+          "ethernet",
+          "other"
+        ]
+      }
+    },
+    "network_is_expensive": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "network_is_constrained": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "interface_address": {
+      "type": "object",
+      "x-objectAdd": true,
+      "x-enablePropertiesToggle": true
+    },
+    "network_interface_address": {
+      "type": "object",
+      "x-objectAdd": true,
+      "x-enablePropertiesToggle": true
+    },
+    "default_interface_address": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "source_mac_address": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "source_hostname": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "preferred_by": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "string",
+        "enum": [
+          "host",
+          "local",
+          "mdns",
+          "tailscale",
+          "resolved"
+        ]
+      }
+    },
+    "wifi_ssid": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "wifi_bssid": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "rule_set": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "rule_set_ip_cidr_match_source": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "match_response": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "ip_cidr": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "ip_is_private": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "ip_accept_any": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "response_rcode": {
+      "type": "string",
+      "enum": [
+        "NOERROR",
+        "FORMERR",
+        "SERVFAIL",
+        "NXDOMAIN",
+        "NOTIMP",
+        "REFUSED"
+      ]
+    },
+    "response_answer": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "response_ns": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "response_extra": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "invert": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "geosite": {
+      "$ref": "#/$defs/string_or_array",
+      "x-propGroup": "Deprecated"
+    },
+    "source_geoip": {
+      "$ref": "#/$defs/string_or_array",
+      "x-propGroup": "Deprecated"
+    },
+    "rule_set_ipcidr_match_source": {
+      "$ref": "#/$defs/string_or_array",
+      "x-propGroup": "Deprecated"
+    },
+    "server": {
+      "$ref": "#/$defs/string_or_array",
+      "x-propGroup": "Deprecated"
+    },
+    "disable_cache": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Deprecated"
+    },
+    "rewrite_ttl": {
+      "x-propGroup": "Deprecated",
+      "type": "integer"
+    },
+    "client_subnet": {
+      "type": "string",
+      "x-propGroup": "Deprecated"
+    },
+    "geoip": {
+      "$ref": "#/$defs/string_or_array",
+      "x-propGroup": "Deprecated"
+    },
+    "rule_set_ip_cidr_accept_empty": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Deprecated"
+    },
+    "outbound": {
+      "type": "string",
+      "x-propGroup": "Deprecated"
     }
-  ]
+  },
+  "$ref": "#/$defs/dns_rule_action"
 }

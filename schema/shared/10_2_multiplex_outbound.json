@@ -1,16 +1,34 @@
 {
-    "type": "object",
-    "properties": {
-        "enabled": {
-            "type": "boolean",
-            "x-format": "checkbox"
-        },
-        "padding": {
-            "type": "boolean",
-            "x-format": "checkbox"
-        },
-        "brutal": {
-            "$ref": "#/$defs/shared_brutal"
-        }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "protocol": {
+      "type": "string",
+      "enum": [
+        "h2mux",
+        "smux",
+        "yamux"
+      ]
+    },
+    "max_connections": {
+      "type": "integer"
+    },
+    "min_streams": {
+      "type": "integer"
+    },
+    "max_streams": {
+      "type": "integer"
+    },
+    "padding": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "brutal": {
+      "$ref": "#/$defs/shared_brutal"
     }
+  }
 }

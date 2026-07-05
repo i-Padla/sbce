@@ -1,37 +1,37 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "type": "object",
-    "title": "Tailscale",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "endpoint"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "tailscale",
-            "const": "tailscale",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tag": {
-            "x-prepared": true,
-            "x-propertyOrder": 20,
-            "type": "string",
-            "default": "",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "endpoint": {
-            "x-prepared": true,
-            "x-propertyOrder": 30,
-            "type": "string",
-            "default": ""
-        }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Tailscale",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "endpoint"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "tailscale",
+      "const": "tailscale",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "x-prepared": true,
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "endpoint": {
+      "x-prepared": true,
+      "x-propertyOrder": 30,
+      "type": "string",
+      "default": ""
     }
+  }
 }

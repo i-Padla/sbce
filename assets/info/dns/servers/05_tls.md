@@ -20,16 +20,6 @@ The port of the DNS server.
 
 `443` will be used by default.
 
-#### path
-
-The path of the DNS server.
-
-`/dns-query` will be used by default.
-
-#### headers
-
-Additional headers to be sent to the DNS server.
-
 #### tls
 
 TLS configuration

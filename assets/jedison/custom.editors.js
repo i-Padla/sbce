@@ -1,3 +1,5 @@
+import Jedison from "./1.13.0/src/index.js";
+
 //Custom extension for toggle-like boolean editor.
 export class BooleanToggle extends Jedison.EditorBoolean {
   static resolves(e) {
@@ -47,7 +49,10 @@ export class BooleanToggle extends Jedison.EditorBoolean {
 
   updateStatusText() {
     if (this.statusLabel && this.control?.input) {
-      const titles = this.instance.schema["x-enumTitles"] || ["Disable", "Enable"];
+      const titles = this.instance.schema["x-enumTitles"] || [
+        "Disable",
+        "Enable",
+      ];
 
       const falseText = titles[0] || "off";
       const trueText = titles[1] || "on";
@@ -99,6 +104,11 @@ export class TextareaArrayEditor extends Jedison.Editor {
     }
 
     // this.control.input.setAttribute("rows", "5");
+    // Вставляем сюда вместо старого rows
+    const input = this.control.input;
+    input.setAttribute("rows", "1");     // Стартуем с одной строки, если пусто
+    input.style.fieldSizing = "content"; // Включаем автоподгон под контент
+    input.style.maxHeight = "5lh";       // Ограничиваем высоту строго 5-ю строками
   }
 
   addEventListeners() {

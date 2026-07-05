@@ -1,93 +1,102 @@
 let instances = {};
 let schema_ready = null;
-let schema_for_ajv = null;
+// let schema_for_ajv = null;
 let globalRefParser = null;
-import { BooleanToggle, TextareaArrayEditor } from "./assets/custom.editors.js";
-// import { infoDictionary } from "./assets/info/infoDictionary.js";
+import Jedison from "./assets/jedison/1.13.0/src/index.js";
+import { BooleanToggle, TextareaArrayEditor } from "./assets/jedison/custom.editors.js";
 
+// const AjvConstructor = window.ajv2020;
+// let ajv = null;
 
-const AjvConstructor = window.ajv2020;
-let ajv = null;
-
-//----------------- Fix for properties pop-up dialog window, so it foesn't  scroll up.
-(function () {
-  const scrollRegistry = new WeakMap();
-
-  const restoreScroll = (dialog) => {
-    const savedScroll = scrollRegistry.get(dialog);
-    if (savedScroll !== undefined && dialog.scrollTop !== savedScroll) {
-      dialog.scrollTop = savedScroll;
-    }
-  };
-
-  document.addEventListener(
-    "mousedown",
-    (e) => {
-      const dialog = e.target.closest("dialog.jedi-properties-slot");
-      if (!dialog) return;
-
-      scrollRegistry.set(dialog, dialog.scrollTop);
-      dialog.dataset.focusLock = "true";
-    },
-    true,
-  );
-
-  document.addEventListener(
-    "mouseup",
-    (e) => {
-      const dialog = e.target.closest("dialog.jedi-properties-slot");
-      if (!dialog) return;
-
-      requestAnimationFrame(() => {
-        restoreScroll(dialog);
-        requestAnimationFrame(() => {
-          restoreScroll(dialog);
-          dialog.dataset.focusLock = "false";
-        });
-      });
-    },
-    true,
-  );
-
-  document.addEventListener(
-    "focusin",
-    (e) => {
-      const dialog = e.target.closest("dialog.jedi-properties-slot");
-      if (!dialog || dialog.dataset.focusLock !== "true") return;
-
-      restoreScroll(dialog);
-    },
-    true,
-  );
-})();
-// ------------------------------------------------------------------------------------
-
-if (AjvConstructor) {
-  ajv = new AjvConstructor({
-    coerceTypes: "array",
-    useDefaults: false,
-    discriminator: true,
-    allErrors: true,
-    inlineRefs: false,
-    strict: false,
-  });
-  ajv.addKeyword({
-    keyword: "x-stringToPropertie",
-    modifying: true,
-    compile: function (targetProperty) {
-      return function (data, dataCxt) {
-        if (typeof data === "string") {
-          dataCxt.parentData[dataCxt.parentDataProperty] = {
-            [targetProperty]: data,
+marked.use({
+  extensions: [
+    {
+      name: "highlight",
+      level: "inline",
+      start(src) {
+        return src.indexOf("==");
+      },
+      tokenizer(src) {
+        const match = /^==([\s\S]+?)==/.exec(src);
+        if (match) {
+          return {
+            type: "highlight",
+            raw: match[0],
+            text: match[1],
           };
         }
-        return true;
-      };
+      },
+      renderer(token) {
+        return `<mark>${token.text}</mark>`;
+      },
     },
-  });
-} else {
-  console.error("Библиотека ajv2020 не найдена в window.");
-}
+    {
+      name: "admonition",
+      level: "block",
+      start(src) {
+        return src.indexOf("!!!");
+      },
+      tokenizer(src) {
+        const match =
+          /^!!!\s+([\w-]+)(?:\s+"([^"]*)")?\s*\n((?:(?: {4}|\t).*(?:\n|$)|[ \t]*(?:\n|$))*)/.exec(
+            src,
+          );
+
+        if (match) {
+          return {
+            type: "admonition",
+            raw: match[0],
+            variant: match[1],
+            title: match[2] !== undefined ? match[2] : match[1],
+            text: match[3].trim(),
+          };
+        }
+      },
+      renderer(token) {
+        const cleanText = token.text.replace(/^\s{4}/gm, "");
+        const innerHtml = marked.parse(cleanText);
+
+        const titleHtml = token.title
+          ? `<p class="admonition-title">${token.title}</p>`
+          : "";
+
+        return `
+      <div class="admonition ${token.variant}">
+        ${titleHtml}
+        <div class="admonition-content">${innerHtml}</div>
+      </div>
+    `;
+      },
+    },
+  ],
+});
+
+// if (AjvConstructor) {
+//   ajv = new AjvConstructor({
+//     coerceTypes: "array",
+//     useDefaults: false,
+//     discriminator: true,
+//     allErrors: true,
+//     inlineRefs: false,
+//     strict: false,
+//   });
+//   ajv.addKeyword({
+//     keyword: "x-stringToPropertie",
+//     modifying: true,
+//     compile: function (targetProperty) {
+//       return function (data, dataCxt) {
+//         if (typeof data === "string") {
+//           dataCxt.parentData[dataCxt.parentDataProperty] = {
+//             [targetProperty]: data,
+//           };
+//         }
+//         return true;
+//       };
+//     },
+//   });
+// } else {
+//   console.error("Библиотека ajv2020 не найдена в window.");
+// }
 
 const init = async () => {
   try {
@@ -96,9 +105,9 @@ const init = async () => {
 
     const raw_schema = await response.json();
 
-    schema_for_ajv = await bundleSchema(raw_schema); // Combining sub-schemas into single schema file
+    const schema_combined = await bundleSchema(raw_schema); // Combining sub-schemas into single schema file
 
-    schema_ready = structuredClone(schema_for_ajv);
+    schema_ready = structuredClone(schema_combined);
     globalRefParser = new Jedison.RefParser();
     await globalRefParser.dereference(schema_ready); // "Dereferencing" schema by Jedison RefParser for it to add x-recursive to rucursive parts of the schema.
 
@@ -137,59 +146,122 @@ const init = async () => {
 };
 
 async function bundleSchema(rawSchema) {
-  await Promise.all(Object.entries(rawSchema.$defs).map(async ([key, value]) => {
-    try {
-      const response = await fetch(value.$ref);
-      if (!response.ok) return;
-      const schemaPart = await response.json();
+  await Promise.all(
+    Object.entries(rawSchema.$defs).map(async ([key, value]) => {
+      try {
+        const response = await fetch(value.$ref);
+        if (!response.ok) return;
+        const schemaPart = await response.json();
 
-      const docPath = value.$ref.replace('schema/', 'assets/info/').replace('.json', '.md');
-      const mdResponse = await fetch(docPath);
+        const docPath = value.$ref
+          .replace("schema/", "assets/info/")
+          .replace(".json", ".md");
+        const mdResponse = await fetch(docPath);
 
-      if (mdResponse.ok) {
-        const text = await mdResponse.text();
-        const lines = text.split(/\r?\n/);
+        if (mdResponse.ok) {
+          const text = await mdResponse.text();
+          const lines = text.split(/\r?\n/);
 
-        const dict = {};
-        let currentKey = null;
-        let currentBuffer = [];
+          const dict = {};
+          let currentKey = null;
+          let currentBuffer = [];
 
-        for (const line of lines) {
-          if (/^#{4,}/.test(line)) {
-            if (currentKey) dict[currentKey] = marked.parse(currentBuffer.join('\n'));
-            currentKey = line.replace(/^#+\s*/, '').trim();
-            currentBuffer = [];
-          } else if (currentKey) {
-            currentBuffer.push(line);
-          }
-        }
-        if (currentKey) dict[currentKey] = marked.parse(currentBuffer.join('\n'));
-
-
-        const injectDescriptions = (node, currentPath = "") => {
-          if (!node || typeof node !== 'object') return;
-
-          if (currentPath && dict[currentPath]) {
-            node['x-info'] = { variant: "modal", content: dict[currentPath] };
-            console.log(`✅ [${key}] Добавлено описание для: ${currentPath}`);
-          }
-
-          if (node.properties) {
-            for (const [propKey, propValue] of Object.entries(node.properties)) {
-              const nextPath = currentPath ? `${currentPath}.${propKey}` : propKey;
-              injectDescriptions(propValue, nextPath);
+          for (const line of lines) {
+            if (/^#{4,}/.test(line)) {
+              if (currentKey)
+                dict[currentKey] = marked.parse(currentBuffer.join("\n"));
+              currentKey = line.replace(/^#+\s*/, "").trim();
+              currentBuffer = [];
+            } else if (currentKey) {
+              currentBuffer.push(line);
             }
           }
-        };
+          if (currentKey)
+            dict[currentKey] = marked.parse(currentBuffer.join("\n"));
 
-        injectDescriptions(schemaPart);
+          // Множества для отслеживания ключей
+          const schemaKeys = new Set();
+          const matchedMdKeys = new Set();
+
+          const injectDescriptions = (node, currentPath = "") => {
+            if (!node || typeof node !== "object") return;
+
+            if (currentPath) {
+              schemaKeys.add(currentPath); // Запоминаем ключ из JSON
+
+              if (dict[currentPath]) {
+                matchedMdKeys.add(currentPath); // Запоминаем успешное совпадение
+                node["x-info"] = {
+                  variant: "modal",
+                  content: dict[currentPath],
+                };
+              }
+            }
+
+            // Обход свойств
+            if (node.properties) {
+              for (const [propKey, propValue] of Object.entries(
+                node.properties,
+              )) {
+                const nextPath = currentPath
+                  ? `${currentPath}.${propKey}`
+                  : propKey;
+                injectDescriptions(propValue, nextPath);
+              }
+            }
+
+            // Обход логических подструктур (allOf, anyOf, oneOf)
+            ["allOf", "anyOf", "oneOf"].forEach((logicKey) => {
+              if (Array.isArray(node[logicKey])) {
+                node[logicKey].forEach((subNode) => {
+                  injectDescriptions(subNode, currentPath);
+                });
+              }
+            });
+            // --- НОВЫЙ БЛОК: Обход массивов ---
+            if (node.items && typeof node.items === "object") {
+              // Передаем currentPath дальше без изменений (например, "users"),
+              // чтобы свойства внутри items прикрепились как "users.name"
+              injectDescriptions(node.items, currentPath);
+            }
+          };
+
+          // Запускаем анализ
+          injectDescriptions(schemaPart);
+
+          // Вычисляем разницу
+          const allMdKeys = Object.keys(dict);
+          const inSchemaNotInMd = [...schemaKeys].filter((k) => !dict[k]);
+          const inMdNotInSchema = allMdKeys.filter((k) => !schemaKeys.has(k));
+
+          // Выводим результаты только при наличии ошибок или расхождений
+          if (inSchemaNotInMd.length > 0 || inMdNotInSchema.length > 0) {
+            console.log(`📊 --- РАСХОЖДЕНИЯ МАТЧИНГА ДЛЯ [${key}] ---`);
+            console.log(
+              `   Найдено в JSON: ${schemaKeys.size} | Найдено в MD: ${allMdKeys.length}`,
+            );
+
+            if (inSchemaNotInMd.length > 0) {
+              console.log(
+                `   ❌ Есть в JSON, но отсутствуют в MD:`,
+                inSchemaNotInMd,
+              );
+            }
+            if (inMdNotInSchema.length > 0) {
+              console.log(
+                `   ⚠️ Лишние в MD, которых нет в JSON:`,
+                inMdNotInSchema,
+              );
+            }
+          }
+        }
+
+        rawSchema.$defs[key] = schemaPart;
+      } catch (err) {
+        console.error(`❌ [${key}] Ошибка обработки:`, err);
       }
-
-      rawSchema.$defs[key] = schemaPart;
-    } catch (err) {
-      console.error(`❌ [${key}] Ошибка обработки:`, err);
-    }
-  }));
+    }),
+  );
 
   return rawSchema;
 }
@@ -221,7 +293,7 @@ function buildMenu() {
   loadItem.className = "section-link";
   loadItem.setAttribute("data-section", "load");
   loadItem.innerHTML = `
-                <i class="my-icon my-icon-save me-2"></i>
+                <i class="my-icon my-icon-upload me-2"></i>
                 <span class="flex-grow-1 text-truncate">Upload config</span>
             `;
   loadItem.onclick = () => switchLayer("load");
@@ -254,7 +326,7 @@ function switchLayer(key) {
       deactivateNonRequired: true,
       objectAdd: false,
       btnContents: true,
-      mergeAllOf: true,
+      mergeAllOf: false,
       parseMarkdown: false,
       purifyHtml: true,
       domPurifyOptions: {},
@@ -296,49 +368,49 @@ function loadConfig() {
   }
 }
 function applyConfig(config) {
-  if (!ajv || !schema_for_ajv) {
-    alert("Критическая ошибка: Ajv или схема не инициализированы.");
-    return;
-  }
+  // if (!ajv || !schema_for_ajv) {
+  //   alert("Критическая ошибка: Ajv или схема не инициализированы.");
+  //   return;
+  // }
 
   let finalDataToLoad = config;
 
-  try {
-    const validate = ajv.compile(schema_for_ajv);
+  // try {
+  //   const validate = ajv.compile(schema_for_ajv);
 
-    // Normalizing user config by adding type=inline to route rule-sets without type.
-    for (const item of config.route?.rule_set ?? []) {
-      if (!item.type && item.rules) {
-        item.type = "inline";
-      }
-    }
-    // Normalizing user config by deleting rewrite_ttl and client_subnet fields if they are ==== null
-    for (const rule of config.dns?.rules ?? []) {
-      if (rule.rewrite_ttl === null) {
-        delete rule.rewrite_ttl;
-      }
+  //   // Normalizing user config by adding type=inline to route rule-sets without type.
+  //   for (const item of config.route?.rule_set ?? []) {
+  //     if (!item.type && item.rules) {
+  //       item.type = "inline";
+  //     }
+  //   }
+  //   // Normalizing user config by deleting rewrite_ttl and client_subnet fields if they are ==== null
+  //   for (const rule of config.dns?.rules ?? []) {
+  //     if (rule.rewrite_ttl === null) {
+  //       delete rule.rewrite_ttl;
+  //     }
 
-      if (rule.client_subnet === null) {
-        delete rule.client_subnet;
-      }
-    }
+  //     if (rule.client_subnet === null) {
+  //       delete rule.client_subnet;
+  //     }
+  //   }
 
-    const isValid = validate(config);
+  //   const isValid = validate(config);
 
-    if (!isValid) {
-      console.warn(
-        "Предупреждение при валидации импортируемого конфига:",
-        validate.errors,
-      );
-    }
+  //   if (!isValid) {
+  //     console.warn(
+  //       "Предупреждение при валидации импортируемого конфига:",
+  //       validate.errors,
+  //     );
+  //   }
 
-    finalDataToLoad = config;
-  } catch (err) {
-    console.error("Ошибка автоматической нормализации через Ajv:", err);
-    alert(
-      "Не удалось автоматически нормализовать конфиг через Ajv. Пробуем загрузить как есть.",
-    );
-  }
+  //   finalDataToLoad = config;
+  // } catch (err) {
+  //   console.error("Ошибка автоматической нормализации через Ajv:", err);
+  //   alert(
+  //     "Не удалось автоматически нормализовать конфиг через Ajv. Пробуем загрузить как есть.",
+  //   );
+  // }
 
   Object.keys(schema_ready.properties).forEach((key) => {
     const checkbox = document.getElementById(`check-${key}`);
@@ -417,7 +489,7 @@ document.getElementById("copy-btn").addEventListener("click", function () {
     .writeText(code)
     .then(() => {
       const originalHtml = btn.innerHTML;
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED!';
+      btn.innerHTML = '<i class="my-icon my-icon-check"></i> COPIED!';
       btn.classList.add("success");
 
       setTimeout(() => {

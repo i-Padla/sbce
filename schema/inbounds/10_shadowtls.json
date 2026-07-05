@@ -2,8 +2,11 @@
   "type": "object",
   "title": "ShadowTLS",
   "x-format": "grid",
-  "required": ["type", "handshake", "listen"],
-  "x-prepaed": ["tag"],
+  "required": [
+    "type",
+    "handshake",
+    "listen"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -25,7 +28,11 @@
     },
     "version": {
       "type": "integer",
-      "enum": [1, 2, 3]
+      "enum": [
+        1,
+        2,
+        3
+      ]
     },
     "password": {
       "type": "string"
@@ -58,48 +65,47 @@
       }
     },
     "handshake": {
-      "allOf": [
-        {
-          "type": "object",
-          "properties": {
-            "server": {
-              "type": "string"
-            },
-            "server_port": {
-              "type": "integer"
-            }
-          }
+      "type": "object",
+      "properties": {
+        "server": {
+          "type": "string"
         },
-        {
-          "$ref": "#/$defs/shared_dial"
+        "server_port": {
+          "type": "integer"
         }
-      ]
+      },
+      "$ref": "#/$defs/shared_dial"
     },
     "handshake_for_server_name": {
-      "allOf": [
-        {
-          "type": "object",
-          "properties": {
-            "server": {
-              "type": "string"
-            },
-            "server_port": {
-              "type": "integer"
-            }
+      "type": "object",
+      "x-objectAdd": true,
+      "x-addPropertyContent": "Add handshake for custom server",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "server": {
+            "type": "string"
+          },
+          "server_port": {
+            "type": "integer"
           }
         },
-        {
-          "$ref": "#/$defs/shared_dial"
-        }
-      ]
+        "$ref": "#/$defs/shared_dial"
+      }
     },
     "strict_mode": {
       "type": "boolean",
-      "x-format": "checkbox"
+      "x-format": "toggle"
     },
     "wildcard_sni": {
       "type": "string",
-      "enum": ["off", "authed", "all"]
+      "enum": [
+        "off",
+        "authed",
+        "all"
+      ]
     }
   },
   "$ref": "#/$defs/shared_listen"

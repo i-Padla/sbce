@@ -2,8 +2,13 @@
   "type": "object",
   "title": "Mixed",
   "x-format": "grid",
-  "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
+  "required": [
+    "type",
+    "listen"
+  ],
+  "x-prepaed": [
+    "tag"
+  ],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -52,7 +57,7 @@
     },
     "set_system_proxy": {
       "type": "boolean",
-      "x-format": "checkbox",
+      "x-format": "toggle",
       "title": "set_system_proxy"
     }
   },

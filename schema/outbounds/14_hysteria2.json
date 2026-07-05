@@ -1,183 +1,177 @@
 {
-    "type": "object",
-    "title": "Hysteria2",
-    "x-format": "grid",
-    "required": [
-        "type"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "hysteria2",
-            "const": "hysteria2",
-            "readOnly": true,
-            "x-propOrder": 10,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Hysteria2",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "server",
+    "server_port",
+    "tls"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "hysteria2",
+      "const": "hysteria2",
+      "readOnly": true,
+      "x-propOrder": 10,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "type": "object",
-            "required": [
-                "server",
-                "server_port",
-                "tls"
-            ],
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "hy2-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server": {
-                    "type": "string",
-                    "x-propertyOrder": 30,
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server_port": {
-                    "type": "integer",
-                    "x-propertyOrder": 40,
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server_ports": {
-                    "x-propertyOrder": 50,
-                    "type": "array",
-                    "x-format": "table",
-                    "x-arrayDeleteContent": "",
-                    "x-arrayAddContent": "Add",
-                    "x-arrayMove": false,
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "hop_interval": {
-                    "type": "string"
-                },
-                "hop_interval_max": {
-                    "type": "string"
-                },
-                "up_mbps": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "down_mbps": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "obfs": {
-                    "type": "object",
-                    "x-enableCollapseToggle": true,
-                    "x-collapseToggleContent": "",
-                    "x-format": "grid",
-                    "properties": {
-                        "type": {
-                            "type": "string",
-                            "enum": [
-                                "",
-                                "salamander"
-                            ],
-                            "x-grid": {
-                                "columns": 6
-                            }
-                        },
-                        "password": {
-                            "type": "string",
-                            "x-grid": {
-                                "columns": 6
-                            }
-                        }
-                    }
-                },
-                "password": {
-                    "type": "string"
-                },
-                "network": {
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "tcp",
-                        "udp"
-                    ]
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_outbound"
-                },
-                "bbr_profile": {
-                    "type": "string",
-                    "enum": [
-                        "standard",
-                        "conservative",
-                        "aggressive"
-                    ]
-                },
-                "brutal_debug": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "realm": {
-                    "type": "object",
-                    "required": [
-                        "server_url",
-                        "realm_id",
-                        "stun_servers"
-                    ],
-                    "properties": {
-                        "server_url": {
-                            "type": "string"
-                        },
-                        "token": {
-                            "type": "string"
-                        },
-                        "realm_id": {
-                            "type": "string"
-                        },
-                        "stun_servers": {
-                            "type": "array",
-                            "x-format": "table",
-                            "x-arrayDeleteContent": "",
-                            "x-arrayAddContent": "Add",
-                            "x-arrayMove": false,
-                            "x-enableCollapseToggle": true,
-                            "x-collapseToggleContent": "",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "http_client": {
-                            "oneOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "object"
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "hy2-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-propertyOrder": 30,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "x-propertyOrder": 40,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_ports": {
+      "x-propertyOrder": 50,
+      "$ref": "#/$defs/string_or_array"
+    },
+    "hop_interval": {
+      "type": "string"
+    },
+    "hop_interval_max": {
+      "type": "string"
+    },
+    "up_mbps": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "down_mbps": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "obfs": {
+      "type": "object",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-format": "grid",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "",
+            "salamander",
+            "gecko"
+          ],
+          "x-grid": {
+            "columns": 6
+          }
         },
-        {
-            "$ref": "#/$defs/shared_quic"
+        "password": {
+          "type": "string",
+          "x-grid": {
+            "columns": 6
+          }
         },
-        {
-            "$ref": "#/$defs/shared_dial"
+        "min_packet_size": {
+          "type": "integer",
+          "x-grid": {
+            "columns": 6
+          }
+        },
+        "max_packet_size": {
+          "type": "integer",
+          "x-grid": {
+            "columns": 6
+          }
         }
-    ]
+      }
+    },
+    "password": {
+      "type": "string"
+    },
+    "network": {
+      "type": "string",
+      "enum": [
+        "",
+        "tcp",
+        "udp"
+      ]
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_outbound"
+    },
+    "bbr_profile": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "conservative",
+        "aggressive"
+      ]
+    },
+    "brutal_debug": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "realm": {
+      "type": "object",
+      "required": [
+        "server_url",
+        "realm_id",
+        "stun_servers"
+      ],
+      "properties": {
+        "server_url": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "realm_id": {
+          "type": "string"
+        },
+        "stun_servers": {
+          "$ref": "#/$defs/string_or_array"
+        },
+        "http_client": {
+          "x-switcherInput": "modal",
+          "x-prepared": true,
+          "oneOf": [
+            {
+              "x-switcherTitle": "Tag only",
+              "type": "string"
+            },
+            {
+              "x-switcherTitle": "Advanced",
+              "$ref": "#/$defs/shared_http_client"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_quic"
+    },
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

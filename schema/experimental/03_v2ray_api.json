@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "properties": {
+    "listen": {
+      "type": "string"
+    },
+    "stats": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "x-format": "toggle",
+          "type": "boolean"
+        },
+        "inbounds": {
+          "$ref": "#/$defs/string_or_array"
+        },
+        "outbounds": {
+          "$ref": "#/$defs/string_or_array"
+        },
+        "users": {
+          "$ref": "#/$defs/string_or_array"
+        }
+      }
+    }
+  }
+}

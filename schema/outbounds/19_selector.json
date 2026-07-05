@@ -1,53 +1,38 @@
 {
-    "type": "object",
-    "title": "Selector",
-    "x-format": "grid",
-    "required": [
-        "type"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "selector",
-            "const": "selector",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tag": {
-            "x-propertyOrder": 20,
-            "type": "string",
-            "default": "selector",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "outbounds": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "Add",
-            "x-arrayMove": true,
-            "x-arrayButtonsPosition": "right",
-            "x-arrayMoveDownContent": "",
-            "x-arrayMoveUpContent": "",
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": false,
-            "x-collapseToggleContent": "",
-            "items": {
-                "type": "string"
-            }
-        },
-        "default": {
-            "description": "The default outbound tag. The first outbound will be used if empty.",
-            "type": "string"
-        },
-        "interrupt_exist_connections": {
-            "type": "boolean",
-            "x-format": "checkbox"
-        }
+  "type": "object",
+  "title": "Selector",
+  "x-format": "grid",
+  "required": [
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "selector",
+      "const": "selector",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "selector",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "outbounds": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "default": {
+      "type": "string"
+    },
+    "interrupt_exist_connections": {
+      "type": "boolean",
+      "x-format": "toggle"
     }
+  }
 }

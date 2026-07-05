@@ -66,10 +66,62 @@
     background-image: url('./SVG/save.svg');
 }
 
-.my-icon-copy {
-    background-image: url('./SVG/clipboard.svg');
-}
-
 .my-icon-switcher {
     background-image: url('./SVG/chevron-down.svg');
+}
+
+.my-icon-upload {
+    background-image: url('./SVG/upload.svg');
+}
+
+.my-icon-important {
+    background-image: url('./SVG/important.svg');
+}
+
+.my-icon-copy {
+    background-image: url('./SVG/copy.svg');
+    -webkit-mask-image: url('./SVG/copy.svg');
+    mask-image: url('./SVG/copy.svg');
+
+    -webkit-mask-size: contain;
+    mask-size: contain;
+
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+
+    /* 2. Настройка цвета: заливаем трафарет нужным оттенком */
+    background-color: #888;
+    /* Точное совпадение с текстом */
+
+    /* 3. Убираем старый фон и фильтр (если они были) */
+    background-image: none;
+    filter: none;
+    opacity: 1;
+    /* Возвращаем полную непрозрачность */
+    width: 10px;
+    height: 10px;
+}
+
+.my-icon-check {
+    background-image: url('./SVG/check.svg');
+    -webkit-mask-image: url('./SVG/check.svg');
+    mask-image: url('./SVG/check.svg');
+
+    -webkit-mask-size: contain;
+    mask-size: contain;
+
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+
+    /* 2. Настройка цвета: заливаем трафарет нужным оттенком */
+    background-color: #ffffff;
+    /* Точное совпадение с текстом */
+
+    /* 3. Убираем старый фон и фильтр (если они были) */
+    background-image: none;
+    filter: none;
+    opacity: 1;
+    /* Возвращаем полную непрозрачность */
+    width: 10px;
+    height: 10px;
 }

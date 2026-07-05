@@ -1,90 +1,81 @@
 {
-    "type": "object",
-    "title": "SOCKS",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "server",
-        "server_port"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "socks",
-            "const": "socks",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "SOCKS",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "server",
+    "server_port"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "socks",
+      "const": "socks",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "type": "object",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "socks-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server_port": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "version": {
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "4",
-                        "4a",
-                        "5"
-                    ],
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "username": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "password": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "network": {
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "tcp",
-                        "udp"
-                    ],
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "udp_over_tcp": {
-                    "$ref": "#/$defs/shared_udp_over_tcp"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_dial"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "socks-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "version": {
+      "type": "string",
+      "enum": [
+        "",
+        "4",
+        "4a",
+        "5"
+      ],
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "username": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "password": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "network": {
+      "type": "string",
+      "enum": [
+        "",
+        "tcp",
+        "udp"
+      ],
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "udp_over_tcp": {
+      "$ref": "#/$defs/shared_udp_over_tcp"
+    }
+  },
+  "$ref": "#/$defs/shared_dial"
 }

@@ -346,6 +346,12 @@
     "route_rules": {
       "$ref": "schema/route/rules.json"
     },
+    "route_rule_default": {
+      "$ref": "schema/route/rule_default.json"
+    },
+    "route_rule_logical": {
+      "$ref": "schema/route/rule_logical.json"
+    },
     "route_rule_action": {
       "$ref": "schema/route/rule_action.json"
     },
@@ -382,8 +388,20 @@
     "services_hysteria_realm": {
       "$ref": "schema/services/07_hysteria_realm.json"
     },
+    "experimental_cache_file": {
+      "$ref": "schema/experimental/01_cache_file.json"
+    },
+    "experimental_clash_api": {
+      "$ref": "schema/experimental/02_clash_api.json"
+    },
+    "experimental_v2ray_api": {
+      "$ref": "schema/experimental/03_v2ray_api.json"
+    },
     "string_or_array": {
       "$ref": "schema/misc/string_or_array.json"
+    },
+    "unfinished": {
+      "$ref": "schema/misc/unfinished.json"
     }
   }
 }

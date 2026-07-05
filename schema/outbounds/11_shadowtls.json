@@ -1,67 +1,58 @@
 {
-    "type": "object",
-    "title": "ShadowTLS",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "server",
-        "server_port",
-        "tls"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "shadowtls",
-            "const": "shadowtls",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "ShadowTLS",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "server",
+    "server_port",
+    "tls"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "shadowtls",
+      "const": "shadowtls",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "type": "object",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "st-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server_port": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "version": {
-                    "type": "integer",
-                    "enum": [
-                        1,
-                        2,
-                        3
-                    ]
-                },
-                "password": {
-                    "type": "string"
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_outbound"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_dial"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "st-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "version": {
+      "type": "integer",
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    },
+    "password": {
+      "type": "string"
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_outbound"
+    }
+  },
+  "$ref": "#/$defs/shared_dial"
 }

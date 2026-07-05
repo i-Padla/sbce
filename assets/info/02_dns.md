@@ -32,15 +32,15 @@ Conflict with `optimistic`.
 
 #### independent_cache
 
-!!! failure "Deprecated in sing-box 1.14.0"
+Deprecated in sing-box 1.14.0"
 
-    `independent_cache` is deprecated and will be removed in sing-box 1.14.0, check [Migration](/migration/#migrate-independent-dns-cache).
+`independent_cache` is deprecated and will be removed in sing-box 1.14.0
 
 Make each DNS server's cache independent for special purposes. If enabled, will slightly degrade performance.
 
 #### cache_capacity
 
-!!! question "Since sing-box 1.11.0"
+Since sing-box 1.11.0
 
 LRU cache capacity.
 
@@ -48,7 +48,7 @@ Value less than 1024 will be ignored.
 
 #### optimistic
 
-!!! question "Since sing-box 1.14.0"
+Since sing-box 1.14.0
 
 Enable optimistic DNS caching. When a cached DNS entry has expired but is still within the timeout window,
 the stale response is returned immediately while a background refresh is triggered.
@@ -57,12 +57,6 @@ Conflict with `disable_cache` and `disable_expire`.
 
 Accepts a boolean or an object. When set to `true`, the default timeout of `3d` is used.
 
-```json
-{
-  "enabled": true,
-  "timeout": "3d"
-}
-```
 
 #### optimistic.enabled
 
@@ -76,7 +70,7 @@ The maximum time an expired cache entry can be served optimistically.
 
 #### timeout
 
-!!! question "Since sing-box 1.14.0"
+Since sing-box 1.14.0
 
 Default timeout for each DNS query.
 
@@ -93,7 +87,7 @@ problematic in environments such as macOS, where DNS is proxied and cached by th
 
 #### client_subnet
 
-!!! question "Since sing-box 1.9.0"
+Since sing-box 1.9.0
 
 Append a `edns0-subnet` OPT extra record with the specified IP prefix to every query by default.
 

@@ -1,85 +1,76 @@
 {
-    "type": "object",
-    "title": "Naive",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "server",
-        "server_port",
-        "tls"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "naive",
-            "const": "naive",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        }
+  "type": "object",
+  "title": "Naive",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "server",
+    "server_port",
+    "tls"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "naive",
+      "const": "naive",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
     },
-    "allOf": [
-        {
-            "type": "object",
-            "properties": {
-                "tag": {
-                    "x-propertyOrder": 20,
-                    "type": "string",
-                    "default": "naive-out",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server": {
-                    "type": "string",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "server_port": {
-                    "type": "integer",
-                    "x-grid": {
-                        "columns": 6
-                    }
-                },
-                "username": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "insecure_concurrency": {
-                    "type": "integer"
-                },
-                "extra_headers": {
-                    "$ref": "#/$defs/shared_http_headers"
-                },
-                "udp_over_tcp": {
-                    "$ref": "#/$defs/shared_udp_over_tcp"
-                },
-                "quic": {
-                    "type": "boolean",
-                    "x-format": "checkbox"
-                },
-                "quic_congestion_control": {
-                    "type": "string",
-                    "enum": [
-                        "",
-                        "bbr",
-                        "bbr2",
-                        "cubic",
-                        "reno"
-                    ]
-                },
-                "tls": {
-                    "$ref": "#/$defs/shared_tls_outbound"
-                }
-            }
-        },
-        {
-            "$ref": "#/$defs/shared_dial"
-        }
-    ]
+    "tag": {
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "naive-out",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "username": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "insecure_concurrency": {
+      "type": "integer"
+    },
+    "extra_headers": {
+      "$ref": "#/$defs/shared_http_headers"
+    },
+    "udp_over_tcp": {
+      "$ref": "#/$defs/shared_udp_over_tcp"
+    },
+    "quic": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "quic_congestion_control": {
+      "type": "string",
+      "enum": [
+        "",
+        "bbr",
+        "bbr2",
+        "cubic",
+        "reno"
+      ]
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_outbound"
+    }
+  },
+  "$ref": "#/$defs/shared_dial"
 }

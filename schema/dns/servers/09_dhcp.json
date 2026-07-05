@@ -1,31 +1,31 @@
 {
-    "type": "object",
-    "title": "DHCP",
-    "x-propertiesToggleContent": "Toggle properties",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "tag"
-    ],
-    "properties": {
-        "type": {
-            "type": "string",
-            "default": "dhcp",
-            "const": "dhcp",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tag": {
-            "type": "string",
-            "default": "dhcp-dns",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "interface": {
-            "type": "string"
-        }
+  "type": "object",
+  "title": "DHCP",
+  "x-propertiesToggleContent": "Toggle properties",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "tag"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "dhcp",
+      "const": "dhcp",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "type": "string",
+      "default": "dhcp-dns",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "interface": {
+      "type": "string"
     }
+  }
 }

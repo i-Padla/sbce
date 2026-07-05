@@ -1,0 +1,253 @@
+{
+  "type": "object",
+  "x-switcherTitle": "Default rule",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "default",
+      "default": "default",
+      "readOnly": true
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "route",
+        "reject",
+        "sniff",
+        "hijack-dns",
+        "resolve",
+        "route-options"
+      ]
+    },
+    "outbound": {
+      "type": "string",
+      "x-propGroup": "Deprecated in sing-box 1.11.0"
+    },
+    "inbound": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "ip_version": {
+      "type": "integer"
+    },
+    "network": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "string",
+        "enum": [
+          "tcp",
+          "udp",
+          "icmp"
+        ]
+      }
+    },
+    "auth_user": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "protocol": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "client": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "domain": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "domain_suffix": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "domain_keyword": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "domain_regex": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "source_ip_cidr": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "source_ip_is_private": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "ip_cidr": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "ip_is_private": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "source_port": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "source_port_range": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "port": {
+      "oneOf": [
+        {
+          "type": "array",
+          "x-format": "table",
+          "x-arrayDeleteContent": "",
+          "x-arrayAddContent": "Add",
+          "x-arrayMove": false,
+          "x-enableCollapseToggle": true,
+          "x-collapseToggleContent": "",
+          "items": {
+            "type": "integer"
+          }
+        },
+        {
+          "type": "integer"
+        }
+      ]
+    },
+    "port_range": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "process_name": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "process_path": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "process_path_regex": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "package_name": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "package_name_regex": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "user": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "user_id": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "clash_mode": {
+      "type": "string"
+    },
+    "network_type": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "string",
+        "enum": [
+          "wifi",
+          "cellular",
+          "ethernet",
+          "other"
+        ]
+      }
+    },
+    "network_is_expensive": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "network_is_constrained": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "interface_address": {
+      "type": "object",
+      "x-objectAdd": true,
+      "x-enablePropertiesToggle": true
+    },
+    "network_interface_address": {
+      "type": "object",
+      "x-objectAdd": true,
+      "x-enablePropertiesToggle": true,
+      "additionalProperties": {
+        "$ref": "#/$defs/string_or_array"
+      }
+    },
+    "default_interface_address": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "wifi_ssid": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "wifi_bssid": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "preferred_by": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayDeleteContent": "",
+      "x-arrayAddContent": "Add",
+      "x-arrayMove": false,
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "items": {
+        "type": "string",
+        "enum": [
+          "tailscale",
+          "wireguard"
+        ]
+      }
+    },
+    "source_mac_address": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "source_hostname": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "rule_set": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "rule_set_ip_cidr_match_source": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "invert": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "geosite": {
+      "$ref": "#/$defs/string_or_array",
+      "x-propGroup": "Deprecated"
+    },
+    "source_geoip": {
+      "$ref": "#/$defs/string_or_array",
+      "x-propGroup": "Deprecated"
+    },
+    "geoip": {
+      "$ref": "#/$defs/string_or_array",
+      "x-propGroup": "Deprecated"
+    },
+    "rule_set_ipcidr_match_source": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Deprecated"
+    }
+  }
+}

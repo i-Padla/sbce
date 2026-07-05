@@ -1,117 +1,105 @@
 {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "type": "object",
-    "title": "ACME",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "domain"
-    ],
-    "properties": {
-        "type": {
-            "x-propertyOrder": 10,
-            "type": "string",
-            "default": "acme",
-            "const": "acme",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "ACME",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "domain"
+  ],
+  "properties": {
+    "type": {
+      "x-propertyOrder": 10,
+      "type": "string",
+      "default": "acme",
+      "const": "acme",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "x-prepared": true,
+      "x-propertyOrder": 20,
+      "type": "string",
+      "default": "",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "domain": {
+      "$ref": "#/$defs/string_or_array"
+    },
+    "data_directory": {
+      "type": "string"
+    },
+    "default_server_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "account_key": {
+      "type": "string"
+    },
+    "disable_http_challenge": {
+      "x-format": "toggle",
+      "type": "boolean"
+    },
+    "disable_tls_alpn_challenge": {
+      "x-format": "toggle",
+      "type": "boolean"
+    },
+    "alternative_http_port": {
+      "type": "integer"
+    },
+    "alternative_tls_port": {
+      "type": "integer"
+    },
+    "external_account": {
+      "type": "object",
+      "properties": {
+        "key_id": {
+          "type": "string"
         },
-        "tag": {
-            "x-prepared": true,
-            "x-propertyOrder": 20,
-            "type": "string",
-            "default": "",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "domain": {
-            "type": "array",
-            "x-format": "table",
-            "x-arrayAddContent": "",
-            "x-arrayDelete": true,
-            "x-arrayDeleteContent": "",
-            "x-arrayDeleteAll": true,
-            "x-arrayDeleteAllContent": "Delete all",
-            "x-enableCollapseToggle": true,
-            "x-collapseToggleContent": "",
-            "x-arrayMove": false,
-            "items": {
-                "type": "string"
-            }
-        },
-        "data_directory": {
-            "type": "string"
-        },
-        "default_server_name": {
-            "type": "string"
-        },
-        "email": {
-            "type": "string"
-        },
-        "provider": {
-            "type": "string"
-        },
-        "account_key": {
-            "type": "string"
-        },
-        "disable_http_challenge": {
-            "x-format": "checkbox",
-            "type": "boolean"
-        },
-        "disable_tls_alpn_challenge": {
-            "x-format": "checkbox",
-            "type": "boolean"
-        },
-        "alternative_http_port": {
-            "type": "integer"
-        },
-        "alternative_tls_port": {
-            "type": "integer"
-        },
-        "external_account": {
-            "type": "object",
-            "properties": {
-                "key_id": {
-                    "type": "string"
-                },
-                "mac_key": {
-                    "type": "string"
-                }
-            }
-        },
-        "dns01_challenge": {
-            "type": "object",
-            "description": "Temp placeholder"
-        },
-        "key_type": {
-            "type": "string",
-            "enum": [
-                "ed25519",
-                "p256",
-                "p384",
-                "rsa2048",
-                "rsa4096"
-            ]
-        },
-        "profile": {
-            "type": "string"
-        },
-        "http_client": {
-            "x-switcherInput": "modal",
-            "x-prepared": true,
-            "oneOf": [
-                {
-                    "x-switcherTitle": "Tag only",
-                    "type": "string"
-                },
-                {
-                    "x-switcherTitle": "Advanced",
-                    "$ref": "#/$defs/shared_http_client"
-                }
-            ]
+        "mac_key": {
+          "type": "string"
         }
+      }
+    },
+    "dns01_challenge": {
+      "type": "object",
+      "description": "Temp placeholder"
+    },
+    "key_type": {
+      "type": "string",
+      "enum": [
+        "ed25519",
+        "p256",
+        "p384",
+        "rsa2048",
+        "rsa4096"
+      ]
+    },
+    "profile": {
+      "type": "string"
+    },
+    "http_client": {
+      "x-switcherInput": "modal",
+      "x-prepared": true,
+      "oneOf": [
+        {
+          "x-switcherTitle": "Tag only",
+          "type": "string"
+        },
+        {
+          "x-switcherTitle": "Advanced",
+          "$ref": "#/$defs/shared_http_client"
+        }
+      ]
     }
+  }
 }

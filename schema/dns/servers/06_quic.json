@@ -1,44 +1,44 @@
 {
-    "type": "object",
-    "title": "Quic",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "tag",
-        "server"
-    ],
-    "properties": {
-        "type": {
-            "type": "string",
-            "default": "quic",
-            "const": "quic",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tag": {
-            "type": "string",
-            "default": "quic-dns",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "server": {
-            "type": "string",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "server_port": {
-            "type": "integer",
-            "default": 853,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tls": {
-            "$ref": "#/$defs/shared_tls_inbound"
-        }
+  "type": "object",
+  "title": "Quic",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "tag",
+    "server"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "quic",
+      "const": "quic",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "type": "string",
+      "default": "quic-dns",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server": {
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "server_port": {
+      "type": "integer",
+      "default": 853,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tls": {
+      "$ref": "#/$defs/shared_tls_inbound"
     }
+  }
 }

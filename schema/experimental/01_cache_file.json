@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "x-enableCollapseToggle": true,
+  "x-collapseToggleContent": "",
+  "properties": {
+    "enabled": {
+      "x-format": "toggle",
+      "type": "boolean"
+    },
+    "path": {
+      "type": "string"
+    },
+    "cache_id": {
+      "type": "string"
+    },
+    "store_fakeip": {
+      "x-format": "toggle",
+      "type": "boolean"
+    },
+    "store_rdrc": {
+      "x-format": "toggle",
+      "type": "boolean"
+    },
+    "rdrc_timeout": {
+      "type": "string"
+    },
+    "store_dns": {
+      "x-format": "toggle",
+      "type": "boolean"
+    }
+  }
+}

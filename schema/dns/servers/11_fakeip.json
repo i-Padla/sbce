@@ -1,37 +1,37 @@
 {
-    "type": "object",
-    "title": "FakeIP",
-    "x-format": "grid",
-    "required": [
-        "type",
-        "tag"
-    ],
-    "properties": {
-        "type": {
-            "type": "string",
-            "default": "fakeip",
-            "const": "fakeip",
-            "readOnly": true,
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "tag": {
-            "type": "string",
-            "default": "fakeip-dns",
-            "x-grid": {
-                "columns": 6
-            }
-        },
-        "inet4_range": {
-            "type": "string",
-            "title": "inet4_range",
-            "default": "198.18.0.0/15"
-        },
-        "inet6_range": {
-            "type": "string",
-            "title": "inet6_range",
-            "default": "fc00::/18"
-        }
+  "type": "object",
+  "title": "FakeIP",
+  "x-format": "grid",
+  "required": [
+    "type",
+    "tag"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "default": "fakeip",
+      "const": "fakeip",
+      "readOnly": true,
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "tag": {
+      "type": "string",
+      "default": "fakeip-dns",
+      "x-grid": {
+        "columns": 6
+      }
+    },
+    "inet4_range": {
+      "type": "string",
+      "title": "inet4_range",
+      "default": "198.18.0.0/15"
+    },
+    "inet6_range": {
+      "type": "string",
+      "title": "inet6_range",
+      "default": "fc00::/18"
     }
+  }
 }
