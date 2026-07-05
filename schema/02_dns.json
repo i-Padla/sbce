@@ -33,7 +33,7 @@
     "independent_cache": {
       "x-format": "toggle",
       "type": "boolean",
-      "x-propGroup": "Deprecated in sing-box 1.14.0"
+      "x-propGroup": "Deprecated"
     },
     "cache_capacity": {
       "type": "integer",
