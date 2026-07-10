@@ -1,12 +1,23 @@
-import { combineDeep, compileTemplate, isObject, isSet, pathToAttribute } from '../helpers/utils.js'
-import { getSchemaDescription, getSchemaTitle, getSchemaType, getSchemaXOption } from '../helpers/schema.js'
+import {
+  combineDeep,
+  compileTemplate,
+  isObject,
+  isSet,
+  pathToAttribute
+} from '../helpers/utils.js'
+import {
+  getSchemaDescription,
+  getSchemaTitle,
+  getSchemaType,
+  getSchemaXOption
+} from '../helpers/schema.js'
 
 /**
  * Represents an Editor instance.
  * @extends EventEmitter
  */
 class Editor {
-  constructor (instance) {
+  constructor(instance) {
     /**
      * A reference to the Instance being controlled by this editor.
      * @type {Jedison}
@@ -60,7 +71,9 @@ class Editor {
     this.setContainerAttributes()
     this.refreshUI()
 
-    const alwaysShowErrors = this.instance.jedison.getOption('showErrors') === 'always' || getSchemaXOption(this.instance.schema, 'showErrors') === 'always'
+    const alwaysShowErrors =
+      this.instance.jedison.getOption('showErrors') === 'always' ||
+      getSchemaXOption(this.instance.schema, 'showErrors') === 'always'
 
     if (alwaysShowErrors) {
       this.showValidationErrors(this.instance.getErrors())
@@ -74,25 +87,29 @@ class Editor {
     this.instance.on('change', valueChangeHandler)
   }
 
-  static resolves (schema) {}
+  static resolves(schema) {}
 
   /**
    * Initializes the editor
    */
-  init () {
+  init() {
     this.theme = this.instance.jedison.theme
-    this.markdownEnabled = getSchemaXOption(this.instance.schema, 'parseMarkdown') ?? this.instance.jedison.getOption('parseMarkdown')
-    this.purifyEnabled = getSchemaXOption(this.instance.schema, 'purifyHtml') ?? this.instance.jedison.getOption('purifyHtml')
+    this.markdownEnabled =
+      getSchemaXOption(this.instance.schema, 'parseMarkdown') ??
+      this.instance.jedison.getOption('parseMarkdown')
+    this.purifyEnabled =
+      getSchemaXOption(this.instance.schema, 'purifyHtml') ??
+      this.instance.jedison.getOption('purifyHtml')
   }
 
   /**
    * Gets the json path level by counting how many "/" it has
    */
-  getLevel () {
+  getLevel() {
     return (this.instance.path.match(/\//g) || []).length
   }
 
-  setVisibility () {
+  setVisibility() {
     const schemaOptionHidden = getSchemaXOption(this.instance.schema, 'hidden')
 
     if (isSet(schemaOptionHidden) && schemaOptionHidden === true) {
@@ -104,14 +121,23 @@ class Editor {
   /**
    * Sets container attributes like data-path and data-type
    */
-  setContainerAttributes () {
+  setContainerAttributes() {
     this.control.container.setAttribute('data-level', this.getLevel())
     this.control.container.setAttribute('data-path', this.instance.path)
-    this.control.container.setAttribute('data-type', getSchemaType(this.instance.schema))
+    this.control.container.setAttribute(
+      'data-type',
+      getSchemaType(this.instance.schema)
+    )
 
-    const schemaContainerAttributes = getSchemaXOption(this.instance.schema, 'containerAttributes')
+    const schemaContainerAttributes = getSchemaXOption(
+      this.instance.schema,
+      'containerAttributes'
+    )
 
-    if (isSet(schemaContainerAttributes) && isObject(schemaContainerAttributes)) {
+    if (
+      isSet(schemaContainerAttributes) &&
+      isObject(schemaContainerAttributes)
+    ) {
       for (const [key, value] of Object.entries(schemaContainerAttributes)) {
         if (key === 'class') {
           const classes = value.split(' ')
@@ -128,22 +154,24 @@ class Editor {
   /**
    * Builds the editor control and appends it to the editor container
    */
-  build () {
-  }
+  build() {}
 
-  adaptForTable () {}
+  adaptForTable() {}
 
   // eslint-disable-next-line no-unused-vars
-  adaptForHorizontal (labelCol, inputCol) {}
+  adaptForHorizontal(labelCol, inputCol) {}
 
   /**
    * Adds attributes to generated html elements if specified in schema x-options
    */
-  setAttributes () {
+  setAttributes() {
     const input = this.control.input
 
     if (isSet(input)) {
-      const inputAttributes = getSchemaXOption(this.instance.schema, 'inputAttributes')
+      const inputAttributes = getSchemaXOption(
+        this.instance.schema,
+        'inputAttributes'
+      )
 
       if (isObject(inputAttributes)) {
         for (const [key, value] of Object.entries(inputAttributes)) {
@@ -153,44 +181,52 @@ class Editor {
     }
   }
 
-  setReadOnlyAttribute () {
+  setReadOnlyAttribute() {
     if (this.readOnly) {
-      const inputElements = this.control.container.querySelectorAll('input, textarea, select')
+      const inputElements = this.control.container.querySelectorAll(
+        'input, textarea, select'
+      )
       inputElements.forEach((element) => {
         element.setAttribute('always-disabled', '')
       })
     }
   }
 
-  getIdFromPath (path) {
+  getIdFromPath(path) {
     const optionId = this.instance.jedison.getOption('id')
-    return optionId ? optionId + '-' + pathToAttribute(path) : pathToAttribute(path)
+    return optionId
+      ? optionId + '-' + pathToAttribute(path)
+      : pathToAttribute(path)
   }
 
   /**
    * Determines the event type to use for validation trigger based on showErrors option
    * @returns {string} - 'input' or 'change'
    */
-  getValidationEventType () {
-    const showErrors = getSchemaXOption(this.instance.schema, 'showErrors') ?? this.instance.jedison.getOption('showErrors')
+  getValidationEventType() {
+    const showErrors =
+      getSchemaXOption(this.instance.schema, 'showErrors') ??
+      this.instance.jedison.getOption('showErrors')
     return showErrors === 'input' ? 'input' : 'change'
   }
 
   /**
    * Add event listeners to ui elements
    */
-  addEventListeners () {
-  }
+  addEventListeners() {}
 
   /**
    * Clears any stored event listeners that might persist
    * This method can be overridden by subclasses to provide custom cleanup logic
    */
-  clearStoredEventListeners () {
+  clearStoredEventListeners() {
     if (this.storedEventListeners) {
-      this.storedEventListeners.forEach(listener => {
+      this.storedEventListeners.forEach((listener) => {
         if (listener.element && listener.handler) {
-          listener.element.removeEventListener(listener.eventType || 'click', listener.handler)
+          listener.element.removeEventListener(
+            listener.eventType || 'click',
+            listener.handler
+          )
         }
       })
     }
@@ -200,7 +236,7 @@ class Editor {
   /**
    * Shows validation error messages in the editor container.
    */
-  showValidationErrors (errors, force = false) {
+  showValidationErrors(errors, force = false) {
     errors = errors.filter((error) => {
       return error.path === this.instance.path
     })
@@ -209,13 +245,18 @@ class Editor {
     this.showingValidationErrors = false
     this.setAriaInvalid(false)
 
-    const neverShowErrors = this.instance.jedison.getOption('showErrors') === 'never' || getSchemaXOption(this.instance.schema, 'showErrors') === 'never'
+    const neverShowErrors =
+      this.instance.jedison.getOption('showErrors') === 'never' ||
+      getSchemaXOption(this.instance.schema, 'showErrors') === 'never'
 
     if ((neverShowErrors && !force) || errors.length === 0) {
       return
     }
 
-    const muteValidationMessages = getSchemaXOption(this.instance.schema, 'muteValidationMessages') ?? this.instance.jedison.getOption('muteValidationMessages') ?? []
+    const muteValidationMessages =
+      getSchemaXOption(this.instance.schema, 'muteValidationMessages') ??
+      this.instance.jedison.getOption('muteValidationMessages') ??
+      []
 
     let hasErrors = false
 
@@ -249,7 +290,7 @@ class Editor {
     this.showingValidationErrors = true
   }
 
-  setAriaInvalid (invalid) {
+  setAriaInvalid(invalid) {
     if (this.control.input) {
       if (invalid) {
         this.control.input.setAttribute('aria-invalid', 'true')
@@ -262,21 +303,21 @@ class Editor {
   /**
    * Get an error message container
    */
-  getErrorFeedback (config) {
+  getErrorFeedback(config) {
     return this.theme.getErrorFeedback(config)
   }
 
   /**
    * Get an error message container
    */
-  getWarningFeedback (config) {
+  getWarningFeedback(config) {
     return this.theme.getWarningFeedback(config)
   }
 
   /**
    * Disables the editor
    */
-  disable () {
+  disable() {
     this.disabled = true
     this.refreshUI()
   }
@@ -284,7 +325,7 @@ class Editor {
   /**
    * Enables the editor
    */
-  enable () {
+  enable() {
     this.disabled = false
     this.refreshUI()
   }
@@ -292,21 +333,25 @@ class Editor {
   /**
    * Clean out HTML tags from txt
    */
-  purifyContent (content, domPurifyOptions) {
-    if (this.instance.jedison.getOption('purifyHtml') && typeof window !== 'undefined' && window.DOMPurify) {
+  purifyContent(content, domPurifyOptions) {
+    if (
+      this.instance.jedison.getOption('purifyHtml') &&
+      typeof window !== 'undefined' &&
+      window.DOMPurify
+    ) {
       return window.DOMPurify.sanitize(content, domPurifyOptions)
     } else {
       const tmp = document.createElement('div')
       tmp.innerHTML = content
-      return (tmp.textContent || tmp.innerText)
+      return tmp.textContent || tmp.innerText
     }
   }
 
-  getHtmlFromMarkdown (content) {
+  getHtmlFromMarkdown(content) {
     return window.marked.parse(content)
   }
 
-  getTitle () {
+  getTitle() {
     let titleFromSchema = false
     this.title = this.instance.getKey()
 
@@ -318,35 +363,54 @@ class Editor {
     }
 
     if (titleFromSchema) {
-      this.title = compileTemplate(this.title, this.instance.getTemplateData(this.title))
-      this.title = this.markdownEnabled ? this.getHtmlFromMarkdown(this.title) : this.title
+      this.title = compileTemplate(
+        this.title,
+        this.instance.getTemplateData(this.title)
+      )
+      this.title = this.markdownEnabled
+        ? this.getHtmlFromMarkdown(this.title)
+        : this.title
 
-      const domPurifyOptions = combineDeep({}, this.instance.jedison.getOption('domPurifyOptions'), {
-        FORBID_TAGS: ['p']
-      })
+      const domPurifyOptions = combineDeep(
+        {},
+        this.instance.jedison.getOption('domPurifyOptions'),
+        {
+          FORBID_TAGS: ['p']
+        }
+      )
 
-      this.title = this.purifyEnabled ? this.purifyContent(this.title, domPurifyOptions) : this.title
+      this.title = this.purifyEnabled
+        ? this.purifyContent(this.title, domPurifyOptions)
+        : this.title
     }
 
     return this.title
   }
 
-  getDescription () {
+  getDescription() {
     const schemaDescription = getSchemaDescription(this.instance.schema)
 
     if (isSet(schemaDescription)) {
-      this.description = compileTemplate(schemaDescription, this.instance.getTemplateData(this.description))
-      this.description = this.markdownEnabled ? this.getHtmlFromMarkdown(this.description) : this.description
+      this.description = compileTemplate(
+        schemaDescription,
+        this.instance.getTemplateData(this.description)
+      )
+      this.description = this.markdownEnabled
+        ? this.getHtmlFromMarkdown(this.description)
+        : this.description
 
-      const domPurifyOptions = this.instance.jedison.getOption('domPurifyOptions')
+      const domPurifyOptions =
+        this.instance.jedison.getOption('domPurifyOptions')
 
-      this.description = this.purifyEnabled ? this.purifyContent(this.description, domPurifyOptions) : this.description
+      this.description = this.purifyEnabled
+        ? this.purifyContent(this.description, domPurifyOptions)
+        : this.description
     }
 
     return this.description
   }
 
-  getInfo (schema = null) {
+  getInfo(schema = null) {
     const _schema = schema ?? this.instance.schema
     const schemaInfo = getSchemaXOption(_schema, 'info')
 
@@ -357,33 +421,47 @@ class Editor {
     const domPurifyOptions = this.instance.jedison.getOption('domPurifyOptions')
 
     if (isSet(schemaInfo.title)) {
-      schemaInfo.title = this.markdownEnabled ? this.getHtmlFromMarkdown(schemaInfo.title) : schemaInfo.title
-      schemaInfo.title = this.purifyEnabled ? this.purifyContent(schemaInfo.title, domPurifyOptions) : schemaInfo.title
+      schemaInfo.title = this.markdownEnabled
+        ? this.getHtmlFromMarkdown(schemaInfo.title)
+        : schemaInfo.title
+      schemaInfo.title = this.purifyEnabled
+        ? this.purifyContent(schemaInfo.title, domPurifyOptions)
+        : schemaInfo.title
     }
 
     if (isSet(schemaInfo.content)) {
-      schemaInfo.content = this.markdownEnabled ? this.getHtmlFromMarkdown(schemaInfo.content) : schemaInfo.content
-      schemaInfo.content = this.purifyEnabled ? this.purifyContent(schemaInfo.content, domPurifyOptions) : schemaInfo.content
+      schemaInfo.content = this.markdownEnabled
+        ? this.getHtmlFromMarkdown(schemaInfo.content)
+        : schemaInfo.content
+      schemaInfo.content = this.purifyEnabled
+        ? this.purifyContent(schemaInfo.content, domPurifyOptions)
+        : schemaInfo.content
     }
 
     return schemaInfo
   }
 
-  refreshLegendWarning () {}
+  refreshLegendWarning() {}
 
   /**
    * Updates control UI when its state changes
    */
-  refreshUI () {
+  refreshUI() {
     this.refreshDisabledState()
     this.refreshTemplates()
   }
 
-  refreshDisabledState () {
-    const interactiveElements = this.control.container.querySelectorAll('button, input, select, textarea')
+  refreshDisabledState() {
+    const interactiveElements = this.control.container.querySelectorAll(
+      'button, input, select, textarea'
+    )
 
     interactiveElements.forEach((element) => {
-      if (this.disabled || this.readOnly || element.hasAttribute('always-disabled')) {
+      if (
+        this.disabled ||
+        this.readOnly ||
+        element.hasAttribute('always-disabled')
+      ) {
         element.setAttribute('disabled', '')
       } else {
         element.removeAttribute('disabled', '')
@@ -395,7 +473,7 @@ class Editor {
     })
   }
 
-  refreshTemplates () {
+  refreshTemplates() {
     if (this.control.legendText && this.getTitle()) {
       this.control.legendText.innerHTML = this.getTitle()
     }
@@ -412,14 +490,14 @@ class Editor {
   /**
    * Transforms the input value if necessary before value set
    */
-  sanitize (value) {
+  sanitize(value) {
     return value
   }
 
   /**
    * Refreshes the JSON data input size to match content
    */
-  refreshJsonDataInputSize () {
+  refreshJsonDataInputSize() {
     if (this.control && this.control.jsonData && this.control.jsonData.input) {
       const input = this.control.jsonData.input
       input.style.height = 'auto'
@@ -436,27 +514,38 @@ class Editor {
   /**
    * Refreshes the JSON data input with current instance value
    */
-  refreshJsonData () {
+  refreshJsonData() {
     if (this.control && this.control.jsonData && this.control.jsonData.input) {
-      this.control.jsonData.input.value = JSON.stringify(this.instance.getValue(), null, 2)
+      this.control.jsonData.input.value = JSON.stringify(
+        this.instance.getValue(),
+        null,
+        2
+      )
     }
   }
 
-  getNextChildPath (path) {
-    const currentDepth = this.instance.path.split(this.instance.jedison.pathSeparator).length
+  getNextChildPath(path) {
+    const currentDepth = this.instance.path.split(
+      this.instance.jedison.pathSeparator
+    ).length
     const targetSegments = path.split(this.instance.jedison.pathSeparator)
     if (targetSegments.length <= currentDepth) return null
-    return targetSegments.slice(0, currentDepth + 1).join(this.instance.jedison.pathSeparator)
+    return targetSegments
+      .slice(0, currentDepth + 1)
+      .join(this.instance.jedison.pathSeparator)
   }
 
-  navigateTo (path) {
+  navigateTo(path) {
     if (path === this.instance.path) {
-      this.control.container.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      this.control.container.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      })
       return
     }
     const nextChildPath = this.getNextChildPath(path)
     if (!nextChildPath) return
-    const child = this.instance.children.find(c => c.path === nextChildPath)
+    const child = this.instance.children.find((c) => c.path === nextChildPath)
     if (child?.ui) {
       child.ui.navigateTo(path)
     }
@@ -465,7 +554,7 @@ class Editor {
   /**
    * Destroys the editor
    */
-  destroy () {
+  destroy() {
     this.clearStoredEventListeners()
 
     if (this.control.container && this.control.container.parentNode) {

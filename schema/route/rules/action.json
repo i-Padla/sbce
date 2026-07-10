@@ -1,0 +1,129 @@
+{
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "",
+        "route",
+        "bypass",
+        "reject",
+        "hijack-dns",
+        "route-options",
+        "sniff",
+        "resolve"
+      ]
+    },
+    "outbound": {
+      "type": "string"
+    },
+    "method": {
+      "x-format": "radios-inline",
+      "type": "string",
+      "enum": ["default", "drop"],
+      "x-propGroup": "Action=reject"
+    },
+    "no_drop": {
+      "type": "boolean",
+      "x-format": "toggle",
+      "x-propGroup": "Action=reject"
+    },
+    "override_address": {
+      "type": "string"
+    },
+    "override_port": {
+      "type": "integer"
+    },
+    "network_strategy": {
+      "type": "string"
+    },
+    "network_type": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayAddContent": "",
+      "x-arrayDelete": true,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-propGroup": "Shared dial fields",
+      "x-arrayMove": false,
+      "items": {
+        "type": "string",
+        "enum": ["", "wifi", "cellular", "ethernet", "other"]
+      }
+    },
+    "fallback_network_type": {
+      "type": "array",
+      "x-format": "table",
+      "x-arrayAddContent": "",
+      "x-arrayDelete": true,
+      "x-arrayDeleteContent": "",
+      "x-arrayDeleteAll": true,
+      "x-arrayDeleteAllContent": "Delete all",
+      "x-enableCollapseToggle": true,
+      "x-collapseToggleContent": "",
+      "x-propGroup": "Shared dial fields",
+      "x-arrayMove": false,
+      "items": {
+        "type": "string",
+        "enum": ["", "wifi", "cellular", "ethernet", "other"]
+      }
+    },
+    "fallback_delay": {
+      "type": "string"
+    },
+    "udp_disable_domain_unmapping": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "udp_connect": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "udp_timeout": {
+      "type": "string"
+    },
+    "tls_fragment": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "tls_fragment_fallback_delay": {
+      "type": "string"
+    },
+    "tls_record_fragment": {
+      "type": "string"
+    },
+    "tls_spoof": {
+      "type": "string"
+    },
+    "tls_spoof_method": {
+      "type": "string"
+    },
+    "sniffer": [],
+    "timeout": {
+      "type": "string"
+    },
+    "server": {
+      "type": "string"
+    },
+    "strategy": {
+      "type": "string"
+    },
+    "disable_cache": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "disable_optimistic_cache": {
+      "type": "boolean",
+      "x-format": "toggle"
+    },
+    "rewrite_ttl": {
+      "type": "integer"
+    },
+    "client_subnet": {
+      "type": "string"
+    }
+  }
+}

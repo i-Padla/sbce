@@ -1,11 +1,7 @@
 {
   "type": "object",
   "x-switcherTitle": "Logical rule",
-  "required": [
-    "type",
-    "mode",
-    "rules"
-  ],
+  "required": ["type", "mode", "rules"],
   "properties": {
     "type": {
       "type": "string",
@@ -13,27 +9,15 @@
       "default": "logical",
       "readOnly": true
     },
-    "action": {
-      "type": "string",
-      "enum": [
-        "route",
-        "reject",
-        "sniff",
-        "hijack-dns",
-        "resolve",
-        "route-options"
-      ]
-    },
     "mode": {
       "description": "`and` or `or`",
       "type": "string",
-      "enum": [
-        "and",
-        "or"
-      ]
+      "enum": ["and", "or"]
     },
     "rules": {
       "$ref": "#/$defs/route_rules"
     }
-  }
+  },
+  "x-mergeAllOf": true,
+  "allOf": [{ "$ref": "#/$defs/route_rules_action" }]
 }

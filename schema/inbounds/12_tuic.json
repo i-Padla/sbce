@@ -2,11 +2,7 @@
   "type": "object",
   "title": "TUIC",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tls",
-    "listen"
-  ],
+  "required": ["type", "tls", "listen"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -44,9 +40,7 @@
         "title": "#{{i1}} {{value.name}}",
         "x-enablePropertiesToggle": true,
         "x-format": "grid",
-        "required": [
-          "uuid"
-        ],
+        "required": ["uuid"],
         "properties": {
           "name": {
             "type": "string"
@@ -63,11 +57,7 @@
     "congestion_control": {
       "description": "QUIC congestion control algorithm. `cubic` is used by default.",
       "type": "string",
-      "enum": [
-        "cubic",
-        "new_reno",
-        "bbr"
-      ]
+      "enum": ["cubic", "new_reno", "bbr"]
     },
     "auth_timeout": {
       "description": "How long the server should wait for the client to send the authentication command. `3s` is used by default.",
@@ -85,6 +75,7 @@
       "$ref": "#/$defs/shared_tls_inbound"
     }
   },
+  "x-mergeAllOf": true,
   "allOf": [
     {
       "$ref": "#/$defs/shared_listen"

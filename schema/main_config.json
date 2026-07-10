@@ -346,26 +346,26 @@
     "route_rules": {
       "$ref": "schema/route/rules.json"
     },
-    "route_rule_default": {
-      "$ref": "schema/route/rule_default.json"
+    "route_rules_default": {
+      "$ref": "schema/route/rules/default.json"
     },
-    "route_rule_logical": {
-      "$ref": "schema/route/rule_logical.json"
+    "route_rules_logical": {
+      "$ref": "schema/route/rules/logical.json"
     },
-    "route_rule_action": {
-      "$ref": "schema/route/rule_action.json"
+    "route_rules_action": {
+      "$ref": "schema/route/rules/action.json"
     },
     "route_rule_set": {
       "$ref": "schema/route/rule_set.json"
     },
-    "route_inline_rule_set": {
-      "$ref": "schema/route/inline_rule_set.json"
+    "route_rule_set_inline": {
+      "$ref": "schema/route/rule_set/inline.json"
     },
-    "route_local_rule_set": {
-      "$ref": "schema/route/local_rule_set.json"
+    "route_rule_set_local": {
+      "$ref": "schema/route/rule_set/local.json"
     },
-    "route_remote_rule_set": {
-      "$ref": "schema/route/remote_rule_set.json"
+    "route_rule_set_remote": {
+      "$ref": "schema/route/rule_set/remote.json"
     },
     "services_api": {
       "$ref": "schema/services/01_api.json"
@@ -399,6 +399,9 @@
     },
     "string_or_array": {
       "$ref": "schema/misc/string_or_array.json"
+    },
+    "integer_or_array": {
+      "$ref": "schema/misc/integer_or_array.json"
     },
     "unfinished": {
       "$ref": "schema/misc/unfinished.json"

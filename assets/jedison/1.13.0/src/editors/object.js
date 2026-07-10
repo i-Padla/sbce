@@ -1,4 +1,4 @@
-import Editor from "./editor.js";
+import Editor from './editor.js'
 import {
   equal,
   hasOwn,
@@ -6,14 +6,14 @@ import {
   isNumber, // added for sorting properties in modal window by x-propertyOrder object in parent schema
   isSet,
   isString,
-  pathToAttribute,
-} from "../helpers/utils.js";
+  pathToAttribute
+} from '../helpers/utils.js'
 import {
   getSchemaAdditionalProperties,
   getSchemaTitle,
   getSchemaType,
-  getSchemaXOption,
-} from "../helpers/schema.js";
+  getSchemaXOption
+} from '../helpers/schema.js'
 
 /**
  * Represents an EditorObject instance.
@@ -21,114 +21,114 @@ import {
  */
 class EditorObject extends Editor {
   static resolves(schema) {
-    return getSchemaType(schema) === "object";
+    return getSchemaType(schema) === 'object'
   }
 
   getObjectControlConfig() {
-    let addProperty = true;
+    let addProperty = true
     const additionalProperties = getSchemaAdditionalProperties(
-      this.instance.schema,
-    );
+      this.instance.schema
+    )
 
     if (isSet(additionalProperties) && additionalProperties === false) {
-      addProperty = false;
+      addProperty = false
     }
 
     const objectAdd =
-      getSchemaXOption(this.instance.schema, "objectAdd") ??
-      this.instance.jedison.getOption("objectAdd");
+      getSchemaXOption(this.instance.schema, 'objectAdd') ??
+      this.instance.jedison.getOption('objectAdd')
     if (isSet(objectAdd) && objectAdd === false) {
-      addProperty = false;
+      addProperty = false
     }
 
-    let enablePropertiesToggle = false;
+    let enablePropertiesToggle = false
 
-    if (isSet(this.instance.jedison.getOption("enablePropertiesToggle"))) {
+    if (isSet(this.instance.jedison.getOption('enablePropertiesToggle'))) {
       enablePropertiesToggle = this.instance.jedison.getOption(
-        "enablePropertiesToggle",
-      );
+        'enablePropertiesToggle'
+      )
     }
 
     const schemaEnablePropertiesToggle = getSchemaXOption(
       this.instance.schema,
-      "enablePropertiesToggle",
-    );
+      'enablePropertiesToggle'
+    )
 
     if (isSet(schemaEnablePropertiesToggle)) {
-      enablePropertiesToggle = schemaEnablePropertiesToggle;
+      enablePropertiesToggle = schemaEnablePropertiesToggle
     }
 
     return {
       title: this.getTitle(),
       description: this.getDescription(),
-      titleHidden: getSchemaXOption(this.instance.schema, "titleHidden"),
+      titleHidden: getSchemaXOption(this.instance.schema, 'titleHidden'),
       id: this.getIdFromPath(this.instance.path),
       enablePropertiesToggle: enablePropertiesToggle,
       addProperty: addProperty,
       enableCollapseToggle:
-        getSchemaXOption(this.instance.schema, "enableCollapseToggle") ??
-        this.instance.jedison.getOption("enableCollapseToggle"),
+        getSchemaXOption(this.instance.schema, 'enableCollapseToggle') ??
+        this.instance.jedison.getOption('enableCollapseToggle'),
       startCollapsed:
-        getSchemaXOption(this.instance.schema, "startCollapsed") ??
-        this.instance.jedison.getOption("startCollapsed"),
+        getSchemaXOption(this.instance.schema, 'startCollapsed') ??
+        this.instance.jedison.getOption('startCollapsed'),
       readOnly: this.instance.isReadOnly(),
       info: this.getInfo(),
       editJsonData:
-        getSchemaXOption(this.instance.schema, "editJsonData") ??
-        this.instance.jedison.getOption("editJsonData"),
+        getSchemaXOption(this.instance.schema, 'editJsonData') ??
+        this.instance.jedison.getOption('editJsonData'),
       propertiesToggleContent:
-        getSchemaXOption(this.instance.schema, "propertiesToggleContent") ??
-        this.instance.jedison.translator.translate("propertiesToggle"),
+        getSchemaXOption(this.instance.schema, 'propertiesToggleContent') ??
+        this.instance.jedison.translator.translate('propertiesToggle'),
       collapseToggleContent:
-        getSchemaXOption(this.instance.schema, "collapseToggleContent") ??
-        this.instance.jedison.translator.translate("collapseToggle"),
+        getSchemaXOption(this.instance.schema, 'collapseToggleContent') ??
+        this.instance.jedison.translator.translate('collapseToggle'),
       addPropertyContent:
-        getSchemaXOption(this.instance.schema, "addPropertyContent") ??
-        this.instance.jedison.translator.translate("objectAddProperty"),
+        getSchemaXOption(this.instance.schema, 'addPropertyContent') ??
+        this.instance.jedison.translator.translate('objectAddProperty'),
       isAccordion: false,
-      titleIconClass: getSchemaXOption(this.instance.schema, "titleIconClass"),
-    };
+      titleIconClass: getSchemaXOption(this.instance.schema, 'titleIconClass')
+    }
   }
 
   build() {
-    this.propertyActivators = {};
+    this.propertyActivators = {}
     const card =
-      getSchemaXOption(this.instance.schema, "card") ??
-      this.instance.jedison.getOption("card");
-    const config = this.getObjectControlConfig();
+      getSchemaXOption(this.instance.schema, 'card') ??
+      this.instance.jedison.getOption('card')
+    const config = this.getObjectControlConfig()
     this.control =
       card === false
         ? this.theme.getObjectControlFlat(config)
-        : this.theme.getObjectControl(config);
+        : this.theme.getObjectControl(config)
     this.control.jsonData.input.value = JSON.stringify(
       this.instance.getValue(),
       null,
-      2,
-    );
+      2
+    )
   }
 
   announcePropertyAdded(propertyName, child) {
-    const schemaTitle = getSchemaTitle(child.schema);
-    const label = isSet(schemaTitle) ? schemaTitle : propertyName;
-    const ariaLiveMessage = this.theme.getAriaLiveMessage();
+    const schemaTitle = getSchemaTitle(child.schema)
+    const label = isSet(schemaTitle) ? schemaTitle : propertyName
+    const ariaLiveMessage = this.theme.getAriaLiveMessage()
     ariaLiveMessage.textContent =
       label +
-      " " +
-      this.instance.jedison.translator.translate("objectPropertyAdded");
-    this.control.ariaLive.appendChild(ariaLiveMessage);
+      ' ' +
+      this.instance.jedison.translator.translate('objectPropertyAdded')
+    this.control.ariaLive.appendChild(ariaLiveMessage)
   }
 
   addProperty(input, postAction) {
-    const propertyName = input.value.split(" ").join("");
-    if (propertyName.length === 0) return;
-    if (isSet(this.instance.value[propertyName])) return;
-    const schema = this.instance.getPropertySchema(propertyName);
-    const child = this.instance.createChild(schema, propertyName);
-    child.activate();
-    this.instance.setValue(this.instance.value, true, "user");
-    input.value = "";
-    this.announcePropertyAdded(propertyName, child);
-    postAction();
+    const propertyName = input.value.split(' ').join('')
+    if (propertyName.length === 0) return
+    if (isSet(this.instance.value[propertyName])) return
+    const schema = this.instance.getPropertySchema(propertyName)
+    const child = this.instance.createChild(schema, propertyName)
+    child.activate()
+    this.instance.setValue(this.instance.value, true, 'user')
+    input.value = ''
+    this.announcePropertyAdded(propertyName, child)
+    postAction()
   }
 
   adaptForHorizontal(labelCol, inputCol) {
@@ -136,288 +136,361 @@ class EditorObject extends Editor {
       this.control,
       labelCol,
       inputCol,
-      this.getTitle(),
-    );
+      this.getTitle()
+    )
   }
 
   addEventListeners() {
-    this.control.quickAddPropertyBtn.addEventListener("click", () => {
+    this.control.quickAddPropertyBtn.addEventListener('click', () => {
       this.addProperty(this.control.quickAddPropertyControl.input, () => {
-        this.control.quickAddPropertyContainer.close();
-      });
-    });
+        this.control.quickAddPropertyContainer.close()
+      })
+    })
 
-    this.control.jsonData.saveBtn.addEventListener("click", () => {
+    this.control.jsonData.saveBtn.addEventListener('click', () => {
       try {
-        const inputValue = JSON.parse(this.control.jsonData.input.value);
-        this.instance.setValue(inputValue, true, "user");
-        this.control.jsonData.dialog.close();
+        const inputValue = JSON.parse(this.control.jsonData.input.value)
+        this.instance.setValue(inputValue, true, 'user')
+        this.control.jsonData.dialog.close()
       } catch (error) {
         // eslint-disable-next-line no-undef
-        alert("Invalid JSON");
+        alert('Invalid JSON')
       }
-    });
+    })
 
-    this.control.jsonData.copyBtn.addEventListener("click", () => {
-      navigator.clipboard.writeText(this.control.jsonData.input.value);
-    });
+    this.control.jsonData.copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(this.control.jsonData.input.value)
+    })
 
-    this.control.jsonData.toggle.addEventListener("click", () => {
-      this.refreshJsonDataInputSize();
-    });
+    this.control.jsonData.toggle.addEventListener('click', () => {
+      this.refreshJsonDataInputSize()
+    })
   }
 
   sanitize(value) {
     if (isObject(value)) {
-      return value;
+      return value
     }
 
-    return {};
+    return {}
   }
 
   getErrorFeedback(config) {
-    return this.theme.getAlert(config);
+    return this.theme.getAlert(config)
   }
 
   refreshPropertiesSlot() {
     const schemaOptionEnablePropertiesToggle =
-      getSchemaXOption(this.instance.schema, "enablePropertiesToggle") ??
-      this.instance.jedison.getOption("enablePropertiesToggle");
+      getSchemaXOption(this.instance.schema, 'enablePropertiesToggle') ??
+      this.instance.jedison.getOption('enablePropertiesToggle')
 
     if (equal(schemaOptionEnablePropertiesToggle, true)) {
-      const declaredProperties = Object.keys(this.instance.properties);
+      const declaredProperties = Object.keys(this.instance.properties)
       const instanceProperties = this.instance.children.map((child) =>
-        child.getKey(),
-      );
+        child.getKey()
+      )
       const properties = [
-        ...new Set([...declaredProperties, ...instanceProperties]),
-      ];
+        ...new Set([...declaredProperties, ...instanceProperties])
+      ]
       // FIX. Sorting properties according to their x-propertyOrder value in modal window
-      const parentOrderMap = getSchemaXOption(this.instance.schema, 'propertyOrder')
+      const parentOrderMap = getSchemaXOption(
+        this.instance.schema,
+        'propertyOrder'
+      )
       const isParentMap = isObject(parentOrderMap)
 
+      const schemaKeyIndex = Object.fromEntries(
+        declaredProperties.map((k, i) => [k, i])
+      )
+
+      // Pre-compute bucket+value for each property — O(n) total
+      const cache = new Map(
+        properties.map((prop) => {
+          const schema = this.instance.getPropertySchema(prop)
+
+          // Priority 1: per-property x-propertyOrder
+          const perProp = getSchemaXOption(schema, 'propertyOrder')
+          const hasPerProp = isNumber(perProp)
+
+          // Priority 2: parent map
+          const parentVal =
+            isParentMap && isNumber(parentOrderMap[prop])
+              ? parentOrderMap[prop]
+              : null
+          const hasParentMap = parentVal !== null
+
+          // Priority 3: schema definition order
+          const schemaIdx = schemaKeyIndex[prop] ?? -1
+
+          const bucket = hasPerProp
+            ? 0
+            : hasParentMap
+              ? 1
+              : schemaIdx !== -1
+                ? 2
+                : 3
+          const value =
+            bucket === 0 ? perProp : bucket === 1 ? parentVal : schemaIdx
+
+          return [prop, { bucket, value }]
+        })
+      )
+
+      // Sort is now O(n log n) with O(1) comparisons
       properties.sort((a, b) => {
-        const schemaA = this.instance.getPropertySchema(a)
-        const schemaB = this.instance.getPropertySchema(b)
-
-        const orderA = isParentMap && isNumber(parentOrderMap[a])
-          ? parentOrderMap[a]
-          : getSchemaXOption(schemaA, 'propertyOrder')
-        const orderB = isParentMap && isNumber(parentOrderMap[b])
-          ? parentOrderMap[b]
-          : getSchemaXOption(schemaB, 'propertyOrder')
-
-        const validA = isNumber(orderA)
-        const validB = isNumber(orderB)
-        if (!validA && validB) return 1
-        if (validA && !validB) return -1
-        if (orderA < orderB) return -1
-        if (orderA > orderB) return 1
-        return 0
+        const oa = cache.get(a),
+          ob = cache.get(b)
+        return oa.bucket !== ob.bucket
+          ? oa.bucket - ob.bucket
+          : oa.value - ob.value
       })
-      // 
-      this.control.propertiesActivators.replaceChildren();
+      //
+      this.control.propertiesActivators.replaceChildren()
 
       const { container: defaultGroupContainer, group: defaultGroup } =
-        this.theme.getPropertiesGroup();
+        this.theme.getPropertiesGroup()
 
-      this.control.propertiesActivators.appendChild(defaultGroupContainer);
+      this.control.propertiesActivators.appendChild(defaultGroupContainer)
 
-      const propertiesGroups = {};
-      const currentValue = this.instance.getValue();
+      const propertiesGroups = {}
+      const currentValue = this.instance.getValue()
 
       properties.forEach((property) => {
-        const isRequired = this.instance.isRequired(property);
-        const ariaLive = this.control.ariaLive;
-        const schema = this.instance.getPropertySchema(property);
-        const schemaTitle = getSchemaTitle(schema);
+        const isRequired = this.instance.isRequired(property)
+        const ariaLive = this.control.ariaLive
+        const schema = this.instance.getPropertySchema(property)
+        const schemaTitle = getSchemaTitle(schema)
         const path =
-          this.instance.path + this.instance.jedison.pathSeparator + property;
-        const id = pathToAttribute(path) + "-activator";
-        const title = isSet(schemaTitle) ? schemaTitle : property;
+          this.instance.path + this.instance.jedison.pathSeparator + property
+        const id = pathToAttribute(path) + '-activator'
+        const title = isSet(schemaTitle) ? schemaTitle : property
 
         const checkboxControl = this.theme.getCheckboxControl({
           id: id,
           title: title,
-          titleHidden: false,
-        });
+          titleHidden: false
+        })
 
-        const checkbox = checkboxControl.input;
-        this.propertyActivators[property] = checkbox;
+        const checkbox = checkboxControl.input
+        this.propertyActivators[property] = checkbox
 
-        checkbox.addEventListener("change", () => {
-          ariaLive.innerHTML = "";
-          const ariaLiveMessage = this.theme.getAriaLiveMessage();
+        checkbox.addEventListener('change', () => {
+          ariaLive.innerHTML = ''
+          const ariaLiveMessage = this.theme.getAriaLiveMessage()
 
-          const scrollTop = this.control.propertiesContainer.scrollTop; // FIX. Save scroll position to restore it later. Usefull in object with a lot of properties.
+          const scrollTop = this.control.propertiesContainer.scrollTop // FIX. Save scroll position to restore it later. Usefull in object with a lot of properties.
 
           if (checkbox.checked) {
-            const child = this.instance.getChild(property);
+            const child = this.instance.getChild(property)
 
             if (!child) {
-              this.instance.createChild(schema, property);
+              this.instance.createChild(schema, property)
             }
 
-            this.instance.getChild(property).activate();
+            this.instance.getChild(property).activate()
             ariaLiveMessage.textContent =
               title +
-              " " +
-              this.instance.jedison.translator.translate("objectPropertyAdded");
-            ariaLive.appendChild(ariaLiveMessage);
+              ' ' +
+              this.instance.jedison.translator.translate('objectPropertyAdded')
+            ariaLive.appendChild(ariaLiveMessage)
           } else {
-            this.instance.getChild(property).deactivate();
+            this.instance.getChild(property).deactivate()
             ariaLiveMessage.textContent =
               title +
-              " " +
+              ' ' +
               this.instance.jedison.translator.translate(
-                "objectPropertyRemoved",
-              );
-            ariaLive.appendChild(ariaLiveMessage);
+                'objectPropertyRemoved'
+              )
+            ariaLive.appendChild(ariaLiveMessage)
           }
 
-          this.control.propertiesContainer.close();
-          this.control.propertiesContainer.showModal();
+          this.control.propertiesContainer.close()
+          this.control.propertiesContainer.showModal()
 
-          this.control.propertiesContainer.scrollTop = scrollTop; // Restore scroll position
-        });
+          this.control.propertiesContainer.scrollTop = scrollTop // FIX. Restore scroll position
+        })
 
-        const propGroup = getSchemaXOption(schema, "propGroup");
+        const propGroup = getSchemaXOption(schema, 'propGroup')
 
         if (isSet(propGroup) && isString(propGroup)) {
-          let propertiesGroup = propertiesGroups[propGroup];
+          let propertiesGroup = propertiesGroups[propGroup]
 
           if (!isSet(propertiesGroup)) {
             propertiesGroup = this.theme.getPropertiesGroup({
-              name: propGroup,
-            });
-            propertiesGroups[propGroup] = propertiesGroup;
+              name: propGroup
+            })
+            propertiesGroups[propGroup] = propertiesGroup
           }
 
-          propertiesGroup.group.appendChild(checkboxControl.container);
+          propertiesGroup.group.appendChild(checkboxControl.container)
           this.control.propertiesActivators.appendChild(
-            propertiesGroup.container,
-          );
+            propertiesGroup.container
+          )
         } else {
-          defaultGroup.appendChild(checkboxControl.container);
+          defaultGroup.appendChild(checkboxControl.container)
         }
 
-        checkbox.disabled = this.disabled || isRequired;
-        checkbox.checked = hasOwn(currentValue, property);
-      });
+        checkbox.disabled = this.disabled || isRequired
+        checkbox.checked = hasOwn(currentValue, property)
+      })
 
       const propGroupOrder = getSchemaXOption(
         this.instance.schema,
-        "propGroupOrder",
-      );
+        'propGroupOrder'
+      )
 
       if (isSet(propGroupOrder) && Array.isArray(propGroupOrder)) {
-        const orderedContainers = [defaultGroupContainer];
+        const orderedContainers = [defaultGroupContainer]
 
         propGroupOrder.forEach((groupName) => {
           if (isSet(propertiesGroups[groupName])) {
-            orderedContainers.push(propertiesGroups[groupName].container);
+            orderedContainers.push(propertiesGroups[groupName].container)
           }
-        });
+        })
 
         Object.keys(propertiesGroups).forEach((groupName) => {
           if (!propGroupOrder.includes(groupName)) {
-            orderedContainers.push(propertiesGroups[groupName].container);
+            orderedContainers.push(propertiesGroups[groupName].container)
           }
-        });
+        })
 
-        this.control.propertiesActivators.replaceChildren();
+        this.control.propertiesActivators.replaceChildren()
 
         orderedContainers.forEach((container) => {
-          this.control.propertiesActivators.appendChild(container);
-        });
+          this.control.propertiesActivators.appendChild(container)
+        })
       }
     }
   }
 
+  // refreshEditors() {
+  //   this.control.childrenSlot.replaceChildren();
+
+  //   this.instance.children.forEach((child) => {
+  //     const showOptIn = true;
+
+  //     const optIn = this.theme.getCheckboxControl({
+  //       id: child.path + "-opt-in",
+  //       title: child.path + "-opt-in",
+  //       titleHidden: true,
+  //     });
+
+  //     optIn.input.checked = child.isActive;
+
+  //     optIn.input.addEventListener("change", () => {
+  //       if (child.isActive) {
+  //         child.deactivate();
+  //       } else {
+  //         child.activate();
+  //       }
+  //     });
+
+  //     if (child.isActive) {
+  //       if (child.ui.control.container.parentNode === null) {
+  //         this.control.childrenSlot.appendChild(child.ui.control.container);
+
+  //         // append optIn toggle
+  //         if (showOptIn && child.ui.control.optInContainer) {
+  //           child.ui.control.optInContainer.appendChild(optIn.container);
+  //         }
+  //       }
+
+  //       if (this.disabled || this.instance.isReadOnly()) {
+  //         child.ui.disable();
+  //       } else {
+  //         child.ui.enable();
+  //       }
+  //     } else {
+  //       if (child.ui.control.container.parentNode) {
+  //         child.ui.control.container.parentNode.removeChild(
+  //           child.ui.control.container,
+  //         );
+  //       }
+  //     }
+  //   });
+  // }
   refreshEditors() {
-    this.control.childrenSlot.replaceChildren();
+    const fragment = document.createDocumentFragment()
 
     this.instance.children.forEach((child) => {
-      const showOptIn = true;
+      const showOptIn = true
 
       const optIn = this.theme.getCheckboxControl({
-        id: child.path + "-opt-in",
-        title: child.path + "-opt-in",
-        titleHidden: true,
-      });
+        id: child.path + '-opt-in',
+        title: child.path + '-opt-in',
+        titleHidden: true
+      })
 
-      optIn.input.checked = child.isActive;
+      optIn.input.checked = child.isActive
 
-      optIn.input.addEventListener("change", () => {
+      optIn.input.addEventListener('change', () => {
         if (child.isActive) {
-          child.deactivate();
+          child.deactivate()
         } else {
-          child.activate();
+          child.activate()
         }
-      });
+      })
 
       if (child.isActive) {
-        if (child.ui.control.container.parentNode === null) {
-          this.control.childrenSlot.appendChild(child.ui.control.container);
+        fragment.appendChild(child.ui.control.container)
 
-          // append optIn toggle
-          if (showOptIn && child.ui.control.optInContainer) {
-            child.ui.control.optInContainer.appendChild(optIn.container);
-          }
+        // append optIn toggle
+        if (showOptIn && child.ui.control.optInContainer) {
+          child.ui.control.optInContainer.appendChild(optIn.container)
         }
 
-        if (this.disabled || this.instance.isReadOnly()) {
-          child.ui.disable();
-        } else {
-          child.ui.enable();
-        }
+        // update disabled state directly, without triggering a full child refreshUI()
+        child.ui.disabled = this.disabled || this.instance.isReadOnly()
+        child.ui.refreshDisabledState()
       } else {
         if (child.ui.control.container.parentNode) {
           child.ui.control.container.parentNode.removeChild(
-            child.ui.control.container,
-          );
+            child.ui.control.container
+          )
         }
       }
-    });
+    })
+
+    this.control.childrenSlot.replaceChildren(fragment)
   }
 
   refreshLegendWarning() {
-    if (!this.control.legendText) return;
+    if (!this.control.legendText) return
     const navWarning =
-      getSchemaXOption(this.instance.schema, "navWarning") ?? true;
-    const hasErrors = navWarning && this.instance.hasNestedValidationErrors();
+      getSchemaXOption(this.instance.schema, 'navWarning') ?? true
+    const hasErrors = navWarning && this.instance.hasNestedValidationErrors()
 
     const existing = this.control.legendText.querySelector(
-      ".jedi-legend-warning",
-    );
-    if (existing) existing.parentNode.removeChild(existing);
+      '.jedi-legend-warning'
+    )
+    if (existing) existing.parentNode.removeChild(existing)
 
     if (hasErrors) {
-      const warning = document.createElement("span");
-      warning.classList.add("jedi-legend-warning");
-      warning.textContent = "⚠";
+      const warning = document.createElement('span')
+      warning.classList.add('jedi-legend-warning')
+      warning.textContent = '⚠'
       const navWarningMessage = getSchemaXOption(
         this.instance.schema,
-        "navWarningMessage",
-      );
-      if (navWarningMessage) warning.setAttribute("title", navWarningMessage);
-      this.theme.styleLegendWarning(warning);
-      this.control.legendText.appendChild(warning);
+        'navWarningMessage'
+      )
+      if (navWarningMessage) warning.setAttribute('title', navWarningMessage)
+      this.theme.styleLegendWarning(warning)
+      this.control.legendText.appendChild(warning)
     }
   }
 
   showValidationErrors(errors, force = false) {
-    super.showValidationErrors(errors, force);
-    this.refreshLegendWarning();
+    super.showValidationErrors(errors, force)
+    this.refreshLegendWarning()
   }
 
   refreshUI() {
-    super.refreshUI();
-    this.refreshPropertiesSlot();
-    this.refreshEditors();
-    this.refreshJsonData();
-    this.refreshLegendWarning();
+    super.refreshUI()
+    this.refreshPropertiesSlot()
+    this.refreshEditors()
+    this.refreshJsonData()
+    this.refreshLegendWarning()
   }
 }
 
-export default EditorObject;
+export default EditorObject

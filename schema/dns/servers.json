@@ -15,9 +15,6 @@
   "items": {
     "x-embedSwitcher": true,
     "x-discriminator": "type",
-    "discriminator": {
-      "propertyName": "type"
-    },
     "oneOf": [
       {
         "$ref": "#/$defs/dns_servers_local"

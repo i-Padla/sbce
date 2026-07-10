@@ -15,12 +15,13 @@
   "x-titleTemplate": "#{{ i1 }}",
   "items": {
     "x-embedSwitcher": true,
+    "x-discriminator": "type",
     "oneOf": [
       {
-        "$ref": "#/$defs/route_rule_default"
+        "$ref": "#/$defs/route_rules_default"
       },
       {
-        "$ref": "#/$defs/route_rule_logical"
+        "$ref": "#/$defs/route_rules_logical"
       }
     ]
   }

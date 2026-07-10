@@ -18,12 +18,7 @@
     },
     "strategy": {
       "type": "string",
-      "enum": [
-        "prefer_ipv4",
-        "prefer_ipv6",
-        "ipv4_only",
-        "ipv6_only"
-      ]
+      "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"]
     },
     "disable_cache": {
       "type": "boolean",
@@ -44,10 +39,7 @@
     },
     "method": {
       "type": "string",
-      "enum": [
-        "default",
-        "drop"
-      ]
+      "enum": ["default", "drop", "reply"]
     },
     "no_drop": {
       "type": "boolean",

@@ -5,11 +5,17 @@
   "properties": {
     "listen": {
       "type": "string",
-      "x-propGroup": "Shared listen fields"
+      "x-propGroup": "Shared listen fields",
+      "x-grid": {
+        "columns": 6
+      }
     },
     "listen_port": {
       "type": "integer",
-      "x-propGroup": "Shared listen fields"
+      "x-propGroup": "Shared listen fields",
+      "x-grid": {
+        "columns": 6
+      }
     },
     "bind_interface": {
       "type": "string",
@@ -31,17 +37,26 @@
     "tcp_fast_open": {
       "type": "boolean",
       "x-format": "toggle",
-      "x-propGroup": "Shared listen fields"
+      "x-propGroup": "Shared listen fields",
+      "x-grid": {
+        "columns": 4
+      }
     },
     "tcp_multi_path": {
       "type": "boolean",
       "x-format": "toggle",
-      "x-propGroup": "Shared listen fields"
+      "x-propGroup": "Shared listen fields",
+      "x-grid": {
+        "columns": 4
+      }
     },
     "disable_tcp_keep_alive": {
       "type": "boolean",
       "x-format": "toggle",
-      "x-propGroup": "Shared listen fields"
+      "x-propGroup": "Shared listen fields",
+      "x-grid": {
+        "columns": 4
+      }
     },
     "tcp_keep_alive": {
       "type": "string",
@@ -80,12 +95,7 @@
     },
     "domain_strategy": {
       "type": "string",
-      "enum": [
-        "prefer_ipv4",
-        "prefer_ipv6",
-        "ipv4_only",
-        "ipv6_only"
-      ],
+      "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"],
       "x-propGroup": "Deprecated in sing-box 1.11.0"
     },
     "udp_disable_domain_unmapping": {

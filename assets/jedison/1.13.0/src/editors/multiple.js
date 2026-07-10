@@ -1,6 +1,11 @@
 import Editor from './editor.js'
 import { isArray, isSet, notSet } from '../helpers/utils.js'
-import { getSchemaAnyOf, getSchemaOneOf, getSchemaType, getSchemaXOption } from '../helpers/schema.js'
+import {
+  getSchemaAnyOf,
+  getSchemaOneOf,
+  getSchemaType,
+  getSchemaXOption
+} from '../helpers/schema.js'
 
 /**
  * Represents an EditorMultiple instance.
@@ -11,12 +16,22 @@ class EditorMultiple extends Editor {
     const schemaType = getSchemaType(schema)
     const schemaOneOf = getSchemaOneOf(schema)
     const schemaAnyOf = getSchemaAnyOf(schema)
-    return isSet(schemaAnyOf) || isSet(schemaOneOf) || schemaType === 'any' || isArray(schemaType) || notSet(schemaType)
+    return (
+      isSet(schemaAnyOf) ||
+      isSet(schemaOneOf) ||
+      schemaType === 'any' ||
+      isArray(schemaType) ||
+      notSet(schemaType)
+    )
   }
 
   build() {
-    this.switcherInput = getSchemaXOption(this.instance.schema, 'switcherInput') ?? this.instance.jedison.getOption('switcherInput')
-    this.embedSwitcher = getSchemaXOption(this.instance.schema, 'embedSwitcher') ?? this.instance.jedison.getOption('embedSwitcher')
+    this.switcherInput =
+      getSchemaXOption(this.instance.schema, 'switcherInput') ??
+      this.instance.jedison.getOption('switcherInput')
+    this.embedSwitcher =
+      getSchemaXOption(this.instance.schema, 'embedSwitcher') ??
+      this.instance.jedison.getOption('embedSwitcher')
     this.control = this.theme.getMultipleControl({
       titleHidden: getSchemaXOption(this.instance.schema, 'titleHidden'),
       id: this.getIdFromPath(this.instance.path),
@@ -56,7 +71,12 @@ class EditorMultiple extends Editor {
   }
 
   adaptForHorizontal(labelCol, inputCol) {
-    this.theme.adaptForHorizontalMultipleControl(this.control, labelCol, inputCol, this.getTitle())
+    this.theme.adaptForHorizontalMultipleControl(
+      this.control,
+      labelCol,
+      inputCol,
+      this.getTitle()
+    )
   }
 
   addEventListeners() {
@@ -67,7 +87,10 @@ class EditorMultiple extends Editor {
       })
     }
 
-    if (this.switcherInput === 'radios' || this.switcherInput === 'radios-inline') {
+    if (
+      this.switcherInput === 'radios' ||
+      this.switcherInput === 'radios-inline'
+    ) {
       this.control.switcher.radios.forEach((radio) => {
         radio.addEventListener('change', () => {
           const index = Number(radio.value)
@@ -90,7 +113,9 @@ class EditorMultiple extends Editor {
   refreshUI() {
     this.refreshDisabledState()
     this.control.childrenSlot.innerHTML = ''
-    this.control.childrenSlot.appendChild(this.instance.activeInstance.ui.control.container)
+    this.control.childrenSlot.appendChild(
+      this.instance.activeInstance.ui.control.container
+    )
 
     if (this.embedSwitcher) {
       const slot = this.instance.activeInstance.ui.control.switcherSlot
@@ -113,7 +138,7 @@ class EditorMultiple extends Editor {
         this.control.header.style.display = 'none'
       } else if (titleEl) {
         const infoEl = childControl.info?.container
-        const anchor = (infoEl && infoEl.parentNode) ? infoEl : titleEl
+        const anchor = infoEl && infoEl.parentNode ? infoEl : titleEl
         anchor.after(this.control.switcher.container)
         this.control.header.style.display = 'none'
       }
@@ -123,7 +148,10 @@ class EditorMultiple extends Editor {
       this.control.switcher.input.value = this.instance.index
     }
 
-    if (this.switcherInput === 'radios' || this.switcherInput === 'radios-inline') {
+    if (
+      this.switcherInput === 'radios' ||
+      this.switcherInput === 'radios-inline'
+    ) {
       this.control.switcher.radios.forEach((radio) => {
         const radioIndex = Number(radio.value)
         radio.checked = radioIndex === this.instance.index
@@ -131,7 +159,8 @@ class EditorMultiple extends Editor {
     }
 
     if (this.switcherInput === 'modal') {
-      this.control.switcher.triggerText.textContent = this.instance.switcherOptionsLabels[this.instance.index]
+      this.control.switcher.triggerText.textContent =
+        this.instance.switcherOptionsLabels[this.instance.index]
       this.control.switcher.optionButtons.forEach((btn, index) => {
         this.theme.setSwitcherOptionActive(btn, index === this.instance.index)
       })

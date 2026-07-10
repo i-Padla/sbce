@@ -13,9 +13,3 @@ Rule type, `default` or `logical`
 ==Required==
 
 Included rules.
-
-#### action
-
-==Required==
-
-See [Rule Actions](../rule_action/) for details.

@@ -15,6 +15,7 @@
   "x-titleTemplate": "#{{ i1 }}",
   "items": {
     "x-embedSwitcher": true,
+    "x-discriminator": "type",
     "x-propertyOrder": {
       "type": 10
     },

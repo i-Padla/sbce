@@ -14,15 +14,16 @@
   "x-titleTemplate": "#{{ i1 }} {{ value.tag }} ({{value.type}})",
   "items": {
     "x-embedSwitcher": true,
+    "x-discriminator": "type",
     "oneOf": [
       {
-        "$ref": "#/$defs/route_inline_rule_set"
+        "$ref": "#/$defs/route_rule_set_inline"
       },
       {
-        "$ref": "#/$defs/route_local_rule_set"
+        "$ref": "#/$defs/route_rule_set_local"
       },
       {
-        "$ref": "#/$defs/route_remote_rule_set"
+        "$ref": "#/$defs/route_rule_set_remote"
       }
     ]
   }

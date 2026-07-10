@@ -3,26 +3,13 @@
   "x-switcherTitle": "Default rule",
   "properties": {
     "type": {
+      "x-propertyOrder": 10,
       "type": "string",
       "const": "default",
       "default": "default",
       "readOnly": true
     },
-    "action": {
-      "type": "string",
-      "enum": [
-        "route",
-        "reject",
-        "sniff",
-        "hijack-dns",
-        "resolve",
-        "route-options"
-      ]
-    },
-    "outbound": {
-      "type": "string",
-      "x-propGroup": "Deprecated in sing-box 1.11.0"
-    },
+
     "inbound": {
       "$ref": "#/$defs/string_or_array"
     },
@@ -30,21 +17,20 @@
       "type": "integer"
     },
     "network": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "string",
-        "enum": [
-          "tcp",
-          "udp",
-          "icmp"
-        ]
-      }
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["tcp", "udp", "icmp"]
+          }
+        },
+        {
+          "type": "string",
+          "enum": ["tcp", "udp", "icmp"]
+        }
+      ]
     },
     "auth_user": {
       "$ref": "#/$defs/string_or_array"
@@ -82,21 +68,13 @@
       "x-format": "toggle"
     },
     "source_port": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "integer"
-      }
+      "$ref": "#/$defs/integer_or_array"
     },
     "source_port_range": {
       "$ref": "#/$defs/string_or_array"
     },
     "port": {
+      "x-switcherInput": "modal",
       "oneOf": [
         {
           "type": "array",
@@ -161,12 +139,7 @@
       "x-collapseToggleContent": "",
       "items": {
         "type": "string",
-        "enum": [
-          "wifi",
-          "cellular",
-          "ethernet",
-          "other"
-        ]
+        "enum": ["wifi", "cellular", "ethernet", "other"]
       }
     },
     "network_is_expensive": {
@@ -209,10 +182,7 @@
       "x-collapseToggleContent": "",
       "items": {
         "type": "string",
-        "enum": [
-          "tailscale",
-          "wireguard"
-        ]
+        "enum": ["tailscale", "wireguard"]
       }
     },
     "source_mac_address": {
@@ -249,5 +219,7 @@
       "x-format": "toggle",
       "x-propGroup": "Deprecated"
     }
-  }
+  },
+  "x-mergeAllOf": true,
+  "allOf": [{ "$ref": "#/$defs/route_rules_action" }]
 }

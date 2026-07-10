@@ -467,7 +467,7 @@ class ThemeBootstrap5 extends Theme {
     formGroup.appendChild(label);
 
     if (isObject(config.info)) {
-      formGroup.appendChild(info.container); // Appendinf ingo container after label, not with it.
+      label.appendChild(info.container);
     }
 
     container.appendChild(description);

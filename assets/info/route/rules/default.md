@@ -31,7 +31,7 @@ Sniffed client type, see [Protocol Sniff](/configuration/route/sniff/) for detai
 !!! quote "Changes in sing-box 1.13.0"
 
     Since sing-box 1.13.0, you can match ICMP echo (ping) requests via the new `icmp` network.
-    
+
     Such traffic originates from `TUN`, `WireGuard`, and `Tailscale` inbounds and can be routed to `Direct`, `WireGuard`, and `Tailscale` outbounds.
 
 Match network type.
@@ -252,7 +252,7 @@ See [Wi-Fi State](/configuration/shared/wifi-state/) for details.
 Match specified outbounds' preferred routes.
 
 | Type        | Match                                         |
-|-------------|-----------------------------------------------|
+| ----------- | --------------------------------------------- |
 | `tailscale` | Match MagicDNS domains and peers' allowed IPs |
 | `wireguard` | Match peers's allowed IPs                     |
 
@@ -301,15 +301,3 @@ Make `ip_cidr` in rule-sets match the source IP.
 #### invert
 
 Invert match result.
-
-#### action
-
-==Required==
-
-See [Rule Actions](../rule_action/) for details.
-
-#### outbound
-
-!!! failure "Deprecated in sing-box 1.11.0"
-
-    Moved to [Rule Action](../rule_action#route).

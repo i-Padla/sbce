@@ -1,7 +1,9 @@
 import EventEmitter from '../event-emitter.js'
 
 import {
-  clone, compileTemplate, different,
+  clone,
+  compileTemplate,
+  different,
   equal,
   isSet,
   notSet,
@@ -10,16 +12,18 @@ import {
 
 import {
   getSchemaConst,
-  getSchemaDefault, getSchemaEnum,
+  getSchemaDefault,
+  getSchemaEnum,
   getSchemaReadOnly,
-  getSchemaType, getSchemaXOption
+  getSchemaType,
+  getSchemaXOption
 } from '../helpers/schema.js'
 
 /**
  * Represents a JSON instance.
  */
 class Instance extends EventEmitter {
-  constructor (config) {
+  constructor(config) {
     super()
 
     /**
@@ -99,7 +103,7 @@ class Instance extends EventEmitter {
   /**
    * Initializes and register the instance
    */
-  init () {
+  init() {
     this.register()
     this.setInitialValue()
     this.prepare()
@@ -123,7 +127,7 @@ class Instance extends EventEmitter {
   /**
    * Sets the instance ui property. UI can be an editor instance or similar
    */
-  setUI () {
+  setUI() {
     if (this.jedison.isEditor) {
       const EditorClass = this.jedison.uiResolver.getClass(this.schema)
       this.ui = new EditorClass(this)
@@ -133,21 +137,21 @@ class Instance extends EventEmitter {
   /**
    * Return the last part of the instance path
    */
-  getKey () {
+  getKey() {
     return this.key
   }
 
   /**
    * Return the instance schema
    */
-  getSchema () {
+  getSchema() {
     return this.schema
   }
 
   /**
    * Adds a child instance pointer to the instance list
    */
-  register () {
+  register() {
     this.jedison.register(this)
 
     if (this.children.length === 0) return
@@ -165,7 +169,7 @@ class Instance extends EventEmitter {
   /**
    * Deletes a child instance pointer from the instance list
    */
-  unregister () {
+  unregister() {
     this.jedison.unregister(this)
 
     if (this.children.length === 0) return
@@ -183,11 +187,18 @@ class Instance extends EventEmitter {
   /**
    * Sets the default value of the instance based on it's type
    */
-  setInitialValue () {
-    const enforceEnum = getSchemaXOption(this.schema, 'enforceEnum') ?? this.jedison.getOption('enforceEnum')
+  setInitialValue() {
+    const enforceEnum =
+      getSchemaXOption(this.schema, 'enforceEnum') ??
+      this.jedison.getOption('enforceEnum')
     const schemaEnum = getSchemaEnum(this.schema)
 
-    if (isSet(schemaEnum) && !schemaEnum.includes(this.getValueRaw()) && isSet(schemaEnum[0]) && enforceEnum) {
+    if (
+      isSet(schemaEnum) &&
+      !schemaEnum.includes(this.getValueRaw()) &&
+      isSet(schemaEnum[0]) &&
+      enforceEnum
+    ) {
       this.setValue(schemaEnum[0], false)
     }
 
@@ -207,14 +218,16 @@ class Instance extends EventEmitter {
     }
   }
 
-  setDefaultValue () {
+  setDefaultValue() {
     const schemaDefault = getSchemaDefault(this.schema)
 
     if (isSet(schemaDefault)) {
       this.setValue(schemaDefault, false)
     }
 
-    const enforceConst = getSchemaXOption(this.schema, 'enforceConst') ?? this.jedison.getOption('enforceConst')
+    const enforceConst =
+      getSchemaXOption(this.schema, 'enforceConst') ??
+      this.jedison.getOption('enforceConst')
 
     if (isSet(enforceConst) && equal(enforceConst, true)) {
       const schemaConst = getSchemaConst(this.schema)
@@ -225,7 +238,7 @@ class Instance extends EventEmitter {
     }
   }
 
-  registerWatcher () {
+  registerWatcher() {
     const watch = getSchemaXOption(this.schema, 'watch')
 
     if (!isSet(watch)) return
@@ -237,7 +250,7 @@ class Instance extends EventEmitter {
     })
   }
 
-  updateWatchedData (name, path) {
+  updateWatchedData(name, path) {
     const instance = this.jedison.getInstance(path)
 
     if (!isSet(instance)) {
@@ -248,14 +261,16 @@ class Instance extends EventEmitter {
       this.watched[name] = {
         value: instance.getValue(),
         schema: instance.getSchema(),
-        properties: instance.schema.properties ? Object.keys(instance.schema.properties) : []
+        properties: instance.schema.properties
+          ? Object.keys(instance.schema.properties)
+          : []
       }
     }
 
     this.setValueFormTemplate()
   }
 
-  setValueFormTemplate () {
+  setValueFormTemplate() {
     const template = getSchemaXOption(this.schema, 'template')
 
     if (!isSet(template)) return
@@ -268,21 +283,21 @@ class Instance extends EventEmitter {
   /**
    * Returns the value of the instance
    */
-  getValue () {
+  getValue() {
     return clone(this.value)
   }
 
   /**
    * Returns the value of the instance without cloning (internal read-only use)
    */
-  getValueRaw () {
+  getValueRaw() {
     return this.value
   }
 
   /**
    * Returns the data that will replace placeholders in titles, descriptions (e.g. "{{ i1 }} {{ value.title }}")
    */
-  getTemplateData (template) {
+  getTemplateData(template) {
     const templateData = {
       ...this.arrayTemplateData,
       value: this.getValueRaw(),
@@ -311,16 +326,26 @@ class Instance extends EventEmitter {
     return templateData
   }
 
-  resolveTemplateFunctions (functionsObject = {}) {
+  resolveTemplateFunctions(functionsObject = {}) {
     const context = {
       instance: this
     }
 
-    return Object.fromEntries(Object.entries(functionsObject).map(([functionName, functionValue]) => [functionName, functionValue(context)]))
+    return Object.fromEntries(
+      Object.entries(functionsObject).map(([functionName, functionValue]) => [
+        functionName,
+        functionValue(context)
+      ])
+    )
   }
 
-  purify (value) {
-    if (typeof value === 'string' && this.jedison.getOption('purifyData') && typeof window !== 'undefined' && window.DOMPurify) {
+  purify(value) {
+    if (
+      typeof value === 'string' &&
+      this.jedison.getOption('purifyData') &&
+      typeof window !== 'undefined' &&
+      window.DOMPurify
+    ) {
       value = window.DOMPurify.sanitize(value)
     }
 
@@ -331,7 +356,7 @@ class Instance extends EventEmitter {
    * Sets the instance value
    * @returns {*} The final value after constraint enforcement
    */
-  setValue (newValue, notifyParent = true, initiator = 'api') {
+  setValue(newValue, notifyParent = true, initiator = 'api') {
     // zero-cost bail-out
     if (this.value === newValue) {
       return this.value
@@ -342,7 +367,9 @@ class Instance extends EventEmitter {
     newValue = purifiedValue
 
     // Only check const enforcement if necessary
-    const enforceConst = getSchemaXOption(this.schema, 'enforceConst') ?? this.jedison.getOption('enforceConst')
+    const enforceConst =
+      getSchemaXOption(this.schema, 'enforceConst') ??
+      this.jedison.getOption('enforceConst')
     if (isSet(enforceConst) && equal(enforceConst, true)) {
       const schemaConst = getSchemaConst(this.schema)
       if (isSet(schemaConst)) {
@@ -373,13 +400,12 @@ class Instance extends EventEmitter {
   /**
    * Fires when a child's instance state changes
    */
-  onChildChange (initiator) {
-  }
+  onChildChange(initiator) {}
 
   /**
    * Returns an array of validation error messages
    */
-  getErrors () {
+  getErrors() {
     if (!this.isActive) {
       return []
     }
@@ -393,7 +419,12 @@ class Instance extends EventEmitter {
     }
 
     return removeDuplicatesFromArray(
-      this.jedison.validator.getErrors(this.getValueRaw(), this.originalSchema, this.getKey(), this.path)
+      this.jedison.validator.getErrors(
+        this.getValueRaw(),
+        this.originalSchema,
+        this.getKey(),
+        this.path
+      )
     )
   }
 
@@ -401,23 +432,22 @@ class Instance extends EventEmitter {
    * Returns true if any leaf descendant is showing validation errors.
    * Only checks leaves to avoid stale container-level constraint flags.
    */
-  hasNestedValidationErrors () {
+  hasNestedValidationErrors() {
     if (this.children.length === 0) {
       return !!(this.ui && this.ui.showingValidationErrors)
     }
-    return this.children.some(child => child.hasNestedValidationErrors())
+    return this.children.some((child) => child.hasNestedValidationErrors())
   }
 
   /**
    * Prepare data before building the editor
    */
-  prepare () {
-  }
+  prepare() {}
 
   /**
    * Activates the instance
    */
-  activate () {
+  activate() {
     if (this.isActive === false) {
       this.isActive = true
       this.emit('notifyParent')
@@ -427,7 +457,7 @@ class Instance extends EventEmitter {
   /**
    * Deactivates the instance
    */
-  deactivate () {
+  deactivate() {
     if (this.isActive === true) {
       this.isActive = false
       this.emit('notifyParent')
@@ -437,7 +467,7 @@ class Instance extends EventEmitter {
   /**
    * Returns true if this instance is read only
    */
-  isReadOnly () {
+  isReadOnly() {
     if (getSchemaReadOnly(this.schema) === true) {
       return true
     }
@@ -448,7 +478,7 @@ class Instance extends EventEmitter {
   /**
    * Destroy the instance and it's children
    */
-  destroy () {
+  destroy() {
     this.unregister()
 
     this.listeners = null

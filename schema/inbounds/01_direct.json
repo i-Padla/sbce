@@ -2,16 +2,10 @@
   "type": "object",
   "title": "Direct",
   "x-format": "grid",
-  "required": [
-    "type",
-    "listen"
-  ],
-  "x-prepaed": [
-    "tag"
-  ],
+  "required": ["type", "listen"],
+  "x-prepaed": ["tag"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "direct",
       "const": "direct",
@@ -21,7 +15,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "direct",
       "x-grid": {
@@ -29,19 +22,28 @@
       }
     },
     "network": {
+      "x-format": "radios-inline",
       "type": "string",
-      "enum": [
-        "",
-        "tcp",
-        "udp"
-      ]
+      "enum": ["", "tcp", "udp"],
+      "x-enumTitles": ["Both", "Tcp", "Udp"]
     },
     "override_address": {
-      "type": "string"
+      "type": "string",
+      "x-grid": {
+        "columns": 6
+      }
     },
     "override_port": {
-      "type": "integer"
+      "type": "integer",
+      "x-grid": {
+        "columns": 6
+      }
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

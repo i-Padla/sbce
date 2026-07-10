@@ -15,12 +15,7 @@
     },
     "strategy": {
       "type": "string",
-      "enum": [
-        "prefer_ipv4",
-        "prefer_ipv6",
-        "ipv4_only",
-        "ipv6_only"
-      ]
+      "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"]
     },
     "disable_cache": {
       "x-format": "toggle",
@@ -40,16 +35,27 @@
       "title": "LRU cache capacity."
     },
     "optimistic": {
-      "type": "object",
-      "properties": {
-        "enabled": {
+      "x-switcherInput": "modal",
+      "oneOf": [
+        {
+          "x-switcherTitle": "Simple",
           "x-format": "toggle",
           "type": "boolean"
         },
-        "timeout": {
-          "type": "string"
+        {
+          "x-switcherTitle": "Advanced",
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "x-format": "toggle",
+              "type": "boolean"
+            },
+            "timeout": {
+              "type": "string"
+            }
+          }
         }
-      }
+      ]
     },
     "timeout": {
       "type": "string"

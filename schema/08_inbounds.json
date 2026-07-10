@@ -12,9 +12,6 @@
   "items": {
     "x-embedSwitcher": true,
     "x-discriminator": "type",
-    "discriminator": {
-      "propertyName": "type"
-    },
     "oneOf": [
       {
         "$ref": "#/$defs/inbounds_direct"

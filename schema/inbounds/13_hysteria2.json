@@ -3,16 +3,8 @@
   "type": "object",
   "title": "Hysteria2",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tls",
-    "listen"
-  ],
-  "x-prepared": [
-    "tag",
-    "up_mbps",
-    "down_mbps"
-  ],
+  "required": ["type", "tls", "listen"],
+  "x-prepared": ["tag", "up_mbps", "down_mbps"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -53,11 +45,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "",
-            "salamander",
-            "gecko"
-          ],
+          "enum": ["", "salamander", "gecko"],
           "x-grid": {
             "columns": 6
           }
@@ -123,17 +111,11 @@
         {
           "x-switcherTitle": "Advanced",
           "type": "object",
-          "required": [
-            "type"
-          ],
+          "required": ["type"],
           "properties": {
             "type": {
               "type": "string",
-              "enum": [
-                "file",
-                "proxy",
-                "string"
-              ]
+              "enum": ["file", "proxy", "string"]
             },
             "directory": {
               "description": "File server root directory.",
@@ -164,11 +146,7 @@
     },
     "bbr_profile": {
       "type": "string",
-      "enum": [
-        "standard",
-        "conservative",
-        "aggressive"
-      ]
+      "enum": ["standard", "conservative", "aggressive"]
     },
     "brutal_debug": {
       "type": "boolean",
@@ -179,11 +157,7 @@
       "x-enableCollapseToggle": true,
       "x-collapseToggleContent": "",
       "x-format": "grid",
-      "required": [
-        "server_url",
-        "realm_id",
-        "stun_servers"
-      ],
+      "required": ["server_url", "realm_id", "stun_servers"],
       "properties": {
         "server_url": {
           "type": "string"
@@ -274,6 +248,7 @@
       "$ref": "#/$defs/shared_tls_inbound"
     }
   },
+  "x-mergeAllOf": true,
   "allOf": [
     {
       "$ref": "#/$defs/shared_quic"

@@ -10,6 +10,7 @@
   "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
   "items": {
     "x-embedSwitcher": true,
+    "x-discriminator": "type",
     "oneOf": [
       {
         "x-switcherTitle": "Wireguard",
