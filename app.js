@@ -56,29 +56,38 @@ marked.use({
           )
 
         if (match) {
-          return {
+          const text = match[3].trim()
+          const cleanText = match[3].replace(/^\s{4}/gm, '')
+
+          const token = {
             type: 'admonition',
             raw: match[0],
             variant: match[1],
             title: match[2] !== undefined ? match[2] : match[1],
-            text: match[3].trim()
+            text: text,
+            tokens: []
           }
+
+          if (text) {
+            this.lexer.blockTokens(cleanText, token.tokens)
+          }
+
+          return token
         }
       },
       renderer(token) {
-        const cleanText = token.text.replace(/^\s{4}/gm, '')
-        const innerHtml = marked.parse(cleanText)
-
         const titleHtml = token.title
           ? `<p class="admonition-title">${token.title}</p>`
           : ''
 
+        const innerHtml = this.parser.parse(token.tokens)
+
         return `
-      <div class="admonition ${token.variant}">
-        ${titleHtml}
-        <div class="admonition-content">${innerHtml}</div>
-      </div>
-    `
+<div class="admonition ${token.variant}">
+  ${titleHtml}
+  ${innerHtml}
+</div>
+`
       }
     }
   ]

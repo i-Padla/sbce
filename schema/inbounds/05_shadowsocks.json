@@ -2,11 +2,7 @@
   "type": "object",
   "title": "Shadowsocks",
   "x-format": "grid",
-  "required": [
-    "type",
-    "listen",
-    "password"
-  ],
+  "required": ["type", "listen", "password"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -28,11 +24,7 @@
     },
     "network": {
       "type": "string",
-      "enum": [
-        "",
-        "tcp",
-        "udp"
-      ]
+      "enum": ["", "tcp", "udp"]
     },
     "method": {
       "type": "string",
@@ -66,10 +58,7 @@
         "type": "object",
         "title": "User #{{i1}} - {{ value.name }}",
         "x-enablePropertiesToggle": false,
-        "required": [
-          "name",
-          "password"
-        ],
+        "required": ["name", "password"],
         "properties": {
           "name": {
             "type": "string"
@@ -93,12 +82,7 @@
       "x-titleTemplate": "{{ i1 }}) {{ value.name }}",
       "items": {
         "type": "object",
-        "required": [
-          "name",
-          "server",
-          "server_port",
-          "password"
-        ],
+        "required": ["name", "server", "server_port", "password"],
         "properties": {
           "name": {
             "type": "string"
@@ -123,5 +107,10 @@
       "$ref": "#/$defs/shared_multiplex_inbound"
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

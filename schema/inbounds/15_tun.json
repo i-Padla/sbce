@@ -2,12 +2,8 @@
   "type": "object",
   "title": "Tun",
   "x-format": "grid",
-  "required": [
-    "type"
-  ],
-  "x-prepaed": [
-    "tag"
-  ],
+  "required": ["type"],
+  "x-prepaed": ["tag"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -39,11 +35,7 @@
     },
     "dns_mode": {
       "type": "string",
-      "enum": [
-        "hijack",
-        "native",
-        "disabled"
-      ]
+      "enum": ["hijack", "native", "disabled"]
     },
     "dns_address": {
       "$ref": "#/$defs/string_or_array"
@@ -97,19 +89,11 @@
     },
     "route_address": {
       "$ref": "#/$defs/string_or_array",
-      "default": [
-        "0.0.0.0/1",
-        "128.0.0.0/1",
-        "::/1",
-        "8000::/1"
-      ]
+      "default": ["0.0.0.0/1", "128.0.0.0/1", "::/1", "8000::/1"]
     },
     "route_exclude_address": {
       "$ref": "#/$defs/string_or_array",
-      "default": [
-        "192.168.0.0/16",
-        "fc00::/7"
-      ]
+      "default": ["192.168.0.0/16", "fc00::/7"]
     },
     "route_address_set": {
       "$ref": "#/$defs/string_or_array"
@@ -256,5 +240,10 @@
       "x-propGroup": "Depricated"
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

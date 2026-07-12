@@ -22,11 +22,11 @@ Store fakeip in the cache file
 
 !!! failure "Deprecated in sing-box 1.14.0"
 
-    `store_rdrc` is deprecated and will be removed in sing-box 1.16.0, check [Migration](/migration/#migrate-store-rdrc).
+    `store_rdrc` is deprecated and will be removed in sing-box 1.16.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-store-rdrc).
 
 Store rejected DNS response cache in the cache file
 
-The check results of [Legacy Address Filter Fields](/configuration/dns/rule/#legacy-address-filter-fields)
+The check results of [Legacy Address Filter Fields](https://sing-box.sagernet.org/configuration/dns/rule/#legacy-address-filter-fields)
 will be cached until expiration.
 
 #### rdrc_timeout

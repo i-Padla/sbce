@@ -2,13 +2,8 @@
   "type": "object",
   "title": "VLESS",
   "x-format": "grid",
-  "required": [
-    "type",
-    "listen"
-  ],
-  "x-prepaed": [
-    "tag"
-  ],
+  "required": ["type", "listen"],
+  "x-prepaed": ["tag"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -39,15 +34,13 @@
       "x-arrayDeleteAll": true,
       "x-arrayDeleteAllContent": "Delete all",
       "x-arrayButtonsPosition": "right",
-      "x-titleTemplate": "{{value.name}}",
+      "x-titleTemplate": "#1 {{value.name}}",
       "items": {
         "type": "object",
         "title": "{{value.name}}",
         "x-enablePropertiesToggle": true,
         "x-format": "grid",
-        "required": [
-          "uuid"
-        ],
+        "required": ["uuid"],
         "properties": {
           "name": {
             "type": "string"
@@ -57,9 +50,7 @@
           },
           "flow": {
             "type": "string",
-            "enum": [
-              "xtls-rprx-vision"
-            ]
+            "enum": ["xtls-rprx-vision"]
           }
         }
       }
@@ -74,5 +65,10 @@
       "$ref": "#/$defs/shared_v2ray_transport"
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

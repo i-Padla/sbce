@@ -2,11 +2,7 @@
   "type": "object",
   "title": "ShadowTLS",
   "x-format": "grid",
-  "required": [
-    "type",
-    "handshake",
-    "listen"
-  ],
+  "required": ["type", "handshake", "listen"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -28,11 +24,7 @@
     },
     "version": {
       "type": "integer",
-      "enum": [
-        1,
-        2,
-        3
-      ]
+      "enum": [1, 2, 3]
     },
     "password": {
       "type": "string"
@@ -101,12 +93,13 @@
     },
     "wildcard_sni": {
       "type": "string",
-      "enum": [
-        "off",
-        "authed",
-        "all"
-      ]
+      "enum": ["off", "authed", "all"]
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

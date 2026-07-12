@@ -31,10 +31,10 @@ Download URL of rule-set.
 
 HTTP Client for downloading rule-set.
 
-See [HTTP Client Fields](/configuration/shared/http-client/) for details.
+See [HTTP Client Fields](https://sing-box.sagernet.org/configuration/shared/http-client/) for details.
 
 When empty, the default HTTP client is used: the one named by
-[`default_http_client`](/configuration/route/#default_http_client), or the first top-level
+[`default_http_client`](https://sing-box.sagernet.org/configuration/route/#default_http_client), or the first top-level
 `http_clients` entry when `default_http_client` is empty.
 
 !!! failure "Implicit default deprecated in sing-box 1.14.0"

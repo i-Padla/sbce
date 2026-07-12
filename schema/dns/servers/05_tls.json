@@ -2,11 +2,7 @@
   "type": "object",
   "title": "TLS",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tag",
-    "server"
-  ],
+  "required": ["type", "tag", "server"],
   "properties": {
     "type": {
       "type": "string",
@@ -43,5 +39,10 @@
       "$ref": "#/$defs/shared_tls_inbound"
     }
   },
-  "$ref": "#/$defs/shared_dial"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

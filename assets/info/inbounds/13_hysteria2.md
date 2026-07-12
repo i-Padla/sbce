@@ -78,7 +78,7 @@ Deny clients to use the BBR CC.
 
 ==Required==
 
-TLS configuration, see [TLS](/configuration/shared/tls/#inbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#inbound).
 
 #### masquerade
 
@@ -151,7 +151,7 @@ Register this inbound to a Hysteria Realm rendezvous service to enable NAT trave
 
 The inbound discovers its public addresses via STUN, registers them on the realm, and uses UDP hole-punching to accept incoming clients without a publicly reachable listen address.
 
-See [Hysteria Realm](/configuration/service/hysteria-realm/) for the rendezvous service.
+See [Hysteria Realm](https://sing-box.sagernet.org/configuration/service/hysteria-realm/) for the rendezvous service.
 
 #### realm.server_url
 
@@ -183,7 +183,7 @@ List of STUN servers (`host` or `host:port`) used to discover public addresses.
 
 Set domain resolver to use for resolving STUN server domain names.
 
-This option uses the same format as the [route DNS rule action](/configuration/dns/rule_action/#route) without the `action` field.
+This option uses the same format as the [route DNS rule action](https://sing-box.sagernet.org/configuration/dns/rule_action/#route) without the `action` field.
 
 Setting this option directly to a string is equivalent to setting `server` of this options.
 
@@ -223,4 +223,4 @@ Append edns0-subnet OPT record to queries
 
 HTTP client used to talk to the realm.
 
-See [HTTP Client](/configuration/shared/http-client/) for details.
+See [HTTP Client](https://sing-box.sagernet.org/configuration/shared/http-client/) for details.

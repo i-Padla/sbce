@@ -22,7 +22,7 @@ Trojan user password.
 
 #### tls
 
-TLS configuration, see [TLS](/configuration/shared/tls/#inbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#inbound).
 
 #### fallback
 
@@ -48,8 +48,8 @@ If not empty, TLS fallback requests with ALPN not in this table will be rejected
 
 #### multiplex
 
-See [Multiplex](/configuration/shared/multiplex#inbound) for details.
+See [Multiplex](https://sing-box.sagernet.org/configuration/shared/multiplex#inbound) for details.
 
 #### transport
 
-V2Ray Transport configuration, see [V2Ray Transport](/configuration/shared/v2ray-transport/).
+V2Ray Transport configuration, see [V2Ray Transport](https://sing-box.sagernet.org/configuration/shared/v2ray-transport/).

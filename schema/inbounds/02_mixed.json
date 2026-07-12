@@ -2,13 +2,8 @@
   "type": "object",
   "title": "Mixed",
   "x-format": "grid",
-  "required": [
-    "type",
-    "listen"
-  ],
-  "x-prepaed": [
-    "tag"
-  ],
+  "required": ["type", "listen"],
+  "x-prepaed": ["tag"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -61,5 +56,10 @@
       "title": "set_system_proxy"
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

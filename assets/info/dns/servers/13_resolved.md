@@ -10,7 +10,7 @@ The tag of the DNS server.
 
 ==Required==
 
-The tag of the [Resolved Service](/configuration/service/resolved).
+The tag of the [Resolved Service](https://sing-box.sagernet.org/configuration/service/resolved).
 
 #### accept_default_resolvers
 

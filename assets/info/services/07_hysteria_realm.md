@@ -8,7 +8,7 @@ The tag of the endpoint.
 
 #### tls
 
-TLS configuration, see [TLS](/configuration/shared/tls/#inbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#inbound).
 
 When configured, the realm serves HTTP/2 over TLS; otherwise plain HTTP/1.1.
 

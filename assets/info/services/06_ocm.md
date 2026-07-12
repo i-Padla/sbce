@@ -66,4 +66,4 @@ Outbound tag for connecting to the OpenAI API.
 
 #### tls
 
-TLS configuration, see [TLS](/configuration/shared/tls/#inbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#inbound).

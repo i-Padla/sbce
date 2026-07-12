@@ -165,4 +165,4 @@ Refuse local and remote TCP and Unix-socket forwarding, including SSH agent forw
 
     Dial Fields in Tailscale endpoints only control how it connects to the control plane and have nothing to do with actual connections.
 
-See [Dial Fields](/configuration/shared/dial/) for details.
+See [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/) for details.

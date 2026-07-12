@@ -10,9 +10,9 @@ The tag of the endpoint.
 
 ==Required==
 
-A mapping Object from HTTP endpoints to [Shadowsocks Inbound](/configuration/inbound/shadowsocks) tags.
+A mapping Object from HTTP endpoints to [Shadowsocks Inbound](https://sing-box.sagernet.org/configuration/inbound/shadowsocks) tags.
 
-Selected Shadowsocks inbounds must be configured with [managed](/configuration/inbound/shadowsocks#managed) enabled.
+Selected Shadowsocks inbounds must be configured with [managed](https://sing-box.sagernet.org/configuration/inbound/shadowsocks#managed) enabled.
 
 Example:
 
@@ -31,4 +31,4 @@ to be restored on the next startup.
 
 #### tls
 
-TLS configuration, see [TLS](/configuration/shared/tls/#inbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#inbound).

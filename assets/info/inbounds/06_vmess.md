@@ -36,12 +36,12 @@ VMess user alterId.
 
 #### tls
 
-TLS configuration, see [TLS](/configuration/shared/tls/#inbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#inbound).
 
 #### multiplex
 
-See [Multiplex](/configuration/shared/multiplex#inbound) for details.
+See [Multiplex](https://sing-box.sagernet.org/configuration/shared/multiplex#inbound) for details.
 
 #### transport
 
-V2Ray Transport configuration, see [V2Ray Transport](/configuration/shared/v2ray-transport/).
+V2Ray Transport configuration, see [V2Ray Transport](https://sing-box.sagernet.org/configuration/shared/v2ray-transport/).

@@ -88,7 +88,7 @@ The MAC key.
 
 ACME DNS01 challenge field. If configured, other challenge methods will be disabled.
 
-See [DNS01 Challenge Fields](/configuration/shared/dns01_challenge/) for details.
+See [DNS01 Challenge Fields](https://sing-box.sagernet.org/configuration/shared/dns01_challenge/) for details.
 
 #### key_type
 
@@ -118,4 +118,4 @@ When empty and `provider` is Let's Encrypt, `shortlived` will be used automatica
 
 HTTP Client for all provider HTTP requests.
 
-See [HTTP Client Fields](/configuration/shared/http-client/) for details.
+See [HTTP Client Fields](https://sing-box.sagernet.org/configuration/shared/http-client/) for details.

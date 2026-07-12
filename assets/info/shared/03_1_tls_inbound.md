@@ -175,9 +175,9 @@ TLS handshake timeout, in golang's Duration format.
 
 A string or an object.
 
-When string, the tag of a shared [Certificate Provider](/configuration/shared/certificate-provider/).
+When string, the tag of a shared [Certificate Provider](https://sing-box.sagernet.org/configuration/shared/certificate-provider/).
 
-When object, an inline certificate provider. See [Certificate Provider](/configuration/shared/certificate-provider/) for available types and fields.
+When object, an inline certificate provider. See [Certificate Provider](https://sing-box.sagernet.org/configuration/shared/certificate-provider/) for available types and fields.
 
 #### ech
 
@@ -237,7 +237,7 @@ Enale Reality
 
 ==Required==
 
-Handshake server address and [Dial Fields](/configuration/shared/dial/).
+Handshake server address and [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/).
 
 #### reality.handshake.server
 

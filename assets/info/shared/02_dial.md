@@ -113,7 +113,7 @@ Enable UDP fragmentation.
 
 Set domain resolver to use for resolving domain names.
 
-This option uses the same format as the [route DNS rule action](/configuration/dns/rule_action/#route) without the `action` field.
+This option uses the same format as the [route DNS rule action](https://sing-box.sagernet.org/configuration/dns/rule_action/#route) without the `action` field.
 
 Setting this option directly to a string is equivalent to setting `server` of this options.
 
@@ -225,7 +225,7 @@ Only take effect when `domain_strategy` or `network_strategy` is set.
 
 !!! failure "Deprecated in sing-box 1.12.0"
 
-    `domain_strategy` is deprecated and will be removed in sing-box 1.14.0, check [Migration](/migration/#migrate-outbound-domain-strategy-option-to-domain-resolver).
+    `domain_strategy` is deprecated and will be removed in sing-box 1.14.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-outbound-domain-strategy-option-to-domain-resolver).
 
 Available values: `prefer_ipv4`, `prefer_ipv6`, `ipv4_only`, `ipv6_only`.
 

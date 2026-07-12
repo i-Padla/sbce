@@ -12,9 +12,7 @@
   "items": {
     "properties": {
       "tag": {
-        "type": "string",
-        "x-prepared": true,
-        "x-propOrder": 10
+        "type": "string"
       }
     },
     "$ref": "#/$defs/shared_http_client"

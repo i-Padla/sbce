@@ -38,5 +38,5 @@ Only available in the ShadowTLS v2/v3 protocol.
 
 ==Required==
 
-TLS configuration, see [TLS](/configuration/shared/tls/#outbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#outbound).
 

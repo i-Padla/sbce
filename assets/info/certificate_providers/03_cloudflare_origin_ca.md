@@ -60,4 +60,4 @@ Available values: `7`, `30`, `90`, `365`, `730`, `1095`, `5475`.
 
 HTTP Client for all provider HTTP requests.
 
-See [HTTP Client Fields](/configuration/shared/http-client/) for details.
+See [HTTP Client Fields](https://sing-box.sagernet.org/configuration/shared/http-client/) for details.

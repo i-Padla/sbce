@@ -42,7 +42,7 @@ Both is enabled by default.
 
 #### tls
 
-TLS configuration, see [TLS](/configuration/shared/tls/#outbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#outbound).
 
 #### packet_encoding
 
@@ -56,8 +56,8 @@ UDP packet encoding, xudp is used by default.
 
 #### multiplex
 
-See [Multiplex](/configuration/shared/multiplex#outbound) for details.
+See [Multiplex](https://sing-box.sagernet.org/configuration/shared/multiplex#outbound) for details.
 
 #### transport
 
-V2Ray Transport configuration, see [V2Ray Transport](/configuration/shared/v2ray-transport/).
+V2Ray Transport configuration, see [V2Ray Transport](https://sing-box.sagernet.org/configuration/shared/v2ray-transport/).

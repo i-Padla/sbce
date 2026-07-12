@@ -35,7 +35,7 @@
       "x-format": "toggle"
     },
     "dhcp_lease_files": {
-      "$ref": "#/$defs/unfinished"
+      "$ref": "#/$defs/string_or_array"
     },
     "default_http_client": {
       "type": "string"
@@ -57,12 +57,7 @@
             },
             "strategy": {
               "type": "string",
-              "enum": [
-                "prefer_ipv4",
-                "prefer_ipv6",
-                "ipv4_only",
-                "ipv6_only"
-              ]
+              "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"]
             },
             "disable_cache": {
               "type": "boolean",
@@ -89,50 +84,38 @@
       "type": "string"
     },
     "default_network_type": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayAddContent": "",
-      "x-arrayDelete": true,
-      "x-arrayDeleteContent": "",
-      "x-arrayDeleteAll": true,
-      "x-arrayDeleteAllContent": "Delete all",
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "x-propGroup": "Shared dial fields",
-      "x-arrayMove": false,
-      "items": {
-        "type": "string",
-        "enum": [
-          "",
-          "wifi",
-          "cellular",
-          "ethernet",
-          "other"
-        ]
-      }
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "x-propGroup": "Shared dial fields",
+          "items": {
+            "type": "string",
+            "enum": ["wifi", "cellular", "ethernet", "other"]
+          }
+        },
+        {
+          "type": "string",
+          "enum": ["wifi", "cellular", "ethernet", "other"]
+        }
+      ]
     },
     "default_fallback_network_type": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayAddContent": "",
-      "x-arrayDelete": true,
-      "x-arrayDeleteContent": "",
-      "x-arrayDeleteAll": true,
-      "x-arrayDeleteAllContent": "Delete all",
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "x-propGroup": "Shared dial fields",
-      "x-arrayMove": false,
-      "items": {
-        "type": "string",
-        "enum": [
-          "",
-          "wifi",
-          "cellular",
-          "ethernet",
-          "other"
-        ]
-      }
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "x-propGroup": "Shared dial fields",
+          "items": {
+            "type": "string",
+            "enum": ["wifi", "cellular", "ethernet", "other"]
+          }
+        },
+        {
+          "type": "string",
+          "enum": ["wifi", "cellular", "ethernet", "other"]
+        }
+      ]
     },
     "default_fallback_delay": {
       "type": "string"

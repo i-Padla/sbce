@@ -3,11 +3,7 @@
   "title": "Http3",
   "x-propertiesToggleContent": "Toggle properties",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tag",
-    "server"
-  ],
+  "required": ["type", "tag", "server"],
   "properties": {
     "type": {
       "type": "string",
@@ -49,5 +45,11 @@
     "tls": {
       "type": "object"
     }
-  }
+  },
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

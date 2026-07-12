@@ -2,11 +2,7 @@
   "type": "object",
   "title": "TCP",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tag",
-    "server"
-  ],
+  "required": ["type", "tag", "server"],
   "properties": {
     "type": {
       "type": "string",
@@ -37,5 +33,11 @@
         "columns": 6
       }
     }
-  }
+  },
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

@@ -90,17 +90,17 @@ UDP NAT expiration time.
 
 If set, connections will be forwarded to the specified inbound.
 
-Requires target inbound support, see [Injectable](/configuration/inbound/#fields).
+Requires target inbound support, see [Injectable](https://sing-box.sagernet.org/configuration/inbound/#fields).
 
 #### sniff
 
 !!! failure "Deprecated in sing-box 1.11.0"
 
-    Inbound fields are deprecated and will be removed in sing-box 1.13.0, check [Migration](/migration/#migrate-legacy-inbound-fields-to-rule-actions).
+    Inbound fields are deprecated and will be removed in sing-box 1.13.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-legacy-inbound-fields-to-rule-actions).
 
 Enable sniffing.
 
-See [Protocol Sniff](/configuration/route/sniff/) for details.
+See [Protocol Sniff](https://sing-box.sagernet.org/configuration/route/sniff/) for details.
 
 #### sniff_override_destination
 
@@ -116,7 +116,7 @@ If the domain name is invalid (like tor), this will not work.
 
 !!! failure "Deprecated in sing-box 1.11.0"
 
-    Inbound fields are deprecated and will be removed in sing-box 1.13.0, check [Migration](/migration/#migrate-legacy-inbound-fields-to-rule-actions).
+    Inbound fields are deprecated and will be removed in sing-box 1.13.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-legacy-inbound-fields-to-rule-actions).
 
 Timeout for sniffing.
 
@@ -126,7 +126,7 @@ Timeout for sniffing.
 
 !!! failure "Deprecated in sing-box 1.11.0"
 
-    Inbound fields are deprecated and will be removed in sing-box 1.13.0, check [Migration](/migration/#migrate-legacy-inbound-fields-to-rule-actions).
+    Inbound fields are deprecated and will be removed in sing-box 1.13.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-legacy-inbound-fields-to-rule-actions).
 
 One of `prefer_ipv4` `prefer_ipv6` `ipv4_only` `ipv6_only`.
 
@@ -138,7 +138,7 @@ If `sniff_override_destination` is in effect, its value will be taken as a fallb
 
 !!! failure "Deprecated in sing-box 1.11.0"
 
-    Inbound fields are deprecated and will be removed in sing-box 1.13.0, check [Migration](/migration/#migrate-legacy-inbound-fields-to-rule-actions).
+    Inbound fields are deprecated and will be removed in sing-box 1.13.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-legacy-inbound-fields-to-rule-actions).
 
 If enabled, for UDP proxy requests addressed to a domain, 
 the original packet address will be sent in the response instead of the mapped domain.

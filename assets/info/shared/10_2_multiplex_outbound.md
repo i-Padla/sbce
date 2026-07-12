@@ -42,4 +42,4 @@ Enable padding.
 
 #### brutal
 
-See [TCP Brutal](/configuration/shared/tcp-brutal/) for details.
+See [TCP Brutal](https://sing-box.sagernet.org/configuration/shared/tcp-brutal/) for details.

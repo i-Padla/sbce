@@ -4,7 +4,7 @@ Rule type, `default` or `logical`
 
 #### inbound
 
-Tags of [Inbound](/configuration/inbound/).
+Tags of [Inbound](https://sing-box.sagernet.org/configuration/inbound/).
 
 #### ip_version
 
@@ -18,13 +18,13 @@ Username, see each inbound for details.
 
 #### protocol
 
-Sniffed protocol, see [Protocol Sniff](/configuration/route/sniff/) for details.
+Sniffed protocol, see [Protocol Sniff](https://sing-box.sagernet.org/configuration/route/sniff/) for details.
 
 #### client
 
 !!! question "Since sing-box 1.10.0"
 
-Sniffed client type, see [Protocol Sniff](/configuration/route/sniff/) for details.
+Sniffed client type, see [Protocol Sniff](https://sing-box.sagernet.org/configuration/route/sniff/) for details.
 
 #### network
 
@@ -58,7 +58,7 @@ Match domain using regular expression.
 
 !!! failure "Deprecated in sing-box 1.8.0"
 
-    Geosite is deprecated and will be removed in sing-box 1.12.0, check [Migration](/migration/#migrate-geosite-to-rule-sets).
+    Geosite is deprecated and will be removed in sing-box 1.12.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-geosite-to-rule-sets).
 
 Match geosite.
 
@@ -66,7 +66,7 @@ Match geosite.
 
 !!! failure "Deprecated in sing-box 1.8.0"
 
-    GeoIP is deprecated and will be removed in sing-box 1.12.0, check [Migration](/migration/#migrate-geoip-to-rule-sets).
+    GeoIP is deprecated and will be removed in sing-box 1.12.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-geoip-to-rule-sets).
 
 Match source geoip.
 
@@ -74,7 +74,7 @@ Match source geoip.
 
 !!! failure "Deprecated in sing-box 1.8.0"
 
-    GeoIP is deprecated and will be removed in sing-box 1.12.0, check [Migration](/migration/#migrate-geoip-to-rule-sets).
+    GeoIP is deprecated and will be removed in sing-box 1.12.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-geoip-to-rule-sets).
 
 Match geoip.
 
@@ -237,13 +237,13 @@ Match default interface address.
 
 Match WiFi SSID.
 
-See [Wi-Fi State](/configuration/shared/wifi-state/) for details.
+See [Wi-Fi State](https://sing-box.sagernet.org/configuration/shared/wifi-state/) for details.
 
 #### wifi_bssid
 
 Match WiFi BSSID.
 
-See [Wi-Fi State](/configuration/shared/wifi-state/) for details.
+See [Wi-Fi State](https://sing-box.sagernet.org/configuration/shared/wifi-state/) for details.
 
 #### preferred_by
 
@@ -262,7 +262,7 @@ Match specified outbounds' preferred routes.
 
 !!! quote ""
 
-    Only supported on Linux, macOS, or in graphical clients on Android and macOS. See [Neighbor Resolution](/configuration/shared/neighbor/) for setup.
+    Only supported on Linux, macOS, or in graphical clients on Android and macOS. See [Neighbor Resolution](https://sing-box.sagernet.org/configuration/shared/neighbor/) for setup.
 
 Match source device MAC address.
 
@@ -272,7 +272,7 @@ Match source device MAC address.
 
 !!! quote ""
 
-    Only supported on Linux, macOS, or in graphical clients on Android and macOS. See [Neighbor Resolution](/configuration/shared/neighbor/) for setup.
+    Only supported on Linux, macOS, or in graphical clients on Android and macOS. See [Neighbor Resolution](https://sing-box.sagernet.org/configuration/shared/neighbor/) for setup.
 
 Match source device hostname from DHCP leases.
 
@@ -280,7 +280,7 @@ Match source device hostname from DHCP leases.
 
 !!! question "Since sing-box 1.8.0"
 
-Match [rule-set](/configuration/route/#rule_set).
+Match [rule-set](https://sing-box.sagernet.org/configuration/route/#rule_set).
 
 #### rule_set_ipcidr_match_source
 

@@ -14,7 +14,7 @@ Tag of target outbound.
 
 Tag of target outbound.
 
-If not specified, the rule only matches in [pre-match](/configuration/shared/pre-match/)
+If not specified, the rule only matches in [pre-match](https://sing-box.sagernet.org/configuration/shared/pre-match/)
 from auto redirect, and will be skipped in other contexts.
 
 #### method
@@ -46,22 +46,22 @@ Override the connection destination port.
 
 #### network_strategy
 
-See [Dial Fields](/configuration/shared/dial/#network_strategy) for details.
+See [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/#network_strategy) for details.
 
 Only take effect if outbound is direct without `outbound.bind_interface`,
 `outbound.inet4_bind_address` and `outbound.inet6_bind_address` set.
 
 #### network_type
 
-See [Dial Fields](/configuration/shared/dial/#network_type) for details.
+See [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/#network_type) for details.
 
 #### fallback_network_type
 
-See [Dial Fields](/configuration/shared/dial/#fallback_network_type) for details.
+See [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/#fallback_network_type) for details.
 
 #### fallback_delay
 
-See [Dial Fields](/configuration/shared/dial/#fallback_delay) for details.
+See [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/#fallback_delay) for details.
 
 #### udp_disable_domain_unmapping
 
@@ -140,7 +140,7 @@ Fragment TLS handshake into multiple TLS records to bypass firewalls.
 Inject a forged TLS ClientHello carrying this SNI before the real one,
 to fool SNI-filtering middleboxes that permit specific hostnames.
 
-See outbound TLS [`spoof`](/configuration/shared/tls/#spoof) for details
+See outbound TLS [`spoof`](https://sing-box.sagernet.org/configuration/shared/tls/#spoof) for details
 and required privileges.
 
 #### tls_spoof_method
@@ -148,7 +148,7 @@ and required privileges.
 !!! question "Since sing-box 1.14.0"
 
 How the forged segment is rejected by the real server. See outbound TLS
-[`spoof_method`](/configuration/shared/tls/#spoof_method) for the full table
+[`spoof_method`](https://sing-box.sagernet.org/configuration/shared/tls/#spoof_method) for the full table
 of accepted values and platform notes.
 
 #### sniffer

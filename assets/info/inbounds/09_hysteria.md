@@ -82,11 +82,11 @@ Authentication password.
 
 ==Required==
 
-TLS configuration, see [TLS](/configuration/shared/tls/#inbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#inbound).
 
 ### QUIC Fields
 
-See [QUIC Fields](/configuration/shared/quic/) for details.
+See [QUIC Fields](https://sing-box.sagernet.org/configuration/shared/quic/) for details.
 
 ### Deprecated Fields
 

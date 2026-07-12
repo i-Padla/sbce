@@ -10,7 +10,7 @@ The type of the outbound.
 
 !!! failure "Deprecated in sing-box 1.11.0"
 
-    Destination override fields are deprecated in sing-box 1.11.0 and will be removed in sing-box 1.13.0, see [Migration](/migration/#migrate-destination-override-fields-to-route-options).
+    Destination override fields are deprecated in sing-box 1.11.0 and will be removed in sing-box 1.13.0, see [Migration](https://sing-box.sagernet.org/migration/#migrate-destination-override-fields-to-route-options).
 
 Override the connection destination address.
 
@@ -18,7 +18,7 @@ Override the connection destination address.
 
 !!! failure "Deprecated in sing-box 1.11.0"
 
-    Destination override fields are deprecated in sing-box 1.11.0 and will be removed in sing-box 1.13.0, see [Migration](/migration/#migrate-destination-override-fields-to-route-options).
+    Destination override fields are deprecated in sing-box 1.11.0 and will be removed in sing-box 1.13.0, see [Migration](https://sing-box.sagernet.org/migration/#migrate-destination-override-fields-to-route-options).
 
 Override the connection destination port.
 

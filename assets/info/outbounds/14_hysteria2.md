@@ -107,11 +107,11 @@ Both is enabled by default.
 
 ==Required==
 
-TLS configuration, see [TLS](/configuration/shared/tls/#outbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#outbound).
 
 ### QUIC Fields
 
-See [QUIC Fields](/configuration/shared/quic/) for details.
+See [QUIC Fields](https://sing-box.sagernet.org/configuration/shared/quic/) for details.
 
 #### bbr_profile
 
@@ -137,7 +137,7 @@ Conflicts with `server`, `server_port` and `server_ports`.
 
 The TLS SNI defaults to the host portion of `server_url`. Set `tls.server_name` to match the certificate the Hysteria2 server presents.
 
-See [Hysteria Realm](/configuration/service/hysteria-realm/) for the rendezvous service.
+See [Hysteria Realm](https://sing-box.sagernet.org/configuration/service/hysteria-realm/) for the rendezvous service.
 
 #### realm.server_url
 
@@ -161,11 +161,11 @@ The same slot identifier the target Hysteria2 server registered.
 
 List of STUN servers (`host` or `host:port`) used to discover this client's public addresses.
 
-Domain names are resolved using [`domain_resolver`](/configuration/shared/dial/#domain_resolver) from Dial Fields.
+Domain names are resolved using [`domain_resolver`](https://sing-box.sagernet.org/configuration/shared/dial/#domain_resolver) from Dial Fields.
 
 #### realm.http_client
 
 HTTP client used to talk to the realm.
 
-See [HTTP Client](/configuration/shared/http-client/) for details.
+See [HTTP Client](https://sing-box.sagernet.org/configuration/shared/http-client/) for details.
 

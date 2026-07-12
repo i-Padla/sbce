@@ -80,8 +80,8 @@ The port of the backend Shadowsocks server
 
 #### managed
 
-Defaults to `false`. Enable this when the inbound is managed by the [SSM API](/configuration/service/ssm-api) for dynamic user.
+Defaults to `false`. Enable this when the inbound is managed by the [SSM API](https://sing-box.sagernet.org/configuration/service/ssm-api) for dynamic user.
 
 #### multiplex
 
-See [Multiplex](/configuration/shared/multiplex#inbound) for details.
+See [Multiplex](https://sing-box.sagernet.org/configuration/shared/multiplex#inbound) for details.

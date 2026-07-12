@@ -12,25 +12,14 @@
     "disabled": {
       "x-format": "toggle",
       "switch": true,
-      "x-enumTitles": [
-        "Disable",
-        "Enable"
-      ],
+      "x-enumTitles": ["Disable", "Enable"],
       "type": "boolean",
       "title": "Disable log"
     },
     "level": {
       "type": "string",
       "title": "Log level",
-      "enum": [
-        "trace",
-        "debug",
-        "info",
-        "warn",
-        "error",
-        "fatal",
-        "panic"
-      ],
+      "enum": ["trace", "debug", "info", "warn", "error", "fatal", "panic"],
       "default": "info"
     },
     "output": {
@@ -39,10 +28,7 @@
     },
     "timestamp": {
       "x-format": "toggle",
-      "x-enumTitles": [
-        "No",
-        "Yes"
-      ],
+      "x-enumTitles": ["No", "Yes"],
       "type": "boolean",
       "title": "Include timestamp"
     }

@@ -9,7 +9,7 @@ The tag of the endpoint.
 
 #### tls
 
-TLS configuration, see [TLS](/configuration/shared/tls/#inbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#inbound).
 
 #### config_path
 
@@ -87,7 +87,7 @@ Custom DERP hostname.
 
 #### mesh_with.tls
 
-[TLS](/configuration/shared/tls/#outbound)
+[TLS](https://sing-box.sagernet.org/configuration/shared/tls/#outbound)
 
 
 #### mesh_psk

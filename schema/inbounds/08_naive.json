@@ -2,14 +2,8 @@
   "type": "object",
   "title": "Naive",
   "x-format": "grid",
-  "required": [
-    "type",
-    "users",
-    "listen"
-  ],
-  "x-prepaed": [
-    "tag"
-  ],
+  "required": ["type", "users", "listen"],
+  "x-prepaed": ["tag"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -31,11 +25,7 @@
     },
     "network": {
       "type": "string",
-      "enum": [
-        "",
-        "tcp",
-        "udp"
-      ]
+      "enum": ["", "tcp", "udp"]
     },
     "users": {
       "description": "Multi-user configuration.",
@@ -79,5 +69,10 @@
       "$ref": "#/$defs/shared_tls_inbound"
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

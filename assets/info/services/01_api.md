@@ -57,10 +57,10 @@ Download URL of the dashboard archive (zip).
 
 HTTP client used to download the dashboard, with the same behavior as remote rule-sets.
 
-See [HTTP Client Fields](/configuration/shared/http-client/) for details.
+See [HTTP Client Fields](https://sing-box.sagernet.org/configuration/shared/http-client/) for details.
 
 When empty, the default HTTP client is used: the one named by
-[`default_http_client`](/configuration/route/#default_http_client), or the first top-level
+[`default_http_client`](https://sing-box.sagernet.org/configuration/route/#default_http_client), or the first top-level
 `http_clients` entry when `default_http_client` is empty.
 
 !!! failure "Implicit default deprecated in sing-box 1.14.0"
@@ -78,4 +78,4 @@ Update interval of the dashboard.
 
 #### tls
 
-TLS configuration, see [TLS](/configuration/shared/tls/#inbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#inbound).

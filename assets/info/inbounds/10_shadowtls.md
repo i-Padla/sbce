@@ -42,7 +42,7 @@ ShadowTLS user password.
 
 When `wildcard_sni` is configured to `all`, the server address is optional.
 
-Handshake server address and [Dial Fields](/configuration/shared/dial/).
+Handshake server address and [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/).
 
 #### handshake.server
 
@@ -54,7 +54,7 @@ Handshake server port.
 
 #### handshake_for_server_name
 
-Handshake server address and [Dial Fields](/configuration/shared/dial/) for specific server name.
+Handshake server address and [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/) for specific server name.
 
 Only available in the ShadowTLS protocol 2/3.
 

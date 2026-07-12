@@ -2,13 +2,8 @@
   "type": "object",
   "title": "Socks",
   "x-format": "grid",
-  "required": [
-    "type",
-    "listen"
-  ],
-  "x-prepaed": [
-    "tag"
-  ],
+  "required": ["type", "listen"],
+  "x-prepaed": ["tag"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -44,10 +39,7 @@
         "type": "object",
         "title": "User #{{i1}} - {{ value.name }}",
         "x-enablePropertiesToggle": false,
-        "required": [
-          "name",
-          "password"
-        ],
+        "required": ["name", "password"],
         "properties": {
           "name": {
             "type": "string"
@@ -59,5 +51,10 @@
       }
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

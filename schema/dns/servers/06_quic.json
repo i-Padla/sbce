@@ -2,11 +2,7 @@
   "type": "object",
   "title": "Quic",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tag",
-    "server"
-  ],
+  "required": ["type", "tag", "server"],
   "properties": {
     "type": {
       "type": "string",
@@ -40,5 +36,11 @@
     "tls": {
       "$ref": "#/$defs/shared_tls_inbound"
     }
-  }
+  },
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

@@ -51,7 +51,7 @@ Conflict with `udp_over_stream`.
 
 #### udp_over_stream
 
-This is the TUIC port of the [UDP over TCP protocol](/configuration/shared/udp-over-tcp/), designed to provide a QUIC
+This is the TUIC port of the [UDP over TCP protocol](https://sing-box.sagernet.org/configuration/shared/udp-over-tcp/), designed to provide a QUIC
 stream based UDP relay mode that TUIC does not provide. Since it is an add-on protocol, you will need to use sing-box or
 another program compatible with the protocol as a server.
 
@@ -87,4 +87,4 @@ Both is enabled by default.
 
 ==Required==
 
-TLS configuration, see [TLS](/configuration/shared/tls/#outbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#outbound).

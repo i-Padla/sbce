@@ -38,7 +38,7 @@ Extra headers to send in HTTP requests.
 
 UDP over TCP protocol settings.
 
-See [UDP Over TCP](/configuration/shared/udp-over-tcp/) for details.
+See [UDP Over TCP](https://sing-box.sagernet.org/configuration/shared/udp-over-tcp/) for details.
 
 #### quic
 
@@ -61,7 +61,7 @@ QUIC congestion control algorithm.
 
 ==Required==
 
-TLS configuration, see [TLS](/configuration/shared/tls/#outbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#outbound).
 
 Only `server_name`, `certificate`, `certificate_path` and `ech` are supported.
 

@@ -53,10 +53,10 @@ Conflict with endpoints embedded in `token`.
 
 #### control_dialer
 
-[Dial Fields](/configuration/shared/dial/) used when the tunnel client dials the
+[Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/) used when the tunnel client dials the
 Cloudflare control plane.
 
 #### tunnel_dialer
 
-[Dial Fields](/configuration/shared/dial/) used when the tunnel client dials the
+[Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/) used when the tunnel client dials the
 Cloudflare edge data plane.

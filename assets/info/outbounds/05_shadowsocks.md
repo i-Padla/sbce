@@ -74,11 +74,11 @@ Both is enabled by default.
 
 UDP over TCP configuration.
 
-See [UDP Over TCP](/configuration/shared/udp-over-tcp/) for details.
+See [UDP Over TCP](https://sing-box.sagernet.org/configuration/shared/udp-over-tcp/) for details.
 
 Conflict with `multiplex`.
 
 #### multiplex
 
-See [Multiplex](/configuration/shared/multiplex#outbound) for details.
+See [Multiplex](https://sing-box.sagernet.org/configuration/shared/multiplex#outbound) for details.
 

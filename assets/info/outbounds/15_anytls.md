@@ -40,4 +40,4 @@ In the check, at least the first `n` idle sessions are kept open. Default value:
 
 ==Required==
 
-TLS configuration, see [TLS](/configuration/shared/tls/#outbound).
+TLS configuration, see [TLS](https://sing-box.sagernet.org/configuration/shared/tls/#outbound).

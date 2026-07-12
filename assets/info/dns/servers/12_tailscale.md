@@ -10,7 +10,7 @@ The tag of the DNS server.
 
 ==Required==
 
-The tag of the [Tailscale Endpoint](/configuration/endpoint/tailscale).
+The tag of the [Tailscale Endpoint](https://sing-box.sagernet.org/configuration/endpoint/tailscale).
 
 #### accept_default_resolvers
 

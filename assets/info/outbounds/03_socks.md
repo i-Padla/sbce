@@ -44,5 +44,5 @@ Both is enabled by default.
 
 UDP over TCP protocol settings.
 
-See [UDP Over TCP](/configuration/shared/udp-over-tcp/) for details.
+See [UDP Over TCP](https://sing-box.sagernet.org/configuration/shared/udp-over-tcp/) for details.
 

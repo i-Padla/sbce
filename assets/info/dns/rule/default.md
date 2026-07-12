@@ -4,7 +4,7 @@ Rule type.
 
 #### inbound
 
-Tags of [Inbound](/configuration/inbound/).
+Tags of [Inbound](https://sing-box.sagernet.org/configuration/inbound/).
 
 #### ip_version
 
@@ -15,7 +15,7 @@ Tags of [Inbound](/configuration/inbound/).
     [`resolve`](../../route/rule_action/#resolve) route rule action without a
     `server` set. In earlier versions, only DNS queries received from a
     client evaluated this field. See
-    [Migration](/migration/#ip_version-and-query_type-behavior-changes-in-dns-rules)
+    [Migration](https://sing-box.sagernet.org/migration/#ip_version-and-query_type-behavior-changes-in-dns-rules)
     for the full list.
 
     Setting this field makes the DNS rule incompatible in the same DNS
@@ -38,7 +38,7 @@ Not limited if empty.
     [`resolve`](../../route/rule_action/#resolve) route rule action without a
     `server` set. In earlier versions, only DNS queries received from a
     client evaluated this field. See
-    [Migration](/migration/#ip_version-and-query_type-behavior-changes-in-dns-rules)
+    [Migration](https://sing-box.sagernet.org/migration/#ip_version-and-query_type-behavior-changes-in-dns-rules)
     for the full list.
 
     Setting this field makes the DNS rule incompatible in the same DNS
@@ -60,7 +60,7 @@ Username, see each inbound for details.
 
 #### protocol
 
-Sniffed protocol, see [Sniff](/configuration/route/sniff/) for details.
+Sniffed protocol, see [Sniff](https://sing-box.sagernet.org/configuration/route/sniff/) for details.
 
 #### domain
 
@@ -82,7 +82,7 @@ Match domain using regular expression.
 
 !!! failure "Deprecated in sing-box 1.8.0"
 
-    Geosite is deprecated and will be removed in sing-box 1.12.0, check [Migration](/migration/#migrate-geosite-to-rule-sets).
+    Geosite is deprecated and will be removed in sing-box 1.12.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-geosite-to-rule-sets).
 
 Match geosite.
 
@@ -90,7 +90,7 @@ Match geosite.
 
 !!! failure "Deprecated in sing-box 1.8.0"
 
-    GeoIP is deprecated and will be removed in sing-box 1.12.0, check [Migration](/migration/#migrate-geoip-to-rule-sets).
+    GeoIP is deprecated and will be removed in sing-box 1.12.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-geoip-to-rule-sets).
 
 Match source geoip.
 
@@ -245,7 +245,7 @@ Match default interface address.
 
 !!! quote ""
 
-    Only supported on Linux, macOS, or in graphical clients on Android and macOS. See [Neighbor Resolution](/configuration/shared/neighbor/) for setup.
+    Only supported on Linux, macOS, or in graphical clients on Android and macOS. See [Neighbor Resolution](https://sing-box.sagernet.org/configuration/shared/neighbor/) for setup.
 
 Match source device MAC address.
 
@@ -255,7 +255,7 @@ Match source device MAC address.
 
 !!! quote ""
 
-    Only supported on Linux, macOS, or in graphical clients on Android and macOS. See [Neighbor Resolution](/configuration/shared/neighbor/) for setup.
+    Only supported on Linux, macOS, or in graphical clients on Android and macOS. See [Neighbor Resolution](https://sing-box.sagernet.org/configuration/shared/neighbor/) for setup.
 
 Match source device hostname from DHCP leases.
 
@@ -293,7 +293,7 @@ Match WiFi BSSID.
 
 !!! question "Since sing-box 1.8.0"
 
-Match [rule-set](/configuration/route/#rule_set).
+Match [rule-set](https://sing-box.sagernet.org/configuration/route/#rule_set).
 
 #### rule_set_ipcidr_match_source
 
@@ -316,10 +316,10 @@ Make `ip_cidr` rule items in rule-sets match the source IP.
 !!! question "Since sing-box 1.14.0"
 
 Enable response-based matching. When enabled, this rule matches against the evaluated response
-(set by a preceding [`evaluate`](/configuration/dns/rule_action/#evaluate) action)
+(set by a preceding [`evaluate`](https://sing-box.sagernet.org/configuration/dns/rule_action/#evaluate) action)
 instead of only matching the original query.
 
-The evaluated response can also be returned directly by a later [`respond`](/configuration/dns/rule_action/#respond) action.
+The evaluated response can also be returned directly by a later [`respond`](https://sing-box.sagernet.org/configuration/dns/rule_action/#respond) action.
 
 Required for Response Match Fields (`response_rcode`, `response_answer`, `response_ns`, `response_extra`).
 Also required for `ip_cidr`, `ip_is_private`, and `ip_accept_any` when used with `evaluate` or Response Match Fields.
@@ -338,7 +338,7 @@ Invert match result.
 
 !!! failure "Deprecated in sing-box 1.12.0"
 
-    `outbound` rule items are deprecated and will be removed in sing-box 1.14.0, check [Migration](/migration/#migrate-outbound-dns-rule-items-to-domain-resolver).
+    `outbound` rule items are deprecated and will be removed in sing-box 1.14.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-outbound-dns-rule-items-to-domain-resolver).
 
 Match outbound.
 
@@ -373,7 +373,7 @@ Match outbound.
 !!! failure "Deprecated in sing-box 1.14.0"
 
     Legacy Address Filter Fields are deprecated and will be removed in sing-box 1.16.0,
-    check [Migration](/migration/#migrate-address-filter-fields-to-response-matching).
+    check [Migration](https://sing-box.sagernet.org/migration/#migrate-address-filter-fields-to-response-matching).
 
 Only takes effect for address requests (A/AAAA/HTTPS). When the query results do not match the address filtering rule items, the current rule will be skipped.
 
@@ -389,7 +389,7 @@ Only takes effect for address requests (A/AAAA/HTTPS). When the query results do
 
 !!! failure "Removed in sing-box 1.12.0"
 
-    GeoIP is deprecated in sing-box 1.8.0 and removed in sing-box 1.12.0, check [Migration](/migration/#migrate-geoip-to-rule-sets).
+    GeoIP is deprecated in sing-box 1.8.0 and removed in sing-box 1.12.0, check [Migration](https://sing-box.sagernet.org/migration/#migrate-geoip-to-rule-sets).
 
 Match GeoIP with query response.
 
@@ -400,7 +400,7 @@ Match GeoIP with query response.
 Match IP CIDR with query response.
 
 As a Legacy Address Filter Field, deprecated. Use with `match_response` instead,
-check [Migration](/migration/#migrate-address-filter-fields-to-response-matching).
+check [Migration](https://sing-box.sagernet.org/migration/#migrate-address-filter-fields-to-response-matching).
 
 #### ip_is_private
 
@@ -409,7 +409,7 @@ check [Migration](/migration/#migrate-address-filter-fields-to-response-matching
 Match private IP with query response.
 
 As a Legacy Address Filter Field, deprecated. Use with `match_response` instead,
-check [Migration](/migration/#migrate-address-filter-fields-to-response-matching).
+check [Migration](https://sing-box.sagernet.org/migration/#migrate-address-filter-fields-to-response-matching).
 
 #### rule_set_ip_cidr_accept_empty
 
@@ -418,7 +418,7 @@ check [Migration](/migration/#migrate-address-filter-fields-to-response-matching
 !!! failure "Deprecated in sing-box 1.14.0"
 
     `rule_set_ip_cidr_accept_empty` is deprecated and will be removed in sing-box 1.16.0,
-    check [Migration](/migration/#migrate-address-filter-fields-to-response-matching).
+    check [Migration](https://sing-box.sagernet.org/migration/#migrate-address-filter-fields-to-response-matching).
 
 Make `ip_cidr` rules in rule-sets accept empty query response.
 
@@ -427,31 +427,31 @@ Make `ip_cidr` rules in rule-sets accept empty query response.
 !!! question "Since sing-box 1.14.0"
 
 Match fields for the evaluated response. Require `match_response` to be set to `true`
-and a preceding rule with [`evaluate`](/configuration/dns/rule_action/#evaluate) action to populate the response.
+and a preceding rule with [`evaluate`](https://sing-box.sagernet.org/configuration/dns/rule_action/#evaluate) action to populate the response.
 
-That evaluated response may also be returned directly by a later [`respond`](/configuration/dns/rule_action/#respond) action.
+That evaluated response may also be returned directly by a later [`respond`](https://sing-box.sagernet.org/configuration/dns/rule_action/#respond) action.
 
 #### response_rcode
 
 Match DNS response code.
 
-Accepted values are the same as in the [predefined action rcode](/configuration/dns/rule_action/#rcode).
+Accepted values are the same as in the [predefined action rcode](https://sing-box.sagernet.org/configuration/dns/rule_action/#rcode).
 
 #### response_answer
 
 Match DNS answer records.
 
-Record format is the same as in [predefined action answer](/configuration/dns/rule_action/#answer).
+Record format is the same as in [predefined action answer](https://sing-box.sagernet.org/configuration/dns/rule_action/#answer).
 
 #### response_ns
 
 Match DNS name server records.
 
-Record format is the same as in [predefined action ns](/configuration/dns/rule_action/#ns).
+Record format is the same as in [predefined action ns](https://sing-box.sagernet.org/configuration/dns/rule_action/#ns).
 
 #### response_extra
 
 Match DNS extra records.
 
-Record format is the same as in [predefined action extra](/configuration/dns/rule_action/#extra).
+Record format is the same as in [predefined action extra](https://sing-box.sagernet.org/configuration/dns/rule_action/#extra).
 

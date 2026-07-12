@@ -3,10 +3,7 @@
   "title": "DHCP",
   "x-propertiesToggleContent": "Toggle properties",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tag"
-  ],
+  "required": ["type", "tag"],
   "properties": {
     "type": {
       "type": "string",
@@ -27,5 +24,11 @@
     "interface": {
       "type": "string"
     }
-  }
+  },
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

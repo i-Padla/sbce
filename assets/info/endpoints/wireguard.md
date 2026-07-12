@@ -99,4 +99,4 @@ CPU count is used by default.
 
 ### Dial Fields
 
-See [Dial Fields](/configuration/shared/dial/) for details.
+See [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/) for details.
