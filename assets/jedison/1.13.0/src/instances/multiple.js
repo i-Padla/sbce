@@ -1,4 +1,4 @@
-import Instance from "./instance.js";
+import Instance from './instance.js'
 import {
   isSet,
   isArray,
@@ -7,16 +7,16 @@ import {
   different,
   clone,
   mergeDeep,
-  hasOwn,
-} from "../helpers/utils.js";
+  hasOwn
+} from '../helpers/utils.js'
 import {
   getSchemaAnyOf,
   getSchemaDescription,
   getSchemaOneOf,
   getSchemaTitle,
   getSchemaType,
-  getSchemaXOption,
-} from "../helpers/schema.js";
+  getSchemaXOption
+} from '../helpers/schema.js'
 
 /**
  * Represents a InstanceMultiple instance.
@@ -24,19 +24,19 @@ import {
  */
 class InstanceMultiple extends Instance {
   prepare() {
-    this.instances = [];
-    this.activeInstance = null;
-    this.index = 0;
-    this.schemas = [];
-    this.switcherOptionValues = [];
-    this.switcherOptionsLabels = [];
-    this.isMultiple = true;
+    this.instances = []
+    this.activeInstance = null
+    this.index = 0
+    this.schemas = []
+    this.switcherOptionValues = []
+    this.switcherOptionsLabels = []
+    this.isMultiple = true
 
-    this.on("set-value", () => {
-      this.onSetValue();
-    });
+    this.on('set-value', () => {
+      this.onSetValue()
+    })
 
-    const schemaType = getSchemaType(this.schema);
+    const schemaType = getSchemaType(this.schema)
 
     if (
       isSet(getSchemaAnyOf(this.schema)) ||
@@ -44,91 +44,91 @@ class InstanceMultiple extends Instance {
     ) {
       const schemasOf = isSet(getSchemaAnyOf(this.schema))
         ? getSchemaAnyOf(this.schema)
-        : getSchemaOneOf(this.schema);
-      const schemaCopy = clone(this.schema);
-      delete schemaCopy["anyOf"];
-      delete schemaCopy["oneOf"];
-      delete schemaCopy["options"];
+        : getSchemaOneOf(this.schema)
+      const schemaCopy = clone(this.schema)
+      delete schemaCopy['anyOf']
+      delete schemaCopy['oneOf']
+      delete schemaCopy['options']
 
       schemasOf.forEach((schema, index) => {
-        schema = { ...schemaCopy, ...schema };
+        schema = { ...schemaCopy, ...schema }
 
-        let switcherOptionsLabel = "Option-" + (index + 1);
-        const switcherTitle = getSchemaXOption(schema, "switcherTitle");
-        const schemaTitle = getSchemaTitle(schema);
-        const schemaDescription = getSchemaDescription(schema);
+        let switcherOptionsLabel = 'Option-' + (index + 1)
+        const switcherTitle = getSchemaXOption(schema, 'switcherTitle')
+        const schemaTitle = getSchemaTitle(schema)
+        const schemaDescription = getSchemaDescription(schema)
 
         if (isSet(schemaDescription)) {
-          switcherOptionsLabel = schemaDescription;
+          switcherOptionsLabel = schemaDescription
         }
 
         if (isSet(schemaTitle)) {
-          switcherOptionsLabel = schemaTitle;
+          switcherOptionsLabel = schemaTitle
         }
 
         if (isSet(switcherTitle)) {
-          switcherOptionsLabel = switcherTitle;
+          switcherOptionsLabel = switcherTitle
         }
 
-        this.switcherOptionValues.push(index);
-        this.switcherOptionsLabels.push(switcherOptionsLabel);
-        this.schemas.push(schema);
-      });
+        this.switcherOptionValues.push(index)
+        this.switcherOptionsLabels.push(switcherOptionsLabel)
+        this.schemas.push(schema)
+      })
     } else if (isArray(schemaType)) {
       schemaType.forEach((type, index) => {
-        const schemaClone = mergeDeep(this.schema);
+        const schemaClone = mergeDeep(this.schema)
 
         const schema = {
           ...schemaClone,
-          ...{ type: type, title: type[0].toUpperCase() + type.slice(1) },
-        };
-
-        if (isSet(schemaClone.title)) {
-          schema.title = schemaClone.title;
+          ...{ type: type, title: type[0].toUpperCase() + type.slice(1) }
         }
 
-        this.switcherOptionValues.push(index);
-        this.switcherOptionsLabels.push(
-          type.charAt(0).toUpperCase() + type.slice(1),
-        );
+        if (isSet(schemaClone.title)) {
+          schema.title = schemaClone.title
+        }
 
-        this.schemas.push(schema);
-      });
-    } else if (schemaType === "any" || !schemaType) {
-      const schemaClone = clone(this.schema);
+        this.switcherOptionValues.push(index)
+        this.switcherOptionsLabels.push(
+          type.charAt(0).toUpperCase() + type.slice(1)
+        )
+
+        this.schemas.push(schema)
+      })
+    } else if (schemaType === 'any' || !schemaType) {
+      const schemaClone = clone(this.schema)
 
       this.schemas = [
-        { ...schemaClone, ...{ type: "string" } },
-        { ...schemaClone, ...{ type: "boolean" } },
-        { ...schemaClone, ...{ type: "integer" } },
-        { ...schemaClone, ...{ type: "number" } },
-        { ...schemaClone, ...{ type: "array" } },
-        { ...schemaClone, ...{ type: "object" } },
-        { ...schemaClone, ...{ type: "null" } },
-      ];
+        { ...schemaClone, ...{ type: 'string' } },
+        { ...schemaClone, ...{ type: 'boolean' } },
+        { ...schemaClone, ...{ type: 'integer' } },
+        { ...schemaClone, ...{ type: 'number' } },
+        { ...schemaClone, ...{ type: 'array' } },
+        { ...schemaClone, ...{ type: 'object' } },
+        { ...schemaClone, ...{ type: 'null' } }
+      ]
 
       this.schemas.forEach((schema, index) => {
-        this.switcherOptionValues.push(index);
-      });
+        this.switcherOptionValues.push(index)
+      })
 
       this.switcherOptionsLabels = [
-        "String",
-        "Boolean",
-        "Integer",
-        "Number",
-        "Array",
-        "Object",
-        "Null",
-      ];
+        'String',
+        'Boolean',
+        'Integer',
+        'Number',
+        'Array',
+        'Object',
+        'Null'
+      ]
     }
 
     const switcherTypeLabels =
-      getSchemaXOption(this.schema, "switcherTypeLabels") ??
-      this.jedison.getOption("switcherTypeLabels");
-    if (switcherTypeLabels && typeof switcherTypeLabels === "object") {
+      getSchemaXOption(this.schema, 'switcherTypeLabels') ??
+      this.jedison.getOption('switcherTypeLabels')
+    if (switcherTypeLabels && typeof switcherTypeLabels === 'object') {
       this.switcherOptionsLabels = this.switcherOptionsLabels.map((label) =>
-        hasOwn(switcherTypeLabels, label) ? switcherTypeLabels[label] : label,
-      );
+        hasOwn(switcherTypeLabels, label) ? switcherTypeLabels[label] : label
+      )
     }
 
     this.schemas.forEach((schema) => {
@@ -140,69 +140,69 @@ class InstanceMultiple extends Instance {
           this.value,
           schema,
           this.getKey(),
-          this.path,
-        ).length === 0;
+          this.path
+        ).length === 0
       //
       const instance = this.jedison.createInstance({
         jedison: this.jedison,
         schema: schema,
         path: this.path,
         parent: this.parent,
-        value: isCompatible ? clone(this.value) : undefined, // Fallback to undefined for incompatible types so the instance seeds its own safe default
-      });
+        value: isCompatible ? clone(this.value) : undefined // Fallback to undefined for incompatible types so the instance seeds its own safe default
+      })
 
       // Guard setValue to avoid forcing incompatible data into the instance after creation
       if (isCompatible && isSet(this.value)) {
-        instance.setValue(this.value, false);
+        instance.setValue(this.value, false)
       }
 
-      instance.unregister();
+      instance.unregister()
 
-      instance.off("notifyParent");
+      instance.off('notifyParent')
 
-      instance.on("notifyParent", (initiator) => {
-        this.value = this.activeInstance.getValueRaw();
-        this.emit("change", initiator);
-        this.emit("notifyParent", initiator);
-      });
+      instance.on('notifyParent', (initiator) => {
+        this.value = this.activeInstance.getValueRaw()
+        this.emit('change', initiator)
+        this.emit('notifyParent', initiator)
+      })
 
-      this.instances.push(instance);
+      this.instances.push(instance)
 
-      this.register();
-    });
+      this.register()
+    })
 
-    const fittestIndex = this.getFittestIndex(this.value);
-    this.switchInstance(fittestIndex, this.value);
+    const fittestIndex = this.getFittestIndex(this.value)
+    this.switchInstance(fittestIndex, this.value)
   }
 
-  switchInstance(index, value, initiator = "api") {
+  switchInstance(index, value, initiator = 'api') {
     if (this.activeInstance) {
-      this.activeInstance.children.forEach((child) => child.unregister());
+      this.activeInstance.children.forEach((child) => child.unregister())
     }
 
-    this.index = index;
-    this.activeInstance = this.instances[index];
+    this.index = index
+    this.activeInstance = this.instances[index]
 
     if (isSet(value)) {
-      this.activeInstance.setValue(value, false, initiator);
+      this.activeInstance.setValue(value, false, initiator)
     }
 
-    this.activeInstance.children.forEach((child) => child.register());
-    const newValue = this.activeInstance.getValueRaw();
-    const valueWillChange = different(this.value, newValue);
-    this.setValue(newValue, true, initiator);
+    this.activeInstance.children.forEach((child) => child.register())
+    const newValue = this.activeInstance.getValueRaw()
+    const valueWillChange = different(this.value, newValue)
+    this.setValue(newValue, true, initiator)
 
     if (!valueWillChange) {
       // setValue bailed out because value is identical (e.g., integer 0 vs number 0),
       // but the active instance changed — emit 'change' to trigger refreshUI.
-      this.emit("change", initiator);
+      this.emit('change', initiator)
     }
   }
 
   onSetValue() {
     if (different(this.activeInstance.getValueRaw(), this.value)) {
-      const fittestIndex = this.getFittestIndex(this.value);
-      this.switchInstance(fittestIndex, this.value);
+      const fittestIndex = this.getFittestIndex(this.value)
+      this.switchInstance(fittestIndex, this.value)
     }
   }
 
@@ -211,47 +211,47 @@ class InstanceMultiple extends Instance {
    */
   getFittestIndex(value) {
     // discriminator validation
-    const discriminator = getSchemaXOption(this.schema, "discriminator");
+    const discriminator = getSchemaXOption(this.schema, 'discriminator')
     if (isSet(discriminator) && isObject(value)) {
       const propName = isString(discriminator)
         ? discriminator
-        : discriminator.propertyName;
-      const discriminatorValue = value[propName];
+        : discriminator.propertyName
+      const discriminatorValue = value[propName]
 
       if (isSet(discriminatorValue)) {
         for (let index = 0; index < this.schemas.length; index++) {
-          const schema = this.schemas[index];
-          const propSchema = schema.properties && schema.properties[propName];
+          const schema = this.schemas[index]
+          const propSchema = schema.properties && schema.properties[propName]
           if (propSchema) {
             const propErrors = this.jedison.validator.getErrors(
               discriminatorValue,
               propSchema,
               propName,
-              this.path,
-            );
-            if (propErrors.length === 0) return index;
+              this.path
+            )
+            if (propErrors.length === 0) return index
           }
         }
       }
     }
 
     // count validation
-    let fittestIndex;
-    let championErrors;
+    let fittestIndex
+    let championErrors
 
     for (let index = 0; index < this.instances.length; index++) {
-      const instance = this.instances[index];
-      const testValue = isSet(value) ? value : instance.getValueRaw();
+      const instance = this.instances[index]
+      const testValue = isSet(value) ? value : instance.getValueRaw()
       const instanceErrors = this.jedison.validator.getErrors(
         testValue,
         instance.schema,
         this.getKey(),
-        this.path,
-      );
+        this.path
+      )
 
       if (instanceErrors.length === 0) {
-        fittestIndex = index;
-        break;
+        fittestIndex = index
+        break
       }
 
       if (
@@ -259,27 +259,27 @@ class InstanceMultiple extends Instance {
         championErrors === undefined ||
         instanceErrors.length < championErrors.length
       ) {
-        fittestIndex = index;
-        championErrors = instanceErrors;
+        fittestIndex = index
+        championErrors = instanceErrors
       }
     }
 
-    return fittestIndex;
+    return fittestIndex
   }
 
   hasNestedValidationErrors() {
     return this.activeInstance
       ? this.activeInstance.hasNestedValidationErrors()
-      : false;
+      : false
   }
 
   destroy() {
     this.instances.forEach((instance) => {
-      instance.destroy();
-    });
+      instance.destroy()
+    })
 
-    super.destroy();
+    super.destroy()
   }
 }
 
-export default InstanceMultiple;
+export default InstanceMultiple

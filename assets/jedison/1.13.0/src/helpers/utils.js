@@ -11,38 +11,38 @@
  * @return {*} The clone of the thing
  */
 export function clone(thing) {
-  if (thing === null || typeof thing !== "object") {
-    return thing;
+  if (thing === null || typeof thing !== 'object') {
+    return thing
   }
 
   if (Array.isArray(thing)) {
-    const len = thing.length;
-    const arr = new Array(len);
+    const len = thing.length
+    const arr = new Array(len)
     for (let i = 0; i < len; i++) {
-      const item = thing[i];
-      arr[i] = item === null || typeof item !== "object" ? item : clone(item);
+      const item = thing[i]
+      arr[i] = item === null || typeof item !== 'object' ? item : clone(item)
     }
-    return arr;
+    return arr
   }
 
-  const keys = Object.keys(thing);
-  const obj = {};
+  const keys = Object.keys(thing)
+  const obj = {}
   for (let i = 0, len = keys.length; i < len; i++) {
-    const key = keys[i];
-    const val = thing[key];
-    const cloned = val === null || typeof val !== "object" ? val : clone(val);
-    if (key === "__proto__") {
+    const key = keys[i]
+    const val = thing[key]
+    const cloned = val === null || typeof val !== 'object' ? val : clone(val)
+    if (key === '__proto__') {
       Object.defineProperty(obj, key, {
         value: cloned,
         writable: true,
         enumerable: true,
-        configurable: true,
-      });
+        configurable: true
+      })
     } else {
-      obj[key] = cloned;
+      obj[key] = cloned
     }
   }
-  return obj;
+  return obj
 }
 
 /**
@@ -51,7 +51,7 @@ export function clone(thing) {
  * @return {string} Escaped regexp
  */
 export function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // $& means the whole matched string
 }
 
 /**
@@ -62,7 +62,7 @@ export function escapeRegExp(string) {
  * @return {void}
  */
 export function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(escapeRegExp(find), "g"), replace);
+  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace)
 }
 
 /**
@@ -71,10 +71,10 @@ export function replaceAll(str, find, replace) {
  * @return {string}
  */
 export function pathToAttribute(path) {
-  return replaceAll(replaceAll(path, "#", "root"), "/", "-").replace(
+  return replaceAll(replaceAll(path, '#', 'root'), '/', '-').replace(
     /[^a-zA-Z0-9_-]/g,
-    "",
-  );
+    ''
+  )
 }
 
 /**
@@ -84,7 +84,7 @@ export function pathToAttribute(path) {
  * @return {boolean}
  */
 export function hasOwn(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
+  return Object.prototype.hasOwnProperty.call(obj, prop)
 }
 
 /**
@@ -96,9 +96,9 @@ export function sortObject(obj) {
   return Object.keys(obj)
     .sort()
     .reduce((result, key) => {
-      result[key] = obj[key];
-      return result;
-    }, {});
+      result[key] = obj[key]
+      return result
+    }, {})
 }
 
 /**
@@ -108,41 +108,41 @@ export function sortObject(obj) {
  * @return {boolean}
  */
 export function equal(a, b) {
-  if (a === b) return true;
+  if (a === b) return true
 
   if (
     a === null ||
     b === null ||
-    typeof a !== "object" ||
-    typeof b !== "object"
+    typeof a !== 'object' ||
+    typeof b !== 'object'
   ) {
-    return false;
+    return false
   }
 
-  const aIsArray = Array.isArray(a);
-  const bIsArray = Array.isArray(b);
+  const aIsArray = Array.isArray(a)
+  const bIsArray = Array.isArray(b)
 
-  if (aIsArray !== bIsArray) return false;
+  if (aIsArray !== bIsArray) return false
 
   if (aIsArray) {
-    const len = a.length;
-    if (len !== b.length) return false;
+    const len = a.length
+    if (len !== b.length) return false
     for (let i = 0; i < len; i++) {
-      if (!equal(a[i], b[i])) return false;
+      if (!equal(a[i], b[i])) return false
     }
-    return true;
+    return true
   }
 
-  const keysA = Object.keys(a);
-  const keysB = Object.keys(b);
-  if (keysA.length !== keysB.length) return false;
+  const keysA = Object.keys(a)
+  const keysB = Object.keys(b)
+  if (keysA.length !== keysB.length) return false
 
   for (let i = 0, len = keysA.length; i < len; i++) {
-    const key = keysA[i];
-    if (!Object.prototype.hasOwnProperty.call(b, key)) return false;
-    if (!equal(a[key], b[key])) return false;
+    const key = keysA[i]
+    if (!Object.prototype.hasOwnProperty.call(b, key)) return false
+    if (!equal(a[key], b[key])) return false
   }
-  return true;
+  return true
 }
 
 /**
@@ -152,7 +152,7 @@ export function equal(a, b) {
  * @return {boolean}
  */
 export function different(a, b) {
-  return !equal(a, b);
+  return !equal(a, b)
 }
 
 /**
@@ -161,7 +161,7 @@ export function different(a, b) {
  * @return {boolean}
  */
 export function isNull(value) {
-  return value === null;
+  return value === null
 }
 
 /**
@@ -170,7 +170,7 @@ export function isNull(value) {
  * @return {boolean}
  */
 export function isSet(value) {
-  return typeof value !== "undefined";
+  return typeof value !== 'undefined'
 }
 
 /**
@@ -179,7 +179,7 @@ export function isSet(value) {
  * @return {boolean}
  */
 export function notSet(value) {
-  return typeof value === "undefined";
+  return typeof value === 'undefined'
 }
 
 /**
@@ -188,7 +188,7 @@ export function notSet(value) {
  * @return {boolean}
  */
 export function isNumber(value) {
-  return typeof value === "number";
+  return typeof value === 'number'
 }
 
 /**
@@ -197,7 +197,7 @@ export function isNumber(value) {
  * @return {boolean}
  */
 export function isInteger(value) {
-  return isNumber(value) && value === Math.floor(value);
+  return isNumber(value) && value === Math.floor(value)
 }
 
 /**
@@ -206,7 +206,7 @@ export function isInteger(value) {
  * @return {boolean}
  */
 export function isString(value) {
-  return typeof value === "string";
+  return typeof value === 'string'
 }
 
 /**
@@ -215,7 +215,7 @@ export function isString(value) {
  * @return {boolean}
  */
 export function isBoolean(value) {
-  return typeof value === "boolean";
+  return typeof value === 'boolean'
 }
 
 /**
@@ -224,7 +224,7 @@ export function isBoolean(value) {
  * @return {boolean}
  */
 export function isArray(value) {
-  return Array.isArray(value);
+  return Array.isArray(value)
 }
 
 /**
@@ -233,7 +233,7 @@ export function isArray(value) {
  * @return {boolean}
  */
 export function isObject(value) {
-  return !isNull(value) && !isArray(value) && typeof value === "object";
+  return !isNull(value) && !isArray(value) && typeof value === 'object'
 }
 
 /**
@@ -242,23 +242,23 @@ export function isObject(value) {
  * @return {string} The type of the value
  */
 export function getType(value) {
-  let type = "any";
+  let type = 'any'
 
   if (isNumber(value)) {
-    type = isInteger(value) ? "integer" : "number";
+    type = isInteger(value) ? 'integer' : 'number'
   } else if (isString(value)) {
-    type = "string";
+    type = 'string'
   } else if (isBoolean(value)) {
-    type = "boolean";
+    type = 'boolean'
   } else if (isArray(value)) {
-    type = "array";
+    type = 'array'
   } else if (isNull(value)) {
-    type = "null";
+    type = 'null'
   } else if (isObject(value)) {
-    type = "object";
+    type = 'object'
   }
 
-  return type;
+  return type
 }
 
 /**
@@ -267,64 +267,64 @@ export function getType(value) {
  * @param {object[]} sources - Objects to be merged into the target object
  * @return {object} The merged object
  */
-const UNSAFE_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+const UNSAFE_KEYS = new Set(['__proto__', 'constructor', 'prototype'])
 
 export function mergeDeep(target, ...sources) {
-  if (!sources.length) return target;
-  const source = sources.shift();
+  if (!sources.length) return target
+  const source = sources.shift()
 
   if (isObject(target) && isObject(source)) {
     Object.keys(source).forEach((key) => {
-      if (UNSAFE_KEYS.has(key)) return;
+      if (UNSAFE_KEYS.has(key)) return
       if (isObject(source[key])) {
         if (!target[key]) {
           Object.assign(target, {
-            [key]: {},
-          });
+            [key]: {}
+          })
         }
-        mergeDeep(target[key], source[key]);
+        mergeDeep(target[key], source[key])
       } else {
         Object.assign(target, {
-          [key]: source[key],
-        });
+          [key]: source[key]
+        })
       }
-    });
+    })
   }
-  return mergeDeep(target, ...sources);
+  return mergeDeep(target, ...sources)
 }
 
 export function combineDeep(target, ...sources) {
-  if (!sources.length) return target;
-  const source = sources.shift();
+  if (!sources.length) return target
+  const source = sources.shift()
 
   if (Array.isArray(target) && Array.isArray(source)) {
     // Concatenate arrays instead of replacing them
-    target.push(...source);
+    target.push(...source)
   } else if (isObject(target) && isObject(source)) {
     Object.keys(source).forEach((key) => {
-      if (UNSAFE_KEYS.has(key)) return;
+      if (UNSAFE_KEYS.has(key)) return
       if (isObject(source[key])) {
         if (!target[key]) {
           Object.assign(target, {
-            [key]: {},
-          });
+            [key]: {}
+          })
         }
-        combineDeep(target[key], source[key]);
+        combineDeep(target[key], source[key])
       } else if (Array.isArray(source[key])) {
         // Handle array merging here
         if (!target[key]) {
-          target[key] = [];
+          target[key] = []
         }
-        target[key].push(...source[key]);
+        target[key].push(...source[key])
       } else {
         Object.assign(target, {
-          [key]: source[key],
-        });
+          [key]: source[key]
+        })
       }
-    });
+    })
   }
 
-  return combineDeep(target, ...sources);
+  return combineDeep(target, ...sources)
 }
 
 /**
@@ -349,16 +349,16 @@ export const overwriteExistingProperties = (obj1, obj2) => {
           (isNull(obj1[key]) && isNull(obj2[key])))
       ) {
         if (isObject(obj1[key]) && isObject(obj2[key])) {
-          overwriteExistingProperties(obj1[key], obj2[key]);
+          overwriteExistingProperties(obj1[key], obj2[key])
         } else {
-          obj1[key] = obj2[key];
+          obj1[key] = obj2[key]
         }
       }
     }
-  });
+  })
 
-  return obj1;
-};
+  return obj1
+}
 
 /**
  * Get some value by traversing the data using JSON path
@@ -367,25 +367,25 @@ export const overwriteExistingProperties = (obj1, obj2) => {
  * @return {*}
  */
 export function getValueByJSONPath(data, path) {
-  const keys = path.split("."); // Split the path into individual keys
+  const keys = path.split('.') // Split the path into individual keys
 
-  let value = data;
+  let value = data
   for (const key of keys) {
     if (Array.isArray(value) && /^\d+$/.test(key)) {
-      const index = parseInt(key);
+      const index = parseInt(key)
       if (index >= 0 && index < value.length) {
-        value = value[index];
+        value = value[index]
       } else {
-        return undefined; // Index is out of bounds, return undefined
+        return undefined // Index is out of bounds, return undefined
       }
     } else if (hasOwn(value, key)) {
-      value = value[key];
+      value = value[key]
     } else {
-      return undefined; // Key doesn't exist, return undefined
+      return undefined // Key doesn't exist, return undefined
     }
   }
 
-  return value;
+  return value
 }
 
 /**
@@ -396,66 +396,65 @@ export function getValueByJSONPath(data, path) {
  */
 export function compileTemplate(template, data) {
   return template.replace(/{{(.*?)}}/g, (_, inner) => {
-    inner = inner.trim();
-    const pipeIdx = inner.indexOf("||");
-    let path, fallback;
+    inner = inner.trim()
+    const pipeIdx = inner.indexOf('||')
+    let path, fallback
 
     if (pipeIdx !== -1) {
-      path = inner.slice(0, pipeIdx).trim();
-      const raw = inner.slice(pipeIdx + 2).trim();
-      fallback = raw.replace(/^['"]|['"]$/g, "");
+      path = inner.slice(0, pipeIdx).trim()
+      const raw = inner.slice(pipeIdx + 2).trim()
+      fallback = raw.replace(/^['"]|['"]$/g, '')
     } else {
-      path = inner;
-      fallback = "";
+      path = inner
+      fallback = ''
     }
 
-    const value = getValueByJSONPath(data, path);
-    return value !== undefined && value !== null ? value : fallback;
-  });
+    const value = getValueByJSONPath(data, path)
+    return value !== undefined && value !== null ? value : fallback
+  })
 }
 
 export function clamp(number, min, max) {
-  return Math.max(min, Math.min(number, max));
+  return Math.max(min, Math.min(number, max))
 }
 
 export function removeDuplicatesFromArray(arr) {
-  const uniqueObjects = [];
-  const uniqueValues = new Set();
+  const uniqueObjects = []
+  const uniqueValues = new Set()
 
   for (const obj of arr) {
-    const objString = JSON.stringify(obj);
+    const objString = JSON.stringify(obj)
     if (!uniqueValues.has(objString)) {
-      uniqueValues.add(objString);
-      uniqueObjects.push(obj);
+      uniqueValues.add(objString)
+      uniqueObjects.push(obj)
     }
   }
 
-  return uniqueObjects;
+  return uniqueObjects
 }
 
 export function resolveInstancePath(currentPath, sourcePath) {
-  if (sourcePath.startsWith("#")) return sourcePath;
-  const parts = currentPath.split("/");
-  parts.pop();
-  for (const part of sourcePath.split("/")) {
-    if (part === "..") {
-      if (parts.length > 1) parts.pop();
-    } else if (part !== "." && part !== "") {
-      parts.push(part);
+  if (sourcePath.startsWith('#')) return sourcePath
+  const parts = currentPath.split('/')
+  parts.pop()
+  for (const part of sourcePath.split('/')) {
+    if (part === '..') {
+      if (parts.length > 1) parts.pop()
+    } else if (part !== '.' && part !== '') {
+      parts.push(part)
     }
   }
-  return parts.join("/");
+  return parts.join('/')
 }
 
 export function generateRandomID(maxLength) {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let randomID = "";
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let randomID = ''
   for (let i = 0; i < maxLength; i++) {
-    const randomIndex = Math.floor(Math.random() * chars.length);
-    randomID += chars[randomIndex];
+    const randomIndex = Math.floor(Math.random() * chars.length)
+    randomID += chars[randomIndex]
   }
-  return randomID;
+  return randomID
 }
 
 export default {
@@ -484,5 +483,5 @@ export default {
   compileTemplate,
   clamp,
   removeDuplicatesFromArray,
-  generateRandomID,
-};
+  generateRandomID
+}

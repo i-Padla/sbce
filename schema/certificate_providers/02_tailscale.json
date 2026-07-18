@@ -9,7 +9,6 @@
   ],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "tailscale",
       "const": "tailscale",
@@ -20,7 +19,6 @@
     },
     "tag": {
       "x-prepared": true,
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "",
       "x-grid": {
@@ -29,7 +27,6 @@
     },
     "endpoint": {
       "x-prepared": true,
-      "x-propertyOrder": 30,
       "type": "string",
       "default": ""
     }

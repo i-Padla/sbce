@@ -117,8 +117,25 @@ class EditorMultiple extends Editor {
       this.instance.activeInstance.ui.control.container
     )
 
+    // if (this.embedSwitcher) {
+    //   const slot = this.instance.activeInstance.ui.control.switcherSlot
+    //   if (slot) {
+    //     slot.innerHTML = ''
+    //     slot.appendChild(this.control.switcher.container)
+    //     this.control.header.style.display = 'none'
+    //   } else {
+    //     this.control.header.style.display = ''
+    //     this.control.header.appendChild(this.control.switcher.container)
+    //   }
+    // }
     if (this.embedSwitcher) {
-      const slot = this.instance.activeInstance.ui.control.switcherSlot
+      let activeInstance = this.instance.activeInstance
+
+      while (activeInstance.activeInstance) {
+        activeInstance = activeInstance.activeInstance
+      }
+
+      const slot = activeInstance?.ui?.control?.switcherSlot
       if (slot) {
         slot.innerHTML = ''
         slot.appendChild(this.control.switcher.container)

@@ -9,7 +9,6 @@
   ],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "acme",
       "const": "acme",
@@ -19,8 +18,6 @@
       }
     },
     "tag": {
-      "x-prepared": true,
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "",
       "x-grid": {
@@ -76,13 +73,8 @@
     },
     "key_type": {
       "type": "string",
-      "enum": [
-        "ed25519",
-        "p256",
-        "p384",
-        "rsa2048",
-        "rsa4096"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["ed25519", "p256", "p384", "rsa2048", "rsa4096"]
     },
     "profile": {
       "type": "string"

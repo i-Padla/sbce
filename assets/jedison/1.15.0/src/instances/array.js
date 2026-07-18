@@ -1,0 +1,165 @@
+import Instance from './instance.js'
+import { isSet, clone, isArray, isObject } from '../helpers/utils.js'
+import {
+  getSchemaDefault,
+  getSchemaItems,
+  getSchemaMinItems,
+  getSchemaPrefixItems,
+  getSchemaXOption
+} from '../helpers/schema.js'
+
+/**
+ * Represents an InstanceArray instance.
+ * @extends Instance
+ */
+class InstanceArray extends Instance {
+  prepare () {
+    this.schemaItems = getSchemaItems(this.schema)
+
+    // Expand items $ref so editors can resolve enum/type correctly (fixes issue #24)
+    if (isObject(this.schemaItems) && this.jedison.refParser &&
+        this.jedison.refParser.hasRef(this.schemaItems) && !this.schemaItems['x-recursive']) {
+      this.schemaItems = this.jedison.refParser.expand(this.schemaItems)
+      this.schema.items = this.schemaItems
+    }
+
+    this.schemaPrefixItems = getSchemaPrefixItems(this.schema)
+
+    const schemaMinItems = getSchemaMinItems(this.schema, 'minItems')
+    const schemaEnforceMinItems = getSchemaXOption(this.schema, 'enforceMinItems')
+    const enforceMinItems = isSet(schemaEnforceMinItems) ? schemaEnforceMinItems : this.jedison.getOption('enforceMinItems')
+    const isEditor = this.jedison.isEditor
+    const hasEnforceMinItems = isSet(enforceMinItems) && enforceMinItems === true
+    const hasMinItems = isSet(schemaMinItems)
+
+    if (isEditor && hasEnforceMinItems && hasMinItems) {
+      for (let i = 0; i < schemaMinItems; i++) {
+        this.addItem()
+      }
+    }
+
+    this.refreshChildren()
+
+    this.on('set-value', () => {
+      this.refreshChildren()
+    })
+  }
+
+  createItemInstance (index) {
+    let schema
+    const itemsCount = this.children.length
+    const schemaItems = this.schemaItems
+    const schemaPrefixItems = this.schemaPrefixItems
+    schema = isSet(schemaItems) ? schemaItems : {}
+
+    const hasPrefixItemsSchema = isSet(schemaPrefixItems) && isSet(schemaPrefixItems[itemsCount])
+
+    if (hasPrefixItemsSchema) {
+      schema = schemaPrefixItems[itemsCount]
+    }
+
+    return this.jedison.createInstance({
+      jedison: this.jedison,
+      schema: schema,
+      path: this.path + this.jedison.pathSeparator + itemsCount,
+      parent: this,
+      arrayTemplateData: {
+        i0: index,
+        i1: (index + 1)
+      }
+    })
+  }
+
+  setDefaultValue () {
+    const schemaDefault = getSchemaDefault(this.schema)
+
+    if (isSet(schemaDefault)) {
+      this.setValue(schemaDefault)
+    }
+  }
+
+  move (fromIndex, toIndex, initiator) {
+    const raw = this.getValueRaw()
+    if (!isArray(raw)) { return }
+    const value = clone(raw)
+
+    const item = value[fromIndex]
+    value.splice(fromIndex, 1)
+    value.splice(toIndex, 0, item)
+    this.setValue(value, true, initiator)
+    this.emit('item-move', initiator)
+    this.jedison.emit('item-move', initiator)
+  }
+
+  addItem (initiator) {
+    const tempEditor = this.createItemInstance()
+    const raw = this.getValueRaw()
+    const value = isArray(raw) ? clone(raw) : []
+
+    value.push(tempEditor.getValueRaw())
+    tempEditor.destroy()
+    this.setValue(value, true, initiator)
+    const instance = this.children[this.children.length - 1]
+    this.emit('item-add', initiator, instance)
+    this.jedison.emit('item-add', initiator, instance)
+  }
+
+  addItemAfter (afterIndex, initiator) {
+    const tempEditor = this.createItemInstance()
+    const raw = this.getValueRaw()
+    const value = isArray(raw) ? clone(raw) : []
+    value.splice(afterIndex + 1, 0, tempEditor.getValueRaw())
+    tempEditor.destroy()
+    this.setValue(value, true, initiator)
+    const instance = this.children[afterIndex + 1]
+    this.emit('item-add', initiator, instance)
+    this.jedison.emit('item-add', initiator, instance)
+  }
+
+  deleteItem (itemIndex, initiator) {
+    const raw = this.getValueRaw()
+    if (!isArray(raw)) { return }
+    const currentValue = clone(raw)
+
+    const newValue = currentValue.filter((item, index) => index !== itemIndex)
+    this.setValue(newValue, true, initiator)
+    this.emit('item-delete', initiator)
+    this.jedison.emit('item-delete', initiator)
+  }
+
+  onChildChange (initiator) {
+    const value = []
+
+    this.children.forEach((child) => {
+      value.push(child.getValueRaw())
+    })
+
+    this.value = value
+    this.jedison.emit('instance-change', this, initiator)
+    this.emit('change', initiator)
+    this.emit('notifyParent', initiator)
+  }
+
+  refreshChildren () {
+    this.children = []
+
+    const value = this.getValueRaw()
+
+    if (!isArray(value)) {
+      return
+    }
+
+    const correctedValues = []
+    value.forEach((itemValue, index) => {
+      const child = this.createItemInstance(index)
+      this.children.push(child)
+      const finalValue = child.setValue(itemValue, false)
+      correctedValues.push(finalValue)
+    })
+
+    // Update the array's value with constraint-enforced values
+    this.value = correctedValues
+  }
+}
+
+export default InstanceArray

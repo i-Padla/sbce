@@ -1,13 +1,12 @@
-import Jedison from './assets/jedison/1.13.0/src/index.js'
-import ThemeBootstrap5 from './assets/jedison/1.13.0/src/themes/bootstrap5.js'
-import Custom from './assets/jedison/custom.js'
+// import Jedison from './assets/jedison/1.13.0/src/index.js'
+import Jedison from './assets/jedison/custom.js'
 let instances = {}
 let schema_ready = null
 const RefParser = new Jedison.RefParser()
 const JedisonOptions = {
-  theme: new ThemeBootstrap5(),
-  iconLib: 'custom',
-  customEditors: Custom.Editors,
+  theme: new Jedison.Custom.Bootstrap(),
+  // iconLib: 'bootstrap-icons',
+  customEditors: Jedison.Custom.Editors,
   refParser: RefParser,
   enablePropertiesToggle: true,
   deactivateNonRequired: true,

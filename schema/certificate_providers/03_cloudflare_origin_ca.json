@@ -9,7 +9,6 @@
   ],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "cloudflare-origin-ca",
       "const": "cloudflare-origin-ca",
@@ -20,7 +19,6 @@
     },
     "tag": {
       "x-prepared": true,
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "",
       "x-grid": {
@@ -41,23 +39,11 @@
     },
     "request_type": {
       "type": "string",
-      "enum": [
-        "",
-        "origin-rsa",
-        "origin-ecc"
-      ]
+      "enum": ["", "origin-rsa", "origin-ecc"]
     },
     "requested_validity": {
       "type": "integer",
-      "enum": [
-        5475,
-        7,
-        30,
-        90,
-        365,
-        730,
-        1095
-      ]
+      "enum": [5475, 7, 30, 90, 365, 730, 1095]
     },
     "http_client": {
       "x-switcherInput": "modal",

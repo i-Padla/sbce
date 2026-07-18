@@ -17,6 +17,7 @@
       "title": "Disable log"
     },
     "level": {
+      "x-format": "radios-inline",
       "type": "string",
       "title": "Log level",
       "enum": ["trace", "debug", "info", "warn", "error", "fatal", "panic"],

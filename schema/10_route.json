@@ -51,12 +51,14 @@
         {
           "x-switcherTitle": "Advanced",
           "type": "object",
+          "required": ["server"],
           "properties": {
             "server": {
               "type": "string"
             },
             "strategy": {
               "type": "string",
+              "x-format": "radios-inline",
               "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"]
             },
             "disable_cache": {

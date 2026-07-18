@@ -28,7 +28,6 @@
       "enum": ["", "tcp", "udp"]
     },
     "users": {
-      "description": "Multi-user configuration.",
       "type": "array",
       "x-format": "nav-vertical",
       "x-arrayAddContent": "Add",

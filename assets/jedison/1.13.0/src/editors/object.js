@@ -316,9 +316,7 @@ class EditorObject extends Editor {
           let propertiesGroup = propertiesGroups[propGroup]
 
           if (!isSet(propertiesGroup)) {
-            propertiesGroup = this.theme.getPropertiesGroup({
-              name: propGroup
-            })
+            propertiesGroup = this.theme.getPropertiesGroup({ name: propGroup })
             propertiesGroups[propGroup] = propertiesGroup
           }
 

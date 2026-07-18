@@ -1,29 +1,29 @@
-import Validator from "./validation/validator.js";
-import EventEmitter from "./event-emitter.js";
-import InstanceIfThenElse from "./instances/if-then-else.js";
-import InstanceMultiple from "./instances/multiple.js";
-import InstanceBoolean from "./instances/boolean.js";
-import InstanceObject from "./instances/object.js";
-import InstanceArray from "./instances/array.js";
-import InstanceString from "./instances/string.js";
-import InstanceNumber from "./instances/number.js";
-import InstanceNull from "./instances/null.js";
+import Validator from './validation/validator.js'
+import EventEmitter from './event-emitter.js'
+import InstanceIfThenElse from './instances/if-then-else.js'
+import InstanceMultiple from './instances/multiple.js'
+import InstanceBoolean from './instances/boolean.js'
+import InstanceObject from './instances/object.js'
+import InstanceArray from './instances/array.js'
+import InstanceString from './instances/string.js'
+import InstanceNumber from './instances/number.js'
+import InstanceNull from './instances/null.js'
 import {
   clone,
   combineDeep,
   isArray,
   isObject,
   isSet,
-  notSet,
-} from "./helpers/utils.js";
+  notSet
+} from './helpers/utils.js'
 import {
   getSchemaAnyOf,
   getSchemaIf,
   getSchemaOneOf,
   getSchemaType,
-  getSchemaXOption,
-} from "./helpers/schema.js";
-import { resolveAlias } from "./helpers/option-aliases.js";
+  getSchemaXOption
+} from './helpers/schema.js'
+import { resolveAlias } from './helpers/option-aliases.js'
 import {
   bootstrapIcons,
   fontAwesome3,
@@ -31,11 +31,11 @@ import {
   fontAwesome5,
   fontAwesome6,
   glyphicons,
-  customTheme,
-} from "./themes/icons/icons.js";
-import UiResolver from "./ui-resolver.js";
-import Translator from "./i18n/translator.js";
-import JsonWalker from "./json-walker.js";
+  customTheme
+} from './themes/icons/icons.js'
+import UiResolver from './ui-resolver.js'
+import Translator from './i18n/translator.js'
+import JsonWalker from './json-walker.js'
 
 /**
  * Represents a Jedison instance.
@@ -48,7 +48,7 @@ class Jedison extends EventEmitter {
    * @param {boolean} options.container - Where the UI controls will be rendered
    */
   constructor(options) {
-    super();
+    super()
 
     this.options = Object.assign(
       {
@@ -67,25 +67,25 @@ class Jedison extends EventEmitter {
         arrayAdd: true,
         arrayAddAfter: false,
         arrayFooterAdd: false,
-        arrayFooterButtonsPosition: "right",
+        arrayFooterButtonsPosition: 'right',
         arrayDeleteAll: false,
         arrayFooterDeleteAll: false,
         objectAdd: true,
-        arrayButtonsPosition: "left",
+        arrayButtonsPosition: 'left',
         startCollapsed: false,
         deactivateNonRequired: false,
         schema: {},
-        showErrors: "change",
-        switcherInput: "select",
+        showErrors: 'change',
+        switcherInput: 'select',
         embedSwitcher: false,
         data: undefined,
         assertFormat: false,
         customEditors: [],
         constraints: [],
         hiddenInputAttributes: {},
-        id: "",
+        id: '',
         radiosInline: false,
-        language: "en",
+        language: 'en',
         translations: {},
         settings: {},
         useConstraintAttributes: true,
@@ -103,34 +103,34 @@ class Jedison extends EventEmitter {
         subErrors: false,
         debug: false,
         audacity: true,
-        switcherTypeLabels: {},
+        switcherTypeLabels: {}
       },
-      options,
-    );
+      options
+    )
 
     /**
      * Roots symbol used in paths
      * @type {string}
      */
-    this.rootName = "#";
+    this.rootName = '#'
 
     /**
      * Separator symbol used in paths
      * @type {string}
      */
-    this.pathSeparator = "/";
+    this.pathSeparator = '/'
 
     /**
      * List of registered instances
      * @type {object}
      */
-    this.instances = new Map();
+    this.instances = new Map()
 
     /**
      * The root editor
      * @type {Jedison}
      */
-    this.root = null;
+    this.root = null
 
     /**
      * The Validator instance used to translate UI texts and error messages
@@ -138,53 +138,53 @@ class Jedison extends EventEmitter {
      */
     this.translator = new Translator({
       language: this.options.language,
-      translations: this.options.translations,
-    });
+      translations: this.options.translations
+    })
 
     /**
      * The Validator instance used to validate instance values
      * @type {Validator}
      */
-    this.validator = null;
+    this.validator = null
 
     /**
      * A json schema used
      * @type {*}
      */
-    this.schema = {};
+    this.schema = {}
 
     /**
      * A list of watched instances and their callbacks
      * @type {*}
      */
-    this.watched = {};
+    this.watched = {}
 
-    this.theme = null;
+    this.theme = null
 
-    this.uiResolver = null;
+    this.uiResolver = null
 
     /**
      * A RefParser instance
      * @type {RefParser}
      */
-    this.refParser = this.options.refParser ? this.options.refParser : null;
+    this.refParser = this.options.refParser ? this.options.refParser : null
 
-    this.walker = new JsonWalker();
+    this.walker = new JsonWalker()
 
     /**
      * The id of the last focused element.
      * Used to reapply focus to the element that was removed and re-appended to the DOM
      * @type String
      */
-    this.lastFocusedId = null;
+    this.lastFocusedId = null
 
-    this.isEditor = false;
+    this.isEditor = false
 
-    this.debug = false;
+    this.debug = false
 
-    this.init();
-    this.bindEventListeners();
-    this.updateInstancesWatchedData();
+    this.init()
+    this.bindEventListeners()
+    this.updateInstancesWatchedData()
   }
 
   /**
@@ -192,121 +192,121 @@ class Jedison extends EventEmitter {
    */
   init() {
     if (this.options.container) {
-      this.isEditor = true;
+      this.isEditor = true
     }
 
     this.uiResolver = new UiResolver({
       customEditors: this.options.customEditors,
-      refParser: this.refParser,
-    });
+      refParser: this.refParser
+    })
 
-    this.theme = this.options.theme;
+    this.theme = this.options.theme
 
     if (this.theme) {
-      this.theme.btnContents = this.options.btnContents;
-      this.theme.btnIcons = this.options.btnIcons;
+      this.theme.btnContents = this.options.btnContents
+      this.theme.btnIcons = this.options.btnIcons
     }
 
     if (isSet(this.options.iconLib)) {
       switch (this.options.iconLib) {
-        case "glyphicons":
-          this.theme.icons = glyphicons;
-          break;
-        case "bootstrap-icons":
-          this.theme.icons = bootstrapIcons;
-          break;
-        case "fontawesome3":
-          this.theme.icons = fontAwesome3;
-          break;
-        case "fontawesome4":
-          this.theme.icons = fontAwesome4;
-          break;
-        case "fontawesome5":
-          this.theme.icons = fontAwesome5;
-          break;
-        case "fontawesome6":
-          this.theme.icons = fontAwesome6;
-          break;
-        case "custom":
-          this.theme.icons = customTheme;
-          break;
+        case 'glyphicons':
+          this.theme.icons = glyphicons
+          break
+        case 'bootstrap-icons':
+          this.theme.icons = bootstrapIcons
+          break
+        case 'fontawesome3':
+          this.theme.icons = fontAwesome3
+          break
+        case 'fontawesome4':
+          this.theme.icons = fontAwesome4
+          break
+        case 'fontawesome5':
+          this.theme.icons = fontAwesome5
+          break
+        case 'fontawesome6':
+          this.theme.icons = fontAwesome6
+          break
+        case 'custom':
+          this.theme.icons = customTheme
+          break
       }
     }
 
-    this.schema = this.options.schema;
+    this.schema = this.options.schema
 
     this.validator = new Validator({
       refParser: this.refParser,
       assertFormat: this.options.assertFormat,
       translator: this.translator,
       constraints: this.options.constraints,
-      subErrors: this.options.subErrors,
-    });
+      subErrors: this.options.subErrors
+    })
 
     this.root = this.createInstance({
       jedison: this,
       schema: this.options.schema,
-      path: this.rootName,
-    });
+      path: this.rootName
+    })
 
     if (isSet(this.options.data)) {
-      this.root.setValue(this.options.data, false);
+      this.root.setValue(this.options.data, false)
     }
 
     if (this.options.container) {
-      this.isEditor = true;
-      this.container = this.options.container;
-      this.appendHiddenInput();
-      this.container.appendChild(this.root.ui.control.container);
-      this.container.classList.add("jedi-ready");
+      this.isEditor = true
+      this.container = this.options.container
+      this.appendHiddenInput()
+      this.container.appendChild(this.root.ui.control.container)
+      this.container.classList.add('jedi-ready')
     }
   }
 
   bindEventListeners() {
     if (this.root) {
-      this.root.on("change", (initiator) => {
-        this.emit("change", initiator);
-      });
+      this.root.on('change', (initiator) => {
+        this.emit('change', initiator)
+      })
     }
 
-    this.on("instance-change", (instance) => {
-      const callbacks = this.watched[instance.path];
+    this.on('instance-change', (instance) => {
+      const callbacks = this.watched[instance.path]
       if (callbacks) {
         callbacks.forEach((callback) => {
-          callback();
-        });
+          callback()
+        })
       }
-    });
+    })
 
     if (this.hiddenInput) {
-      this.on("change", (initiator) => {
-        this.hiddenInput.value = JSON.stringify(this.getValue());
+      this.on('change', (initiator) => {
+        this.hiddenInput.value = JSON.stringify(this.getValue())
 
-        if (initiator === "user") {
+        if (initiator === 'user') {
           setTimeout(() => {
-            this.refreshFocus();
-          }, 0);
+            this.refreshFocus()
+          }, 0)
         }
-      });
+      })
 
       this._onFocus = (event) => {
-        this.lastKeyEvent = null;
-        this.lastFocusedId = event.target.id;
-      };
+        this.lastKeyEvent = null
+        this.lastFocusedId = event.target.id
+      }
       this._onKeydown = (event) => {
-        this.lastKeyEvent = event;
-      };
-      document.addEventListener("focus", this._onFocus, true);
-      document.addEventListener("keydown", this._onKeydown);
+        this.lastKeyEvent = event
+      }
+      document.addEventListener('focus', this._onFocus, true)
+      document.addEventListener('keydown', this._onKeydown)
     }
   }
 
   updateInstancesWatchedData() {
     Object.values(this.watched).forEach((callbacks) => {
       callbacks.forEach((callback) => {
-        callback();
-      });
-    });
+        callback()
+      })
+    })
   }
 
   /**
@@ -315,37 +315,37 @@ class Jedison extends EventEmitter {
    */
   refreshFocus() {
     if (!this.lastFocusedId) {
-      return;
+      return
     }
 
-    const el = document.getElementById(this.lastFocusedId);
+    const el = document.getElementById(this.lastFocusedId)
 
     if (el) {
-      el.focus();
+      el.focus()
 
-      if (this.lastKeyEvent && this.lastKeyEvent.key === "Tab") {
-        this.simulateTab(el, this.lastKeyEvent.shiftKey);
+      if (this.lastKeyEvent && this.lastKeyEvent.key === 'Tab') {
+        this.simulateTab(el, this.lastKeyEvent.shiftKey)
       }
     }
   }
 
   simulateTab(currentElement, shift) {
     const focusableElements = document.querySelectorAll(
-      'input, button, select, textarea, a[href], [tabindex]:not([tabindex="-1"])',
-    );
+      'input, button, select, textarea, a[href], [tabindex]:not([tabindex="-1"])'
+    )
     const index = Array.prototype.indexOf.call(
       focusableElements,
-      currentElement,
-    );
+      currentElement
+    )
 
     if (index !== -1) {
       if (shift) {
         if (index > 0) {
-          focusableElements[index - 1].focus();
+          focusableElements[index - 1].focus()
         }
       } else {
         if (index + 1 < focusableElements.length) {
-          focusableElements[index + 1].focus();
+          focusableElements[index + 1].focus()
         }
       }
     }
@@ -357,14 +357,14 @@ class Jedison extends EventEmitter {
    */
   appendHiddenInput() {
     const hiddenControl = this.theme.getInputControl({
-      type: "hidden",
-      id: "jedi-hidden-input",
-    });
+      type: 'hidden',
+      id: 'jedi-hidden-input'
+    })
 
-    this.hiddenInput = hiddenControl.input;
-    this.hiddenInput.setAttribute("name", "json");
-    this.hiddenInput.removeAttribute("aria-describedby");
-    this.hiddenInput.removeAttribute("aria-hidden", "true");
+    this.hiddenInput = hiddenControl.input
+    this.hiddenInput.setAttribute('name', 'json')
+    this.hiddenInput.removeAttribute('aria-describedby')
+    this.hiddenInput.removeAttribute('aria-hidden', 'true')
 
     if (
       this.options.hiddenInputAttributes &&
@@ -373,27 +373,27 @@ class Jedison extends EventEmitter {
       Object.keys(this.options.hiddenInputAttributes).forEach((attr) => {
         this.hiddenInput.setAttribute(
           attr,
-          this.options.hiddenInputAttributes[attr],
-        );
-      });
+          this.options.hiddenInputAttributes[attr]
+        )
+      })
     }
 
-    this.container.appendChild(this.hiddenInput);
-    this.hiddenInput.value = JSON.stringify(this.getValue());
+    this.container.appendChild(this.hiddenInput)
+    this.hiddenInput.value = JSON.stringify(this.getValue())
   }
 
   /**
    * Adds a child instance pointer to the instances list
    */
   register(instance) {
-    this.instances.set(instance.path, instance);
+    this.instances.set(instance.path, instance)
   }
 
   /**
    * Deletes a child instance pointer from the instances list
    */
   unregister(instance) {
-    this.instances.delete(instance.path);
+    this.instances.delete(instance.path)
   }
 
   /**
@@ -401,28 +401,28 @@ class Jedison extends EventEmitter {
    */
   createInstance(config) {
     if (this.refParser) {
-      config.schema = this.refParser.expand(config.schema);
+      config.schema = this.refParser.expand(config.schema)
 
       // allOf
       this.walker.traverse(config.schema, (node) => {
         if (node.allOf && Array.isArray(node.allOf)) {
           node.allOf.forEach((subschema, index) => {
-            node.allOf[index] = this.refParser.expand(subschema);
-          });
+            node.allOf[index] = this.refParser.expand(subschema)
+          })
         }
 
         if (node.oneOf && Array.isArray(node.oneOf)) {
           node.oneOf.forEach((subschema, index) => {
-            node.oneOf[index] = this.refParser.expand(subschema);
-          });
+            node.oneOf[index] = this.refParser.expand(subschema)
+          })
         }
 
         if (node.oneOf && Array.isArray(node.oneOf)) {
           node.oneOf.forEach((subschema, index) => {
-            node.oneOf[index] = this.refParser.expand(subschema);
-          });
+            node.oneOf[index] = this.refParser.expand(subschema)
+          })
         }
-      });
+      })
     }
 
     // merge allOf if editor and option is true
@@ -430,15 +430,15 @@ class Jedison extends EventEmitter {
       // extract if then combinations
       this.walker.traverse(config.schema, (node) => {
         if (node.allOf && Array.isArray(node.allOf)) {
-          if (isSet(node["x-allOf-merged"])) {
-            return;
+          if (isSet(node['x-allOf-merged'])) {
+            return
           }
 
           const mergeAllOf =
-            getSchemaXOption(node, "mergeAllOf") ?? this.options.mergeAllOf;
+            getSchemaXOption(node, 'mergeAllOf') ?? this.options.mergeAllOf
 
-          const conditionals = [];
-          let nodeFinal = clone(node); // To store merged static properties
+          const conditionals = []
+          let nodeFinal = clone(node) // To store merged static properties
           // delete nodeFinal.allOf // do not delete allOf to keep validation clean
 
           node.allOf.forEach((subschema) => {
@@ -446,82 +446,82 @@ class Jedison extends EventEmitter {
               conditionals.push({
                 if: subschema.if,
                 then: subschema.then,
-                else: subschema.else || null,
-              });
+                else: subschema.else || null
+              })
             } else {
               // Merge non-conditional schemas normally if mergeAllOf is true
               nodeFinal = mergeAllOf
                 ? combineDeep({}, nodeFinal, subschema)
-                : nodeFinal;
+                : nodeFinal
             }
-          });
+          })
 
-          nodeFinal["x-allOf-merged"] = true;
+          nodeFinal['x-allOf-merged'] = true
 
           // Build a long sequential if-then-else chain
-          let sequentialIfThenElse = null;
+          let sequentialIfThenElse = null
 
           for (let i = conditionals.length - 1; i >= 0; i--) {
             if (sequentialIfThenElse === null) {
-              sequentialIfThenElse = conditionals[i];
+              sequentialIfThenElse = conditionals[i]
             } else {
-              const inner = sequentialIfThenElse;
+              const inner = sequentialIfThenElse
               sequentialIfThenElse = {
                 if: conditionals[i].if,
                 then: combineDeep({}, conditionals[i].then || {}, inner),
-                else: combineDeep({}, conditionals[i].else || {}, inner),
-              };
+                else: combineDeep({}, conditionals[i].else || {}, inner)
+              }
             }
           }
 
           // Attach the final sequential if-then-else structure to nodeFinal
           if (sequentialIfThenElse) {
-            Object.assign(nodeFinal, sequentialIfThenElse);
+            Object.assign(nodeFinal, sequentialIfThenElse)
           }
 
-          return nodeFinal;
+          return nodeFinal
         }
-      });
+      })
 
       // oneOf
       this.walker.traverse(config.schema, (node) => {
         if (node.oneOf && Array.isArray(node.oneOf)) {
-          const nodeClone = clone(node);
-          delete nodeClone.oneOf;
+          const nodeClone = clone(node)
+          delete nodeClone.oneOf
 
           node.oneOf = node.oneOf.map((subschema) => {
-            return combineDeep({}, nodeClone, subschema);
-          });
+            return combineDeep({}, nodeClone, subschema)
+          })
         }
-      });
+      })
 
       // anyOf
       this.walker.traverse(config.schema, (node) => {
         if (node.anyOf && Array.isArray(node.anyOf)) {
-          const nodeClone = clone(node);
-          delete nodeClone.anyOf;
+          const nodeClone = clone(node)
+          delete nodeClone.anyOf
 
           node.anyOf = node.anyOf.map((subschema) => {
-            return combineDeep({}, nodeClone, subschema);
-          });
+            return combineDeep({}, nodeClone, subschema)
+          })
         }
-      });
+      })
 
       // not
       this.walker.traverse(config.schema, (node) => {
         if (node.not && isObject(node.not)) {
-          const nodeClone = clone(node);
-          delete nodeClone.not;
+          const nodeClone = clone(node)
+          delete nodeClone.not
 
-          node.not = combineDeep({}, nodeClone, node.not);
+          node.not = combineDeep({}, nodeClone, node.not)
         }
-      });
+      })
     }
 
-    const schemaOneOf = getSchemaOneOf(config.schema);
-    const schemaAnyOf = getSchemaAnyOf(config.schema);
-    const schemaIf = getSchemaIf(config.schema);
-    const schemaType = getSchemaType(config.schema);
+    const schemaOneOf = getSchemaOneOf(config.schema)
+    const schemaAnyOf = getSchemaAnyOf(config.schema)
+    const schemaIf = getSchemaIf(config.schema)
+    const schemaType = getSchemaType(config.schema)
 
     if (
       this.debug &&
@@ -530,45 +530,45 @@ class Jedison extends EventEmitter {
       !isSet(schemaAnyOf) &&
       !isSet(schemaIf)
     ) {
-      console.warn("TYPE NOT SET", config.schema, config.path);
+      console.warn('TYPE NOT SET', config.schema, config.path)
     }
 
     if (
       isSet(schemaAnyOf) ||
       isSet(schemaOneOf) ||
-      schemaType === "any" ||
+      schemaType === 'any' ||
       isArray(schemaType) ||
       notSet(schemaType)
     ) {
-      return new InstanceMultiple(config);
+      return new InstanceMultiple(config)
     }
 
     if (isSet(schemaIf)) {
-      return new InstanceIfThenElse(config);
+      return new InstanceIfThenElse(config)
     }
 
-    if (schemaType === "object") {
-      return new InstanceObject(config);
+    if (schemaType === 'object') {
+      return new InstanceObject(config)
     }
 
-    if (schemaType === "array") {
-      return new InstanceArray(config);
+    if (schemaType === 'array') {
+      return new InstanceArray(config)
     }
 
-    if (schemaType === "string") {
-      return new InstanceString(config);
+    if (schemaType === 'string') {
+      return new InstanceString(config)
     }
 
-    if (schemaType === "number" || schemaType === "integer") {
-      return new InstanceNumber(config);
+    if (schemaType === 'number' || schemaType === 'integer') {
+      return new InstanceNumber(config)
     }
 
-    if (schemaType === "boolean") {
-      return new InstanceBoolean(config);
+    if (schemaType === 'boolean') {
+      return new InstanceBoolean(config)
     }
 
-    if (schemaType === "null") {
-      return new InstanceNull(config);
+    if (schemaType === 'null') {
+      return new InstanceNull(config)
     }
   }
 
@@ -577,15 +577,15 @@ class Jedison extends EventEmitter {
    * @return {*}
    */
   getValue() {
-    return this.root.getValue();
+    return this.root.getValue()
   }
 
   /**
    * Sets the value of the root instance
    */
   setValue() {
-    this.root.setValue(...arguments);
-    this.updateInstancesWatchedData();
+    this.root.setValue(...arguments)
+    this.updateInstancesWatchedData()
   }
 
   /**
@@ -593,7 +593,7 @@ class Jedison extends EventEmitter {
    * @return {*}
    */
   getInstance(path) {
-    return this.instances.get(path);
+    return this.instances.get(path)
   }
 
   /**
@@ -602,13 +602,13 @@ class Jedison extends EventEmitter {
    * @return {*}
    */
   getOption(option) {
-    const canonical = resolveAlias(option);
+    const canonical = resolveAlias(option)
     if (canonical !== option) {
       console.warn(
-        `Jedison: option "${option}" is deprecated. Use "${canonical}" instead.`,
-      );
+        `Jedison: option "${option}" is deprecated. Use "${canonical}" instead.`
+      )
     }
-    return this.options[canonical];
+    return this.options[canonical]
   }
 
   /**
@@ -616,22 +616,22 @@ class Jedison extends EventEmitter {
    * @param {string} path - The instance path (e.g. '#/address/street')
    */
   navigateTo(path) {
-    if (!this.isEditor) return;
-    this.root.ui.navigateTo(path);
+    if (!this.isEditor) return
+    this.root.ui.navigateTo(path)
   }
 
   /**
    * Disables the root instance and it's children user interfaces
    */
   disable() {
-    this.root.ui.disable();
+    this.root.ui.disable()
   }
 
   /**
    * Enables the root instance and it's children user interfaces
    */
   enable() {
-    this.root.ui.enable();
+    this.root.ui.enable()
   }
 
   /**
@@ -639,31 +639,31 @@ class Jedison extends EventEmitter {
    * @param {string[]} filters - Types to include, e.g., ['errors', 'warnings']
    * @returns {*[]}
    */
-  getErrors(filters = ["error"]) {
-    let results = [];
+  getErrors(filters = ['error']) {
+    let results = []
 
     for (const instance of this.instances.values()) {
-      results = [...results, ...instance.getErrors()];
+      results = [...results, ...instance.getErrors()]
     }
 
     return results.filter((error) => {
-      return filters.includes(error.type.toLowerCase());
-    });
+      return filters.includes(error.type.toLowerCase())
+    })
   }
 
   export() {
-    const results = [];
+    const results = []
 
     for (const instance of this.instances.values()) {
       results.push({
-        path: instance.path ?? "-",
-        type: instance.schema.type ?? "-",
-        title: instance.ui.getTitle() ?? "-",
-        value: instance.getValue() ?? "-",
-      });
+        path: instance.path ?? '-',
+        type: instance.schema.type ?? '-',
+        title: instance.ui.getTitle() ?? '-',
+        value: instance.getValue() ?? '-'
+      })
     }
 
-    return results;
+    return results
   }
 
   /**
@@ -677,33 +677,33 @@ class Jedison extends EventEmitter {
    */
   showValidationErrors(errorsList = null) {
     if (!this.options.container) {
-      return false;
+      return false
     }
 
-    const errors = errorsList ?? this.getErrors();
+    const errors = errorsList ?? this.getErrors()
 
     for (const instance of this.instances.values()) {
-      instance.ui.showValidationErrors(errors, true);
+      instance.ui.showValidationErrors(errors, true)
     }
   }
 
   watch(path, callback) {
     if (!this.watched[path]) {
-      this.watched[path] = [];
+      this.watched[path] = []
     }
 
-    this.watched[path].push(callback);
+    this.watched[path].push(callback)
   }
 
   unwatch(path, callback) {
     if (!this.watched[path]) {
-      return;
+      return
     }
 
-    this.watched[path] = this.watched[path].filter((cb) => cb !== callback);
+    this.watched[path] = this.watched[path].filter((cb) => cb !== callback)
 
     if (this.watched[path].length === 0) {
-      delete this.watched[path];
+      delete this.watched[path]
     }
   }
 
@@ -712,20 +712,20 @@ class Jedison extends EventEmitter {
    */
   destroy() {
     if (this._onFocus) {
-      document.removeEventListener("focus", this._onFocus, true);
-      document.removeEventListener("keydown", this._onKeydown);
+      document.removeEventListener('focus', this._onFocus, true)
+      document.removeEventListener('keydown', this._onKeydown)
     }
 
-    this.root.destroy();
+    this.root.destroy()
 
     if (this.options.container) {
-      this.container.innerHTML = "";
+      this.container.innerHTML = ''
     }
 
     Object.keys(this).forEach((key) => {
-      delete this[key];
-    });
+      delete this[key]
+    })
   }
 }
 
-export default Jedison;
+export default Jedison

@@ -5,12 +5,8 @@
   "properties": {
     "store": {
       "type": "string",
-      "enum": [
-        "system",
-        "mozilla",
-        "chrome",
-        "none"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["system", "mozilla", "chrome", "none"]
     },
     "certificate": {
       "$ref": "#/$defs/string_or_array"

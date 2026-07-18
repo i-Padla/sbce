@@ -5,7 +5,6 @@
   "required": [
     "type",
     "tag",
-    "format",
     "path"
   ],
   "properties": {
@@ -28,5 +27,19 @@
     "path": {
       "type": "string"
     }
+  },
+  "if": {
+    "properties": {
+      "url": {
+        "not": {
+          "pattern": "\\.(json|srs)$"
+        }
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "format"
+    ]
   }
 }

@@ -4,6 +4,7 @@ import EditorIfThenElse from '../editors/if-then-else.js'
 import {
   isSet,
   mergeDeep,
+  combineDeep,
   clone,
   isObject,
   overwriteExistingProperties,
@@ -42,11 +43,11 @@ class InstanceIfThenElse extends Instance {
 
     this.ifThenElseSchemas.forEach((item) => {
       if (isSet(item.then)) {
-        this.schemas.push(mergeDeep({}, clone(this.schema), item.then))
+        this.schemas.push(combineDeep({}, clone(this.schema), item.then))
       }
 
       if (isSet(item.else)) {
-        this.schemas.push(mergeDeep({}, clone(this.schema), item.else))
+        this.schemas.push(combineDeep({}, clone(this.schema), item.else))
       }
     })
 

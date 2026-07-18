@@ -95,9 +95,11 @@ pre {
 
 /* Modal-info dialog restyling */
 .modal-header {
-  display: none !important;
+  display: none;
 }
-
+.jedi-info-button span {
+  display: none;
+}
 .admonition {
   --admonition-color: rgba(68, 138, 255);
   --admonition-bg: rgba(68, 137, 255, 0.1);
@@ -116,7 +118,7 @@ pre {
   background-color: var(--admonition-bg);
   padding: 0.6rem 0.6rem 0.6rem 2.4rem;
   position: relative;
-  margin:0 -0.6rem;
+  margin: 0 -0.6rem;
   font-weight: 700;
 }
 .admonition-title::before {
