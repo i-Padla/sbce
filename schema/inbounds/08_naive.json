@@ -25,7 +25,8 @@
     },
     "network": {
       "type": "string",
-      "enum": ["", "tcp", "udp"]
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp"]
     },
     "users": {
       "type": "array",
@@ -54,6 +55,7 @@
     },
     "quic_congestion_control": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": [
         "",
         "bbr",
@@ -62,6 +64,15 @@
         "bbr2_variant",
         "cubic",
         "reno"
+      ],
+      "x-enumTitles": [
+        "Default (BBR)",
+        "BBR",
+        "BBR (Standart version)",
+        "BBRv2",
+        "BBRv2 (An experimental variant)",
+        "CUBIC",
+        "New Reno"
       ]
     },
     "tls": {

@@ -2,12 +2,7 @@
   "type": "object",
   "title": "Naive",
   "x-format": "grid",
-  "required": [
-    "type",
-    "server",
-    "server_port",
-    "tls"
-  ],
+  "required": ["type", "server", "server_port", "tls"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -60,13 +55,9 @@
     },
     "quic_congestion_control": {
       "type": "string",
-      "enum": [
-        "",
-        "bbr",
-        "bbr2",
-        "cubic",
-        "reno"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["", "bbr", "bbr2", "cubic", "reno"],
+      "x-enumTitles": ["Default (BBR)", "BBR", "BBRv2", "CUBIC", "New Reno"]
     },
     "tls": {
       "$ref": "#/$defs/shared_tls_outbound"

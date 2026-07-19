@@ -24,7 +24,8 @@ const {
   getSchemaIf,
   getSchemaThen
 } = Jedison.Schema
-// #region Rewriting sortChildrenByPropertyOrder()
+// #region InstaceObject.sortChildrenByPropertyOrder() changes - new sorting logic in order of importance:
+// propertyOrder value > parent object propertyOrder map value > property postion in schema > everything else.
 Jedison.InstanceObject.prototype.sortChildrenByPropertyOrder = function () {
   const parentOrderMap = getSchemaXOption(this.schema, 'propertyOrder')
   const isParentMap = isObject(parentOrderMap)
@@ -67,7 +68,7 @@ Jedison.InstanceObject.prototype.sortChildrenByPropertyOrder = function () {
   })
 }
 // #endregion
-// #region Sorting editors on child creation.
+// #region InstanceObject.createChild fixes. Sorting editors on child creation.
 Jedison.InstanceObject.prototype.createChild = function (
   schema,
   key,
@@ -97,13 +98,13 @@ Jedison.InstanceObject.prototype.createChild = function (
   ) {
     instance.deactivate()
   }
-  this.sortChildrenByPropertyOrder() // FIX. Added sorting when turning object properties on\off
+  this.sortChildrenByPropertyOrder() // Added sorting when turning object properties on\off
   this.onChildChange()
 
   return instance
 }
 // #endregion
-// #region Saving and restoring scroll bar postition in modal window.
+// #region EditorObject.refreshPropertiesSlot fixes. Saving\restoring scroll bar position, different sotring logic, always disable checkboxes of required properties
 Jedison.EditorObject.prototype.refreshPropertiesSlot = function () {
   const schemaOptionEnablePropertiesToggle =
     getSchemaXOption(this.instance.schema, 'enablePropertiesToggle') ??
@@ -350,16 +351,31 @@ Jedison.InstanceIfThenElse.prototype.prepare = function () {
   delete this.schema.else
 
   // combineDeep concatenates arrays (e.g. "required"), preventing then/else from overwriting the base schema's required list.
+  const CONCAT_KEYS = new Set(['required', 'allOf', 'anyOf', 'oneOf'])
+
+  function mergeIfThenElseSchema(base, branch) {
+    const result = clone(base)
+    Object.keys(branch).forEach((key) => {
+      if (CONCAT_KEYS.has(key) && Array.isArray(branch[key])) {
+        result[key] = [...(result[key] ?? []), ...branch[key]]
+      } else if (isObject(branch[key]) && isObject(result[key])) {
+        result[key] = mergeIfThenElseSchema(result[key], branch[key])
+      } else {
+        result[key] = branch[key]
+      }
+    })
+    return result
+  }
   this.ifThenElseSchemas.forEach((item) => {
     if (isSet(item.then)) {
-      this.schemas.push(combineDeep({}, clone(this.schema), item.then))
+      this.schemas.push(mergeIfThenElseSchema(this.schema, item.then))
     }
 
     if (isSet(item.else)) {
-      this.schemas.push(combineDeep({}, clone(this.schema), item.else))
+      this.schemas.push(mergeIfThenElseSchema(this.schema, item.else))
     }
   })
-
+  //
   const schemaClone = clone(this.schema)
   delete schemaClone.if
   delete schemaClone.then
@@ -711,7 +727,7 @@ class BooleanToggle extends Jedison.EditorBoolean {
   }
 }
 // #endregion
-// #region Custom editor for string or ing\array of string fields.
+// #region Custom editor for string or int\array of string fields.
 class TextareaArrayEditor extends Jedison.Editor {
   static resolves(schema) {
     return schema['x-format'] === 'textarea-array'
@@ -733,13 +749,10 @@ class TextareaArrayEditor extends Jedison.Editor {
     if (this.control.info && this.control.info.info) {
       this.control.info.info.setAttribute('data-bs-toggle', 'modal')
     }
-
-    // this.control.input.setAttribute("rows", "5");
-    // Вставляем сюда вместо старого rows
     const input = this.control.input
-    input.setAttribute('rows', '1') // Стартуем с одной строки, если пусто
-    input.style.fieldSizing = 'content' // Включаем автоподгон под контент
-    input.style.maxHeight = '5lh' // Ограничиваем высоту строго 5-ю строками
+    input.setAttribute('rows', '1')
+    input.style.fieldSizing = 'content'
+    input.style.maxHeight = '5lh'
   }
 
   addEventListeners() {
@@ -748,7 +761,6 @@ class TextareaArrayEditor extends Jedison.Editor {
         .split(/[\n,;]+/)
         .map((line) => line.trim())
         .filter((line) => line !== '')
-        // --- НОВЫЙ ШАГ: ПРЕОБРАЗОВАНИЕ ТИПОВ ---
         .map((line) => {
           return /^-?\d+$/.test(line) ? parseInt(line, 10) : line
         })
@@ -757,9 +769,9 @@ class TextareaArrayEditor extends Jedison.Editor {
       if (lines.length === 0) {
         finalValue = ''
       } else if (lines.length === 1) {
-        finalValue = lines[0] // Будет либо integer, либо string
+        finalValue = lines[0]
       } else {
-        finalValue = lines // Будет массив из чистых чисел (или строк)
+        finalValue = lines
       }
 
       this.instance.setValue(finalValue, true, 'user')
@@ -862,6 +874,7 @@ class CustomBootstrap extends Jedison.ThemeBootstrap5 {
   }
 }
 // #endregion
+
 const Custom = {
   Editors: [BooleanToggle, TextareaArrayEditor, CheckboxesScalarEditor],
   Bootstrap: CustomBootstrap

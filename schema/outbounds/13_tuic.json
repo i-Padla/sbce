@@ -48,18 +48,13 @@
     },
     "congestion_control": {
       "type": "string",
-      "enum": [
-        "cubic",
-        "new_reno",
-        "bbr"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["cubic", "new_reno", "bbr"]
     },
     "udp_relay_mode": {
       "type": "string",
-      "enum": [
-        "native",
-        "quic"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["native", "quic"]
     },
     "udp_over_stream": {
       "type": "boolean",
@@ -74,11 +69,8 @@
     },
     "network": {
       "type": "string",
-      "enum": [
-        "",
-        "tcp",
-        "udp"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp"]
     },
     "tls": {
       "$ref": "#/$defs/shared_tls_outbound"

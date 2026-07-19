@@ -73,11 +73,8 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [
-            "",
-            "salamander",
-            "gecko"
-          ],
+          "x-format": "radios-inline",
+          "enum": ["salamander", "gecko"],
           "x-grid": {
             "columns": 6
           }
@@ -107,22 +104,16 @@
     },
     "network": {
       "type": "string",
-      "enum": [
-        "",
-        "tcp",
-        "udp"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp"]
     },
     "tls": {
       "$ref": "#/$defs/shared_tls_outbound"
     },
     "bbr_profile": {
       "type": "string",
-      "enum": [
-        "standard",
-        "conservative",
-        "aggressive"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["standard", "conservative", "aggressive"]
     },
     "brutal_debug": {
       "type": "boolean",
@@ -130,11 +121,7 @@
     },
     "realm": {
       "type": "object",
-      "required": [
-        "server_url",
-        "realm_id",
-        "stun_servers"
-      ],
+      "required": ["server_url", "realm_id", "stun_servers"],
       "properties": {
         "server_url": {
           "type": "string"

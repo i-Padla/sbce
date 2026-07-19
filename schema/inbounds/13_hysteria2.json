@@ -45,7 +45,8 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["", "salamander", "gecko"],
+          "x-format": "radios-inline",
+          "enum": ["salamander", "gecko"],
           "x-grid": {
             "columns": 6
           }
@@ -115,6 +116,7 @@
           "properties": {
             "type": {
               "type": "string",
+              "x-format": "radios-inline",
               "enum": ["file", "proxy", "string"]
             },
             "directory": {
@@ -146,6 +148,7 @@
     },
     "bbr_profile": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["standard", "conservative", "aggressive"]
     },
     "brutal_debug": {

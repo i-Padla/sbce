@@ -19,10 +19,8 @@
     },
     "format": {
       "type": "string",
-      "enum": [
-        "source",
-        "binary"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["source", "binary"]
     },
     "url": {
       "type": "string"

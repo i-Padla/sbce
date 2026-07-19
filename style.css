@@ -164,5 +164,5 @@ pre {
   --admonition-bg: rgba(76, 175, 80, 0.1);
 }
 .admonition > *:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0.5 rem 0;
 }

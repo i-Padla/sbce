@@ -5,18 +5,13 @@
   "properties": {
     "engine": {
       "type": "string",
-      "enum": [
-        "go",
-        "apple"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["go", "apple"]
     },
     "version": {
       "type": "integer",
-      "enum": [
-        2,
-        1,
-        3
-      ]
+      "x-format": "radios-inline",
+      "enum": [2, 1, 3]
     },
     "disable_version_fallback": {
       "type": "boolean",
@@ -29,9 +24,10 @@
       "$ref": "#/$defs/shared_tls_outbound"
     }
   },
+  "x-mergeAllOf": true,
   "allOf": [
     {
-      "$ref": "#/$defs/shared_http2"
+      "$ref": "#/$defs/shared_quic"
     },
     {
       "$ref": "#/$defs/shared_dial"

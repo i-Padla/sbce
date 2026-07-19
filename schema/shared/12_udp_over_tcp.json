@@ -14,10 +14,8 @@
         },
         "version": {
           "type": "integer",
-          "enum": [
-            2,
-            1
-          ]
+          "x-format": "radios-inline",
+          "enum": [2, 1]
         }
       }
     },

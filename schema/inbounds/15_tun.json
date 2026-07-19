@@ -35,6 +35,7 @@
     },
     "dns_mode": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["hijack", "native", "disabled"]
     },
     "dns_address": {

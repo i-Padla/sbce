@@ -50,6 +50,7 @@
           },
           "flow": {
             "type": "string",
+            "x-format": "radios-inline",
             "enum": ["xtls-rprx-vision"]
           }
         }

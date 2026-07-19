@@ -10,7 +10,7 @@
       "readOnly": true
     },
     "mode": {
-      "description": "`and` or `or`",
+      "x-format": "radios-inline",
       "type": "string",
       "enum": ["and", "or"]
     },

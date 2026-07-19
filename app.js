@@ -172,7 +172,6 @@ async function bundleSchema(rawSchema) {
           if (currentKey)
             dict[currentKey] = marked.parse(currentBuffer.join('\n'))
 
-          // Множества для отслеживания ключей
           const schemaKeys = new Set()
           const matchedMdKeys = new Set()
 
@@ -180,10 +179,10 @@ async function bundleSchema(rawSchema) {
             if (!node || typeof node !== 'object') return
 
             if (currentPath) {
-              schemaKeys.add(currentPath) // Запоминаем ключ из JSON
+              schemaKeys.add(currentPath)
 
               if (dict[currentPath]) {
-                matchedMdKeys.add(currentPath) // Запоминаем успешное совпадение
+                matchedMdKeys.add(currentPath)
                 node['x-info'] = {
                   variant: 'modal',
                   content: dict[currentPath]
@@ -191,7 +190,6 @@ async function bundleSchema(rawSchema) {
               }
             }
 
-            // Обход свойств
             if (node.properties) {
               for (const [propKey, propValue] of Object.entries(
                 node.properties
@@ -203,7 +201,6 @@ async function bundleSchema(rawSchema) {
               }
             }
 
-            // Обход логических подструктур (allOf, anyOf, oneOf)
             ;['allOf', 'anyOf', 'oneOf'].forEach((logicKey) => {
               if (Array.isArray(node[logicKey])) {
                 node[logicKey].forEach((subNode) => {
@@ -211,47 +208,36 @@ async function bundleSchema(rawSchema) {
                 })
               }
             })
-            // --- НОВЫЙ БЛОК: Обход массивов ---
+
             if (node.items && typeof node.items === 'object') {
-              // Передаем currentPath дальше без изменений (например, "users"),
-              // чтобы свойства внутри items прикрепились как "users.name"
               injectDescriptions(node.items, currentPath)
             }
           }
 
-          // Запускаем анализ
           injectDescriptions(schemaPart)
 
-          // Вычисляем разницу
           const allMdKeys = Object.keys(dict)
           const inSchemaNotInMd = [...schemaKeys].filter((k) => !dict[k])
           const inMdNotInSchema = allMdKeys.filter((k) => !schemaKeys.has(k))
 
-          // Выводим результаты только при наличии ошибок или расхождений
           if (inSchemaNotInMd.length > 0 || inMdNotInSchema.length > 0) {
-            console.log(`📊 --- РАСХОЖДЕНИЯ МАТЧИНГА ДЛЯ [${key}] ---`)
+            console.log(`📊 --- Missmatch in[${key}] ---`)
             console.log(
-              `   Найдено в JSON: ${schemaKeys.size} | Найдено в MD: ${allMdKeys.length}`
+              `   In JSON: ${schemaKeys.size} | In MD: ${allMdKeys.length}`
             )
 
             if (inSchemaNotInMd.length > 0) {
-              console.log(
-                `   ❌ Есть в JSON, но отсутствуют в MD:`,
-                inSchemaNotInMd
-              )
+              console.log(`   ❌ In JSON, but not in MD:`, inSchemaNotInMd)
             }
             if (inMdNotInSchema.length > 0) {
-              console.log(
-                `   ⚠️ Лишние в MD, которых нет в JSON:`,
-                inMdNotInSchema
-              )
+              console.log(`   ⚠️ In MD, but not in JSON:`, inMdNotInSchema)
             }
           }
         }
 
         rawSchema.$defs[key] = schemaPart
       } catch (err) {
-        console.error(`❌ [${key}] Ошибка обработки:`, err)
+        console.error(`❌ [${key}] Error:`, err)
       }
     })
   )
@@ -306,7 +292,6 @@ function switchLayer(key) {
   targetLayer.style.display = 'block'
 
   if (key !== 'load' && !instances[key]) {
-    console.log(`Инициализация секции: ${key}`)
     instances[key] = new Jedison.Create({
       container: targetLayer,
       id: key,
@@ -334,7 +319,7 @@ function loadConfig() {
         const config = JSON.parse(e.target.result)
         applyConfig(config)
       } catch (err) {
-        alert('Ошибка чтения JSON из файла: ' + err.message)
+        alert('Error reading from JSON: ' + err.message)
       }
     }
     reader.readAsText(file)
@@ -344,7 +329,7 @@ function loadConfig() {
       const config = JSON.parse(rawValue)
       applyConfig(config)
     } catch (err) {
-      alert('Ошибка разбора JSON: ' + err.message)
+      alert('Error while parsing JSON: ' + err.message)
     }
   }
 }

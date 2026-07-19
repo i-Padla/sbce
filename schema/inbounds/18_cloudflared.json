@@ -31,6 +31,7 @@
     },
     "protocol": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["quic", "hhtp2"],
       "x-grid": {
         "columns": 6
@@ -42,6 +43,7 @@
     },
     "edge_ip_version": {
       "type": "integer",
+      "x-format": "radios-inline",
       "enum": [0, 4, 6],
       "x-grid": {
         "columns": 6
@@ -49,6 +51,7 @@
     },
     "datagram_version": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["v2", "v3"],
       "x-grid": {
         "columns": 6

@@ -24,6 +24,7 @@
     },
     "version": {
       "type": "integer",
+      "x-format": "radios-inline",
       "enum": [1, 2, 3]
     },
     "password": {
@@ -93,6 +94,7 @@
     },
     "wildcard_sni": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["off", "authed", "all"]
     }
   },

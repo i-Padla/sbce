@@ -5,7 +5,6 @@
   "required": ["type", "listen", "password"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "shadowsocks",
       "const": "shadowsocks",
@@ -15,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "ss-in",
       "x-grid": {
@@ -24,7 +22,8 @@
     },
     "network": {
       "type": "string",
-      "enum": ["", "tcp", "udp"]
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp"]
     },
     "method": {
       "type": "string",

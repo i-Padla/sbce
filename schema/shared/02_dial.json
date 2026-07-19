@@ -87,6 +87,7 @@
             },
             "strategy": {
               "type": "string",
+              "x-format": "radios-inline",
               "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"]
             },
             "disable_cache": {
@@ -156,6 +157,7 @@
     },
     "domain_strategy": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"],
       "x-propGroup": "Deprecated in sing-box 1.12.0"
     }

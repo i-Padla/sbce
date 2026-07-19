@@ -8,11 +8,8 @@
     },
     "protocol": {
       "type": "string",
-      "enum": [
-        "h2mux",
-        "smux",
-        "yamux"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["h2mux", "smux", "yamux"]
     },
     "max_connections": {
       "type": "integer"

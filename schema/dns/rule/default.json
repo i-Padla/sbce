@@ -4,7 +4,6 @@
   "x-enableCollapseToggle": true,
   "x-collapseToggleContent": "",
   "x-switcherTitle": "Default",
-  "x-mergeAllOf": true,
   "properties": {
     "type": {
       "type": "string",
@@ -17,45 +16,57 @@
     },
     "ip_version": {
       "type": "integer",
-      "description": "4 (A DNS query) or 6 (AAAA DNS query).  Not limited if empty."
+      "x-format": "radios-inline",
+      "enum": [4, 6]
     },
     "query_type": {
       "$ref": "#/$defs/string_or_array"
     },
     "network": {
       "type": "string",
-      "enum": [
-        "tcp",
-        "udp",
-        "icmp"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp", "icmp"]
     },
     "auth_user": {
       "$ref": "#/$defs/string_or_array"
     },
     "protocol": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "string",
-        "enum": [
-          "http",
-          "tls",
-          "quic",
-          "stun",
-          "dns",
-          "bittorrent",
-          "dtls",
-          "ssh",
-          "rdp",
-          "ntp"
-        ]
-      }
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "http",
+              "tls",
+              "quic",
+              "stun",
+              "dns",
+              "bittorrent",
+              "dtls",
+              "ssh",
+              "rdp",
+              "ntp"
+            ]
+          }
+        },
+        {
+          "type": "string",
+          "enum": [
+            "http",
+            "tls",
+            "quic",
+            "stun",
+            "dns",
+            "bittorrent",
+            "dtls",
+            "ssh",
+            "rdp",
+            "ntp"
+          ]
+        }
+      ]
     },
     "domain": {
       "$ref": "#/$defs/string_or_array"
@@ -77,31 +88,13 @@
       "x-format": "toggle"
     },
     "source_port": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "integer"
-      }
+      "$ref": "#/$defs/integer_or_array"
     },
     "source_port_range": {
       "$ref": "#/$defs/string_or_array"
     },
     "port": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "integer"
-      }
+      "$ref": "#/$defs/integer_or_array"
     },
     "port_range": {
       "$ref": "#/$defs/string_or_array"
@@ -125,37 +118,27 @@
       "$ref": "#/$defs/string_or_array"
     },
     "user_id": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "integer"
-      }
+      "$ref": "#/$defs/integer_or_array"
     },
     "clash_mode": {
       "type": "string"
     },
     "network_type": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "string",
-        "enum": [
-          "wifi",
-          "cellular",
-          "ethernet",
-          "other"
-        ]
-      }
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "x-propGroup": "Shared dial fields",
+          "items": {
+            "type": "string",
+            "enum": ["wifi", "cellular", "ethernet", "other"]
+          }
+        },
+        {
+          "type": "string",
+          "enum": ["wifi", "cellular", "ethernet", "other"]
+        }
+      ]
     },
     "network_is_expensive": {
       "type": "boolean",
@@ -185,23 +168,20 @@
       "$ref": "#/$defs/string_or_array"
     },
     "preferred_by": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "string",
-        "enum": [
-          "host",
-          "local",
-          "mdns",
-          "tailscale",
-          "resolved"
-        ]
-      }
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["host", "local", "mdns", "tailscale", "resolved"]
+          }
+        },
+        {
+          "type": "string",
+          "enum": ["host", "local", "mdns", "tailscale", "resolved"]
+        }
+      ]
     },
     "wifi_ssid": {
       "$ref": "#/$defs/string_or_array"
@@ -233,6 +213,7 @@
     },
     "response_rcode": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": [
         "NOERROR",
         "FORMERR",
@@ -298,5 +279,10 @@
       "x-propGroup": "Deprecated"
     }
   },
-  "$ref": "#/$defs/dns_rule_action"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/dns_rule_action"
+    }
+  ]
 }

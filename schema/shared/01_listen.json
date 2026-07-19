@@ -7,7 +7,8 @@
       "type": "string",
       "x-propGroup": "Shared listen fields",
       "x-grid": {
-        "columns": 6
+        "columns": 6,
+        "newRow": true
       }
     },
     "listen_port": {
@@ -95,6 +96,7 @@
     },
     "domain_strategy": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"],
       "x-propGroup": "Deprecated in sing-box 1.11.0"
     },

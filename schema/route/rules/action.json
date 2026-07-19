@@ -21,12 +21,12 @@
       "x-format": "radios-inline",
       "type": "string",
       "enum": ["default", "drop"],
-      "x-propGroup": "Action=reject"
+      "x-propGroup": "Action: reject"
     },
     "no_drop": {
       "type": "boolean",
       "x-format": "toggle",
-      "x-propGroup": "Action=reject"
+      "x-propGroup": "Action: reject"
     },
     "override_address": {
       "type": "string"
@@ -35,41 +35,22 @@
       "type": "integer"
     },
     "network_strategy": {
-      "type": "string"
-    },
-    "network_type": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayAddContent": "",
-      "x-arrayDelete": true,
-      "x-arrayDeleteContent": "",
-      "x-arrayDeleteAll": true,
-      "x-arrayDeleteAllContent": "Delete all",
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "x-propGroup": "Shared dial fields",
-      "x-arrayMove": false,
-      "items": {
-        "type": "string",
-        "enum": ["", "wifi", "cellular", "ethernet", "other"]
-      }
+      "type": "string",
+      "x-format": "radios-inline",
+      "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"]
     },
     "fallback_network_type": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayAddContent": "",
-      "x-arrayDelete": true,
-      "x-arrayDeleteContent": "",
-      "x-arrayDeleteAll": true,
-      "x-arrayDeleteAllContent": "Delete all",
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "x-propGroup": "Shared dial fields",
-      "x-arrayMove": false,
-      "items": {
-        "type": "string",
-        "enum": ["", "wifi", "cellular", "ethernet", "other"]
-      }
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["wifi", "cellular", "ethernet", "other"]
+          }
+        },
+        { "type": "string", "enum": ["wifi", "cellular", "ethernet", "other"] }
+      ]
     },
     "fallback_delay": {
       "type": "string"
@@ -101,7 +82,56 @@
     "tls_spoof_method": {
       "type": "string"
     },
-    "sniffer": [],
+    "sniffer": {
+      "x-format": "checkboxes-scalar",
+      "default": [
+        "tls",
+        "http",
+        "quic",
+        "stun",
+        "dns",
+        "bittorrent",
+        "dtls",
+        "ssh",
+        "rdp",
+        "ntp"
+      ],
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "tls",
+            "http",
+            "quic",
+            "stun",
+            "dns",
+            "bittorrent",
+            "dtls",
+            "ssh",
+            "rdp",
+            "ntp"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "tls",
+              "http",
+              "quic",
+              "stun",
+              "dns",
+              "bittorrent",
+              "dtls",
+              "ssh",
+              "rdp",
+              "ntp"
+            ]
+          }
+        }
+      ]
+    },
     "timeout": {
       "type": "string"
     },
@@ -109,7 +139,9 @@
       "type": "string"
     },
     "strategy": {
-      "type": "string"
+      "type": "string",
+      "x-format": "radios-inline",
+      "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"]
     },
     "disable_cache": {
       "type": "boolean",

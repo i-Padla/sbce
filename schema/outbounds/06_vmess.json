@@ -2,12 +2,7 @@
   "type": "object",
   "title": "VMess",
   "x-format": "grid",
-  "required": [
-    "type",
-    "server",
-    "server_port",
-    "uuid"
-  ],
+  "required": ["type", "server", "server_port", "uuid"],
   "properties": {
     "type": {
       "x-propertyOrder": 10,
@@ -44,6 +39,7 @@
     },
     "security": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": [
         "auto",
         "none",
@@ -67,22 +63,17 @@
     },
     "network": {
       "type": "string",
-      "enum": [
-        "",
-        "tcp",
-        "udp"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp"]
     },
     "tls": {
       "$ref": "#/$defs/shared_tls_outbound"
     },
     "packet_encoding": {
       "type": "string",
-      "enum": [
-        "",
-        "packetaddr",
-        "xudp"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["", "packetaddr", "xudp"],
+      "x-enumTitles": ["disabled", "packetaddr", "xudp"]
     },
     "transport": {
       "$ref": "#/$defs/shared_v2ray_transport"

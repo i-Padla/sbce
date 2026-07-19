@@ -3,7 +3,6 @@
   "x-switcherTitle": "Default rule",
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "const": "default",
       "default": "default",
@@ -14,7 +13,9 @@
       "$ref": "#/$defs/string_or_array"
     },
     "ip_version": {
-      "type": "integer"
+      "type": "integer",
+      "x-format": "radios-inline",
+      "enum": [4, 6]
     },
     "network": {
       "x-format": "checkboxes-scalar",
@@ -36,7 +37,42 @@
       "$ref": "#/$defs/string_or_array"
     },
     "protocol": {
-      "$ref": "#/$defs/string_or_array"
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "http",
+              "tls",
+              "quic",
+              "stun",
+              "dns",
+              "bittorrent",
+              "dtls",
+              "ssh",
+              "rdp",
+              "ntp"
+            ]
+          }
+        },
+        {
+          "type": "string",
+          "enum": [
+            "http",
+            "tls",
+            "quic",
+            "stun",
+            "dns",
+            "bittorrent",
+            "dtls",
+            "ssh",
+            "rdp",
+            "ntp"
+          ]
+        }
+      ]
     },
     "client": {
       "$ref": "#/$defs/string_or_array"
@@ -74,24 +110,7 @@
       "$ref": "#/$defs/string_or_array"
     },
     "port": {
-      "x-switcherInput": "modal",
-      "oneOf": [
-        {
-          "type": "array",
-          "x-format": "table",
-          "x-arrayDeleteContent": "",
-          "x-arrayAddContent": "Add",
-          "x-arrayMove": false,
-          "x-enableCollapseToggle": true,
-          "x-collapseToggleContent": "",
-          "items": {
-            "type": "integer"
-          }
-        },
-        {
-          "type": "integer"
-        }
-      ]
+      "$ref": "#/$defs/integer_or_array"
     },
     "port_range": {
       "$ref": "#/$defs/string_or_array"
@@ -115,32 +134,23 @@
       "$ref": "#/$defs/string_or_array"
     },
     "user_id": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "integer"
-      }
+      "$ref": "#/$defs/integer_or_array"
     },
     "clash_mode": {
       "type": "string"
     },
     "network_type": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "string",
-        "enum": ["wifi", "cellular", "ethernet", "other"]
-      }
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["wifi", "cellular", "ethernet", "other"]
+          }
+        },
+        { "type": "string", "enum": ["wifi", "cellular", "ethernet", "other"] }
+      ]
     },
     "network_is_expensive": {
       "type": "boolean",
@@ -173,17 +183,17 @@
       "$ref": "#/$defs/string_or_array"
     },
     "preferred_by": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "string",
-        "enum": ["tailscale", "wireguard"]
-      }
+      "x-format": "checkboxes-scalar",
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["tailscale", "wireguard"]
+          }
+        },
+        { "type": "string", "enum": ["tailscale", "wireguard"] }
+      ]
     },
     "source_mac_address": {
       "$ref": "#/$defs/string_or_array"

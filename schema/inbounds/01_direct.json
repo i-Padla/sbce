@@ -22,10 +22,9 @@
       }
     },
     "network": {
-      "x-format": "radios-inline",
       "type": "string",
-      "enum": ["", "tcp", "udp"],
-      "x-enumTitles": ["Both", "Tcp", "Udp"]
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp"]
     },
     "override_address": {
       "type": "string",

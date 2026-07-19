@@ -2,11 +2,7 @@
   "type": "object",
   "title": "{{ value.tag }} (local)",
   "x-switcherTitle": "Local",
-  "required": [
-    "type",
-    "tag",
-    "path"
-  ],
+  "required": ["type", "tag", "path"],
   "properties": {
     "type": {
       "type": "string",
@@ -19,10 +15,8 @@
     },
     "format": {
       "type": "string",
-      "enum": [
-        "source",
-        "binary"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["source", "binary"]
     },
     "path": {
       "type": "string"
@@ -30,7 +24,7 @@
   },
   "if": {
     "properties": {
-      "url": {
+      "path": {
         "not": {
           "pattern": "\\.(json|srs)$"
         }
@@ -38,8 +32,6 @@
     }
   },
   "then": {
-    "required": [
-      "format"
-    ]
+    "required": ["format"]
   }
 }

@@ -18,6 +18,7 @@
     },
     "strategy": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["prefer_ipv4", "prefer_ipv6", "ipv4_only", "ipv6_only"]
     },
     "disable_cache": {
@@ -39,6 +40,7 @@
     },
     "method": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["default", "drop", "reply"]
     },
     "no_drop": {
@@ -47,6 +49,7 @@
     },
     "rcode": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": [
         "NOERROR",
         "FORMERR",

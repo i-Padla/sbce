@@ -12,7 +12,9 @@
     },
     "engine": {
       "type": "string",
-      "enum": ["", "go", "windows", "apple"]
+      "x-format": "radios-inline",
+      "enum": ["", "go", "windows", "apple"],
+      "x-enumTitles": ["Default", "go", "windows", "apple"]
     },
     "disable_sni": {
       "type": "boolean",
@@ -30,11 +32,27 @@
     },
     "min_version": {
       "type": "string",
-      "enum": ["", "1.0", "1.1", "1.2", "1.3"]
+      "x-format": "radios-inline",
+      "enum": ["", "1.0", "1.1", "1.2", "1.3"],
+      "x-enumTitles": [
+        "Empty (use default i.e. 1.2)",
+        "1.0",
+        "1.1",
+        "1.2",
+        "1.3"
+      ]
     },
     "max_version": {
       "type": "string",
-      "enum": ["", "1.0", "1.1", "1.2", "1.3"]
+      "x-format": "radios-inline",
+      "enum": ["", "1.0", "1.1", "1.2", "1.3"],
+      "x-enumTitles": [
+        "Empty (use default i.e. 1.3)",
+        "1.0",
+        "1.1",
+        "1.2",
+        "1.3"
+      ]
     },
     "cipher_suites": {
       "type": "array",
@@ -49,7 +67,6 @@
       "items": {
         "type": "string",
         "enum": [
-          "",
           "TLS_RSA_WITH_AES_128_CBC_SHA",
           "TLS_RSA_WITH_AES_256_CBC_SHA",
           "TLS_RSA_WITH_AES_128_GCM_SHA256",
@@ -82,7 +99,7 @@
       "x-collapseToggleContent": "",
       "items": {
         "type": "string",
-        "enum": ["", "P256", "P384", "P521", "X25519", "X25519MLKEM768"]
+        "enum": ["P256", "P384", "P521", "X25519", "X25519MLKEM768"]
       }
     },
     "certificate": {
@@ -122,8 +139,17 @@
     },
     "spoof_method": {
       "type": "string",
+      "x-format": "radios-inline",
       "enum": [
         "",
+        "wrong-sequence",
+        "wrong-checksum",
+        "wrong-ack",
+        "wrong-md5",
+        "wrong-timestamp"
+      ],
+      "x-enumTitles": [
+        "Default",
         "wrong-sequence",
         "wrong-checksum",
         "wrong-ack",

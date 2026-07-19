@@ -5,7 +5,6 @@
   "required": ["type", "tls", "listen"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "tuic",
       "const": "tuic",
@@ -15,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "x-prepared": true,
       "type": "string",
       "default": "tuic-in",
@@ -55,20 +53,17 @@
       }
     },
     "congestion_control": {
-      "description": "QUIC congestion control algorithm. `cubic` is used by default.",
       "type": "string",
+      "x-format": "radios-inline",
       "enum": ["cubic", "new_reno", "bbr"]
     },
     "auth_timeout": {
-      "description": "How long the server should wait for the client to send the authentication command. `3s` is used by default.",
       "type": "string"
     },
     "zero_rtt_handshake": {
-      "description": "Enable 0-RTT QUIC connection handshake on the client side.",
       "type": "boolean"
     },
     "heartbeat": {
-      "description": "Interval for sending heartbeat packets for keeping the connection alive. `10s` is used by default.",
       "type": "string"
     },
     "tls": {

@@ -2,15 +2,9 @@
   "type": "object",
   "title": "VLESS",
   "x-format": "grid",
-  "required": [
-    "type",
-    "server",
-    "server_port",
-    "uuid"
-  ],
+  "required": ["type", "server", "server_port", "uuid"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "vless",
       "const": "vless",
@@ -20,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "vless-out",
       "x-grid": {
@@ -50,24 +43,18 @@
       "default": "xtls-rprx-vision"
     },
     "network": {
-      "description": "Enabled network.One of tcp udp.Both is enabled by default.",
       "type": "string",
-      "enum": [
-        "",
-        "tcp",
-        "udp"
-      ]
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp"]
     },
     "tls": {
       "$ref": "#/$defs/shared_tls_outbound"
     },
     "packet_encoding": {
       "type": "string",
-      "enum": [
-        "xudp",
-        "packetaddr",
-        ""
-      ]
+      "x-format": "radios-inline",
+      "enum": ["", "packetaddr", "xudp"],
+      "x-enumTitles": ["disabled", "packetaddr", "xudp"]
     },
     "multiplex": {
       "$ref": "#/$defs/shared_multiplex_outbound"
@@ -76,5 +63,6 @@
       "$ref": "#/$defs/shared_v2ray_transport"
     }
   },
-  "$ref": "#/$defs/shared_dial"
+  "x-mergeAllOf": true,
+  "AllOf": [{ "$ref": "#/$defs/shared_dial" }]
 }

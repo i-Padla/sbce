@@ -2,14 +2,9 @@
   "type": "object",
   "title": "SOCKS",
   "x-format": "grid",
-  "required": [
-    "type",
-    "server",
-    "server_port"
-  ],
+  "required": ["type", "server", "server_port"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "socks",
       "const": "socks",
@@ -19,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "socks-out",
       "x-grid": {
@@ -40,12 +34,8 @@
     },
     "version": {
       "type": "string",
-      "enum": [
-        "",
-        "4",
-        "4a",
-        "5"
-      ],
+      "x-format": "radios-inline",
+      "enum": ["5", "4", "4a"],
       "x-grid": {
         "columns": 6
       }
@@ -64,11 +54,8 @@
     },
     "network": {
       "type": "string",
-      "enum": [
-        "",
-        "tcp",
-        "udp"
-      ],
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp"],
       "x-grid": {
         "columns": 6
       }

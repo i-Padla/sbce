@@ -25,7 +25,8 @@
     },
     "network": {
       "type": "string",
-      "enum": ["", "tcp", "udp"]
+      "x-format": "radios-inline",
+      "enum": ["tcp", "udp"]
     }
   },
   "x-mergeAllOf": true,
