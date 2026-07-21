@@ -1,9 +1,9 @@
 {
   "type": "object",
-  "title": "DHCP",
+  "title": "#{{i1}} {{value.tag}}",
   "x-propertiesToggleContent": "Toggle properties",
   "x-format": "grid",
-  "required": ["type", "tag"],
+  "required": ["type"],
   "properties": {
     "type": {
       "type": "string",

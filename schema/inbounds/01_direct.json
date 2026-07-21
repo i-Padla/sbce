@@ -1,9 +1,8 @@
 {
   "type": "object",
-  "title": "Direct",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
   "properties": {
     "type": {
       "type": "string",

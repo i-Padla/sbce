@@ -1,17 +1,10 @@
 {
   "type": "object",
-  "title": "Tuic",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type",
-    "server",
-    "server_port",
-    "uuid",
-    "tls"
-  ],
+  "required": ["type", "server", "server_port", "uuid", "tls"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "tuic",
       "const": "tuic",
@@ -21,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "tuic-out",
       "x-grid": {

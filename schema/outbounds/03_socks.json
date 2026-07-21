@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "title": "SOCKS",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "server", "server_port"],
   "properties": {
@@ -64,5 +64,10 @@
       "$ref": "#/$defs/shared_udp_over_tcp"
     }
   },
-  "$ref": "#/$defs/shared_dial"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

@@ -12,6 +12,16 @@
         "route-options",
         "sniff",
         "resolve"
+      ],
+      "x-enumTitles": [
+        "empty (defaults to Route)",
+        "route",
+        "bypass",
+        "reject",
+        "hijack-dns",
+        "route-options",
+        "sniff",
+        "resolve"
       ]
     },
     "outbound": {

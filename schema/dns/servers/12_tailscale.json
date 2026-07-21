@@ -1,12 +1,8 @@
 {
   "type": "object",
-  "title": "Tailscale",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tag",
-    "endpoint"
-  ],
+  "required": ["type", "endpoint"],
   "properties": {
     "type": {
       "type": "string",

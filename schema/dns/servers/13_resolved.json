@@ -1,12 +1,8 @@
 {
   "type": "object",
-  "title": "Resolved",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tag",
-    "service"
-  ],
+  "required": ["type", "service"],
   "properties": {
     "type": {
       "type": "string",

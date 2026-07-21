@@ -1,16 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "DERP",
+  "title": "#{{i1}} {{value.tag}}",
+  "x-switcherTitle": "DERP",
   "x-format": "grid",
-  "required": [
-    "type",
-    "config_path",
-    "listen"
-  ],
+  "required": ["type", "config_path", "listen"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "derp",
       "const": "derp",
@@ -21,7 +17,6 @@
     },
     "tag": {
       "x-prepared": true,
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "",
       "x-grid": {
@@ -29,21 +24,17 @@
       }
     },
     "tls": {
-      "x-propertyOrder": 30,
       "$ref": "#/$defs/shared_tls_inbound"
     },
     "config_path": {
-      "x-propertyOrder": 40,
       "type": "string"
     },
     "verify_client_endpoint": {
-      "x-propertyOrder": 50,
       "$ref": "#/$defs/string_or_array"
     },
     "verify_client_url": {
-      "x-propertyOrder": 60,
       "type": "array",
-      "x-format": "table",
+      "x-theadHidden": true,
       "x-arrayAddContent": "",
       "x-arrayDelete": true,
       "x-arrayDeleteContent": "",
@@ -53,30 +44,31 @@
       "x-collapseToggleContent": "",
       "x-arrayMove": false,
       "items": {
-        "x-switcherInput": "modal",
+        "x-switcherInput": "select-inline",
         "oneOf": [
           {
+            "x-titleHidden": true,
             "x-switcherTitle": "URL only",
             "type": "string"
           },
           {
+            "x-titleHidden": true,
             "x-switcherTitle": "Advanced",
-            "$ref": "#/$defs/shared_http_client",
             "properties": {
               "url": {
                 "type": "string"
               }
-            }
+            },
+            "x-mergeAllOf": true,
+            "allOf": [{ "$ref": "#/$defs/shared_http_client" }]
           }
         ]
       }
     },
     "home": {
-      "x-propertyOrder": 70,
       "type": "string"
     },
     "mesh_with": {
-      "x-propertyOrder": 80,
       "type": "array",
       "x-format": "nav-horizontal",
       "x-arrayAddContent": "",
@@ -98,10 +90,7 @@
           {
             "x-switcherTitle": "Advanced",
             "$ref": "#/$defs/shared_dial",
-            "required": [
-              "server",
-              "server_port"
-            ],
+            "required": ["server", "server_port"],
             "properties": {
               "server": {
                 "type": "string"
@@ -121,15 +110,12 @@
       }
     },
     "mesh_psk": {
-      "x-propertyOrder": 90,
       "type": "string"
     },
     "mesh_psk_file": {
-      "x-propertyOrder": 100,
       "type": "string"
     },
     "stun": {
-      "x-propertyOrder": 110,
       "x-prepared": true,
       "x-switcherInput": "modal",
       "oneOf": [
@@ -140,14 +126,9 @@
         {
           "x-switcherTitle": "Advanced",
           "type": "object",
-          "required": [
-            "enabled",
-            "listen",
-            "listen_port"
-          ],
+          "required": ["enabled", "listen", "listen_port"],
           "properties": {
             "enabled": {
-              "x-propertyOrder": 10,
               "x-format": "toggle",
               "type": "boolean",
               "default": true,
@@ -169,10 +150,20 @@
               }
             }
           },
-          "$ref": "#/$defs/shared_listen"
+          "x-mergeAllOf": true,
+          "allOf": [
+            {
+              "$ref": "#/$defs/shared_listen"
+            }
+          ]
         }
       ]
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

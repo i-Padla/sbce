@@ -1,14 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "Hysteria2",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "tls", "listen"],
-  "x-prepared": ["tag", "up_mbps", "down_mbps"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
-      "title": "Type",
       "type": "string",
       "default": "hysteria2",
       "const": "hysteria2",
@@ -18,7 +15,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "hy2-in",
       "x-grid": {
@@ -174,6 +170,7 @@
         "stun_servers": {
           "type": "array",
           "x-format": "table",
+          "x-theadHidden": true,
           "x-arrayAddContent": "Add",
           "x-enableCollapseToggle": true,
           "x-collapseToggleContent": "",
@@ -233,7 +230,6 @@
         },
         "http_client": {
           "x-switcherInput": "modal",
-          "x-prepared": true,
           "oneOf": [
             {
               "x-switcherTitle": "Tag only",

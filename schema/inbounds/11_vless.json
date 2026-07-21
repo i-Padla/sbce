@@ -1,12 +1,10 @@
 {
   "type": "object",
-  "title": "VLESS",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "vless",
       "const": "vless",
@@ -16,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "VLESS_in",
       "x-grid": {

@@ -1,4 +1,4 @@
-import Jedison from './1.15.0/src/index.js'
+import Jedison from './1.16.1/src/index_custom.js'
 const {
   equal,
   pathToAttribute,
@@ -22,7 +22,9 @@ const {
   getSchemaXOption,
   getSchemaElse,
   getSchemaIf,
-  getSchemaThen
+  getSchemaThen,
+  getSchemaPrefixItems,
+  getSchemaItems
 } = Jedison.Schema
 // #region InstaceObject.sortChildrenByPropertyOrder() changes - new sorting logic in order of importance:
 // propertyOrder value > parent object propertyOrder map value > property postion in schema > everything else.
@@ -289,7 +291,7 @@ Jedison.EditorObject.prototype.refreshPropertiesSlot = function () {
   }
 }
 // #endregion
-// #region RefreshEditors
+// #region EditorObject.RefreshEditors optimization
 Jedison.EditorObject.prototype.refreshEditors = function () {
   const fragment = document.createDocumentFragment()
   this.instance.children.forEach((child) => {
@@ -334,7 +336,7 @@ Jedison.EditorObject.prototype.refreshEditors = function () {
   this.control.childrenSlot.replaceChildren(fragment)
 }
 // #endregion
-// #region Fix for when required checkboxes can still be active.
+// #region IfThenElse.prepare fix for when required checkboxes can still be active.
 Jedison.InstanceIfThenElse.prototype.prepare = function () {
   this.instances = []
   this.instanceStartingValues = []
@@ -414,87 +416,89 @@ Jedison.InstanceIfThenElse.prototype.prepare = function () {
 }
 // #endregion
 // #region Fix for embeded switcher when sub-schema has if-then-else.
-Jedison.EditorMultiple.prototype.refreshUI = function () {
-  // Helper to find deepest ActiveInstance =================================
-  const getDeepActiveInstance = () => {
-    let activeInstance = this.instance.activeInstance
-    while (activeInstance?.activeInstance) {
-      activeInstance = activeInstance.activeInstance
-    }
-    return activeInstance
-  }
-  // =======================================================================
+// Jedison.EditorMultiple.prototype.refreshUI = function () {
+//   // Helper to find deepest ActiveInstance =================================
+//   const getDeepActiveInstance = () => {
+//     let activeInstance = this.instance.activeInstance
+//     while (activeInstance?.activeInstance) {
+//       activeInstance = activeInstance.activeInstance
+//     }
+//     return activeInstance
+//   }
+//   // =======================================================================
 
-  this.refreshDisabledState()
-  this.control.childrenSlot.innerHTML = ''
-  this.control.childrenSlot.appendChild(
-    this.instance.activeInstance.ui.control.container
-  )
+//   this.refreshDisabledState()
+//   this.control.childrenSlot.innerHTML = ''
+//   this.control.childrenSlot.appendChild(
+//     this.instance.activeInstance.ui.control.container
+//   )
 
-  if (this.embedSwitcher) {
-    const slot = getDeepActiveInstance()?.ui?.control?.switcherSlot
-    if (slot) {
-      slot.innerHTML = ''
-      slot.appendChild(this.control.switcher.container)
-      this.control.header.style.display = 'none'
-    } else {
-      this.control.header.style.display = ''
-      this.control.header.appendChild(this.control.switcher.container)
-    }
-  }
+//   if (this.embedSwitcher) {
+//     const slot = getDeepActiveInstance()?.ui?.control?.switcherSlot
+//     if (slot) {
+//       slot.innerHTML = ''
+//       slot.appendChild(this.control.switcher.container)
+//       this.control.header.style.display = 'none'
+//     } else {
+//       this.control.header.style.display = ''
+//       this.control.header.appendChild(this.control.switcher.container)
+//     }
+//   }
 
-  if (
-    this.switcherInput === 'modal' ||
-    this.switcherInput === 'select-inline'
-  ) {
-    const childControl = getDeepActiveInstance().ui.control
-    const infoContainer = childControl.infoContainer
-    const titleEl = childControl.legendText || childControl.label
-    if (infoContainer) {
-      infoContainer.after(this.control.switcher.container)
-      this.control.header.style.display = 'none'
-    } else if (titleEl) {
-      const infoEl = childControl.info?.container
-      const anchor = infoEl && infoEl.parentNode ? infoEl : titleEl
-      anchor.after(this.control.switcher.container)
-      this.control.header.style.display = 'none'
-    }
-  }
+//   if (
+//     this.switcherInput === 'modal' ||
+//     this.switcherInput === 'select-inline'
+//   ) {
+//     const childControl = getDeepActiveInstance().ui.control
+//     const infoContainer = childControl.infoContainer
+//     const titleEl = childControl.legendText || childControl.label
+//     if (infoContainer) {
+//       infoContainer.after(this.control.switcher.container)
+//       this.control.header.style.display = 'none'
+//     } else if (titleEl) {
+//       const infoEl = childControl.info?.container
+//       const anchor = infoEl && infoEl.parentNode ? infoEl : titleEl
+//       anchor.after(this.control.switcher.container)
+//       this.control.header.style.display = 'none'
+//     }
+//   }
 
-  if (this.switcherInput === 'select') {
-    this.control.switcher.input.value = this.instance.index
-  }
+//   if (this.switcherInput === 'select') {
+//     this.control.switcher.input.value = this.instance.index
+//   }
 
-  if (this.switcherInput === 'select-inline') {
-    this.control.switcher.input.value = this.instance.index
-  }
+//   if (this.switcherInput === 'select-inline') {
+//     this.control.switcher.input.value = this.instance.index
+//   }
 
-  if (
-    this.switcherInput === 'radios' ||
-    this.switcherInput === 'radios-inline'
-  ) {
-    this.control.switcher.radios.forEach((radio) => {
-      const radioIndex = Number(radio.value)
-      radio.checked = radioIndex === this.instance.index
-    })
-  }
+//   if (
+//     this.switcherInput === 'radios' ||
+//     this.switcherInput === 'radios-inline'
+//   ) {
+//     this.control.switcher.radios.forEach((radio) => {
+//       const radioIndex = Number(radio.value)
+//       radio.checked = radioIndex === this.instance.index
+//     })
+//   }
 
-  if (this.switcherInput === 'modal') {
-    this.control.switcher.triggerText.textContent =
-      this.instance.switcherOptionsLabels[this.instance.index]
-    this.control.switcher.optionButtons.forEach((btn, index) => {
-      this.theme.setSwitcherOptionActive(btn, index === this.instance.index)
-    })
-  }
+//   if (this.switcherInput === 'modal') {
+//     this.control.switcher.triggerText.textContent =
+//       this.instance.switcherOptionsLabels[this.instance.index]
+//     this.control.switcher.optionButtons.forEach((btn, index) => {
+//       this.theme.setSwitcherOptionActive(btn, index === this.instance.index)
+//     })
+//   }
 
-  if (this.disabled || this.instance.isReadOnly()) {
-    this.instance.activeInstance.ui.disable()
-  } else {
-    this.instance.activeInstance.ui.enable()
-  }
-}
+//   if (this.disabled || this.instance.isReadOnly()) {
+//     this.instance.activeInstance.ui.disable()
+//   } else {
+//     this.instance.activeInstance.ui.enable()
+//   }
+// }
 // #endregion
-// #region Fix for setting uncompatible value type on inactive sub-schemas in multiple instance
+// #region InstanceMultiple.prepare
+// 1) fix for setting uncompatible value type on inactive sub-schemas in multiple instance
+// 2) Forwarding arrayTemplateData when InstanceMultiple creates its sub-instances
 Jedison.InstanceMultiple.prototype.prepare = function () {
   this.instances = []
   this.activeInstance = null
@@ -619,6 +623,7 @@ Jedison.InstanceMultiple.prototype.prepare = function () {
       schema: schema,
       path: this.path,
       parent: this.parent,
+      arrayTemplateData: this.arrayTemplateData, // Forwarding arrayTemplateData when InstanceMultiple creates its sub-instances
       value: isCompatible ? clone(this.value) : undefined // Fallback to undefined for incompatible types so the instance seeds its own safe default
     })
 
@@ -646,6 +651,188 @@ Jedison.InstanceMultiple.prototype.prepare = function () {
   this.switchInstance(fittestIndex, this.value)
 }
 // #endregion
+// #region Adding x-theadHidden support to hide thead in some editors.
+Jedison.EditorArrayTuple.prototype.refreshUI = function () {
+  {
+    this.control.childrenSlot.innerHTML = ''
+    const table = this.theme.getTable()
+    this.control.childrenSlot.appendChild(table.container)
+
+    // thead — one header per prefixItem
+    const schemaPrefixItems = getSchemaPrefixItems(this.instance.schema)
+    schemaPrefixItems.forEach((prefixItemSchema) => {
+      const th = this.theme.getTableHeader()
+      const { label } = this.theme.getFakeLabel({
+        content: getSchemaTitle(prefixItemSchema) ?? ''
+      })
+      th.appendChild(label)
+      table.thead.appendChild(th)
+    })
+    const theadHidden = getSchemaXOption(this.instance.schema, 'theadHidden')
+    if (theadHidden) {
+      table.table.removeChild(table.thead)
+    }
+
+    // tbody — single row
+    const tbodyRow = document.createElement('tr')
+    this.instance.children.forEach((child) => {
+      const td = this.theme.getTableDefinition()
+      child.ui.adaptForTable(child, td)
+      td.appendChild(child.ui.control.container)
+      tbodyRow.appendChild(td)
+    })
+    table.tbody.appendChild(tbodyRow)
+
+    this.refreshJsonData()
+    this.refreshDisabledState()
+  }
+}
+Jedison.EditorArrayTable.prototype.refreshUI = function () {
+  this.control.childrenSlot.innerHTML = ''
+
+  const table = this.theme.getTable()
+
+  this.control.childrenSlot.appendChild(table.container)
+
+  const arrayDelete =
+    getSchemaXOption(this.instance.schema, 'arrayDelete') ??
+    this.instance.jedison.getOption('arrayDelete')
+  const arrayMove =
+    getSchemaXOption(this.instance.schema, 'arrayMove') ??
+    this.instance.jedison.getOption('arrayMove')
+  const arrayButtonsPosition =
+    getSchemaXOption(this.instance.schema, 'arrayButtonsPosition') ??
+    this.instance.jedison.getOption('arrayButtonsPosition')
+  const arrayAddAfter =
+    getSchemaXOption(this.instance.schema, 'arrayAddAfter') ??
+    this.instance.jedison.getOption('arrayAddAfter')
+
+  // thead labels
+  const th = this.theme.getTableHeader()
+  const { label } = this.theme.getFakeLabel({
+    content: 'Controls',
+    visuallyHidden: true
+  })
+
+  th.appendChild(label)
+
+  // Add controls header at the beginning (left) or end (right)
+  if (arrayButtonsPosition === 'left') {
+    table.thead.appendChild(th)
+  }
+
+  // table header
+
+  if (this.instance.children.length) {
+    const schemaItems = getSchemaItems(this.instance.schema)
+
+    const thTitle = this.theme.getTableHeader()
+
+    if (schemaItems) {
+      if (schemaItems.title) {
+        const fakeLabel = this.theme.getFakeLabel({
+          content: schemaItems.title
+        })
+
+        thTitle.appendChild(fakeLabel.label)
+      }
+
+      const schemaXInfo = getSchemaXOption(schemaItems, 'info')
+
+      if (isSet(schemaXInfo)) {
+        const infoContent = this.getInfo(schemaItems)
+        const info = this.theme.getInfo(infoContent)
+
+        if (schemaXInfo.variant === 'modal') {
+          this.theme.infoAsModal(
+            info,
+            this.getIdFromPath(this.instance.path) + '-item',
+            infoContent
+          )
+        }
+
+        thTitle.appendChild(info.container)
+      }
+    }
+
+    table.thead.appendChild(thTitle)
+  }
+  const theadHidden = getSchemaXOption(this.instance.schema, 'theadHidden')
+  if (theadHidden) {
+    table.table.removeChild(table.thead)
+  }
+  // Add controls header at the end if position is right
+  if (arrayButtonsPosition === 'right') {
+    table.thead.appendChild(th)
+  }
+
+  // tbody rows
+  this.instance.children.forEach((child, index) => {
+    const tbodyRow = document.createElement('tr')
+
+    // buttons
+    const buttonsTd = this.theme.getTableDefinition({ isButtonColumn: true })
+    const {
+      deleteBtn,
+      moveUpBtn,
+      moveDownBtn,
+      dragBtn,
+      btnGroup,
+      addAfterBtn
+    } = this.getButtons(index)
+
+    if (this.isSortable()) {
+      btnGroup.appendChild(dragBtn)
+    }
+
+    if (isSet(arrayDelete) && arrayDelete === true) {
+      btnGroup.appendChild(deleteBtn)
+    }
+
+    if (isSet(arrayMove) && arrayMove === true) {
+      btnGroup.appendChild(moveUpBtn)
+      btnGroup.appendChild(moveDownBtn)
+    }
+
+    if (isSet(arrayAddAfter) && arrayAddAfter === true) {
+      btnGroup.appendChild(addAfterBtn)
+    }
+
+    buttonsTd.appendChild(btnGroup)
+
+    // Add buttons column at the beginning (left) or end (right)
+    if (arrayButtonsPosition === 'left') {
+      tbodyRow.appendChild(buttonsTd)
+    }
+
+    // child
+    const td = this.theme.getTableDefinition()
+    child.ui.adaptForTable(child, td)
+    child.ui.control.info?.container?.remove() // info lives once in the header (#64)
+    td.appendChild(child.ui.control.container)
+    tbodyRow.appendChild(td)
+
+    // Add buttons column at the end if position is right
+    if (arrayButtonsPosition === 'right') {
+      tbodyRow.appendChild(buttonsTd)
+    }
+
+    table.tbody.appendChild(tbodyRow)
+  })
+
+  this.refreshSortable(table.tbody)
+  this.refreshAddBtn()
+  this.refreshDeleteAllBtn()
+  this.refreshJsonData()
+  this.refreshDisabledState()
+  this.refreshScrollPosition(table.container)
+
+  table.container.addEventListener('scroll', () => {
+    this.lastScrollTop = table.container.scrollTop
+    this.lastScrollLeft = table.container.scrollLeft
+  })
+}
+// #endregion
 // #region Custom extension for toggle-like boolean editor.
 class BooleanToggle extends Jedison.EditorBoolean {
   static resolves(e) {
@@ -662,7 +849,7 @@ class BooleanToggle extends Jedison.EditorBoolean {
       info: this.getInfo()
     })
 
-    const { formGroup, input, label, info } = this.control
+    const { formGroup, input, label, info, switcherSlot } = this.control
 
     formGroup.classList.remove('form-check')
     label.classList.remove('form-check-label')
@@ -684,8 +871,9 @@ class BooleanToggle extends Jedison.EditorBoolean {
     if (this.getInfo() && info && info.container) {
       formGroup.appendChild(info.container)
     }
+    formGroup.appendChild(switcherSlot)
     switchWrapper.appendChild(input)
-    switchWrapper.appendChild(statusLabel) //
+    switchWrapper.appendChild(statusLabel)
     formGroup.appendChild(switchWrapper)
 
     input.setAttribute('role', 'switch')

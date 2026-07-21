@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "title": "Shadowsocks",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "listen", "password"],
   "properties": {

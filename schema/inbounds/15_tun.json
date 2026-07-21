@@ -1,12 +1,10 @@
 {
   "type": "object",
-  "title": "Tun",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type"],
-  "x-prepaed": ["tag"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "tun",
       "const": "tun",
@@ -16,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "tun_in",
       "x-grid": {
@@ -121,46 +118,19 @@
       "$ref": "#/$defs/string_or_array"
     },
     "include_uid": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "integer"
-      }
+      "$ref": "#/$defs/integer_or_array"
     },
     "include_uid_range": {
       "$ref": "#/$defs/string_or_array"
     },
     "exclude_uid": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "integer"
-      }
+      "$ref": "#/$defs/integer_or_array"
     },
     "exclude_uid_range": {
       "$ref": "#/$defs/string_or_array"
     },
     "include_android_user": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayDeleteContent": "",
-      "x-arrayAddContent": "Add",
-      "x-arrayMove": false,
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "items": {
-        "type": "integer"
-      }
+      "$ref": "#/$defs/integer_or_array"
     },
     "include_package": {
       "$ref": "#/$defs/string_or_array"

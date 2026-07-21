@@ -8,63 +8,33 @@
   "x-arrayDeleteContent": "",
   "x-arrayDeleteAll": true,
   "x-arrayDeleteAllContent": "Delete all",
-  "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+  "x-titleTemplate": "#{{ i1 }} {{ value.tag }} ({{ value.type }})",
   "items": {
-    "x-embedSwitcher": true,
+    "x-switcherInput": "select-inline",
     "x-discriminator": "type",
     "oneOf": [
+      { "x-switcherTitle": "Direct", "$ref": "#/$defs/inbounds_direct" },
+      { "x-switcherTitle": "Mixed", "$ref": "#/$defs/inbounds_mixed" },
+      { "x-switcherTitle": "SOCKS", "$ref": "#/$defs/inbounds_socks" },
+      { "x-switcherTitle": "HTTP", "$ref": "#/$defs/inbounds_http" },
       {
-        "$ref": "#/$defs/inbounds_direct"
-      },
-      {
-        "$ref": "#/$defs/inbounds_mixed"
-      },
-      {
-        "$ref": "#/$defs/inbounds_socks"
-      },
-      {
-        "$ref": "#/$defs/inbounds_http"
-      },
-      {
+        "x-switcherTitle": "Shadowsocks",
         "$ref": "#/$defs/inbounds_shadowsocks"
       },
+      { "x-switcherTitle": "VMess", "$ref": "#/$defs/inbounds_vmess" },
+      { "x-switcherTitle": "Trojan", "$ref": "#/$defs/inbounds_trojan" },
+      { "x-switcherTitle": "Naive", "$ref": "#/$defs/inbounds_naive" },
+      { "x-switcherTitle": "Hysteria", "$ref": "#/$defs/inbounds_hysteria" },
+      { "x-switcherTitle": "ShadowTLS", "$ref": "#/$defs/inbounds_shadowtls" },
+      { "x-switcherTitle": "VLESS", "$ref": "#/$defs/inbounds_vless" },
+      { "x-switcherTitle": "TUIC", "$ref": "#/$defs/inbounds_tuic" },
+      { "x-switcherTitle": "Hysteria2", "$ref": "#/$defs/inbounds_hysteria2" },
+      { "x-switcherTitle": "AnyTLS", "$ref": "#/$defs/inbounds_anytls" },
+      { "x-switcherTitle": "Tun", "$ref": "#/$defs/inbounds_tun" },
+      { "x-switcherTitle": "Redirect", "$ref": "#/$defs/inbounds_redirect" },
+      { "x-switcherTitle": "TProxy", "$ref": "#/$defs/inbounds_tproxy" },
       {
-        "$ref": "#/$defs/inbounds_vmess"
-      },
-      {
-        "$ref": "#/$defs/inbounds_trojan"
-      },
-      {
-        "$ref": "#/$defs/inbounds_naive"
-      },
-      {
-        "$ref": "#/$defs/inbounds_hysteria"
-      },
-      {
-        "$ref": "#/$defs/inbounds_shadowtls"
-      },
-      {
-        "$ref": "#/$defs/inbounds_vless"
-      },
-      {
-        "$ref": "#/$defs/inbounds_tuic"
-      },
-      {
-        "$ref": "#/$defs/inbounds_hysteria2"
-      },
-      {
-        "$ref": "#/$defs/inbounds_anytls"
-      },
-      {
-        "$ref": "#/$defs/inbounds_tun"
-      },
-      {
-        "$ref": "#/$defs/inbounds_redirect"
-      },
-      {
-        "$ref": "#/$defs/inbounds_tproxy"
-      },
-      {
+        "x-switcherTitle": "Cloudflared",
         "$ref": "#/$defs/inbounds_cloudflared"
       }
     ]

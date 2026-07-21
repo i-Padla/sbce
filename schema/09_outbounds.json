@@ -7,68 +7,33 @@
   "x-arrayDeleteContent": "",
   "x-arrayDeleteAll": true,
   "x-arrayDeleteAllContent": "Delete all",
-  "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+  "x-titleTemplate": "#{{ i1 }} {{ value.tag }} ({{ value.type }})",
   "items": {
-    "x-embedSwitcher": true,
+    "x-switcherInput": "select-inline",
     "x-discriminator": "type",
     "oneOf": [
+      { "x-switcherTitle": "Direct", "$ref": "#/$defs/outbounds_direct" },
+      { "x-switcherTitle": "Block", "$ref": "#/$defs/outbounds_block" },
+      { "x-switcherTitle": "SOCKS", "$ref": "#/$defs/outbounds_socks" },
+      { "x-switcherTitle": "HTTP", "$ref": "#/$defs/outbounds_http" },
       {
-        "$ref": "#/$defs/outbounds_direct"
-      },
-      {
-        "$ref": "#/$defs/outbounds_block"
-      },
-      {
-        "$ref": "#/$defs/outbounds_socks"
-      },
-      {
-        "$ref": "#/$defs/outbounds_http"
-      },
-      {
+        "x-switcherTitle": "Shadowsocks",
         "$ref": "#/$defs/outbounds_shadowsocks"
       },
-      {
-        "$ref": "#/$defs/outbounds_vmess"
-      },
-      {
-        "$ref": "#/$defs/outbounds_trojan"
-      },
-      {
-        "$ref": "#/$defs/outbounds_naive"
-      },
-      {
-        "$ref": "#/$defs/outbounds_hysteria"
-      },
-      {
-        "$ref": "#/$defs/outbounds_shadowtls"
-      },
-      {
-        "$ref": "#/$defs/outbounds_vless"
-      },
-      {
-        "$ref": "#/$defs/outbounds_tuic"
-      },
-      {
-        "$ref": "#/$defs/outbounds_hysteria2"
-      },
-      {
-        "$ref": "#/$defs/outbounds_anytls"
-      },
-      {
-        "$ref": "#/$defs/outbounds_tor"
-      },
-      {
-        "$ref": "#/$defs/outbounds_ssh"
-      },
-      {
-        "$ref": "#/$defs/outbounds_dns"
-      },
-      {
-        "$ref": "#/$defs/outbounds_selector"
-      },
-      {
-        "$ref": "#/$defs/outbounds_urltest"
-      }
+      { "x-switcherTitle": "VMess", "$ref": "#/$defs/outbounds_vmess" },
+      { "x-switcherTitle": "Trojan", "$ref": "#/$defs/outbounds_trojan" },
+      { "x-switcherTitle": "Naive", "$ref": "#/$defs/outbounds_naive" },
+      { "x-switcherTitle": "Hysteria", "$ref": "#/$defs/outbounds_hysteria" },
+      { "x-switcherTitle": "ShadowTLS", "$ref": "#/$defs/outbounds_shadowtls" },
+      { "x-switcherTitle": "VLESS", "$ref": "#/$defs/outbounds_vless" },
+      { "x-switcherTitle": "TUIC", "$ref": "#/$defs/outbounds_tuic" },
+      { "x-switcherTitle": "Hysteria2", "$ref": "#/$defs/outbounds_hysteria2" },
+      { "x-switcherTitle": "AnyTLS", "$ref": "#/$defs/outbounds_anytls" },
+      { "x-switcherTitle": "Tor", "$ref": "#/$defs/outbounds_tor" },
+      { "x-switcherTitle": "SSH", "$ref": "#/$defs/outbounds_ssh" },
+      { "x-switcherTitle": "DNS", "$ref": "#/$defs/outbounds_dns" },
+      { "x-switcherTitle": "Selector", "$ref": "#/$defs/outbounds_selector" },
+      { "x-switcherTitle": "URLtest", "$ref": "#/$defs/outbounds_urltest" }
     ]
   }
 }

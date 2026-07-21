@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "title": "TUIC",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "tls", "listen"],
   "properties": {
@@ -14,7 +14,6 @@
       }
     },
     "tag": {
-      "x-prepared": true,
       "type": "string",
       "default": "tuic-in",
       "x-grid": {

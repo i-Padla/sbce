@@ -1,11 +1,8 @@
 {
   "type": "object",
-  "title": "Hosts",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tag"
-  ],
+  "required": ["type"],
   "properties": {
     "type": {
       "type": "string",
@@ -30,7 +27,7 @@
       "type": "object",
       "title": "Predifined hosts",
       "x-objectAdd": true,
-      "x-propertiesContent": "Add custom header",
+      "x-propertiesContent": "Add predefined host",
       "x-enableCollapseToggle": true,
       "x-collapseToggleContent": "",
       "additionalProperties": {

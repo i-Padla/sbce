@@ -96,7 +96,3 @@ UDP NAT expiration time.
 WireGuard worker count.
 
 CPU count is used by default.
-
-### Dial Fields
-
-See [Dial Fields](https://sing-box.sagernet.org/configuration/shared/dial/) for details.

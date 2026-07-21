@@ -1,13 +1,11 @@
 {
   "type": "object",
-  "title": "Tailscale",
+  "title": "#{{i1}} {{value.tag}}",
   "x-deactivateNonRequired": true,
   "x-enablePropertiesToggle": true,
   "x-propertiesToggleContent": "Toggle properties",
   "x-format": "grid",
-  "required": [
-    "type"
-  ],
+  "required": ["type"],
   "properties": {
     "type": {
       "type": "string",

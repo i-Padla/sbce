@@ -1,16 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "Hysteria realm",
+  "title": "#{{i1}} {{value.tag}}",
+  "x-switcherTitle": "Hysteria realm",
   "x-format": "grid",
-  "required": [
-    "type",
-    "listen",
-    "users"
-  ],
+  "required": ["type", "listen", "users"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "hysteria-realm",
       "const": "hysteria-realm",
@@ -21,7 +17,6 @@
     },
     "tag": {
       "x-prepared": true,
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "",
       "x-grid": {
@@ -45,16 +40,12 @@
       "x-titleTemplate": "#{{i1}} {{value.name}}",
       "items": {
         "type": "object",
-        "required": [
-          "name",
-          "token"
-        ],
+        "required": ["name", "token"],
         "x-enablePropertiesToggle": true,
         "title": "{{value.name}}",
         "x-format": "grid",
         "properties": {
           "name": {
-            "x-propertieOrder": 10,
             "title": "Name",
             "type": "string",
             "x-grid": {
@@ -62,7 +53,6 @@
             }
           },
           "token": {
-            "x-propertieOrder": 20,
             "title": "Token",
             "type": "string",
             "x-grid": {
@@ -76,6 +66,7 @@
       }
     }
   },
+  "x-mergeAllOf": true,
   "allOf": [
     {
       "$ref": "#/$defs/shared_http2"

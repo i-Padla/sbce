@@ -1,10 +1,8 @@
 {
   "type": "object",
-  "title": "URLTest",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type"
-  ],
+  "required": ["type"],
   "properties": {
     "type": {
       "type": "string",

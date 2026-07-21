@@ -1,12 +1,10 @@
 {
   "type": "object",
-  "title": "Trojan",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "trojan",
       "const": "trojan",
@@ -16,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "trojan-in",
       "x-grid": {

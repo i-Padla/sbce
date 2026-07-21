@@ -1,6 +1,7 @@
 {
   "type": "object",
   "x-switcherTitle": "Logical",
+  "title": "Rule #{{ i1 }}",
   "x-enableCollapseToggle": true,
   "x-collapseToggleContent": "",
   "x-recursive": true,

@@ -1,16 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "Resolved",
+  "title": "#{{i1}} {{value.tag}}",
+  "x-switcherTitle": "Resolved",
   "x-format": "grid",
-  "required": [
-    "type",
-    "listen",
-    "listen_port"
-  ],
+  "required": ["type", "listen", "listen_port"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "resolved",
       "const": "resolved",
@@ -20,7 +16,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "",
       "x-grid": {
@@ -43,5 +38,10 @@
       }
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

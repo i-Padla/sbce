@@ -7,18 +7,21 @@
   "x-arrayDeleteContent": "",
   "x-arrayDeleteAll": true,
   "x-arrayDeleteAllContent": "Delete all",
-  "x-titleTemplate": "{{ value.tag}} ({{ value.type }})",
+  "x-titleTemplate": "#{{i1}} {{ value.tag}} ({{ value.type }})",
   "items": {
-    "x-embedSwitcher": true,
+    "x-switcherInput": "select-inline",
     "x-discriminator": "type",
     "oneOf": [
       {
+        "x-switcherTitle": "ACME",
         "$ref": "#/$defs/certificate_providers_acme"
       },
       {
+        "x-switcherTitle": "Tailscale",
         "$ref": "#/$defs/certificate_providers_tailscale"
       },
       {
+        "x-switcherTitle": "Claudflare Origin CA",
         "$ref": "#/$defs/certificate_providers_cloudflare_origin_ca"
       }
     ]

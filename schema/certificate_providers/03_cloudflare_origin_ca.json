@@ -1,12 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "Cloudflare Origin CA",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type",
-    "domain"
-  ],
+  "required": ["type", "domain"],
   "properties": {
     "type": {
       "type": "string",

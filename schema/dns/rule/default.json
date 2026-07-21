@@ -4,6 +4,7 @@
   "x-enableCollapseToggle": true,
   "x-collapseToggleContent": "",
   "x-switcherTitle": "Default",
+  "title": "Rule #{{ i1 }}",
   "properties": {
     "type": {
       "type": "string",

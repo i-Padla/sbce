@@ -13,7 +13,7 @@
   "x-arrayMoveUpContent": "",
   "x-titleTemplate": "#{{ i1 }} {{ value.tag }} ({{value.type}})",
   "items": {
-    "x-embedSwitcher": true,
+    "x-switcherInput": "select-inline",
     "x-discriminator": "type",
     "oneOf": [
       {

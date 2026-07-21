@@ -1,11 +1,8 @@
 {
   "type": "object",
-  "title": "Local",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type",
-    "tag"
-  ],
+  "required": ["type"],
   "properties": {
     "type": {
       "type": "string",

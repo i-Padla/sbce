@@ -1,16 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "CCM",
+  "title": "#{{i1}} {{value.tag}}",
+  "x-switcherTitle": "CCM",
   "x-format": "grid",
-  "required": [
-    "type",
-    "listen"
-  ],
+  "required": ["type", "listen"],
   "$ref": "#/$defs/shared_listen",
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "ccm",
       "const": "ccm",
@@ -21,7 +18,6 @@
     },
     "tag": {
       "x-prepared": true,
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "",
       "x-grid": {
@@ -53,7 +49,6 @@
         "x-format": "grid",
         "properties": {
           "name": {
-            "x-propertieOrder": 10,
             "title": "Name",
             "type": "string",
             "x-grid": {
@@ -61,7 +56,6 @@
             }
           },
           "token": {
-            "x-propertieOrder": 20,
             "title": "Token",
             "type": "string",
             "x-grid": {

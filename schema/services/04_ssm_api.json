@@ -1,16 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "title": "SSM API",
+  "title": "#{{i1}} {{value.tag}}",
+  "x-switcherTitle": "SSM API",
   "x-format": "grid",
-  "required": [
-    "type",
-    "servers",
-    "listen"
-  ],
+  "required": ["type", "servers", "listen"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "ssm-api",
       "const": "ssm-api",
@@ -21,7 +17,6 @@
     },
     "tag": {
       "x-prepared": true,
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "",
       "x-grid": {
@@ -41,13 +36,16 @@
       }
     },
     "cache_path": {
-      "x-propertyOrder": 30,
       "type": "string"
     },
     "tls": {
-      "x-propertyOrder": 40,
       "$ref": "#/$defs/shared_tls_inbound"
     }
   },
-  "$ref": "#/$defs/shared_listen"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_listen"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "title": "Cloudflared",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "token", "listen"],
   "properties": {

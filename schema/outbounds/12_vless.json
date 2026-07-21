@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "title": "VLESS",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "server", "server_port", "uuid"],
   "properties": {
@@ -64,5 +64,9 @@
     }
   },
   "x-mergeAllOf": true,
-  "AllOf": [{ "$ref": "#/$defs/shared_dial" }]
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

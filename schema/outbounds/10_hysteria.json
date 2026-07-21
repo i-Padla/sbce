@@ -1,16 +1,10 @@
 {
   "type": "object",
-  "title": "Hysteria",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type",
-    "server",
-    "server_port",
-    "tls"
-  ],
+  "required": ["type", "server", "server_port", "tls"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "hysteria",
       "const": "hysteria",
@@ -20,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "hysteria-out",
       "x-grid": {

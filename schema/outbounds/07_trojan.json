@@ -1,16 +1,10 @@
 {
   "type": "object",
-  "title": "Trojan",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type",
-    "server",
-    "server_port",
-    "password"
-  ],
+  "required": ["type", "server", "server_port", "password"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "trojan",
       "const": "trojan",
@@ -20,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "trojan-out",
       "x-grid": {
@@ -57,5 +50,10 @@
       "$ref": "#/$defs/shared_multiplex_outbound"
     }
   },
-  "$ref": "#/$defs/shared_dial"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

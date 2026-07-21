@@ -1,7 +1,7 @@
 {
   "type": "array",
   "title": "Rules",
-  "x-format": "nav-vertical",
+  "x-format": "nav-vertical-3",
   "x-arrayAddContent": "Add",
   "x-arrayDeleteContent": "",
   "x-enableCollapseToggle": true,
@@ -14,7 +14,7 @@
   "x-recursive": true,
   "x-titleTemplate": "#{{ i1 }}",
   "items": {
-    "x-embedSwitcher": true,
+    "x-switcherInput": "select-inline",
     "x-discriminator": "type",
     "oneOf": [
       {

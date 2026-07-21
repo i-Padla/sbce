@@ -1,13 +1,10 @@
 {
   "type": "object",
-  "title": "Direct",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type"
-  ],
+  "required": ["type"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "direct",
       "const": "direct",
@@ -17,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "direct-out",
       "x-grid": {
@@ -37,5 +33,10 @@
       }
     }
   },
-  "$ref": "#/$defs/shared_dial"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

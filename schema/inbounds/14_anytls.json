@@ -1,13 +1,10 @@
 {
   "type": "object",
-  "title": "AnyTLS",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
   "required": ["type", "listen"],
-  "x-prepaed": ["tag"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
-      "title": "Type",
       "type": "string",
       "default": "anytls",
       "const": "anytls",
@@ -17,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "anytls-in",
       "x-grid": {
@@ -52,19 +48,6 @@
       }
     },
     "padding_scheme": {
-      "type": "array",
-      "x-format": "table",
-      "x-arrayAddContent": "Add",
-      "x-enableCollapseToggle": true,
-      "x-collapseToggleContent": "",
-      "x-arrayMove": false,
-      "x-arrayDeleteContent": "",
-      "x-arrayDeleteAll": true,
-      "x-arrayDeleteAllContent": "Delete all",
-      "x-arrayButtonsPosition": "right",
-      "items": {
-        "type": "string"
-      },
       "default": [
         "stop=8",
         "0=30-30",
@@ -75,7 +58,8 @@
         "5=500-1000",
         "6=500-1000",
         "7=500-1000"
-      ]
+      ],
+      "$ref": "#/$defs/string_or_array"
     },
     "tls": {
       "$ref": "#/$defs/shared_tls_inbound"

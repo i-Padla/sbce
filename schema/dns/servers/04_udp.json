@@ -1,8 +1,8 @@
 {
   "type": "object",
-  "title": "UDP",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": ["type", "tag", "server"],
+  "required": ["type", "server"],
   "properties": {
     "type": {
       "type": "string",

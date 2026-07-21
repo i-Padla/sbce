@@ -1,15 +1,10 @@
 {
   "type": "object",
-  "title": "HTTP",
+  "title": "#{{i1}} {{value.tag}}",
   "x-format": "grid",
-  "required": [
-    "type",
-    "server",
-    "server_port"
-  ],
+  "required": ["type", "server", "server_port"],
   "properties": {
     "type": {
-      "x-propertyOrder": 10,
       "type": "string",
       "default": "http",
       "const": "http",
@@ -19,7 +14,6 @@
       }
     },
     "tag": {
-      "x-propertyOrder": 20,
       "type": "string",
       "default": "http-out",
       "x-grid": {
@@ -60,5 +54,10 @@
       "$ref": "#/$defs/shared_tls_outbound"
     }
   },
-  "$ref": "#/$defs/shared_dial"
+  "x-mergeAllOf": true,
+  "allOf": [
+    {
+      "$ref": "#/$defs/shared_dial"
+    }
+  ]
 }

@@ -1,16 +1,10 @@
 {
   "type": "object",
-  "title": "Wireguard",
-  "x-deactivateNonRequired": true,
+  "title": "#{{i1}} {{value.tag}}",
   "x-enablePropertiesToggle": true,
   "x-propertiesToggleContent": "Toggle properties",
   "x-format": "grid",
-  "required": [
-    "type",
-    "address",
-    "private_key",
-    "peers"
-  ],
+  "required": ["type", "address", "private_key", "peers"],
   "properties": {
     "type": {
       "type": "string",
@@ -51,7 +45,6 @@
     "peers": {
       "type": "array",
       "x-format": "nav-vertical",
-      "x-deactivateNonRequired": true,
       "x-arrayAddContent": "Add",
       "x-arrayMove": false,
       "x-arrayDeleteContent": "",
@@ -61,16 +54,15 @@
       "x-collapseToggleContent": "",
       "minItems": 1,
       "title": "Peers List",
-      "x-titleTemplate": "{{ i1 }}) {{ value.peerTag }}",
+      "x-titleTemplate": "Peer #{{ i1 }}",
       "items": {
         "type": "object",
-        "x-deactivateNonRequired": true,
         "x-enableCollapseToggle": true,
         "x-collapseToggleContent": "",
         "x-enablePropertiesToggle": true,
         "x-propertiesToggleContent": "Toggle properties",
         "x-format": "grid",
-        "title": "{{value.x-tag}}",
+        "title": "Peer #{{ i1 }}",
         "properties": {
           "address": {
             "type": "string",
@@ -98,26 +90,31 @@
           },
           "reserved": {
             "type": "array",
-            "x-format": "table",
+            "x-format": "tuple",
+            "x-theadHidden": true,
             "x-enableCollapseToggle": true,
             "x-collapseToggleContent": "",
             "x-arrayAdd": false,
             "x-arrayMove": false,
             "x-arrayDelete": false,
-            "default": [
-              0,
-              0,
-              0
-            ],
-            "items": {
-              "type": "integer"
-            }
+            "default": [0, 0, 0],
+            "prefixItems": [
+              {
+                "x-titleHidden": true,
+                "type": "integer"
+              },
+              {
+                "x-titleHidden": true,
+                "type": "integer"
+              },
+              {
+                "x-titleHidden": true,
+                "type": "integer"
+              }
+            ]
           }
         },
-        "required": [
-          "public_key",
-          "allowed_ips"
-        ]
+        "required": ["public_key", "allowed_ips"]
       }
     },
     "udp_timeout": {

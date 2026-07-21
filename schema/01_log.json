@@ -2,12 +2,6 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "title": "Log",
-  "x-propertyOrder": {
-    "disabled": 10,
-    "level": 20,
-    "output": 30,
-    "timestamp": 40
-  },
   "properties": {
     "disabled": {
       "x-format": "toggle",

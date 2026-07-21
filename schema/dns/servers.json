@@ -1,7 +1,7 @@
 {
   "type": "array",
   "title": "Servers",
-  "x-format": "nav-vertical",
+  "x-format": "nav-vertical-3",
   "x-arrayAddContent": "Add",
   "x-enableCollapseToggle": true,
   "x-collapseToggleContent": "",
@@ -11,50 +11,27 @@
   "x-arrayDeleteContent": "",
   "x-arrayDeleteAll": true,
   "x-arrayDeleteAllContent": "Delete all",
-  "x-titleTemplate": "{{ i1 }}) {{ value.tag }}",
+  "x-titleTemplate": "{{ i1 }}. {{ value.tag }} ({{ value.type }})",
   "items": {
-    "x-embedSwitcher": true,
+    "x-switcherInput": "select-inline",
     "x-discriminator": "type",
     "oneOf": [
+      { "x-switcherTitle": "Local", "$ref": "#/$defs/dns_servers_local" },
+      { "x-switcherTitle": "Hosts", "$ref": "#/$defs/dns_servers_hosts" },
+      { "x-switcherTitle": "TCP", "$ref": "#/$defs/dns_servers_tcp" },
+      { "x-switcherTitle": "UDP", "$ref": "#/$defs/dns_servers_udp" },
+      { "x-switcherTitle": "TLS", "$ref": "#/$defs/dns_servers_tls" },
+      { "x-switcherTitle": "QUIC", "$ref": "#/$defs/dns_servers_quic" },
+      { "x-switcherTitle": "HTTPS", "$ref": "#/$defs/dns_servers_https" },
+      { "x-switcherTitle": "HTTP3", "$ref": "#/$defs/dns_servers_http3" },
+      { "x-switcherTitle": "DHC", "$ref": "#/$defs/dns_servers_dhcp" },
+      { "x-switcherTitle": "mDNS", "$ref": "#/$defs/dns_servers_mdns" },
+      { "x-switcherTitle": "FakeIP", "$ref": "#/$defs/dns_servers_fakeip" },
       {
-        "$ref": "#/$defs/dns_servers_local"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_hosts"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_tcp"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_udp"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_tls"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_quic"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_https"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_http3"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_dhcp"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_mdns"
-      },
-      {
-        "$ref": "#/$defs/dns_servers_fakeip"
-      },
-      {
+        "x-switcherTitle": "Tailscale",
         "$ref": "#/$defs/dns_servers_tailscale"
       },
-      {
-        "$ref": "#/$defs/dns_servers_resolved"
-      }
+      { "x-switcherTitle": "Resolved", "$ref": "#/$defs/dns_servers_resolved" }
     ]
   }
 }
