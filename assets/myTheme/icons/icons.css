@@ -1,127 +1,100 @@
 .my-icon {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    vertical-align: -.125em;
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: -0.125rem;
+
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 .my-icon-properties {
-    background-image: url('./SVG/menu.svg');
+  -webkit-mask-image: url('./SVG/menu.svg');
+  mask-image: url('./SVG/menu.svg');
 }
-
 .my-icon-delete {
-    background-image: url('./SVG/cup.svg');
+  -webkit-mask-image: url('./SVG/cup.svg');
+  mask-image: url('./SVG/cup.svg');
 }
-
 .my-icon-add {
-    background-image: url('./SVG/plus.svg');
+  -webkit-mask-image: url('./SVG/plus.svg');
+  mask-image: url('./SVG/plus.svg');
 }
-
 .my-icon-moveUp {
-    background-image: url('./SVG/arrow-bold-up.svg');
+  -webkit-mask-image: url('./SVG/arrow-bold-up.svg');
+  mask-image: url('./SVG/arrow-bold-up.svg');
 }
 
 .my-icon-moveDown {
-    background-image: url('./SVG/arrow-bold-down.svg');
+  -webkit-mask-image: url('./SVG/arrow-bold-down.svg');
+  mask-image: url('./SVG/arrow-bold-down.svg');
 }
 
 .my-icon-collapse {
-    background-image: url('./SVG/chevron-down.svg');
+  -webkit-mask-image: url('./SVG/chevron-down.svg');
+  mask-image: url('./SVG/chevron-down.svg');
 }
 
 .my-icon-expand {
-    background-image: url('./SVG/plus.svg');
+  -webkit-mask-image: url('./SVG/plus.svg');
+  mask-image: url('./SVG/plus.svg');
 }
-
 .my-icon-drag {
-    background-image: url('./SVG/hand.svg');
+  -webkit-mask-image: url('./SVG/hand.svg');
+  mask-image: url('./SVG/hand.svg');
 }
-
 .my-icon-info {
-    background-color: #00a2ed;
-    -webkit-mask-image: url('./SVG/help.svg');
-    mask-image: url('./SVG/help.svg');
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    position: relative;
-    top: -5px;
-    margin-left: 3px;
-    width: 10px;
-    height: 10px;
+  -webkit-mask-image: url('./SVG/help.svg');
+  mask-image: url('./SVG/help.svg');
 }
-
 .my-icon-close {
-    background-image: url('./SVG/cross.svg');
+  -webkit-mask-image: url('./SVG/cross.svg');
+  mask-image: url('./SVG/cross.svg');
 }
 
 .my-icon-edit {
-    background-image: url('./SVG/pencil.svg');
+  -webkit-mask-image: url('./SVG/pencil.svg');
+  mask-image: url('./SVG/pencil.svg');
 }
 
 .my-icon-save {
-    background-image: url('./SVG/save.svg');
+  -webkit-mask-image: url('./SVG/save.svg');
+  mask-image: url('./SVG/save.svg');
 }
 
 .my-icon-switcher {
-    background-image: url('./SVG/chevron-down.svg');
+  -webkit-mask-image: url('./SVG/chevron-down.svg');
+  mask-image: url('./SVG/chevron-down.svg');
 }
-
 .my-icon-upload {
-    background-image: url('./SVG/upload.svg');
+  -webkit-mask-image: url('./SVG/upload.svg');
+  mask-image: url('./SVG/upload.svg');
 }
 
 .my-icon-important {
-    background-image: url('./SVG/important.svg');
+  -webkit-mask-image: url('./SVG/important.svg');
+  mask-image: url('./SVG/important.svg');
 }
 
+.my-icon-plus-square {
+  -webkit-mask-image: url('./SVG/plus-square.svg');
+  mask-image: url('./SVG/plus-square.svg');
+}
+
+.my-icon-dash-square {
+  -webkit-mask-image: url('./SVG/dash-square.svg');
+  mask-image: url('./SVG/dash-square.svg');
+}
 .my-icon-copy {
-    background-image: url('./SVG/copy.svg');
-    -webkit-mask-image: url('./SVG/copy.svg');
-    mask-image: url('./SVG/copy.svg');
-
-    -webkit-mask-size: contain;
-    mask-size: contain;
-
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-
-    /* 2. Настройка цвета: заливаем трафарет нужным оттенком */
-    background-color: #888;
-    /* Точное совпадение с текстом */
-
-    /* 3. Убираем старый фон и фильтр (если они были) */
-    background-image: none;
-    filter: none;
-    opacity: 1;
-    /* Возвращаем полную непрозрачность */
-    width: 10px;
-    height: 10px;
+  -webkit-mask-image: url('./SVG/copy.svg');
+  mask-image: url('./SVG/copy.svg');
 }
-
 .my-icon-check {
-    background-image: url('./SVG/check.svg');
-    -webkit-mask-image: url('./SVG/check.svg');
-    mask-image: url('./SVG/check.svg');
-
-    -webkit-mask-size: contain;
-    mask-size: contain;
-
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-
-    /* 2. Настройка цвета: заливаем трафарет нужным оттенком */
-    background-color: #ffffff;
-    /* Точное совпадение с текстом */
-
-    /* 3. Убираем старый фон и фильтр (если они были) */
-    background-image: none;
-    filter: none;
-    opacity: 1;
-    /* Возвращаем полную непрозрачность */
-    width: 10px;
-    height: 10px;
+  -webkit-mask-image: url('./SVG/check.svg');
+  mask-image: url('./SVG/check.svg');
 }

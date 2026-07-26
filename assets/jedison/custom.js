@@ -70,6 +70,7 @@ Jedison.InstanceObject.prototype.sortChildrenByPropertyOrder = function () {
   })
 }
 // #endregion
+
 // #region InstanceObject.createChild fixes. Sorting editors on child creation.
 Jedison.InstanceObject.prototype.createChild = function (
   schema,
@@ -106,6 +107,7 @@ Jedison.InstanceObject.prototype.createChild = function (
   return instance
 }
 // #endregion
+
 // #region EditorObject.refreshPropertiesSlot fixes. Saving\restoring scroll bar position, different sotring logic, always disable checkboxes of required properties
 Jedison.EditorObject.prototype.refreshPropertiesSlot = function () {
   const schemaOptionEnablePropertiesToggle =
@@ -291,6 +293,7 @@ Jedison.EditorObject.prototype.refreshPropertiesSlot = function () {
   }
 }
 // #endregion
+
 // #region EditorObject.RefreshEditors optimization
 Jedison.EditorObject.prototype.refreshEditors = function () {
   const fragment = document.createDocumentFragment()
@@ -336,6 +339,91 @@ Jedison.EditorObject.prototype.refreshEditors = function () {
   this.control.childrenSlot.replaceChildren(fragment)
 }
 // #endregion
+
+// #region Adding feature to auto-expand object\arrays on property activation\item addition, and if the already has smth inside - active property or some items.
+// ── Object: build-time expansion for required children ──────────────────────
+const _originalGetConfig = Jedison.EditorObject.prototype.getObjectControlConfig
+Jedison.EditorObject.prototype.getObjectControlConfig = function () {
+  const config = _originalGetConfig.call(this)
+  if (config.startCollapsed) {
+    const hasActiveRequired = this.instance.children.some(
+      (c) => c.isActive && this.instance.isRequired(c.getKey())
+    )
+    if (hasActiveRequired) config.startCollapsed = false
+  }
+  return config
+}
+
+// ── Object: runtime expansion when a property is activated ──────────────────
+const _originalObjectRefreshUI = Jedison.EditorObject.prototype.refreshUI
+Jedison.EditorObject.prototype.refreshUI = function () {
+  const prevCount = this._prevActiveCount
+  const currentCount = this.instance.children.filter((c) => c.isActive).length
+
+  _originalObjectRefreshUI.call(this)
+
+  const collapse = this.control.collapse
+  const toggle = this.control.collapseToggle
+
+  if (collapse?.isConnected) {
+    const countIncreased =
+      (prevCount !== undefined && currentCount > prevCount) ||
+      (prevCount === undefined && currentCount > 0)
+
+    // Expand self only if not already expanded
+    if (countIncreased && !collapse.classList.contains('show')) {
+      collapse.classList.add('show')
+      if (toggle) toggle.classList.remove('collapsed')
+    }
+
+    // Always recurse when count increased — even if parent was already expanded.
+    // This covers the case where a sibling was just activated and needs its
+    // own refreshUI() called so it can evaluate its own expansion.
+    if (countIncreased) {
+      this.instance.children.forEach((child) => {
+        if (child.isActive && child.ui?.refreshUI) {
+          child.ui.refreshUI()
+        }
+      })
+    }
+
+    this._prevActiveCount = currentCount
+  }
+}
+
+// ── Array (nav-format only!): expansion when items are added or setValue has items ────────
+const _originalNavRefreshUI = Jedison.EditorArrayNav.prototype.refreshUI
+Jedison.EditorArrayNav.prototype.refreshUI = function () {
+  const prevCount = this._prevChildCount
+  const currentCount = this.instance.children.length
+
+  _originalNavRefreshUI.call(this)
+
+  const collapse = this.control.collapse
+  const toggle = this.control.collapseToggle
+
+  if (collapse?.isConnected) {
+    const shouldExpand =
+      !collapse.classList.contains('show') &&
+      ((prevCount !== undefined && currentCount > prevCount) ||
+        (prevCount === undefined && currentCount > 0))
+
+    if (shouldExpand) {
+      collapse.classList.add('show')
+      if (toggle) toggle.classList.remove('collapsed')
+
+      this.instance.children.forEach((child) => {
+        if (child.ui?.refreshUI) {
+          child.ui.refreshUI()
+        }
+      })
+    }
+
+    this._prevChildCount = currentCount
+  }
+}
+// #endregion
+
 // #region IfThenElse.prepare fix for when required checkboxes can still be active.
 Jedison.InstanceIfThenElse.prototype.prepare = function () {
   this.instances = []
@@ -415,6 +503,7 @@ Jedison.InstanceIfThenElse.prototype.prepare = function () {
   this.changeValue(ifValue)
 }
 // #endregion
+
 // #region Fix for embeded switcher when sub-schema has if-then-else.
 // Jedison.EditorMultiple.prototype.refreshUI = function () {
 //   // Helper to find deepest ActiveInstance =================================
@@ -496,7 +585,8 @@ Jedison.InstanceIfThenElse.prototype.prepare = function () {
 //   }
 // }
 // #endregion
-// #region InstanceMultiple.prepare
+
+// #region InstanceMultiple.prepare changes
 // 1) fix for setting uncompatible value type on inactive sub-schemas in multiple instance
 // 2) Forwarding arrayTemplateData when InstanceMultiple creates its sub-instances
 Jedison.InstanceMultiple.prototype.prepare = function () {
@@ -651,7 +741,8 @@ Jedison.InstanceMultiple.prototype.prepare = function () {
   this.switchInstance(fittestIndex, this.value)
 }
 // #endregion
-// #region Adding x-theadHidden support to hide thead in some editors.
+
+// #region Adding x-theadHidden option to hide thead in some editors.
 Jedison.EditorArrayTuple.prototype.refreshUI = function () {
   {
     this.control.childrenSlot.innerHTML = ''
@@ -833,6 +924,113 @@ Jedison.EditorArrayTable.prototype.refreshUI = function () {
   })
 }
 // #endregion
+
+// #region Adding support for x-enableCollapseToggle on arbitrary editors, not just objects and arrays.
+// Jedison.Editor.prototype.applyCollapse = function () {
+//   const enableCollapseToggle =
+//     getSchemaXOption(this.instance.schema, 'enableCollapseToggle') ??
+//     this.instance.jedison.getOption('enableCollapseToggle')
+
+//   // Skip if disabled, or if the editor already built its own collapse toggle
+//   if (!enableCollapseToggle || this.control.collapseToggle) {
+//     return
+//   }
+//   // Skip if it is MultipleOf schema, just propogate it down to sub-schemas
+//   if (this.instance.isMultiple) {
+//     this.instance.instances.forEach((instance) => {
+//       if (instance.ui) instance.ui.applyCollapse(true)
+//     })
+//     return
+//   }
+
+//   const id = this.getIdFromPath(this.instance.path)
+//   const collapseId = 'collapse-' + id
+//   const startCollapsed =
+//     getSchemaXOption(this.instance.schema, 'startCollapsed') ??
+//     this.instance.jedison.getOption('startCollapsed')
+
+//   const collapse = this.theme.getCollapse({ id: collapseId, startCollapsed })
+//   const collapseToggle = this.theme.getCollapseToggle({
+//     content:
+//       getSchemaXOption(this.instance.schema, 'collapseToggleContent') ??
+//       this.instance.jedison.translator.translate('collapseToggle'),
+//     id: 'collapse-toggle-' + id,
+//     icon: 'plus',
+//     collapseId,
+//     collapse,
+//     startCollapsed
+//   })
+//   // Remove the rotation transform that getCollapseToggle sets
+//   collapseToggle.style.transform = 'none'
+//   collapseToggle.style.transition = 'none'
+
+//   // Grab the <i> element getButton created
+//   const iconEl = collapseToggle.querySelector('i')
+
+//   if (iconEl && this.theme.icons) {
+//     const openClasses = (this.theme.icons.dash || '').split(' ').filter(Boolean)
+//     const closeClasses = (this.theme.icons.plus || '')
+//       .split(' ')
+//       .filter(Boolean)
+
+//     const syncIcon = () => {
+//       const isCollapsed = collapseToggle.classList.contains('collapsed')
+//       // remove both sets, then apply the right one
+//       iconEl.classList.remove(...openClasses, ...closeClasses)
+//       iconEl.classList.add(...(isCollapsed ? closeClasses : openClasses))
+//       collapseToggle.style.transform = 'none'
+//       collapseToggle.style.transition = 'none'
+//     }
+
+//     syncIcon() // set initial state
+
+//     new MutationObserver(syncIcon).observe(collapseToggle, {
+//       attributes: true,
+//       attributeFilter: ['class']
+//     })
+//   }
+//   // New outer wrapper: header row (title + toggle button) + collapse body
+//   const outerContainer = document.createElement('div')
+//   const header = document.createElement('div')
+//   header.classList.add('jedi-collapse-header')
+//   header.classList.add('flat-collapse')
+//   header.style.display = 'flex'
+//   header.style.alignItems = 'center'
+//   header.style.gap = '4px'
+
+//   header.appendChild(collapseToggle)
+//   const titleEl = this.control.legend || this.control.label
+//   if (titleEl && titleEl.parentNode) {
+//     titleEl.parentNode.removeChild(titleEl)
+//     header.appendChild(titleEl) // move to outer header instead of duplicating
+//   }
+//   if (this.control.info?.container?.parentNode) {
+//     this.control.info.container.parentNode.removeChild(
+//       this.control.info.container
+//     )
+//     header.appendChild(this.control.info.container)
+//   }
+
+//   // Move the existing control.container into the collapse body
+//   collapse.appendChild(this.control.container)
+
+//   outerContainer.appendChild(header)
+//   outerContainer.appendChild(collapse)
+
+//   // Reassign so setContainerAttributes(), destroy(), setVisibility() etc. still work
+//   this.control.container = outerContainer
+//   this.control.collapse = collapse
+//   this.control.collapseToggle = collapseToggle
+
+//   console.log(outerContainer.outerHTML)
+// }
+// const _originalSetAttributes = Jedison.Editor.prototype.setAttributes
+// Jedison.Editor.prototype.setAttributes = function () {
+//   this.applyCollapse()
+//   _originalSetAttributes.call(this)
+// }
+// #endregion
+
 // #region Custom extension for toggle-like boolean editor.
 class BooleanToggle extends Jedison.EditorBoolean {
   static resolves(e) {
@@ -915,6 +1113,7 @@ class BooleanToggle extends Jedison.EditorBoolean {
   }
 }
 // #endregion
+
 // #region Custom editor for string or int\array of string fields.
 class TextareaArrayEditor extends Jedison.Editor {
   static resolves(schema) {
@@ -982,6 +1181,7 @@ class TextareaArrayEditor extends Jedison.Editor {
   }
 }
 // #endregion
+
 // #region Custom editor - string or array with inline checkboxes
 class CheckboxesScalarEditor extends Jedison.Editor {
   static resolves(schema) {
@@ -1039,6 +1239,7 @@ class CheckboxesScalarEditor extends Jedison.Editor {
   }
 }
 // #endregion
+
 // #region Bootstrap5 Theme with custom icons
 class CustomBootstrap extends Jedison.ThemeBootstrap5 {
   constructor() {
@@ -1057,14 +1258,21 @@ class CustomBootstrap extends Jedison.ThemeBootstrap5 {
       edit: 'my-icon my-icon-edit',
       save: 'my-icon my-icon-save',
       copy: 'my-icon my-icon-copy',
-      switcher: 'my-icon my-icon-switcher'
+      switcher: 'my-icon my-icon-switcher',
+      plus: 'my-icon my-icon-plus-square',
+      dash: 'my-icon my-icon-dash-square'
     }
   }
 }
 // #endregion
 
+
 const Custom = {
-  Editors: [BooleanToggle, TextareaArrayEditor, CheckboxesScalarEditor],
+  Editors: [
+    BooleanToggle,
+    TextareaArrayEditor,
+    CheckboxesScalarEditor
+  ],
   Bootstrap: CustomBootstrap
 }
 export default { ...Jedison, Custom }

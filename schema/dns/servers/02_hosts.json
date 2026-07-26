@@ -27,7 +27,7 @@
       "type": "object",
       "title": "Predifined hosts",
       "x-objectAdd": true,
-      "x-propertiesContent": "Add predefined host",
+      "x-addPropertyContent": "Add predefined host",
       "x-enableCollapseToggle": true,
       "x-collapseToggleContent": "",
       "additionalProperties": {

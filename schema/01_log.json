@@ -5,7 +5,6 @@
   "properties": {
     "disabled": {
       "x-format": "toggle",
-      "switch": true,
       "x-enumTitles": ["Disable", "Enable"],
       "type": "boolean",
       "title": "Disable log"

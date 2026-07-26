@@ -1,10 +1,9 @@
 {
   "type": "array",
   "title": "DNS rules",
-  "x-format": "nav-vertical-2",
+  "x-format": "nav-vertical-3",
   "x-arrayAddContent": "Add",
   "x-arrayDeleteContent": "",
-  "x-enableCollapseToggle": true,
   "x-collapseToggleContent": "",
   "x-arrayDeleteAll": true,
   "x-arrayDeleteAllContent": "Delete all",

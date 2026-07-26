@@ -57,6 +57,7 @@
     "cipher_suites": {
       "type": "array",
       "x-format": "table",
+      "x-theadHidden": true,
       "x-arrayAddContent": "Add",
       "x-arrayMove": false,
       "x-arrayDeleteContent": "",

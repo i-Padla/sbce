@@ -17,7 +17,14 @@ const JedisonOptions = {
   purifyHtml: true,
   domPurifyOptions: {},
   show_errors: 'always',
-  subErrors: true
+  startCollapsed: true,
+  enableCollapseToggle: true,
+  subErrors: true,
+  translations: {
+    en: {
+      collapseToggle: ''
+    }
+  }
 }
 
 marked.use({
