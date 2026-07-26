@@ -43,6 +43,7 @@ import InstanceIfThenElse from './instances/if-then-else.js'
 import InstanceObject from './instances/object.js'
 import EditorArrayTuple from './editors/array-tuple.js'
 import EditorArrayTable from './editors/array-table.js'
+import Instance from './instances/instance.js'
 
 export default {
   Schema,
@@ -89,5 +90,6 @@ export default {
   InstanceIfThenElse,
   InstanceObject,
   EditorArrayTuple,
-  EditorArrayTable
+  EditorArrayTable,
+  Instance
 }

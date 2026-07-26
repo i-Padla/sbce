@@ -26,6 +26,9 @@ const {
   getSchemaPrefixItems,
   getSchemaItems
 } = Jedison.Schema
+
+// #region Method replacements.
+
 // #region InstaceObject.sortChildrenByPropertyOrder() changes - new sorting logic in order of importance:
 // propertyOrder value > parent object propertyOrder map value > property postion in schema > everything else.
 Jedison.InstanceObject.prototype.sortChildrenByPropertyOrder = function () {
@@ -68,43 +71,6 @@ Jedison.InstanceObject.prototype.sortChildrenByPropertyOrder = function () {
       ob = cache.get(b)
     return oa.bucket !== ob.bucket ? oa.bucket - ob.bucket : oa.value - ob.value
   })
-}
-// #endregion
-
-// #region InstanceObject.createChild fixes. Sorting editors on child creation.
-Jedison.InstanceObject.prototype.createChild = function (
-  schema,
-  key,
-  value,
-  activate = false
-) {
-  const instance = this.jedison.createInstance({
-    jedison: this.jedison,
-    schema: schema,
-    path: this.path + this.jedison.pathSeparator + key,
-    parent: this,
-    value: clone(value)
-  })
-
-  this.children.push(instance)
-  this.value[key] = instance.getValue()
-
-  const deactivateNonRequired =
-    getSchemaXOption(this.schema, 'deactivateNonRequired') ??
-    this.jedison.getOption('deactivateNonRequired')
-
-  if (
-    !this.isRequired(key) &&
-    isSet(deactivateNonRequired) &&
-    deactivateNonRequired === true &&
-    !activate
-  ) {
-    instance.deactivate()
-  }
-  this.sortChildrenByPropertyOrder() // Added sorting when turning object properties on\off
-  this.onChildChange()
-
-  return instance
 }
 // #endregion
 
@@ -340,90 +306,6 @@ Jedison.EditorObject.prototype.refreshEditors = function () {
 }
 // #endregion
 
-// #region Adding feature to auto-expand object\arrays on property activation\item addition, and if the already has smth inside - active property or some items.
-// ── Object: build-time expansion for required children ──────────────────────
-const _originalGetConfig = Jedison.EditorObject.prototype.getObjectControlConfig
-Jedison.EditorObject.prototype.getObjectControlConfig = function () {
-  const config = _originalGetConfig.call(this)
-  if (config.startCollapsed) {
-    const hasActiveRequired = this.instance.children.some(
-      (c) => c.isActive && this.instance.isRequired(c.getKey())
-    )
-    if (hasActiveRequired) config.startCollapsed = false
-  }
-  return config
-}
-
-// ── Object: runtime expansion when a property is activated ──────────────────
-const _originalObjectRefreshUI = Jedison.EditorObject.prototype.refreshUI
-Jedison.EditorObject.prototype.refreshUI = function () {
-  const prevCount = this._prevActiveCount
-  const currentCount = this.instance.children.filter((c) => c.isActive).length
-
-  _originalObjectRefreshUI.call(this)
-
-  const collapse = this.control.collapse
-  const toggle = this.control.collapseToggle
-
-  if (collapse?.isConnected) {
-    const countIncreased =
-      (prevCount !== undefined && currentCount > prevCount) ||
-      (prevCount === undefined && currentCount > 0)
-
-    // Expand self only if not already expanded
-    if (countIncreased && !collapse.classList.contains('show')) {
-      collapse.classList.add('show')
-      if (toggle) toggle.classList.remove('collapsed')
-    }
-
-    // Always recurse when count increased — even if parent was already expanded.
-    // This covers the case where a sibling was just activated and needs its
-    // own refreshUI() called so it can evaluate its own expansion.
-    if (countIncreased) {
-      this.instance.children.forEach((child) => {
-        if (child.isActive && child.ui?.refreshUI) {
-          child.ui.refreshUI()
-        }
-      })
-    }
-
-    this._prevActiveCount = currentCount
-  }
-}
-
-// ── Array (nav-format only!): expansion when items are added or setValue has items ────────
-const _originalNavRefreshUI = Jedison.EditorArrayNav.prototype.refreshUI
-Jedison.EditorArrayNav.prototype.refreshUI = function () {
-  const prevCount = this._prevChildCount
-  const currentCount = this.instance.children.length
-
-  _originalNavRefreshUI.call(this)
-
-  const collapse = this.control.collapse
-  const toggle = this.control.collapseToggle
-
-  if (collapse?.isConnected) {
-    const shouldExpand =
-      !collapse.classList.contains('show') &&
-      ((prevCount !== undefined && currentCount > prevCount) ||
-        (prevCount === undefined && currentCount > 0))
-
-    if (shouldExpand) {
-      collapse.classList.add('show')
-      if (toggle) toggle.classList.remove('collapsed')
-
-      this.instance.children.forEach((child) => {
-        if (child.ui?.refreshUI) {
-          child.ui.refreshUI()
-        }
-      })
-    }
-
-    this._prevChildCount = currentCount
-  }
-}
-// #endregion
-
 // #region IfThenElse.prepare fix for when required checkboxes can still be active.
 Jedison.InstanceIfThenElse.prototype.prepare = function () {
   this.instances = []
@@ -502,88 +384,6 @@ Jedison.InstanceIfThenElse.prototype.prepare = function () {
   const ifValue = this.instanceWithoutIf.getValueRaw()
   this.changeValue(ifValue)
 }
-// #endregion
-
-// #region Fix for embeded switcher when sub-schema has if-then-else.
-// Jedison.EditorMultiple.prototype.refreshUI = function () {
-//   // Helper to find deepest ActiveInstance =================================
-//   const getDeepActiveInstance = () => {
-//     let activeInstance = this.instance.activeInstance
-//     while (activeInstance?.activeInstance) {
-//       activeInstance = activeInstance.activeInstance
-//     }
-//     return activeInstance
-//   }
-//   // =======================================================================
-
-//   this.refreshDisabledState()
-//   this.control.childrenSlot.innerHTML = ''
-//   this.control.childrenSlot.appendChild(
-//     this.instance.activeInstance.ui.control.container
-//   )
-
-//   if (this.embedSwitcher) {
-//     const slot = getDeepActiveInstance()?.ui?.control?.switcherSlot
-//     if (slot) {
-//       slot.innerHTML = ''
-//       slot.appendChild(this.control.switcher.container)
-//       this.control.header.style.display = 'none'
-//     } else {
-//       this.control.header.style.display = ''
-//       this.control.header.appendChild(this.control.switcher.container)
-//     }
-//   }
-
-//   if (
-//     this.switcherInput === 'modal' ||
-//     this.switcherInput === 'select-inline'
-//   ) {
-//     const childControl = getDeepActiveInstance().ui.control
-//     const infoContainer = childControl.infoContainer
-//     const titleEl = childControl.legendText || childControl.label
-//     if (infoContainer) {
-//       infoContainer.after(this.control.switcher.container)
-//       this.control.header.style.display = 'none'
-//     } else if (titleEl) {
-//       const infoEl = childControl.info?.container
-//       const anchor = infoEl && infoEl.parentNode ? infoEl : titleEl
-//       anchor.after(this.control.switcher.container)
-//       this.control.header.style.display = 'none'
-//     }
-//   }
-
-//   if (this.switcherInput === 'select') {
-//     this.control.switcher.input.value = this.instance.index
-//   }
-
-//   if (this.switcherInput === 'select-inline') {
-//     this.control.switcher.input.value = this.instance.index
-//   }
-
-//   if (
-//     this.switcherInput === 'radios' ||
-//     this.switcherInput === 'radios-inline'
-//   ) {
-//     this.control.switcher.radios.forEach((radio) => {
-//       const radioIndex = Number(radio.value)
-//       radio.checked = radioIndex === this.instance.index
-//     })
-//   }
-
-//   if (this.switcherInput === 'modal') {
-//     this.control.switcher.triggerText.textContent =
-//       this.instance.switcherOptionsLabels[this.instance.index]
-//     this.control.switcher.optionButtons.forEach((btn, index) => {
-//       this.theme.setSwitcherOptionActive(btn, index === this.instance.index)
-//     })
-//   }
-
-//   if (this.disabled || this.instance.isReadOnly()) {
-//     this.instance.activeInstance.ui.disable()
-//   } else {
-//     this.instance.activeInstance.ui.enable()
-//   }
-// }
 // #endregion
 
 // #region InstanceMultiple.prepare changes
@@ -742,187 +542,180 @@ Jedison.InstanceMultiple.prototype.prepare = function () {
 }
 // #endregion
 
-// #region Adding x-theadHidden option to hide thead in some editors.
-Jedison.EditorArrayTuple.prototype.refreshUI = function () {
-  {
-    this.control.childrenSlot.innerHTML = ''
-    const table = this.theme.getTable()
-    this.control.childrenSlot.appendChild(table.container)
+// #endregion
 
-    // thead — one header per prefixItem
-    const schemaPrefixItems = getSchemaPrefixItems(this.instance.schema)
-    schemaPrefixItems.forEach((prefixItemSchema) => {
-      const th = this.theme.getTableHeader()
-      const { label } = this.theme.getFakeLabel({
-        content: getSchemaTitle(prefixItemSchema) ?? ''
-      })
-      th.appendChild(label)
-      table.thead.appendChild(th)
-    })
-    const theadHidden = getSchemaXOption(this.instance.schema, 'theadHidden')
-    if (theadHidden) {
-      table.table.removeChild(table.thead)
+// #region Wrappers
+
+// #region Instance,init and Instance.setDefaultValue fix so that default value doesn't override explicit value
+const originalInit = Jedison.Instance.prototype.init
+Jedison.Instance.prototype.init = function () {
+  this._hasExplicitValue = this.value !== undefined
+  originalInit.call(this)
+}
+const originalSetDefaultValue = Jedison.Instance.prototype.setDefaultValue
+Jedison.Instance.prototype.setDefaultValue = function () {
+  if (this._hasExplicitValue) return
+  originalSetDefaultValue.call(this)
+}
+// #endregion
+
+// #region Adding feature to auto-expand object\arrays on property activation\item addition, and if the already has smth inside - active property or some items.
+// ── Object: build-time expansion for required children ──────────────────────
+const _originalGetConfig = Jedison.EditorObject.prototype.getObjectControlConfig
+Jedison.EditorObject.prototype.getObjectControlConfig = function () {
+  const config = _originalGetConfig.call(this)
+  const hasActiveChild = this.instance.children.some((c) => c.isActive)
+  if (hasActiveChild) config.startCollapsed = false
+  return config
+}
+
+// ── Object: runtime expansion when a property is activated ──────────────────
+const _originalObjectRefreshUI = Jedison.EditorObject.prototype.refreshUI
+Jedison.EditorObject.prototype.refreshUI = function () {
+  const prevCount = this._prevActiveCount
+  const currentCount = this.instance.children.filter((c) => c.isActive).length
+
+  _originalObjectRefreshUI.call(this)
+
+  const collapse = this.control.collapse
+  const toggle = this.control.collapseToggle
+
+  if (collapse?.isConnected) {
+    const countIncreased =
+      (prevCount !== undefined && currentCount > prevCount) ||
+      (prevCount === undefined && currentCount > 0)
+
+    // Expand self only if not already expanded
+    if (countIncreased && !collapse.classList.contains('show')) {
+      collapse.classList.add('show')
+      if (toggle) toggle.classList.remove('collapsed')
     }
 
-    // tbody — single row
-    const tbodyRow = document.createElement('tr')
-    this.instance.children.forEach((child) => {
-      const td = this.theme.getTableDefinition()
-      child.ui.adaptForTable(child, td)
-      td.appendChild(child.ui.control.container)
-      tbodyRow.appendChild(td)
-    })
-    table.tbody.appendChild(tbodyRow)
+    // Always recurse when count increased — even if parent was already expanded.
+    // This covers the case where a sibling was just activated and needs its
+    // own refreshUI() called so it can evaluate its own expansion.
+    if (countIncreased) {
+      this.instance.children.forEach((child) => {
+        if (child.isActive && child.ui?.refreshUI) {
+          child.ui.refreshUI()
+        }
+      })
+    }
 
-    this.refreshJsonData()
-    this.refreshDisabledState()
+    this._prevActiveCount = currentCount
   }
 }
-Jedison.EditorArrayTable.prototype.refreshUI = function () {
-  this.control.childrenSlot.innerHTML = ''
 
-  const table = this.theme.getTable()
+// ── Array (nav-format only!): expansion when items are added or setValue has items ────────
+const _originalNavRefreshUI = Jedison.EditorArrayNav.prototype.refreshUI
+Jedison.EditorArrayNav.prototype.refreshUI = function () {
+  const prevCount = this._prevChildCount
+  const currentCount = this.instance.children.length
 
-  this.control.childrenSlot.appendChild(table.container)
+  _originalNavRefreshUI.call(this)
 
-  const arrayDelete =
-    getSchemaXOption(this.instance.schema, 'arrayDelete') ??
-    this.instance.jedison.getOption('arrayDelete')
-  const arrayMove =
-    getSchemaXOption(this.instance.schema, 'arrayMove') ??
-    this.instance.jedison.getOption('arrayMove')
-  const arrayButtonsPosition =
-    getSchemaXOption(this.instance.schema, 'arrayButtonsPosition') ??
-    this.instance.jedison.getOption('arrayButtonsPosition')
-  const arrayAddAfter =
-    getSchemaXOption(this.instance.schema, 'arrayAddAfter') ??
-    this.instance.jedison.getOption('arrayAddAfter')
+  const collapse = this.control.collapse
+  const toggle = this.control.collapseToggle
 
-  // thead labels
-  const th = this.theme.getTableHeader()
-  const { label } = this.theme.getFakeLabel({
-    content: 'Controls',
-    visuallyHidden: true
-  })
+  if (collapse?.isConnected) {
+    const shouldExpand =
+      !collapse.classList.contains('show') &&
+      ((prevCount !== undefined && currentCount > prevCount) ||
+        (prevCount === undefined && currentCount > 0))
 
-  th.appendChild(label)
+    if (shouldExpand) {
+      collapse.classList.add('show')
+      if (toggle) toggle.classList.remove('collapsed')
 
-  // Add controls header at the beginning (left) or end (right)
-  if (arrayButtonsPosition === 'left') {
-    table.thead.appendChild(th)
-  }
-
-  // table header
-
-  if (this.instance.children.length) {
-    const schemaItems = getSchemaItems(this.instance.schema)
-
-    const thTitle = this.theme.getTableHeader()
-
-    if (schemaItems) {
-      if (schemaItems.title) {
-        const fakeLabel = this.theme.getFakeLabel({
-          content: schemaItems.title
-        })
-
-        thTitle.appendChild(fakeLabel.label)
-      }
-
-      const schemaXInfo = getSchemaXOption(schemaItems, 'info')
-
-      if (isSet(schemaXInfo)) {
-        const infoContent = this.getInfo(schemaItems)
-        const info = this.theme.getInfo(infoContent)
-
-        if (schemaXInfo.variant === 'modal') {
-          this.theme.infoAsModal(
-            info,
-            this.getIdFromPath(this.instance.path) + '-item',
-            infoContent
-          )
+      this.instance.children.forEach((child) => {
+        if (child.ui?.refreshUI) {
+          child.ui.refreshUI()
         }
-
-        thTitle.appendChild(info.container)
-      }
+      })
     }
 
-    table.thead.appendChild(thTitle)
+    this._prevChildCount = currentCount
   }
+}
+
+// Array-table
+
+const _origTable = Jedison.EditorArrayTable.prototype.refreshUI
+Jedison.EditorArrayTable.prototype.refreshUI = function () {
+  const prevCount = this._prevChildCount
+  const currentCount = this.instance.children.length
+
+  _origTable.call(this)
+
+  const collapse = this.control.collapse
+  const toggle = this.control.collapseToggle
+
+  if (collapse?.isConnected) {
+    const shouldExpand =
+      !collapse.classList.contains('show') &&
+      ((prevCount !== undefined && currentCount > prevCount) ||
+        (prevCount === undefined && currentCount > 0))
+
+    if (shouldExpand) {
+      collapse.classList.add('show')
+      if (toggle) toggle.classList.remove('collapsed')
+
+      this.instance.children.forEach((child) => {
+        if (child.ui?.refreshUI) child.ui.refreshUI()
+      })
+    }
+
+    this._prevChildCount = currentCount
+  }
+}
+
+// #endregion
+
+// #region Adding x-theadHidden option to array table and tuple formats
+
+const originalTupleRefreshUI = Jedison.EditorArrayTuple.prototype.refreshUI
+
+Jedison.EditorArrayTuple.prototype.refreshUI = function () {
+  originalTupleRefreshUI.call(this)
+
   const theadHidden = getSchemaXOption(this.instance.schema, 'theadHidden')
   if (theadHidden) {
-    table.table.removeChild(table.thead)
+    const thead = this.control.childrenSlot.querySelector('thead')
+    if (thead) thead.remove()
   }
-  // Add controls header at the end if position is right
-  if (arrayButtonsPosition === 'right') {
-    table.thead.appendChild(th)
-  }
-
-  // tbody rows
-  this.instance.children.forEach((child, index) => {
-    const tbodyRow = document.createElement('tr')
-
-    // buttons
-    const buttonsTd = this.theme.getTableDefinition({ isButtonColumn: true })
-    const {
-      deleteBtn,
-      moveUpBtn,
-      moveDownBtn,
-      dragBtn,
-      btnGroup,
-      addAfterBtn
-    } = this.getButtons(index)
-
-    if (this.isSortable()) {
-      btnGroup.appendChild(dragBtn)
-    }
-
-    if (isSet(arrayDelete) && arrayDelete === true) {
-      btnGroup.appendChild(deleteBtn)
-    }
-
-    if (isSet(arrayMove) && arrayMove === true) {
-      btnGroup.appendChild(moveUpBtn)
-      btnGroup.appendChild(moveDownBtn)
-    }
-
-    if (isSet(arrayAddAfter) && arrayAddAfter === true) {
-      btnGroup.appendChild(addAfterBtn)
-    }
-
-    buttonsTd.appendChild(btnGroup)
-
-    // Add buttons column at the beginning (left) or end (right)
-    if (arrayButtonsPosition === 'left') {
-      tbodyRow.appendChild(buttonsTd)
-    }
-
-    // child
-    const td = this.theme.getTableDefinition()
-    child.ui.adaptForTable(child, td)
-    child.ui.control.info?.container?.remove() // info lives once in the header (#64)
-    td.appendChild(child.ui.control.container)
-    tbodyRow.appendChild(td)
-
-    // Add buttons column at the end if position is right
-    if (arrayButtonsPosition === 'right') {
-      tbodyRow.appendChild(buttonsTd)
-    }
-
-    table.tbody.appendChild(tbodyRow)
-  })
-
-  this.refreshSortable(table.tbody)
-  this.refreshAddBtn()
-  this.refreshDeleteAllBtn()
-  this.refreshJsonData()
-  this.refreshDisabledState()
-  this.refreshScrollPosition(table.container)
-
-  table.container.addEventListener('scroll', () => {
-    this.lastScrollTop = table.container.scrollTop
-    this.lastScrollLeft = table.container.scrollLeft
-  })
 }
+
+const originalTableRefreshUI = Jedison.EditorArrayTable.prototype.refreshUI
+
+Jedison.EditorArrayTable.prototype.refreshUI = function () {
+  originalTableRefreshUI.call(this)
+
+  const theadHidden = getSchemaXOption(this.instance.schema, 'theadHidden')
+  if (theadHidden) {
+    const thead = this.control.childrenSlot.querySelector('thead')
+    if (thead) thead.remove()
+  }
+}
+
+// #endregion
+
+// #region Sorting editors in object on child creaion
+
+const originalCreateChild = Jedison.InstanceObject.prototype.createChild
+
+Jedison.InstanceObject.prototype.createChild = function (
+  schema,
+  key,
+  value,
+  activate = false
+) {
+  const instance = originalCreateChild.call(this, schema, key, value, activate)
+  this.sortChildrenByPropertyOrder()
+  return instance
+}
+
+// #endregion
+
 // #endregion
 
 // #region Adding support for x-enableCollapseToggle on arbitrary editors, not just objects and arrays.
@@ -1030,6 +823,8 @@ Jedison.EditorArrayTable.prototype.refreshUI = function () {
 //   _originalSetAttributes.call(this)
 // }
 // #endregion
+
+// #region Custom Editors
 
 // #region Custom extension for toggle-like boolean editor.
 class BooleanToggle extends Jedison.EditorBoolean {
@@ -1240,6 +1035,8 @@ class CheckboxesScalarEditor extends Jedison.Editor {
 }
 // #endregion
 
+// #endregion
+
 // #region Bootstrap5 Theme with custom icons
 class CustomBootstrap extends Jedison.ThemeBootstrap5 {
   constructor() {
@@ -1266,13 +1063,8 @@ class CustomBootstrap extends Jedison.ThemeBootstrap5 {
 }
 // #endregion
 
-
 const Custom = {
-  Editors: [
-    BooleanToggle,
-    TextareaArrayEditor,
-    CheckboxesScalarEditor
-  ],
+  Editors: [BooleanToggle, TextareaArrayEditor, CheckboxesScalarEditor],
   Bootstrap: CustomBootstrap
 }
 export default { ...Jedison, Custom }
