@@ -1,18 +1,16 @@
+:root {
+  --header-height: 2.5rem;
+  --color-left-bg: #f8f9fa;
+  --color-center-bg: #f8f9fa;
+  --color-right-bg: #1e1e1e;
+  --color-right-text: #888;
+}
+
 .editor-wrapper {
   display: grid;
   grid-template-columns: fit-content(15%) 1fr 20%;
   height: 100vh;
   scrollbar-gutter: stable;
-}
-
-.panel {
-  overflow-y: auto;
-  scrollbar-gutter: stable;
-}
-
-.menu-panel {
-  background: #f8f9fa;
-  padding: 10px;
 }
 
 .section-link {
@@ -38,33 +36,12 @@
   transform: scale(1.2);
 }
 
-.form-panel {
-  padding: 10px;
-  position: relative;
-}
-
-.preview-panel {
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 10px;
-  border: none;
-}
-
 pre {
   font-size: 12px;
   margin: 0;
   color: #9cdcfe;
   white-space: pre-wrap;
   word-break: break-all;
-}
-
-.preview-header {
-  color: #888;
-  font-size: 11px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #333;
-  padding-bottom: 5px;
 }
 
 .well {
@@ -74,26 +51,6 @@ pre {
   border-radius: 8px;
   margin-bottom: 20px;
 }
-
-#copy-btn {
-  border-color: #444;
-  color: #888;
-  transition: all 0.2s;
-}
-
-#copy-btn:hover {
-  background: #333;
-  color: #fff;
-  border-color: #666;
-}
-
-#copy-btn.success {
-  background: #198754;
-  color: white;
-  border-color: #198754;
-}
-
-/* Modal-info dialog restyling */
 .modal-header {
   display: none;
 }
@@ -164,7 +121,7 @@ pre {
   --admonition-bg: rgba(76, 175, 80, 0.1);
 }
 .admonition > *:last-child {
-  margin-bottom: 0.5 rem 0;
+  margin-bottom: 0.5rem 0;
 }
 
 .card {
@@ -184,4 +141,121 @@ pre {
   height: 0.6rem;
   width: 0.6rem;
   margin-bottom: 0.5rem;
+}
+
+.column-left,
+.column-center,
+.column-right {
+  overflow-y: auto;
+  min-height: 0;
+  scrollbar-gutter: stable;
+  padding: 0;
+}
+
+.column-left > *,
+.column-center > *,
+.column-right > * {
+  padding: 0.5rem;
+}
+
+.column-left,
+.column-left .column-header {
+  background: var(--color-left-bg);
+}
+
+.column-center,
+.column-center .column-header {
+  background: var(--color-center-bg);
+}
+
+.column-right,
+.column-right .column-header {
+  background: var(--color-right-bg);
+}
+
+.column-right .column-header {
+  color: var(--color-right-text);
+}
+
+.column-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: var(--header-height);
+  padding: 0.5rem;
+  font-weight: 600;
+}
+
+.preview-buttons {
+  position: sticky;
+  top: var(--header-height);
+  z-index: 2;
+  background: var(--color-right-bg);
+  display: flex;
+  justify-content: space-evenly;
+  font-size: small;
+}
+
+.preview-buttons button {
+  background-color: transparent;
+  box-shadow: 0px 0px 15px 0px rgba(206, 202, 202, 0.2);
+  border: 0;
+  border-radius: 2px;
+  border-color: #444;
+  color: #888;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.8rem;
+  min-width: 9.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.preview-buttons button:hover {
+  background: #333;
+  color: #fff;
+  border-color: #666;
+}
+
+.preview-buttons button.success {
+  animation: fadeBack 2.5s forwards ease-out;
+}
+@keyframes fadeBack {
+  0% {
+    background: #54c454;
+    color: white;
+    border-color: #198754;
+    box-shadow: 0px 0px 15px 5px #54c45481;
+  }
+  100% {
+    background: transparent;
+    color: #888;
+    border-color: #444;
+    box-shadow: 0px 0px 15px 0px rgba(206, 202, 202, 0.2);
+  }
+}
+
+#options {
+  display: flex;
+  gap: 1rem;
+}
+
+#options .btn {
+  box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border-width: 0;
+}
+
+.bi {
+  font-size: 1rem;
+}
+
+.modal-body > pre {
+  color: #d63384;
+}
+
+#editor-layers {
+  background: white;
+  min-height: 90%;
 }

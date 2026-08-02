@@ -15,6 +15,11 @@
         "type": "string"
       }
     },
-    "$ref": "#/$defs/shared_http_client"
+    "x-mergeAllOf": true,
+    "allOf": [
+      {
+        "$ref": "#/$defs/shared_http_client"
+      }
+    ]
   }
 }
